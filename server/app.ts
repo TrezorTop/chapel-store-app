@@ -23,4 +23,4 @@ import authRouter from "./routes/auth";
 	mainRouter.use(AuthBasePath, authRouter);
 
 	app.listen(process.env.PORT || port, () => console.log("Listening..."));
-})();
+})().catch(x => console.error(x));
