@@ -7,6 +7,10 @@ import User from "../models/User";
 
 const router = express.Router();
 
+router.get("test", (req, res) => {
+	res.status(StatusCodes.OK).send({ Ok: "Ok" });
+});
+
 router.post<
 	null,
 	RegisterResponse,
