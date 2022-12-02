@@ -7,8 +7,10 @@ import passportConfig from "./config/passportConfig";
 import authRouter from "./routes/auth";
 
 
+dotenv.config();
+
+
 (async function () {
-	dotenv.config();
 	await mongoConnect();
 	const port = 3000;
 	const app = express();

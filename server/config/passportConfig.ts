@@ -1,9 +1,9 @@
 import passport from "passport";
-import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
+import { ExtractJwt, Strategy as JwtStrategy, StrategyOptions } from "passport-jwt";
 import { getUserByUsername, JwtAccessTokenPayload } from "../features/auth";
 
 
-const opts = {
+const opts: StrategyOptions = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 	secretOrKey: process.env.JWT_SECRET,
 	issuer: "chapel",
