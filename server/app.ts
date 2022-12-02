@@ -1,7 +1,10 @@
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import { AuthBasePath, BasePath } from "../shared";
 import mongoConnect from "./config/mongoConnect";
-import indexRouter from "./routes/main";
+import passportConfig from "./config/passportConfig";
+import authRouter from "./routes/auth";
 
 
 (async function () {
@@ -11,11 +14,13 @@ import indexRouter from "./routes/main";
 	const app = express();
 	const mainRouter = express.Router();
 
+	passportConfig();
+	app.use(cors());
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: false }));
 
-	app.use("/api", mainRouter);
-	mainRouter.use("/", indexRouter);
+	app.use(BasePath, mainRouter);
+	mainRouter.use(AuthBasePath, authRouter);
 
 	app.listen(port, () => console.log("Listening..."));
 })();
