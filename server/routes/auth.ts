@@ -7,7 +7,7 @@ import User from "../models/User";
 
 const router = express.Router();
 
-router.get<
+router.post<
 	null,
 	RegisterResponse,
 	RegisterRequest
