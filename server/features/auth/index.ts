@@ -25,6 +25,6 @@ export function generateAccessToken(username: string) {
 
 
 export async function hashPassword(password: string) {
-	const hash = await bcrypt.hash(password, saltRounds,);
+	const hash = await bcrypt.hash(password, saltRounds);
 	return hash;
 }
