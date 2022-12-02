@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { RegisterPath } from "../../shared/register";
 
 import { RequireAuth } from "./core/components/hoc/RequireAuth/RequireAuth";
 import { IUserContext } from "./core/types/types";

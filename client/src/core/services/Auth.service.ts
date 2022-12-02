@@ -1,8 +1,8 @@
-import { RegisterRequest, RegisterResponse } from "../../../../shared/auth";
+import { RegisterPath, RegisterRequest, RegisterResponse } from "../../../../shared/register";
 import { api } from "../utils/api";
 
 export const AuthService = {
   // signIn: () => api.post(),
 
-  signUp: () => api.post<RegisterRequest, RegisterResponse>("/"),
+  signUp: ({ username, password }: RegisterRequest) => api.post<RegisterResponse>(RegisterPath, { username, password }),
 };

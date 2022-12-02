@@ -1,4 +1,4 @@
-import { Button, Input } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,8 +12,8 @@ export const SignIn = () => {
   return (
     <AuthLayout>
       <Form className={s.form}>
-        <Input placeholder="Login" />
-        <Input placeholder="Password" />
+        <TextField variant="standard" placeholder="Login" />
+        <TextField variant="standard" type="password" placeholder="Password" />
         <Button variant="contained" type="submit">
           Sign In
         </Button>

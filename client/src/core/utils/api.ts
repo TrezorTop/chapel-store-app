@@ -5,7 +5,7 @@ import { BasePath } from "../../../../shared";
 import { apiUrl, userToken } from "./consts";
 
 export const api = axios.create({
-  baseURL: apiUrl + BasePath,
+  baseURL: apiUrl,
   timeout: 5000,
   headers: { Authorization: `Bearer ${Cookies.get(userToken)}` },
 });
