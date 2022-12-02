@@ -6,7 +6,8 @@ export const RegisterBasePath = "/register";
 export const RegisterPath = `${BasePath}${AuthBasePath}${RegisterBasePath}`;
 
 export type RegisterRequest = {
-	username: string
+	username: string,
+	password: string
 }
 
 export type RegisterResponse = {
