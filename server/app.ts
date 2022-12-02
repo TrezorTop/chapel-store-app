@@ -1,13 +1,11 @@
+require("dotenv").config();
+
 import cors from "cors";
-import dotenv from "dotenv";
 import express from "express";
 import { AuthBasePath, BasePath } from "../shared";
 import mongoConnect from "./config/mongoConnect";
 import passportConfig from "./config/passportConfig";
 import authRouter from "./routes/auth";
-
-
-dotenv.config();
 
 
 (async function () {
