@@ -65,15 +65,21 @@ router.post<
 	RefreshRequest,
 	RefreshRequest
 >(RefreshBasePath, async (req, res) => {
-	const { refreshToken } = req.body;
+	let tokens;
 
-	const payload = await jwt.verify(refreshToken, process.env.JWT_SECRET as Secret) as JwtAccessTokenPayload;
-	const token = await RefreshToken.findOneAndDelete({ token: refreshToken }).exec();
+	try {
+		const { refreshToken } = req.body;
 
-	if (!token)
-		return res.status(StatusCodes.FORBIDDEN).send();
+		const payload = await jwt.verify(refreshToken, process.env.JWT_SECRET as Secret) as JwtAccessTokenPayload;
+		const token = await RefreshToken.findOneAndDelete({ token: refreshToken }).exec();
 
-	const tokens = await generateTokens(payload.owner, token.id);
+		if (!token)
+			return res.status(StatusCodes.FORBIDDEN).send();
+
+		tokens = await generateTokens(payload.owner, token.id);
+	} catch (e) {
+		return res.status(400).send(e);
+	}
 
 	return res.status(StatusCodes.OK).send(tokens);
 });
