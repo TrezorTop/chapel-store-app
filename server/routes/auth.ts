@@ -1,15 +1,20 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
 import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../shared/register";
+import { authMiddleware } from "../config/passportConfig";
 import { generateAccessToken, hashPassword } from "../features/auth";
 import User from "../models/User";
 
 
 const router = express.Router();
 
-router.get("/test", (req, res) => {
-	res.status(StatusCodes.OK).send({ Ok: "Ok" });
-});
+router.get("/test", authMiddleware,
+	(req, res) => {
+		console.log(req.user);
+
+		res.send("Ok");
+	}
+);
 
 router.post<
 	null,

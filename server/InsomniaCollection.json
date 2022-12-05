@@ -1,0 +1,107 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2022-12-05T17:00:47.840Z",
+  "__export_source": "insomnia.desktop.app:v2022.4.2",
+  "resources": [
+    {
+      "_id": "req_7bb8b6554d0b49098560eb3e0146a684",
+      "parentId": "wrk_342923f919d04c4994d679961620182b",
+      "modified": 1670259568840,
+      "created": 1670023167894,
+      "url": "{{ _.baseUrl }}/auth/register",
+      "name": "Register",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"username\": \"1\",\n\t\"password\": \"1\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_2b8474b5700c40a8b5302f1420e0043b"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1670023167894,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_342923f919d04c4994d679961620182b",
+      "parentId": null,
+      "modified": 1670023099235,
+      "created": 1670023099235,
+      "name": "Chapel",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
+      "parentId": "wrk_342923f919d04c4994d679961620182b",
+      "modified": 1670259550190,
+      "created": 1670023099250,
+      "name": "Base Environment",
+      "data": {
+        "baseUrl": "http://localhost:3000/api"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1670023099250,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
+      "parentId": "wrk_342923f919d04c4994d679961620182b",
+      "modified": 1670023099253,
+      "created": 1670023099253,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_768ce86a3f7f4637a3b6c0846940c0cd",
+      "parentId": "wrk_342923f919d04c4994d679961620182b",
+      "modified": 1670023099236,
+      "created": 1670023099236,
+      "fileName": "Chapel",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    },
+    {
+      "_id": "env_7549d848aef6421abac1460499908152",
+      "parentId": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
+      "modified": 1670259549693,
+      "created": 1670259494463,
+      "name": "Vercel",
+      "data": {
+        "baseUrl": "https://chapel-pied.vercel.app/api"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1670259494463,
+      "_type": "environment"
+    }
+  ]
+}
