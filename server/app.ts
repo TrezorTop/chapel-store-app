@@ -5,7 +5,7 @@ import express from "express";
 import { AuthBasePath, BasePath } from "../shared";
 import mongoConnect from "./config/mongoConnect";
 import passportConfig from "./config/passportConfig";
-import authRouter from "./routes/auth";
+import authRouter from "./features/auth";
 
 
 (async function () {

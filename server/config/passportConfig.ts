@@ -1,6 +1,6 @@
 import passport from "passport";
 import { ExtractJwt, Strategy as JwtStrategy, StrategyOptions } from "passport-jwt";
-import { getUserByUsername, JwtAccessTokenPayload } from "../features/auth";
+import { getUserByUsername, JwtAccessTokenPayload } from "../features/auth/services";
 
 
 const opts: StrategyOptions = {
