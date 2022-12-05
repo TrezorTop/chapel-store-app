@@ -4,7 +4,6 @@ import User from "./User";
 
 export type RefreshTokenType = {
 	token: string,
-	expiredAt: Date,
 	ownerId: Types.ObjectId
 }
 

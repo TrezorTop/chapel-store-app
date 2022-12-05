@@ -1,9 +1,13 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
+import jwt, { Secret } from "jsonwebtoken";
 import { LoginBasePath, LoginRequest, LoginResponse } from "../../../shared/login";
+import { RefreshBasePath, RefreshRequest } from "../../../shared/refresh";
 import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../../shared/register";
 import { authMiddleware } from "../../config/passportConfig";
+import RefreshToken from "../../models/RefreshToken";
 import User from "../../models/User";
+import { JwtAccessTokenPayload } from "../types";
 import { comparePassword, generateTokens, getUserByUsername, hashPassword } from "./services";
 
 
@@ -56,5 +60,22 @@ router.post<
 	return res.status(StatusCodes.OK).send(tokens);
 });
 
+router.post<
+	null,
+	RefreshRequest,
+	RefreshRequest
+>(RefreshBasePath, async (req, res) => {
+	const { refreshToken } = req.body;
+
+	const payload = await jwt.verify(refreshToken, process.env.JWT_SECRET as Secret) as JwtAccessTokenPayload;
+	const token = await RefreshToken.findOneAndDelete({ token: refreshToken }).exec();
+
+	if (!token)
+		return res.status(StatusCodes.FORBIDDEN).send();
+
+	const tokens = await generateTokens(payload.owner, token.id);
+
+	return res.status(StatusCodes.OK).send(tokens);
+});
 
 export default router;

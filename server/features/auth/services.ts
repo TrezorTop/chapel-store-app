@@ -2,13 +2,11 @@ import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
 import RefreshToken from "../../models/RefreshToken";
 import User from "../../models/User";
+import { JwtAccessTokenPayload } from "../types";
 
 
 const saltRounds = 10;
 
-export type JwtAccessTokenPayload = {
-	owner: string;
-};
 
 export async function getUserByUsername(username: string) {
 	return await User.findOne({ username: username }).exec();
@@ -18,20 +16,17 @@ export async function generateTokens(username: string, userId: string) {
 	const payload: JwtAccessTokenPayload = {
 		owner: username
 	};
-	const currentDate = new Date();
-	const expiredAt = currentDate.setMonth(currentDate.getMonth() + 1);
 
 	const accessToken = jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "10m" });
-	const rawRefreshToken = jwt.sign(payload, process.env.JWT_SECRET as Secret);
+	const rawRefreshToken = jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "30 days" });
 
 	const refreshToken = new RefreshToken({
 		token: rawRefreshToken,
-		expiredAt: expiredAt,
 		ownerId: userId
 	});
 	await refreshToken.save();
 
-	return { accessToken, refreshToken: refreshToken.token };
+	return { accessToken, refreshToken: rawRefreshToken };
 }
 
 export async function hashPassword(password: string) {
