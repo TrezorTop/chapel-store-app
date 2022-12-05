@@ -1,0 +1,9 @@
+.root {
+  padding: 16px;
+  height: 100%;
+
+  & > * {
+    margin: 0 auto;
+    max-width: 1024px;
+  }
+}

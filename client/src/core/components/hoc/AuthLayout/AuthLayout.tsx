@@ -3,7 +3,7 @@ import React, { FC, ReactNode } from "react";
 import s from "./AuthLayout.module.scss";
 
 interface IAuthLayoutProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const AuthLayout: FC<IAuthLayoutProps> = ({ children }) => {

@@ -1,14 +1,13 @@
 import Cookies from "js-cookie";
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { RegisterPath } from "../../shared/register";
 
 import { RequireAuth } from "./core/components/hoc/RequireAuth/RequireAuth";
 import { IUserContext } from "./core/types/types";
-import { mainUrl, signInUrl, signUpUrl, storeUrl, userToken } from "./core/utils/consts";
+import { emptyUrl, mainUrl, signInUrl, signUpUrl, userToken } from "./core/utils/consts";
 import { SignIn } from "./views/auth/SignIn/SignIn";
 import { SignUp } from "./views/auth/SignUp/SignUp";
-import { Store } from "./views/store/Store/Store";
+import { Main } from "./views/main/Main/Main";
 
 const UserContext = React.createContext<IUserContext>({
   isLoggedIn: false,
@@ -22,18 +21,18 @@ export const App = () => {
       }}
     >
       <Routes>
-        <Route path={mainUrl} element={<Navigate to={storeUrl} />} />
+        <Route path={emptyUrl} element={<Navigate to={emptyUrl} />} />
         <Route path={signInUrl} element={<SignIn />} />
         <Route path={signUpUrl} element={<SignUp />} />
         <Route
-          path={storeUrl}
+          path={mainUrl}
           element={
             <RequireAuth>
-              <Store />
+              <Main />
             </RequireAuth>
           }
         />
-        <Route path={"*"} element={<Navigate to={storeUrl} />} />
+        <Route path={"*"} element={<Navigate to={mainUrl} />} />
       </Routes>
     </UserContext.Provider>
   );

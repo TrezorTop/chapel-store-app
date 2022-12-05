@@ -1,7 +1,7 @@
-export const mainUrl = "/";
+export const emptyUrl = "/";
 export const signInUrl = "/signin";
 export const signUpUrl = "/signup";
-export const storeUrl = "/store";
+export const mainUrl = "/main";
 
 export const userToken = "user_token";
 
