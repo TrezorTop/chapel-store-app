@@ -53,7 +53,10 @@ router.post<
 	if (!isPasswordCorrect)
 		return res.status(StatusCodes.UNAUTHORIZED).send();
 
-	return res.status(StatusCodes.OK).send();
+	const accessToken = generateAccessToken(username);
+	return res.status(StatusCodes.OK).send({
+		accessToken: accessToken
+	});
 });
 
 export default router;
