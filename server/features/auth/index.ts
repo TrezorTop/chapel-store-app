@@ -9,7 +9,7 @@ import { comparePassword, generateAccessToken, getUserByUsername, hashPassword }
 
 const router = express.Router();
 
-router.get("/test", authMiddleware,
+router.get("/ping", authMiddleware,
 	(req, res) => {
 		res.send("Ok");
 	}
