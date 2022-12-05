@@ -2,11 +2,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { BasePath } from "../../../../shared";
 
-import { apiUrl, userToken } from "./consts";
+import { apiUrl, userToken } from "../utils/consts";
 
 export const api = axios.create({
   baseURL: apiUrl,
-  timeout: 5000,
+  timeout: 15000,
   headers: { Authorization: `Bearer ${Cookies.get(userToken)}` },
 });
 
