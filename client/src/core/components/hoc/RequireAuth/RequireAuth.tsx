@@ -20,18 +20,14 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // TEMPORARY
-    // localStorage.setItem(
-    //   userRefreshToken,
-    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6IjEiLCJpYXQiOjE2NzAyNjkxMDIsImV4cCI6MTY3Mjg2MTEwMn0._bNsChaxy9T6PRL8hrNX9Ih42mMUHKm4Znu83dd7t2o",
-    // );
-
     const broadcast = new BroadcastChannel("httpInterceptor");
 
     broadcast.onmessage = (event) => {
       if (event.data === 401) return mutateRefresh();
       if (event.data === 403) return navigate(signInUrl);
     };
+
+    mutatePing();
 
     return () => broadcast.close();
   }, []);
