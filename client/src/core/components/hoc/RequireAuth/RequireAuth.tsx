@@ -39,10 +39,6 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
       onSuccess: () => {
         return;
       },
-      onError: () => {
-        if (!localStorage.getItem(userRefreshToken)) mutateRefresh();
-        else navigate(signInUrl);
-      },
     },
   );
 
