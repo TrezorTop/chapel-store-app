@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get("/ping", authMiddleware,
 	(req, res) => {
-		res.send("Ok");
+		res.status(StatusCodes.OK).send();
 	}
 );
 
