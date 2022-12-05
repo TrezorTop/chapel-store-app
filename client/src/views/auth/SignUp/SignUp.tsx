@@ -7,9 +7,9 @@ import { Form } from "../../../core/components/hoc/Form/Form";
 import { Button } from "../../../core/components/ui/Button/Button";
 import { Input } from "../../../core/components/ui/Input/Input";
 import { Paper } from "../../../core/components/ui/Paper/Paper";
-import { AuthService } from "../../../core/services/Auth.service";
+import { signUp } from "../../../core/services/Auth.service";
 import { emptyUrl } from "../../../core/utils/consts";
-import { onUserLogin } from "../../../core/utils/functions/user";
+import { updateAuthToken } from "../../../core/utils/functions/user";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignUp.module.scss";
 
@@ -27,13 +27,13 @@ export const SignUp = () => {
   const { mutate } = useMutation(
     ["signIn"],
     () =>
-      AuthService.signUp({
+      signUp({
         username: form.username ?? "",
         password: form.password ?? "",
       }),
     {
       onSuccess: ({ data }) => {
-        onUserLogin(data.accessToken);
+        updateAuthToken(data.accessToken, data.refreshToken);
         navigate(emptyUrl);
       },
     },

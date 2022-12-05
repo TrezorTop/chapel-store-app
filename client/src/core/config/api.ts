@@ -1,30 +1,33 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { BasePath } from "../../../../shared";
 
-import { apiUrl, userToken } from "../utils/consts";
+import { apiUrl, userAccessToken } from "../utils/consts";
 
 export const api = axios.create({
   baseURL: apiUrl,
   timeout: 15000,
-  headers: { Authorization: `Bearer ${Cookies.get(userToken)}` },
+  headers: { authorization: `Bearer ${Cookies.get(userAccessToken)}` },
+  // headers: { authorization: `Bearer 1` },
 });
+const broadcast = new BroadcastChannel("httpInterceptor");
 
-// Add a request interceptor
-axios.interceptors.request.use(
-  function (config) {
+api.interceptors.request.use(
+  (config) => {
     return config;
   },
-  function (error) {
+  (error) => {
     return Promise.reject(error);
   },
 );
 
-axios.interceptors.response.use(
-  function (response) {
+api.interceptors.response.use(
+  (response) => {
     return response;
   },
-  function (error) {
+  (error) => {
+    if (error.response.status === 403 || error.response.status === 401) {
+      broadcast.postMessage(error.response.status);
+    }
     return Promise.reject(error);
   },
 );

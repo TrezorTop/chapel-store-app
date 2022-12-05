@@ -1,8 +1,16 @@
 import Cookies from "js-cookie";
-import { api } from "../../config/api";
-import { userToken } from "../consts";
 
-export const onUserLogin = (token: string) => {
-  Cookies.set(userToken, token);
-  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+import { api } from "../../config/api";
+import { userAccessToken, userRefreshToken } from "../consts";
+
+export const updateAuthToken = async (
+  accessToken: string,
+  refreshToken: string,
+) => {
+  console.log(accessToken);
+
+  api.defaults.headers["authorization"] = `Bearer ${accessToken}`;
+
+  Cookies.set(userAccessToken, accessToken);
+  localStorage.setItem(userRefreshToken, refreshToken);
 };
