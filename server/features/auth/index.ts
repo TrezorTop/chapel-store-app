@@ -4,7 +4,7 @@ import { LoginRequest, LoginResponse } from "../../../shared/login";
 import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../../shared/register";
 import { authMiddleware } from "../../config/passportConfig";
 import User from "../../models/User";
-import { comparePassword, generateAccessToken, getUserByUsername, hashPassword } from "./services";
+import { comparePassword, generateTokens, getUserByUsername, hashPassword } from "./services";
 
 
 const router = express.Router();
@@ -29,11 +29,9 @@ router.post<
 	});
 
 	await user.save();
-	const accessToken = generateAccessToken(username);
+	const tokens = await generateTokens(username, user.id);
 
-	res.status(StatusCodes.CREATED).send({
-		accessToken: accessToken
-	});
+	res.status(StatusCodes.CREATED).send(tokens);
 });
 
 router.post<
@@ -53,10 +51,9 @@ router.post<
 	if (!isPasswordCorrect)
 		return res.status(StatusCodes.UNAUTHORIZED).send();
 
-	const accessToken = generateAccessToken(username);
-	return res.status(StatusCodes.OK).send({
-		accessToken: accessToken
-	});
+	const tokens = await generateTokens(username, user.id);
+
+	return res.status(StatusCodes.OK).send(tokens);
 });
 
 export default router;

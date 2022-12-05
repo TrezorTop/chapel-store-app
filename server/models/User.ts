@@ -7,8 +7,8 @@ export type UserType = {
 }
 
 const userSchema = new Schema<UserType>({
-	username: { type: String, required: true },
-	passwordHash: { type: String, required: true },
+	username: { type: String },
+	passwordHash: { type: String },
 });
 
 export default model<UserType>("User", userSchema);

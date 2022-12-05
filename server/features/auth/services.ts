@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt";
+import { randomUUID } from "crypto";
 import jwt, { Secret } from "jsonwebtoken";
+import RefreshToken from "../../models/RefreshToken";
 import User from "../../models/User";
 
 
@@ -13,12 +15,22 @@ export async function getUserByUsername(username: string) {
 	return await User.findOne({ username: username }).exec();
 }
 
-export function generateAccessToken(username: string) {
+export async function generateTokens(username: string, userId: string) {
 	const payload: JwtAccessTokenPayload = {
 		owner: username
 	};
+	const currentDate = new Date();
+	const expiredAt = currentDate.setMonth(currentDate.getMonth() + 1);
 
-	return jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "10m" });
+	const accessToken = jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "10m" });
+	const refreshToken = new RefreshToken({
+		token: randomUUID(),
+		expiredAt: expiredAt,
+		ownerId: userId
+	});
+	await refreshToken.save();
+
+	return { accessToken, refreshToken: refreshToken.token };
 }
 
 export async function hashPassword(password: string) {
