@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import { randomUUID } from "crypto";
 import jwt, { Secret } from "jsonwebtoken";
 import RefreshToken from "../../models/RefreshToken";
 import User from "../../models/User";
@@ -23,8 +22,10 @@ export async function generateTokens(username: string, userId: string) {
 	const expiredAt = currentDate.setMonth(currentDate.getMonth() + 1);
 
 	const accessToken = jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "10m" });
+	const rawRefreshToken = jwt.sign(payload, process.env.JWT_SECRET as Secret);
+
 	const refreshToken = new RefreshToken({
-		token: randomUUID(),
+		token: rawRefreshToken,
 		expiredAt: expiredAt,
 		ownerId: userId
 	});

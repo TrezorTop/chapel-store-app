@@ -1,6 +1,6 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
-import { LoginRequest, LoginResponse } from "../../../shared/login";
+import { LoginBasePath, LoginRequest, LoginResponse } from "../../../shared/login";
 import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../../shared/register";
 import { authMiddleware } from "../../config/passportConfig";
 import User from "../../models/User";
@@ -38,7 +38,7 @@ router.post<
 	null,
 	LoginResponse,
 	LoginRequest
->("/login", async (req, res) => {
+>(LoginBasePath, async (req, res) => {
 	const { username, password } = req.body;
 
 	const user = await getUserByUsername(username);
@@ -55,5 +55,6 @@ router.post<
 
 	return res.status(StatusCodes.OK).send(tokens);
 });
+
 
 export default router;
