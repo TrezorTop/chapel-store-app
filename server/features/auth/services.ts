@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
-import RefreshToken from "../../models/RefreshToken";
-import User from "../../models/User";
+import RefreshToken from "../../domain/RefreshToken";
+import User from "../../domain/User";
 import { JwtAccessTokenPayload } from "../types";
 
 
@@ -10,6 +10,18 @@ const saltRounds = 10;
 
 export async function getUserByUsername(username: string) {
 	return await User.findOne({ username: username }).exec();
+}
+
+export function decodeToken(token: string) {
+	let payload: JwtAccessTokenPayload;
+
+	try {
+		payload = jwt.verify(token, process.env.JWT_SECRET as Secret) as JwtAccessTokenPayload;
+	} catch (e) {
+		return null;
+	}
+
+	return payload;
 }
 
 export async function generateTokens(username: string, userId: string) {

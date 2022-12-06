@@ -3,9 +3,10 @@ require("dotenv").config();
 import cors from "cors";
 import express from "express";
 import { AuthBasePath, BasePath } from "../shared";
-import mongoConnect from "./config/mongoConnect";
-import passportConfig from "./config/passportConfig";
 import authRouter from "./features/auth";
+import { applicationErrorHandler } from "./infrastructure/applicationErrorHandler";
+import mongoConnect from "./infrastructure/mongoConnect";
+import passportConfig from "./infrastructure/passportConfig";
 
 
 (async function () {
@@ -21,6 +22,7 @@ import authRouter from "./features/auth";
 
 	app.use(BasePath, mainRouter);
 	mainRouter.use(AuthBasePath, authRouter);
+	app.use(applicationErrorHandler);
 
 	app.listen(process.env.PORT || port, () => console.log("Listening..."));
 })().catch(x => console.error(x));

@@ -1,13 +1,62 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2022-12-05T17:00:47.840Z",
+  "__export_date": "2022-12-05T21:25:04.513Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
-      "_id": "req_7bb8b6554d0b49098560eb3e0146a684",
+      "_id": "req_e456916a8fba4397aed0789b29470592",
+      "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
+      "modified": 1670275458701,
+      "created": 1670260128040,
+      "url": "{{ _.baseUrl }}/auth/ping",
+      "name": "Ping",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}",
+        "prefix": ""
+      },
+      "metaSortKey": -1670260128040,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_e9baedac8c014f3f99fc287e9f77f23f",
       "parentId": "wrk_342923f919d04c4994d679961620182b",
-      "modified": 1670259568840,
+      "modified": 1670265984400,
+      "created": 1670265984400,
+      "name": "Auth",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1670265984400,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_342923f919d04c4994d679961620182b",
+      "parentId": null,
+      "modified": 1670023099235,
+      "created": 1670023099235,
+      "name": "Chapel",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_7bb8b6554d0b49098560eb3e0146a684",
+      "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
+      "modified": 1670271484369,
       "created": 1670023167894,
       "url": "{{ _.baseUrl }}/auth/register",
       "name": "Register",
@@ -26,7 +75,7 @@
         }
       ],
       "authentication": {},
-      "metaSortKey": -1670023167894,
+      "metaSortKey": -1670260127990,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -37,27 +86,83 @@
       "_type": "request"
     },
     {
-      "_id": "wrk_342923f919d04c4994d679961620182b",
-      "parentId": null,
-      "modified": 1670023099235,
-      "created": 1670023099235,
-      "name": "Chapel",
+      "_id": "req_3281754849da475da04cd4db1efb6f90",
+      "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
+      "modified": 1670271487379,
+      "created": 1670263199596,
+      "url": "{{ _.baseUrl }}/auth/login",
+      "name": "Login",
       "description": "",
-      "scope": "collection",
-      "_type": "workspace"
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"username\": \"1\",\n\t\"password\": \"1\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_2b8474b5700c40a8b5302f1420e0043b"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1670260127940,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0a7307ecc8534b6d92e4770aee9d329a",
+      "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
+      "modified": 1670271573872,
+      "created": 1670265998591,
+      "url": "{{ _.baseUrl }}/auth/refresh",
+      "name": "Refresh",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"refreshToken\": \"{{ _.refreshToken }}\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_2b8474b5700c40a8b5302f1420e0043b"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -835130063970,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
     },
     {
       "_id": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
       "parentId": "wrk_342923f919d04c4994d679961620182b",
-      "modified": 1670259550190,
+      "modified": 1670271553161,
       "created": 1670023099250,
       "name": "Base Environment",
       "data": {
-        "baseUrl": "http://localhost:3000/api"
+        "accessToken": "{% response 'body', 'req_3281754849da475da04cd4db1efb6f90', 'b64::JC5hY2Nlc3NUb2tlbg==::46b', 'never', 60 %}",
+        "refreshToken": "{% response 'body', 'req_3281754849da475da04cd4db1efb6f90', 'b64::JC5yZWZyZXNoVG9rZW4=::46b', 'never', 60 %}"
       },
       "dataPropertyOrder": {
         "&": [
-          "baseUrl"
+          "accessToken",
+          "refreshToken"
         ]
       },
       "color": null,
@@ -87,7 +192,7 @@
     {
       "_id": "env_7549d848aef6421abac1460499908152",
       "parentId": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
-      "modified": 1670259549693,
+      "modified": 1670271547768,
       "created": 1670259494463,
       "name": "Vercel",
       "data": {
@@ -101,6 +206,25 @@
       "color": null,
       "isPrivate": false,
       "metaSortKey": 1670259494463,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_b2462a342baa4329b323fd79801912f7",
+      "parentId": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
+      "modified": 1670271474517,
+      "created": 1670268993964,
+      "name": "Local",
+      "data": {
+        "baseUrl": "http://localhost:3000/api"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1670268993964,
       "_type": "environment"
     }
   ]

@@ -1,14 +1,20 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
-import jwt, { Secret } from "jsonwebtoken";
+import {
+	Login_WrongPasswordError,
+	Login_WrongUsernameError,
+	Refresh_UsedTokenError,
+	Refresh_WrongTokenError
+} from "../../../shared/error";
 import { LoginBasePath, LoginRequest, LoginResponse } from "../../../shared/login";
 import { RefreshBasePath, RefreshRequest } from "../../../shared/refresh";
 import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../../shared/register";
-import { authMiddleware } from "../../config/passportConfig";
-import RefreshToken from "../../models/RefreshToken";
-import User from "../../models/User";
-import { JwtAccessTokenPayload } from "../types";
-import { comparePassword, generateTokens, getUserByUsername, hashPassword } from "./services";
+import RefreshToken from "../../domain/RefreshToken";
+import User from "../../domain/User";
+import { ApplicationError } from "../../infrastructure/applicationErrorHandler";
+import { authMiddleware } from "../../infrastructure/passportConfig";
+import { asyncWrapper, cancelIfFalsy } from "../../infrastructure/utils";
+import { comparePassword, decodeToken, generateTokens, getUserByUsername, hashPassword } from "./services";
 
 
 const router = express.Router();
@@ -23,7 +29,7 @@ router.post<
 	null,
 	RegisterResponse,
 	RegisterRequest
->(RegisterBasePath, async (req, res) => {
+>(RegisterBasePath, asyncWrapper(async (req, res) => {
 	const { username, password } = req.body;
 
 	const hash = await hashPassword(password);
@@ -36,46 +42,42 @@ router.post<
 	const tokens = await generateTokens(username, user.id);
 
 	res.status(StatusCodes.CREATED).send(tokens);
-});
+}));
 
 router.post<
 	null,
 	LoginResponse,
 	LoginRequest
->(LoginBasePath, async (req, res) => {
+>(LoginBasePath, asyncWrapper(async (req, res) => {
 	const { username, password } = req.body;
 
 	const user = await getUserByUsername(username);
-
-	if (!user)
-		return res.status(StatusCodes.UNAUTHORIZED).send();
+	cancelIfFalsy(user, new ApplicationError(StatusCodes.FORBIDDEN, Login_WrongUsernameError));
 
 	const isPasswordCorrect = await comparePassword(password, user.passwordHash);
-
-	if (!isPasswordCorrect)
-		return res.status(StatusCodes.UNAUTHORIZED).send();
+	cancelIfFalsy(isPasswordCorrect, new ApplicationError(StatusCodes.FORBIDDEN, Login_WrongPasswordError));
 
 	const tokens = await generateTokens(username, user.id);
 
 	return res.status(StatusCodes.OK).send(tokens);
-});
+}));
 
 router.post<
 	null,
 	RefreshRequest,
 	RefreshRequest
->(RefreshBasePath, async (req, res) => {
+>(RefreshBasePath, asyncWrapper(async (req, res) => {
 	const { refreshToken } = req.body;
 
-	const payload = await jwt.verify(refreshToken, process.env.JWT_SECRET as Secret) as JwtAccessTokenPayload;
-	const token = await RefreshToken.findOneAndDelete({ token: refreshToken }).exec();
+	const payload = decodeToken(refreshToken);
+	cancelIfFalsy(payload, new ApplicationError(StatusCodes.FORBIDDEN, Refresh_WrongTokenError));
 
-	if (!token)
-		return res.status(StatusCodes.FORBIDDEN).send();
+	const token = await RefreshToken.findOneAndDelete({ token: refreshToken }).exec();
+	cancelIfFalsy(token, new ApplicationError(StatusCodes.FORBIDDEN, Refresh_UsedTokenError));
 
 	const tokens = await generateTokens(payload.owner, token.id);
 
 	return res.status(StatusCodes.OK).send(tokens);
-});
+}));
 
 export default router;
