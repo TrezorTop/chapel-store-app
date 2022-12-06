@@ -7,8 +7,6 @@ export const updateAuthToken = async (
   accessToken: string,
   refreshToken: string,
 ) => {
-  console.log(accessToken);
-
   api.defaults.headers["authorization"] = `Bearer ${accessToken}`;
 
   Cookies.set(userAccessToken, accessToken);

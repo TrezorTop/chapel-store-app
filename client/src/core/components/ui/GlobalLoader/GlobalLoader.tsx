@@ -1,12 +1,18 @@
 import { CircularProgress } from "@mui/material";
-import React from "react";
+import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
 
 import s from "./GlobalLoader.module.scss";
 
 export const GlobalLoader = () => {
   return (
-    <div className={s.root}>
+    <motion.div
+      className={s.root}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <CircularProgress />
-    </div>
+    </motion.div>
   );
 };

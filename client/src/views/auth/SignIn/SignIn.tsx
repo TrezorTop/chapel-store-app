@@ -21,9 +21,12 @@ type TForm = {
 export const SignIn = () => {
   const navigate = useNavigate();
 
-  const { form, updateForm } = useForm<TForm>();
+  const { form, updateForm, valid } = useForm<TForm>(
+    {},
+    { password: { required: true }, username: { required: true } },
+  );
 
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     ["signIn"],
     () =>
       signIn({
@@ -33,7 +36,7 @@ export const SignIn = () => {
     {
       onSuccess: ({ data }) => {
         updateAuthToken(data.accessToken, data.refreshToken);
-        navigate(mainUrl);
+        navigate(mainUrl, { state: { requireAuth: false } });
       },
     },
   );
@@ -51,7 +54,12 @@ export const SignIn = () => {
             placeholder="Password"
             onChange={(event) => updateForm("password", event.target.value)}
           />
-          <Button variant="contained" type="submit" onClick={() => mutate()}>
+          <Button
+            disabled={!valid || isLoading}
+            variant="contained"
+            type="submit"
+            onClick={() => mutate()}
+          >
             Sign In
           </Button>
           <Button variant="text" onClick={() => navigate("/signup")}>

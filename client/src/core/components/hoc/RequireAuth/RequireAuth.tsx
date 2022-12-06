@@ -1,14 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import Cookies from "js-cookie";
-import React, { FC, ReactNode, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import React, { FC, ReactNode, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { ping, refreshToken } from "../../../services/Auth.service";
-import {
-  signInUrl,
-  userAccessToken,
-  userRefreshToken,
-} from "../../../utils/consts";
+import { signInUrl, userRefreshToken } from "../../../utils/consts";
 import { updateAuthToken as updateAuthTokens } from "../../../utils/functions/user";
 import { GlobalLoader } from "../../ui/GlobalLoader/GlobalLoader";
 
@@ -18,8 +14,13 @@ type RequireAuthProps = {
 
 export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const locationState = location?.state as { requireAuth: boolean };
+  const requireAuth = locationState?.requireAuth;
 
   useEffect(() => {
+    if (requireAuth === false) return;
+
     const broadcast = new BroadcastChannel("httpInterceptor");
 
     broadcast.onmessage = (event) => {
@@ -58,7 +59,10 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
     },
   );
 
-  if (pingIsLoading || refreshIsLoading) return <GlobalLoader />;
-
-  return <>{children}</>;
+  return (
+    <>
+      <AnimatePresence>{refreshIsLoading && <GlobalLoader />}</AnimatePresence>
+      {children}
+    </>
+  );
 };
