@@ -7,9 +7,9 @@ import { Form } from "../../../core/components/hoc/Form/Form";
 import { Button } from "../../../core/components/ui/Button/Button";
 import { Input } from "../../../core/components/ui/Input/Input";
 import { Paper } from "../../../core/components/ui/Paper/Paper";
-import { AuthService } from "../../../core/services/Auth.service";
+import { signUp } from "../../../core/services/Auth.service";
 import { emptyUrl } from "../../../core/utils/consts";
-import { onUserLogin } from "../../../core/utils/functions/user";
+import { updateAuthToken } from "../../../core/utils/functions/user";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignUp.module.scss";
 
@@ -20,21 +20,28 @@ type TForm = {
 };
 
 export const SignUp = () => {
-  const { form, updateForm } = useForm<TForm>();
+  const { form, updateForm, valid } = useForm<TForm>(
+    {},
+    {
+      username: { required: true },
+      password: { required: true },
+      repeatedPassword: { required: true, isEqual: "password" },
+    },
+  );
 
   const navigate = useNavigate();
 
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     ["signIn"],
     () =>
-      AuthService.signUp({
+      signUp({
         username: form.username ?? "",
         password: form.password ?? "",
       }),
     {
       onSuccess: ({ data }) => {
-        onUserLogin(data.accessToken);
-        navigate(emptyUrl);
+        updateAuthToken(data.accessToken, data.refreshToken);
+        navigate(emptyUrl, { state: { requireAuth: false } });
       },
     },
   );
@@ -63,7 +70,12 @@ export const SignUp = () => {
               updateForm("repeatedPassword", event.target.value)
             }
           />
-          <Button variant="contained" type="submit" onClick={() => mutate()}>
+          <Button
+            disabled={!valid || isLoading}
+            variant="contained"
+            type="submit"
+            onClick={() => mutate()}
+          >
             Sign Up
           </Button>
           <Button variant="text" onClick={() => navigate("/signin")}>
