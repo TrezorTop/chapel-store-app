@@ -6,8 +6,10 @@ import { apiUrl, userAccessToken } from "../utils/consts";
 export const api = axios.create({
   baseURL: apiUrl,
   timeout: 15000,
-  headers: { authorization: `Bearer ${Cookies.get(userAccessToken)}` },
-  // headers: { authorization: `Bearer 1` },
+  headers: {
+    "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
+    authorization: `Bearer ${Cookies.get(userAccessToken)}`,
+  },
 });
 const broadcast = new BroadcastChannel("httpInterceptor");
 
