@@ -55,12 +55,14 @@ export const SignUp = () => {
             type=""
             placeholder="Login"
             onChange={(event) => updateForm("username", event.target.value)}
+            disabled={isLoading}
           />
           <Input
             variant="standard"
             type="password"
             placeholder="Password"
             onChange={(event) => updateForm("password", event.target.value)}
+            disabled={isLoading}
           />
           <Input
             variant="standard"
@@ -69,6 +71,7 @@ export const SignUp = () => {
             onChange={(event) =>
               updateForm("repeatedPassword", event.target.value)
             }
+            disabled={isLoading}
           />
           <Button
             disabled={!valid || isLoading}
