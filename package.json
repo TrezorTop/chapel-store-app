@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "esbuild": "^0.15.18",
+    "esbuild-node-tsc": "^2.0.4"
+  }
+}
