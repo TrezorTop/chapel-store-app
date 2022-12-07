@@ -4,13 +4,12 @@ import { getUserByUsername } from "../features/auth/services";
 import { JwtAccessTokenPayload } from "../features/types";
 
 
-const opts: StrategyOptions = {
-	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-	secretOrKey: process.env.JWT_SECRET
-};
-
-
 export default function () {
+	const opts: StrategyOptions = {
+		jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+		secretOrKey: process.env.JWT_SECRET
+	};
+
 	passport.use(new JwtStrategy(opts, async (jwt: JwtAccessTokenPayload, done) => {
 		const user = await getUserByUsername(jwt.owner);
 

@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2022-12-05T21:25:04.513Z",
+  "__export_date": "2022-12-06T23:56:59.788Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
       "_id": "req_e456916a8fba4397aed0789b29470592",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1670275458701,
+      "modified": 1670356120324,
       "created": 1670260128040,
       "url": "{{ _.baseUrl }}/auth/ping",
       "name": "Ping",
@@ -18,8 +18,7 @@
       "headers": [],
       "authentication": {
         "type": "bearer",
-        "token": "{{ _.accessToken }}",
-        "prefix": ""
+        "token": "{{ _.accessToken }}"
       },
       "metaSortKey": -1670260128040,
       "isPrivate": false,
@@ -56,7 +55,7 @@
     {
       "_id": "req_7bb8b6554d0b49098560eb3e0146a684",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1670271484369,
+      "modified": 1670356049183,
       "created": 1670023167894,
       "url": "{{ _.baseUrl }}/auth/register",
       "name": "Register",
@@ -88,7 +87,7 @@
     {
       "_id": "req_3281754849da475da04cd4db1efb6f90",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1670271487379,
+      "modified": 1670367629779,
       "created": 1670263199596,
       "url": "{{ _.baseUrl }}/auth/login",
       "name": "Login",
@@ -96,7 +95,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"username\": \"1\",\n\t\"password\": \"1\"\n}"
+        "text": "{\n\t\"username\": \"1\",\n\t\"password\": \"111\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -152,7 +151,7 @@
     {
       "_id": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
       "parentId": "wrk_342923f919d04c4994d679961620182b",
-      "modified": 1670271553161,
+      "modified": 1670356116960,
       "created": 1670023099250,
       "name": "Base Environment",
       "data": {
@@ -211,7 +210,7 @@
     {
       "_id": "env_b2462a342baa4329b323fd79801912f7",
       "parentId": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
-      "modified": 1670271474517,
+      "modified": 1670356110562,
       "created": 1670268993964,
       "name": "Local",
       "data": {

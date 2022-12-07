@@ -4,6 +4,11 @@
     "module": "CommonJS",
     "sourceMap": true,
     "esModuleInterop": true,
-    "strict": true
-  }
+    "strict": true,
+    "outDir": "dist"
+  },
+  "include": [
+    "../server",
+    "../shared"
+  ]
 }
