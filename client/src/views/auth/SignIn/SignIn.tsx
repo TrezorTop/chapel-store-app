@@ -48,11 +48,13 @@ export const SignIn = () => {
           <Input
             placeholder="Login"
             onChange={(event) => updateForm("username", event.target.value)}
+            disabled={isLoading}
           />
           <Input
             type="password"
             placeholder="Password"
             onChange={(event) => updateForm("password", event.target.value)}
+            disabled={isLoading}
           />
           <Button
             disabled={!valid || isLoading}
