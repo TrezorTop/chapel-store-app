@@ -1,22 +1,38 @@
 version: "3.9"
 
 services:
-  mongo:
-    image: mongo
-    restart: always
+  postgres:
+    image: postgres:alpine
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 15s
+      retries: 10
     ports:
-      - "27017:27017"
+      - "5432:5432"
+    networks:
+      - postgres
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-  mongo-express:
-    image: mongo-express
-    restart: always
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  pgadmin:
+    image: dpage/pgadmin4
     depends_on:
-      - mongo
-    ports:
-      - "8081:8081"
+      postgres:
+        condition: service_healthy
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    networks:
+      - postgres
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
-      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27017/
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
+networks:
+  postgres:
+    driver: bridge
+volumes:
+  pgadmin:
+    driver: local
