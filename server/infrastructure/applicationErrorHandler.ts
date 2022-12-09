@@ -1,11 +1,7 @@
 import { ErrorRequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
-import { UndocumentedError } from "../../shared/error";
+import { ErrorResponse, UndocumentedError } from "../../shared/consts/error";
 
-
-type ErrorResponse = {
-	message: string
-}
 
 export class ApplicationError {
 	constructor(

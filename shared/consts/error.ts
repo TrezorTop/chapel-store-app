@@ -1,3 +1,8 @@
+export type ErrorResponse = {
+	readonly message: string
+}
+
+
 export const UndocumentedError = "Что-то пошло не так...";
 
 export const Login_WrongUsernameError = "Неправильное имя пользователя";
