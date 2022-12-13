@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 import { AuthLayout } from "../../../core/components/hoc/AuthLayout/AuthLayout";
 import { Form } from "../../../core/components/hoc/Form/Form";
-import { Button } from "../../../core/components/ui/Button/Button";
-import { Input } from "../../../core/components/ui/Input/Input";
-import { Paper } from "../../../core/components/ui/Paper/Paper";
+import { Button } from "../../../core/components/kit/Button/Button";
+import { Input } from "../../../core/components/kit/Input/Input";
+import { Paper } from "../../../core/components/kit/Paper/Paper";
 import { signUp } from "../../../core/services/Auth.service";
-import { emptyUrl } from "../../../core/utils/consts";
-import { updateAuthToken } from "../../../core/utils/functions/user";
+import { emptyUrl, signInUrl } from "../../../core/utils/consts";
+import { updateAuthTokens } from "../../../core/utils/functions/auth";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignUp.module.scss";
 
@@ -40,7 +40,7 @@ export const SignUp = () => {
       }),
     {
       onSuccess: ({ data }) => {
-        updateAuthToken(data.accessToken, data.refreshToken);
+        updateAuthTokens(data.accessToken, data.refreshToken);
         navigate(emptyUrl, { state: { requireAuth: false } });
       },
     },
@@ -81,7 +81,7 @@ export const SignUp = () => {
           >
             Sign Up
           </Button>
-          <Button variant="text" onClick={() => navigate("/signin")}>
+          <Button variant="text" onClick={() => navigate(signInUrl)}>
             Sign In
           </Button>
         </Form>

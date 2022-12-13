@@ -1,8 +1,15 @@
 .root {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   margin: 0 auto;
 
   max-width: 1024px;
+
+  .container {
+    & > *:not(:last-child) {
+      margin-right: 16px;
+    }
+  }
 }

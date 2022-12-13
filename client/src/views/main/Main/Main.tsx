@@ -1,15 +1,20 @@
 import React from "react";
 
-import { MainLayout } from "../../../core/components/hoc/MainLayout/MainLayout";
-import { Button } from "../../../core/components/ui/Button/Button";
-import { ping } from "../../../core/services/Auth.service";
+import { Typography } from "../../../core/components/kit/Typography/Typography";
+import { Info } from "./Info/Info";
+import s from "./Main.module.scss";
+import { Selector } from "./Selector/Selector";
 
 export const Main = () => {
   return (
-    <MainLayout>
-      <Button variant="contained" onClick={() => ping()}>
-        ping server
-      </Button>
-    </MainLayout>
+    <>
+      <Typography variant="h3" marginBottom>
+        Choose Configuration
+      </Typography>
+      <div className={s.container}>
+        <Selector />
+        <Info />
+      </div>
+    </>
   );
 };

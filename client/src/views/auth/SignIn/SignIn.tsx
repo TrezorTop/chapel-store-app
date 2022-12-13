@@ -1,15 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AuthLayout } from "../../../core/components/hoc/AuthLayout/AuthLayout";
 import { Form } from "../../../core/components/hoc/Form/Form";
-import { Button } from "../../../core/components/ui/Button/Button";
-import { Input } from "../../../core/components/ui/Input/Input";
-import { Paper } from "../../../core/components/ui/Paper/Paper";
+import { Button } from "../../../core/components/kit/Button/Button";
+import { Input } from "../../../core/components/kit/Input/Input";
+import { Paper } from "../../../core/components/kit/Paper/Paper";
 import { signIn } from "../../../core/services/Auth.service";
-import { mainUrl } from "../../../core/utils/consts";
-import { updateAuthToken } from "../../../core/utils/functions/user";
+import {
+  mainUrl,
+  signUpUrl,
+  userAccessToken,
+} from "../../../core/utils/consts";
+import { updateAuthTokens } from "../../../core/utils/functions/auth";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignIn.module.scss";
 
@@ -35,7 +40,7 @@ export const SignIn = () => {
       }),
     {
       onSuccess: ({ data }) => {
-        updateAuthToken(data.accessToken, data.refreshToken);
+        updateAuthTokens(data.accessToken, data.refreshToken);
         navigate(mainUrl, { state: { requireAuth: false } });
       },
     },
@@ -64,9 +69,14 @@ export const SignIn = () => {
           >
             Sign In
           </Button>
-          <Button variant="text" onClick={() => navigate("/signup")}>
+          <Button variant="text" onClick={() => navigate(signUpUrl)}>
             Sign Up
           </Button>
+          {Cookies.get(userAccessToken) && (
+            <Button variant="text" onClick={() => navigate(mainUrl)}>
+              Proceed as User
+            </Button>
+          )}
         </Form>
       </Paper>
     </AuthLayout>
