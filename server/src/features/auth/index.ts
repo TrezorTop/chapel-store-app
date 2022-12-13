@@ -5,10 +5,10 @@ import {
 	Login_WrongUsernameError,
 	Refresh_UsedTokenError,
 	Refresh_WrongTokenError
-} from "../../../shared/consts/error";
-import { LoginBasePath, LoginRequest, LoginResponse } from "../../../shared/endpoints/login";
-import { RefreshBasePath, RefreshRequest } from "../../../shared/endpoints/refresh";
-import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../../shared/endpoints/register";
+} from "../../../../shared/consts/error";
+import { LoginBasePath, LoginRequest, LoginResponse } from "../../../../shared/endpoints/login";
+import { RefreshBasePath, RefreshRequest } from "../../../../shared/endpoints/refresh";
+import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../../../shared/endpoints/register";
 import RefreshToken from "../../domain/RefreshToken";
 import User from "../../domain/User";
 import { ApplicationError } from "../../infrastructure/applicationErrorHandler";

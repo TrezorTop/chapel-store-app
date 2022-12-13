@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
-import { ErrorResponse, UndocumentedError } from "../../shared/consts/error";
+import { ErrorResponse, UndocumentedError } from "../../../shared/consts/error";
 
 
 export class ApplicationError {

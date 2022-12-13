@@ -1,7 +1,5 @@
 import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
-import RefreshToken from "../../domain/RefreshToken";
-import User from "../../domain/User";
 import { JwtAccessTokenPayload } from "../types";
 
 
@@ -9,7 +7,7 @@ const saltRounds = 10;
 
 
 export async function getUserByUsername(username: string) {
-	return await User.findOne({ username: username }).exec();
+	return {};
 }
 
 export function decodeToken(token: string) {
@@ -32,11 +30,10 @@ export async function generateTokens(username: string, userId: string) {
 	const accessToken = jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "10m" });
 	const rawRefreshToken = jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "30 days" });
 
-	const refreshToken = new RefreshToken({
+	const refreshToken = {
 		token: rawRefreshToken,
 		ownerId: userId
-	});
-	await refreshToken.save();
+	};
 
 	return { accessToken, refreshToken: rawRefreshToken };
 }
