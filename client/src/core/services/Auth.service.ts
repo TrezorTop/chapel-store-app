@@ -1,18 +1,6 @@
-import {
-  LoginPath,
-  LoginRequest,
-  LoginResponse,
-} from "../../../../shared/login";
-import {
-  RefreshPath,
-  RefreshRequest,
-  RefreshResponse,
-} from "../../../../shared/refresh";
-import {
-  RegisterPath,
-  RegisterRequest,
-  RegisterResponse,
-} from "../../../../shared/register";
+import { LoginPath, LoginRequest, LoginResponse } from "../../../../shared/endpoints/login";
+import { RefreshPath, RefreshRequest, RefreshResponse } from "../../../../shared/endpoints/refresh";
+import { RegisterPath, RegisterRequest, RegisterResponse } from "../../../../shared/endpoints/register";
 import { api } from "../config/api";
 
 export const signIn = ({ password, username }: LoginRequest) =>
@@ -32,4 +20,4 @@ export const refreshToken = ({ refreshToken }: RefreshRequest) =>
     refreshToken,
   });
 
-export const ping = () => api.get<RefreshResponse>('/api/auth/ping');
+export const ping = () => api.get<RefreshResponse>("/api/auth/ping");
