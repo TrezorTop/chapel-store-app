@@ -2,17 +2,17 @@ import {
   LoginPath,
   LoginRequest,
   LoginResponse,
-} from "../../../../shared/login";
+} from "../../../../shared/endpoints/login";
 import {
   RefreshPath,
   RefreshRequest,
   RefreshResponse,
-} from "../../../../shared/refresh";
+} from "../../../../shared/endpoints/refresh";
 import {
   RegisterPath,
   RegisterRequest,
   RegisterResponse,
-} from "../../../../shared/register";
+} from "../../../../shared/endpoints/register";
 import { api } from "../config/api";
 
 export const signIn = ({ password, username }: LoginRequest) =>
@@ -32,4 +32,9 @@ export const refreshToken = ({ refreshToken }: RefreshRequest) =>
     refreshToken,
   });
 
-export const ping = () => api.get<RefreshResponse>('/api/auth/ping');
+export const ping = () =>
+  api.get<RefreshResponse>("/api/auth/ping", {
+    headers: {
+      "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
+    },
+  });

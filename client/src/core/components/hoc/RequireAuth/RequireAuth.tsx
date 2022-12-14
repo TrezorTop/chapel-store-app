@@ -5,8 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { ping, refreshToken } from "../../../services/Auth.service";
 import { signInUrl, userRefreshToken } from "../../../utils/consts";
-import { updateAuthToken as updateAuthTokens } from "../../../utils/functions/user";
-import { GlobalLoader } from "../../ui/GlobalLoader/GlobalLoader";
+import { updateAuthTokens as updateAuthTokens } from "../../../utils/functions/auth";
+import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
 type RequireAuthProps = {
   children: ReactNode;
@@ -19,7 +19,7 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
   const requireAuth = locationState?.requireAuth;
 
   useEffect(() => {
-    if (requireAuth === false) return;
+    // if (requireAuth === false) return;
 
     const broadcast = new BroadcastChannel("httpInterceptor");
 
