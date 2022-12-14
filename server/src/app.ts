@@ -2,15 +2,13 @@ require("dotenv").config();
 
 import cors from "cors";
 import express from "express";
-import { AuthBasePath, BasePath } from "../shared";
+import { AuthBasePath, BasePath } from "../../shared";
 import authRouter from "./features/auth";
 import { applicationErrorHandler } from "./infrastructure/applicationErrorHandler";
-import mongoConnect from "./infrastructure/mongoConnect";
 import passportConfig from "./infrastructure/passportConfig";
 
 
 (async function () {
-	await mongoConnect();
 	const port = 3000;
 	const app = express();
 	const mainRouter = express.Router();
