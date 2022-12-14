@@ -26,7 +26,7 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 403 || error.response.status === 401) {
+    if (error.response?.status === 403 || error.response?.status === 401) {
       broadcast.postMessage(error.response.status);
     }
     return Promise.reject(error);
