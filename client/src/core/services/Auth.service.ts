@@ -32,4 +32,9 @@ export const refreshToken = ({ refreshToken }: RefreshRequest) =>
     refreshToken,
   });
 
-export const ping = () => api.get<RefreshResponse>("/api/auth/ping");
+export const ping = () =>
+  api.get<RefreshResponse>("/api/auth/ping", {
+    headers: {
+      "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
+    },
+  });
