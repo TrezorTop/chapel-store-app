@@ -29,13 +29,13 @@ router.post<
 	RegisterResponse,
 	RegisterRequest
 >(RegisterBasePath, asyncWrapper(async (req, res) => {
-	const { username, password } = req.body;
+	const body = req.body;
 
-	const hash = await hashPassword(password);
-	const tokens = await generateTokens(username);
+	const hash = await hashPassword(body.password);
+	const tokens = generateTokens(body.username);
 	await prisma.user.create({
 		data: {
-			username: username,
+			username: body.username,
 			passwordHash: hash,
 			tokens: {
 				create: {
@@ -53,20 +53,20 @@ router.post<
 	LoginResponse,
 	LoginRequest
 >(LoginBasePath, asyncWrapper(async (req, res) => {
-	const { username, password } = req.body;
+	const body = req.body;
 
-	const user = await cancelIfFailed(() => getUserByUsername(username),
+	const user = await cancelIfFailed(() => getUserByUsername(body.username),
 		StatusCodes.FORBIDDEN, Login_WrongUsernameError
 	);
-	await cancelIfFailed(() => comparePassword(password, user.passwordHash),
+	await cancelIfFailed(() => comparePassword(body.password, user.passwordHash),
 		StatusCodes.FORBIDDEN, Login_WrongPasswordError
 	);
 
-	const tokens = await generateTokens(username);
+	const tokens = generateTokens(body.username);
 	await prisma.refreshToken.create({
 		data: {
 			token: tokens.refreshToken,
-			ownerUsername: username
+			ownerUsername: body.username
 		}
 	});
 
@@ -78,20 +78,20 @@ router.post<
 	RefreshRequest,
 	RefreshRequest
 >(RefreshBasePath, asyncWrapper(async (req, res) => {
-	const { refreshToken } = req.body;
+	const body = req.body;
 
-	const payload = await cancelIfFailed(async () => decodeToken(refreshToken),
+	const payload = await cancelIfFailed(async () => decodeToken(body.refreshToken),
 		StatusCodes.FORBIDDEN, Refresh_WrongTokenError
 	);
 
 	await cancelIfFailed(() =>
 		prisma.refreshToken.delete({
 			where: {
-				token: refreshToken
+				token: body.refreshToken
 			}
 		}), StatusCodes.FORBIDDEN, Refresh_UsedTokenError
 	);
-	const tokens = await generateTokens(payload.ownerUsername);
+	const tokens = generateTokens(payload.ownerUsername);
 	await prisma.refreshToken.create({
 		data: {
 			token: tokens.refreshToken,
