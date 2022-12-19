@@ -1,13 +1,14 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 
-import { apiUrl, userAccessToken } from "../utils/consts";
+import { ErrorResponse } from "../../../../shared/consts/error";
+import { apiUrl, userAccessTokenKey } from "../utils/consts";
 
 export const api = axios.create({
   baseURL: apiUrl,
   timeout: 15000,
   headers: {
-    authorization: `Bearer ${Cookies.get(userAccessToken)}`,
+    authorization: `Bearer ${Cookies.get(userAccessTokenKey)}`,
   },
 });
 const broadcast = new BroadcastChannel("httpInterceptor");
@@ -25,10 +26,11 @@ api.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
-    if (error.response.status === 403 || error.response.status === 401) {
+  (error: AxiosError<ErrorResponse>) => {
+    if (error.response?.status === 403 || error.response?.status === 401) {
       broadcast.postMessage(error.response.status);
     }
+
     return Promise.reject(error);
   },
 );

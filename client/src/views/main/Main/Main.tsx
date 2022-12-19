@@ -1,15 +1,16 @@
 import React from "react";
 
 import { MainLayout } from "../../../core/components/hoc/MainLayout/MainLayout";
-import { Button } from "../../../core/components/ui/Button/Button";
-import { ping } from "../../../core/services/Auth.service";
+import { usePing } from "../../../core/utils/hooks/services/auth.service";
 
 export const Main = () => {
+  const { mutate } = usePing();
+
   return (
     <MainLayout>
-      <Button variant="contained" onClick={() => ping()}>
+      {/* <Button variant="contained" onClick={() => mutate()}>
         ping server
-      </Button>
+      </Button> */}
     </MainLayout>
   );
 };

@@ -3,7 +3,7 @@ export const signInUrl = "/signin";
 export const signUpUrl = "/signup";
 export const mainUrl = "/main";
 
-export const userAccessToken = "user_token";
-export const userRefreshToken = "refresh_token";
+export const userAccessTokenKey = "user_token";
+export const userRefreshTokenKey = "refresh_token";
 
 export const apiUrl = import.meta.env.VITE_REACT_APP_REST_ENDPOINT;

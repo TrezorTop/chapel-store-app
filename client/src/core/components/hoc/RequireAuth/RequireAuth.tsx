@@ -1,11 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
 import { AnimatePresence } from "framer-motion";
 import React, { FC, ReactNode, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { ping, refreshToken } from "../../../services/Auth.service";
-import { signInUrl, userRefreshToken } from "../../../utils/consts";
-import { updateAuthToken as updateAuthTokens } from "../../../utils/functions/user";
+import { usePing, useRefreshToken } from "../../../utils/hooks/services/auth.service";
+import { signInUrl } from "../../../utils/consts";
 import { GlobalLoader } from "../../ui/GlobalLoader/GlobalLoader";
 
 type RequireAuthProps = {
@@ -33,31 +31,10 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
     return () => broadcast.close();
   }, []);
 
-  const { mutate: mutatePing, isLoading: pingIsLoading } = useMutation(
-    ["ping"],
-    () => ping(),
-    {
-      onSuccess: () => {
-        return;
-      },
-    },
-  );
+  const { mutate: mutatePing } = usePing();
 
-  const { mutate: mutateRefresh, isLoading: refreshIsLoading } = useMutation(
-    ["refreshToken"],
-    () =>
-      refreshToken({
-        refreshToken: localStorage.getItem(userRefreshToken) ?? "",
-      }),
-    {
-      onSuccess: ({ data }) => {
-        return updateAuthTokens(data.accessToken, data.refreshToken);
-      },
-      onError: () => {
-        navigate(signInUrl);
-      },
-    },
-  );
+  const { mutate: mutateRefresh, isLoading: refreshIsLoading } =
+    useRefreshToken();
 
   return (
     <>

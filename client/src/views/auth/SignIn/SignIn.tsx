@@ -1,15 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AuthLayout } from "../../../core/components/hoc/AuthLayout/AuthLayout";
 import { Form } from "../../../core/components/hoc/Form/Form";
 import { Button } from "../../../core/components/ui/Button/Button";
+import { Error } from "../../../core/components/ui/Error/Error";
 import { Input } from "../../../core/components/ui/Input/Input";
 import { Paper } from "../../../core/components/ui/Paper/Paper";
-import { signIn } from "../../../core/services/Auth.service";
-import { mainUrl } from "../../../core/utils/consts";
-import { updateAuthToken } from "../../../core/utils/functions/user";
+import { useSignIn } from "../../../core/utils/hooks/services/auth.service";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignIn.module.scss";
 
@@ -26,20 +24,7 @@ export const SignIn = () => {
     { password: { required: true }, username: { required: true } },
   );
 
-  const { mutate, isLoading } = useMutation(
-    ["signIn"],
-    () =>
-      signIn({
-        username: form.username ?? "",
-        password: form.password ?? "",
-      }),
-    {
-      onSuccess: ({ data }) => {
-        updateAuthToken(data.accessToken, data.refreshToken);
-        navigate(mainUrl, { state: { requireAuth: false } });
-      },
-    },
-  );
+  const { mutate, isLoading, error } = useSignIn();
 
   return (
     <AuthLayout>
@@ -60,13 +45,19 @@ export const SignIn = () => {
             disabled={!valid || isLoading}
             variant="contained"
             type="submit"
-            onClick={() => mutate()}
+            onClick={() =>
+              mutate({
+                username: form.username ?? "",
+                password: form.password ?? "",
+              })
+            }
           >
             Sign In
           </Button>
           <Button variant="text" onClick={() => navigate("/signup")}>
             Sign Up
           </Button>
+          <Error>{error?.response?.data.message}</Error>
         </Form>
       </Paper>
     </AuthLayout>

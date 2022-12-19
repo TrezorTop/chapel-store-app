@@ -1,14 +1,16 @@
 import Cookies from "js-cookie";
 
 import { api } from "../../config/api";
-import { userAccessToken, userRefreshToken } from "../consts";
+import { userAccessTokenKey, userRefreshTokenKey } from "../consts";
 
-export const updateAuthToken = async (
-  accessToken: string,
-  refreshToken: string,
-) => {
+export const updateAuthToken = (accessToken: string, refreshToken: string) => {
   api.defaults.headers["authorization"] = `Bearer ${accessToken}`;
 
-  Cookies.set(userAccessToken, accessToken);
-  localStorage.setItem(userRefreshToken, refreshToken);
+  Cookies.set(userAccessTokenKey, accessToken);
+  localStorage.setItem(userRefreshTokenKey, refreshToken);
+};
+
+export const destroyAuthToken = () => {
+  Cookies.remove(userAccessTokenKey);
+  localStorage.removeItem(userRefreshTokenKey);
 };

@@ -1,4 +1,3 @@
-import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,9 +6,7 @@ import { Form } from "../../../core/components/hoc/Form/Form";
 import { Button } from "../../../core/components/ui/Button/Button";
 import { Input } from "../../../core/components/ui/Input/Input";
 import { Paper } from "../../../core/components/ui/Paper/Paper";
-import { signUp } from "../../../core/services/Auth.service";
-import { emptyUrl } from "../../../core/utils/consts";
-import { updateAuthToken } from "../../../core/utils/functions/user";
+import { useSignUp } from "../../../core/utils/hooks/services/auth.service";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignUp.module.scss";
 
@@ -31,20 +28,7 @@ export const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const { mutate, isLoading } = useMutation(
-    ["signIn"],
-    () =>
-      signUp({
-        username: form.username ?? "",
-        password: form.password ?? "",
-      }),
-    {
-      onSuccess: ({ data }) => {
-        updateAuthToken(data.accessToken, data.refreshToken);
-        navigate(emptyUrl, { state: { requireAuth: false } });
-      },
-    },
-  );
+  const { mutate, isLoading } = useSignUp();
 
   return (
     <AuthLayout>
@@ -77,7 +61,12 @@ export const SignUp = () => {
             disabled={!valid || isLoading}
             variant="contained"
             type="submit"
-            onClick={() => mutate()}
+            onClick={() =>
+              mutate({
+                username: form.username ?? "",
+                password: form.password ?? "",
+              })
+            }
           >
             Sign Up
           </Button>
