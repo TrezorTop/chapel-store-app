@@ -27,7 +27,7 @@ export function decodeToken(token: string) {
 	return payload;
 }
 
-export async function generateTokens(username: string) {
+export function generateTokens(username: string) {
 	const payload: JwtAccessTokenPayload = {
 		ownerUsername: username
 	};
