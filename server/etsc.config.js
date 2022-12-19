@@ -5,7 +5,7 @@ module.exports = {
 			[
 				"./.env"
 			],
-			"./dist/server"
+			"./dist/server/src"
 		);
 	},
 };
