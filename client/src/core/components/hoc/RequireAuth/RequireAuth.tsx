@@ -2,9 +2,8 @@ import { AnimatePresence } from "framer-motion";
 import React, { FC, ReactNode, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { usePing, useRefreshToken } from "../../../utils/hooks/services/auth.service";
 import { signInUrl } from "../../../utils/consts";
-import { GlobalLoader } from "../../ui/GlobalLoader/GlobalLoader";
+import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
 type RequireAuthProps = {
   children: ReactNode;
@@ -17,7 +16,7 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
   const requireAuth = locationState?.requireAuth;
 
   useEffect(() => {
-    if (requireAuth === false) return;
+    // if (requireAuth === false) return;
 
     const broadcast = new BroadcastChannel("httpInterceptor");
 

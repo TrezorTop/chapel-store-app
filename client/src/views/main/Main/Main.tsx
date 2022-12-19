@@ -1,16 +1,22 @@
 import React from "react";
 
-import { MainLayout } from "../../../core/components/hoc/MainLayout/MainLayout";
-import { usePing } from "../../../core/utils/hooks/services/auth.service";
+import { Typography } from "../../../core/components/kit/Typography/Typography";
+import { Info } from "./Info/Info";
+import s from "./Main.module.scss";
+import { Selector } from "./Selector/Selector";
 
 export const Main = () => {
   const { mutate } = usePing();
 
   return (
-    <MainLayout>
-      {/* <Button variant="contained" onClick={() => mutate()}>
-        ping server
-      </Button> */}
-    </MainLayout>
+    <>
+      <Typography variant="h3" marginBottom>
+        Choose Configuration
+      </Typography>
+      <div className={s.container}>
+        <Selector />
+        <Info />
+      </div>
+    </>
   );
 };

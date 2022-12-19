@@ -1,11 +1,19 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
+import { MainLayout } from "./core/components/hoc/MainLayout/MainLayout";
 import { RequireAuth } from "./core/components/hoc/RequireAuth/RequireAuth";
-import { mainUrl, signInUrl, signUpUrl } from "./core/utils/consts";
+import {
+  fallbackUrl,
+  mainUrl,
+  profileUrl,
+  signInUrl,
+  signUpUrl,
+} from "./core/utils/consts";
 import { SignIn } from "./views/auth/SignIn/SignIn";
 import { SignUp } from "./views/auth/SignUp/SignUp";
 import { Main } from "./views/main/Main/Main";
+import { Profile } from "./views/main/Profile/Profile";
 
 export const App = () => {
   return (
@@ -16,11 +24,14 @@ export const App = () => {
         path={mainUrl}
         element={
           <RequireAuth>
-            <Main />
+            <MainLayout />
           </RequireAuth>
         }
-      />
-      <Route path={"*"} element={<Navigate to={mainUrl} />} />
+      >
+        <Route index element={<Main />} />
+        <Route path={profileUrl} element={<Profile />} />
+      </Route>
+      <Route path={fallbackUrl} element={<Navigate to={mainUrl} />} />
     </Routes>
   );
 };

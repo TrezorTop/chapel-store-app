@@ -1,13 +1,13 @@
+import Cookies from "js-cookie";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AuthLayout } from "../../../core/components/hoc/AuthLayout/AuthLayout";
 import { Form } from "../../../core/components/hoc/Form/Form";
-import { Button } from "../../../core/components/ui/Button/Button";
-import { Error } from "../../../core/components/ui/Error/Error";
-import { Input } from "../../../core/components/ui/Input/Input";
-import { Paper } from "../../../core/components/ui/Paper/Paper";
-import { useSignIn } from "../../../core/utils/hooks/services/auth.service";
+import { Button } from "../../../core/components/kit/Button/Button";
+import { Input } from "../../../core/components/kit/Input/Input";
+import { Paper } from "../../../core/components/kit/Paper/Paper";
+import { mainUrl, signUpUrl } from "../../../core/utils/consts";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignIn.module.scss";
 
@@ -24,7 +24,20 @@ export const SignIn = () => {
     { password: { required: true }, username: { required: true } },
   );
 
-  const { mutate, isLoading, error } = useSignIn();
+  const { mutate, isLoading } = useMutation(
+    ["signIn"],
+    () =>
+      signIn({
+        username: form.username ?? "",
+        password: form.password ?? "",
+      }),
+    {
+      onSuccess: ({ data }) => {
+        updateAuthTokens(data.accessToken, data.refreshToken);
+        navigate(mainUrl, { state: { requireAuth: false } });
+      },
+    },
+  );
 
   return (
     <AuthLayout>
@@ -54,10 +67,14 @@ export const SignIn = () => {
           >
             Sign In
           </Button>
-          <Button variant="text" onClick={() => navigate("/signup")}>
+          <Button variant="text" onClick={() => navigate(signUpUrl)}>
             Sign Up
           </Button>
-          <Error>{error?.response?.data.message}</Error>
+          {Cookies.get(userAccessToken) && (
+            <Button variant="text" onClick={() => navigate(mainUrl)}>
+              Proceed as User
+            </Button>
+          )}
         </Form>
       </Paper>
     </AuthLayout>

@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
-import RefreshToken from "../../domain/RefreshToken";
-import User from "../../domain/User";
+import { prisma } from "../../infrastructure/prismaConnect";
 import { JwtAccessTokenPayload } from "../types";
 
 
@@ -9,7 +8,11 @@ const saltRounds = 10;
 
 
 export async function getUserByUsername(username: string) {
-	return await User.findOne({ username: username }).exec();
+	return await prisma.user.findUnique({
+		where: {
+			username: username
+		},
+	});
 }
 
 export function decodeToken(token: string) {
@@ -24,19 +27,13 @@ export function decodeToken(token: string) {
 	return payload;
 }
 
-export async function generateTokens(username: string, userId: string) {
+export async function generateTokens(username: string) {
 	const payload: JwtAccessTokenPayload = {
-		owner: username
+		ownerUsername: username
 	};
 
 	const accessToken = jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "10m" });
 	const rawRefreshToken = jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "30 days" });
-
-	const refreshToken = new RefreshToken({
-		token: rawRefreshToken,
-		ownerId: userId
-	});
-	await refreshToken.save();
 
 	return { accessToken, refreshToken: rawRefreshToken };
 }

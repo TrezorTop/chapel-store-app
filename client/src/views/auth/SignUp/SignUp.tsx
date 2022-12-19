@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { AuthLayout } from "../../../core/components/hoc/AuthLayout/AuthLayout";
 import { Form } from "../../../core/components/hoc/Form/Form";
-import { Button } from "../../../core/components/ui/Button/Button";
-import { Input } from "../../../core/components/ui/Input/Input";
-import { Paper } from "../../../core/components/ui/Paper/Paper";
-import { useSignUp } from "../../../core/utils/hooks/services/auth.service";
+import { Button } from "../../../core/components/kit/Button/Button";
+import { Input } from "../../../core/components/kit/Input/Input";
+import { Paper } from "../../../core/components/kit/Paper/Paper";
+import { signUp } from "../../../core/services/Auth.service";
+import { emptyUrl, signInUrl } from "../../../core/utils/consts";
+import { updateAuthTokens } from "../../../core/utils/functions/auth";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignUp.module.scss";
 
@@ -28,7 +30,20 @@ export const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const { mutate, isLoading } = useSignUp();
+  const { mutate, isLoading } = useMutation(
+    ["signIn"],
+    () =>
+      signUp({
+        username: form.username ?? "",
+        password: form.password ?? "",
+      }),
+    {
+      onSuccess: ({ data }) => {
+        updateAuthTokens(data.accessToken, data.refreshToken);
+        navigate(emptyUrl, { state: { requireAuth: false } });
+      },
+    },
+  );
 
   return (
     <AuthLayout>
@@ -70,7 +85,7 @@ export const SignUp = () => {
           >
             Sign Up
           </Button>
-          <Button variant="text" onClick={() => navigate("/signin")}>
+          <Button variant="text" onClick={() => navigate(signInUrl)}>
             Sign In
           </Button>
         </Form>

@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
-import { ErrorResponse, UndocumentedError } from "../../shared/consts/error";
+import { ErrorResponse, UndocumentedError } from "../../../shared/consts/error";
 
 
 export class ApplicationError {
@@ -17,6 +17,8 @@ export const applicationErrorHandler: ErrorRequestHandler<
 	if (res.headersSent) {
 		return next(err);
 	}
+
+	console.error(err);
 
 	if (err instanceof ApplicationError) {
 		return res.status(err.status).send({
