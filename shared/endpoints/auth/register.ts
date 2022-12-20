@@ -1,9 +1,9 @@
-import { AuthBasePath, BasePath } from "../../index";
+import { AuthRootPath, BasePath } from "../../index";
 
 
 export const RegisterBasePath = "/register";
 
-export const RegisterPath = `${BasePath}${AuthBasePath}${RegisterBasePath}`;
+export const RegisterPath = `${BasePath}${AuthRootPath}${RegisterBasePath}`;
 
 export type RegisterRequest = {
 	username: string;

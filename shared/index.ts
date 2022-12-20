@@ -1,6 +1,6 @@
 export const BasePath = "/api";
 
-export const AuthBasePath = "/auth";
-export const CarsBasePath = "/cars";
-export const BundlesBasePath = "/bundles";
-export const HealthBasePath = "/health";
+export const AuthRootPath = "/auth";
+export const CarsRootPath = "/cars";
+export const BundlesRootPath = "/bundles";
+export const HealthRootPath = "/health";

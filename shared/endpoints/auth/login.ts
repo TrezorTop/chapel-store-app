@@ -1,9 +1,9 @@
-import { AuthBasePath, BasePath } from "../../index";
+import { AuthRootPath, BasePath } from "../../index";
 
 
 export const LoginBasePath = "/login";
 
-export const LoginPath = `${BasePath}${AuthBasePath}${LoginBasePath}`;
+export const LoginPath = `${BasePath}${AuthRootPath}${LoginBasePath}`;
 
 export type LoginRequest = {
 	username: string;

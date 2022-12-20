@@ -1,9 +1,9 @@
-import { AuthBasePath, BasePath } from "../../index";
+import { AuthRootPath, BasePath } from "../../index";
 
 
 export const RefreshBasePath = "/refresh";
 
-export const RefreshPath = `${BasePath}${AuthBasePath}${RefreshBasePath}`;
+export const RefreshPath = `${BasePath}${AuthRootPath}${RefreshBasePath}`;
 
 export type RefreshRequest = {
 	refreshToken: string

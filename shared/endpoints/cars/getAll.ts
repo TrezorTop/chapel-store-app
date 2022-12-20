@@ -1,11 +1,11 @@
-import { BasePath, CarsBasePath } from "../../index";
+import { BasePath, CarsRootPath } from "../../index";
 
 
-export const GetAllBasePath = "/";
+export const CarsBasePath = "/";
 
-export const GetAllPath = `${BasePath}${CarsBasePath}${GetAllBasePath}`;
+export const CarsPath = `${BasePath}${CarsRootPath}${CarsBasePath}`;
 
-export type GetAllResponse = {
+export type CarsResponse = {
 	cars: {
 		id: string,
 		name: string

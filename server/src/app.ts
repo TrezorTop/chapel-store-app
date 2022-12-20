@@ -3,7 +3,7 @@ require("dotenv").config();
 import cors from "cors";
 import express from "express";
 import passport from "passport";
-import { AuthBasePath, BasePath, BundlesBasePath, CarsBasePath, HealthBasePath } from "../../shared";
+import { AuthRootPath, BasePath, BundlesRootPath, CarsRootPath, HealthRootPath } from "../../shared";
 import authRouter from "./features/auth";
 import bundlesRouter from "./features/bundles";
 import carsRouter from "./features/cars";
@@ -24,10 +24,10 @@ import passportConfig from "./infrastructure/passportConfig";
 	app.use(express.urlencoded({ extended: false }));
 
 	app.use(BasePath, mainRouter);
-	mainRouter.use(AuthBasePath, authRouter);
-	mainRouter.use(CarsBasePath, carsRouter);
-	mainRouter.use(BundlesBasePath, bundlesRouter);
-	mainRouter.use(HealthBasePath, healthRouter);
+	mainRouter.use(AuthRootPath, authRouter);
+	mainRouter.use(CarsRootPath, carsRouter);
+	mainRouter.use(BundlesRootPath, bundlesRouter);
+	mainRouter.use(HealthRootPath, healthRouter);
 	app.use(applicationErrorHandler);
 
 	app.listen(process.env.PORT || port, () => console.log("Listening..."));
