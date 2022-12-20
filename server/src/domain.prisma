@@ -21,3 +21,28 @@ model RefreshToken {
     owner User @relation(fields: [ownerUsername], references: [username])
     ownerUsername String
 }
+
+
+model Car {
+    id String @id @default(uuid())
+    name String @unique
+    configs Config[]
+}
+
+
+model Bundle {
+    id String @id @default(uuid())
+    name String @unique
+    configs Config[]
+}
+
+
+model Config {
+    data String
+    car Car @relation(fields: [carId], references: [id])
+    carId String
+    bundle Bundle @relation(fields: [bundleId], references: [id])
+    bundleId String
+
+    @@id([carId, bundleId])
+}
