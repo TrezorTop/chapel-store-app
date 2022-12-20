@@ -1,11 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import { usePing } from "../../../../services/auth.service";
 import { MAIN_URL, PROFILE_URL, SIGN_IN_URL } from "../../../../utils/consts";
 import { removeAuthTokens } from "../../../../utils/functions/auth";
-import { usePing } from "../../../../services/auth.service";
 import { Button } from "../../../kit/Button/Button";
-import { Paper } from "../../../kit/Paper/Paper";
 import s from "./Header.module.scss";
 
 export const Header = () => {

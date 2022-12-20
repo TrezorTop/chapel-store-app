@@ -1,6 +1,6 @@
 import { InputLabel, TextField, TextFieldProps } from "@mui/material";
 import classNames from "classnames";
-import { FC } from "react";
+import React, { FC } from "react";
 
 import s from "./Input.module.scss";
 

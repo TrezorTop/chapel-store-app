@@ -1,6 +1,6 @@
 import { Paper as MuiPaper, PaperProps } from "@mui/material";
 import classNames from "classnames";
-import { FC } from "react";
+import React, { FC } from "react";
 
 import s from "./Paper.module.scss";
 

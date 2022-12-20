@@ -1,8 +1,8 @@
 import { CircularProgress } from "@mui/material";
 import { motion } from "framer-motion";
-import React, { FC, useEffect, useState } from "react";
-import { Paper } from "../Paper/Paper";
+import React, { FC } from "react";
 
+import { Paper } from "../Paper/Paper";
 import s from "./GlobalLoader.module.scss";
 
 type GlobalLoaderProps = {

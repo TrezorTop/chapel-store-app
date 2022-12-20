@@ -3,8 +3,8 @@ import React, { FC, ReactNode, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Refresh_UsedTokenError } from "../../../../../../shared/consts/error";
-import { HTTP_BROADCAST_KEY, NETWORK_ERROR, SIGN_IN_URL } from "../../../utils/consts";
 import { usePing, useRefreshToken } from "../../../services/auth.service";
+import { HTTP_BROADCAST_KEY, NETWORK_ERROR, SIGN_IN_URL } from "../../../utils/consts";
 import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
 type RequireAuthProps = {

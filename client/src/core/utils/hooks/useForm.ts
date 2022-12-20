@@ -31,15 +31,15 @@ export const useForm = <T>(
         }
 
         if (field?.isEqual) {
-          if (value !== form[field?.isEqual!]) return false;
+          if (value !== form[field?.isEqual]) return false;
         }
 
         if (field?.maxLenght) {
-          if (String(value).length > field?.maxLenght!) return false;
+          if (String(value).length > field?.maxLenght) return false;
         }
 
         if (field?.minLenght) {
-          if (String(value).length < field?.minLenght!) return false;
+          if (String(value).length < field?.minLenght) return false;
         }
 
         return true;
