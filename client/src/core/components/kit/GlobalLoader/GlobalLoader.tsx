@@ -1,10 +1,15 @@
 import { CircularProgress } from "@mui/material";
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { Paper } from "../Paper/Paper";
 
 import s from "./GlobalLoader.module.scss";
 
-export const GlobalLoader = () => {
+type GlobalLoaderProps = {
+  showLoader?: boolean;
+};
+
+export const GlobalLoader: FC<GlobalLoaderProps> = ({ showLoader = true }) => {
   return (
     <motion.div
       className={s.root}
@@ -12,7 +17,8 @@ export const GlobalLoader = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <CircularProgress />
+      {showLoader && <CircularProgress />}
+      <Paper className={s.message}>Network Error</Paper>
     </motion.div>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Typography } from "../../../core/components/kit/Typography/Typography";
+import { usePing } from "../../../core/services/auth.service";
 import { Info } from "./Info/Info";
 import s from "./Main.module.scss";
 import { Selector } from "./Selector/Selector";

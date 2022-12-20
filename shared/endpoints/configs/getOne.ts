@@ -1,9 +1,9 @@
-import { BasePath } from "../../index";
+import { BasePath, ConfigsRootPath } from "../../index";
 
 
-export const ConfigBasePath = "/";
+export const ConfigBasePath = "";
 
-export const ConfigPath = `${BasePath}${ConfigBasePath}${ConfigBasePath}`;
+export const ConfigPath = `${BasePath}${ConfigsRootPath}${ConfigBasePath}`;
 
 export type ConfigParams = {
 	carId: string,

@@ -1,4 +1,9 @@
 .root {
+  background-color: var(--background);
+}
+
+.content {
+  padding: 16px;
   margin: 0 auto;
   max-width: 1024px;
 }

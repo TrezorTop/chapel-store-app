@@ -1,5 +1,5 @@
 import React, { FC, FormHTMLAttributes, ReactNode, useRef } from "react";
-import useEventListener from "../../../utils/hooks/useEventListener";
+import { useEventListener } from "usehooks-ts";
 
 interface IFormProps extends FormHTMLAttributes<HTMLFormElement> {
   children: ReactNode;

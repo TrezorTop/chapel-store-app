@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ping } from "../../../../services/Auth.service";
-import { mainUrl, profileUrl, signInUrl } from "../../../../utils/consts";
+import { MAIN_URL, PROFILE_URL, SIGN_IN_URL } from "../../../../utils/consts";
 import { removeAuthTokens } from "../../../../utils/functions/auth";
+import { usePing } from "../../../../services/auth.service";
 import { Button } from "../../../kit/Button/Button";
 import { Paper } from "../../../kit/Paper/Paper";
 import s from "./Header.module.scss";
@@ -11,19 +11,21 @@ import s from "./Header.module.scss";
 export const Header = () => {
   const navigate = useNavigate();
 
+  const { mutate } = usePing();
+
   return (
-    <Paper>
-      <div className={s.root}>
+    <div className={s.root}>
+      <div className={s.content}>
         <div className={s.container}>
           <Button
             variant="text"
             onClick={() => {
-              navigate(mainUrl);
+              navigate(MAIN_URL);
             }}
           >
             MAIN
           </Button>
-          <Button variant="contained" onClick={() => ping()}>
+          <Button variant="contained" onClick={() => mutate()}>
             ping server
           </Button>
         </div>
@@ -31,7 +33,7 @@ export const Header = () => {
           <Button
             variant="text"
             onClick={() => {
-              navigate(profileUrl);
+              navigate(PROFILE_URL);
             }}
           >
             Profile
@@ -39,7 +41,7 @@ export const Header = () => {
           <Button
             variant="outlined"
             onClick={() => {
-              navigate(signInUrl);
+              navigate(SIGN_IN_URL);
               removeAuthTokens();
             }}
           >
@@ -47,6 +49,6 @@ export const Header = () => {
           </Button>
         </div>
       </div>
-    </Paper>
+    </div>
   );
 };

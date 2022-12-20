@@ -1,8 +1,10 @@
 import { AnimatePresence } from "framer-motion";
-import React, { FC, ReactNode, useEffect } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { signInUrl } from "../../../utils/consts";
+import { Refresh_UsedTokenError } from "../../../../../../shared/consts/error";
+import { HTTP_BROADCAST_KEY, NETWORK_ERROR, SIGN_IN_URL } from "../../../utils/consts";
+import { usePing, useRefreshToken } from "../../../services/auth.service";
 import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
 type RequireAuthProps = {
@@ -10,6 +12,8 @@ type RequireAuthProps = {
 };
 
 export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
+  const [isNetworkError, setIsNetworkError] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const location = useLocation();
   const locationState = location?.state as { requireAuth: boolean };
@@ -18,11 +22,15 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
   useEffect(() => {
     // if (requireAuth === false) return;
 
-    const broadcast = new BroadcastChannel("httpInterceptor");
+    const broadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);
 
     broadcast.onmessage = (event) => {
-      if (event.data === 401) return mutateRefresh();
-      if (event.data === 403) return navigate(signInUrl);
+      if (event.data === NETWORK_ERROR) setIsNetworkError(true);
+      if (event.data === "Unauthorized") return mutateRefreshToken();
+      if (event.data === Refresh_UsedTokenError) return navigate(SIGN_IN_URL);
+
+      console.log(event);
+      
     };
 
     mutatePing();
@@ -32,12 +40,15 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
 
   const { mutate: mutatePing } = usePing();
 
-  const { mutate: mutateRefresh, isLoading: refreshIsLoading } =
+  const { mutate: mutateRefreshToken, isLoading: refreshTokenIsLoading } =
     useRefreshToken();
 
   return (
     <>
-      <AnimatePresence>{refreshIsLoading && <GlobalLoader />}</AnimatePresence>
+      <AnimatePresence>
+        {refreshTokenIsLoading && <GlobalLoader />}
+        {isNetworkError && <GlobalLoader showLoader={false} />}
+      </AnimatePresence>
       {children}
     </>
   );

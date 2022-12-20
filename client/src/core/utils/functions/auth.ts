@@ -1,22 +1,22 @@
 import Cookies from "js-cookie";
 
 import { api } from "../../config/api";
-import { userAccessTokenKey, userRefreshTokenKey } from "../consts";
+import { USER_ACCESS_TOKEN_KEY, USER_REFRESH_TOKEN_KEY } from "../consts";
 
 export const updateAuthTokens = (accessToken: string, refreshToken: string) => {
   api.defaults.headers["authorization"] = `Bearer ${accessToken}`;
 
-  Cookies.set(userAccessTokenKey, accessToken);
-  localStorage.setItem(userRefreshTokenKey, refreshToken);
+  Cookies.set(USER_ACCESS_TOKEN_KEY, accessToken);
+  localStorage.setItem(USER_REFRESH_TOKEN_KEY, refreshToken);
 };
 
 export const destroyAuthToken = () => {
-  Cookies.remove(userAccessTokenKey);
-  localStorage.removeItem(userRefreshTokenKey);
+  Cookies.remove(USER_ACCESS_TOKEN_KEY);
+  localStorage.removeItem(USER_REFRESH_TOKEN_KEY);
 };
 
 export const removeAuthTokens = () => {
   api.defaults.headers["authorization"] = `undefined`;
-  Cookies.remove(userAccessToken);
-  localStorage.removeItem(userRefreshToken);
+  Cookies.remove(USER_ACCESS_TOKEN_KEY);
+  localStorage.removeItem(USER_REFRESH_TOKEN_KEY);
 };

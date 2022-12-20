@@ -2,16 +2,22 @@ import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 
 import { ErrorResponse } from "../../../../shared/consts/error";
-import { apiUrl, userAccessTokenKey } from "../utils/consts";
+import {
+  API_URL,
+  AUTH_ERRORS,
+  HTTP_BROADCAST_KEY,
+  NETWORK_ERROR,
+  USER_ACCESS_TOKEN_KEY,
+} from "../utils/consts";
 
 export const api = axios.create({
-  baseURL: apiUrl,
+  baseURL: API_URL,
   timeout: 15000,
   headers: {
-    authorization: `Bearer ${Cookies.get(userAccessTokenKey)}`,
+    authorization: `Bearer ${Cookies.get(USER_ACCESS_TOKEN_KEY)}`,
   },
 });
-const broadcast = new BroadcastChannel("httpInterceptor");
+const httpBroadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);
 
 api.interceptors.request.use(
   (config) => {
@@ -27,9 +33,10 @@ api.interceptors.response.use(
     return response;
   },
   (error: AxiosError<ErrorResponse>) => {
-    if (error.response?.status === 403 || error.response?.status === 401) {
-      broadcast.postMessage(error.response.status);
-    }
+    if (AUTH_ERRORS.includes(error.response?.data.message))
+      httpBroadcast.postMessage(error.response?.data.message);
+
+    if (error.code === NETWORK_ERROR) httpBroadcast.postMessage(NETWORK_ERROR);
 
     return Promise.reject(error);
   },

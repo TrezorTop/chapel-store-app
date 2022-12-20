@@ -6,9 +6,8 @@ import { Form } from "../../../core/components/hoc/Form/Form";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Input } from "../../../core/components/kit/Input/Input";
 import { Paper } from "../../../core/components/kit/Paper/Paper";
-import { signUp } from "../../../core/services/Auth.service";
-import { emptyUrl, signInUrl } from "../../../core/utils/consts";
-import { updateAuthTokens } from "../../../core/utils/functions/auth";
+import { SIGN_IN_URL } from "../../../core/utils/consts";
+import { useSignUp } from "../../../core/services/auth.service";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignUp.module.scss";
 
@@ -30,20 +29,7 @@ export const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const { mutate, isLoading } = useMutation(
-    ["signIn"],
-    () =>
-      signUp({
-        username: form.username ?? "",
-        password: form.password ?? "",
-      }),
-    {
-      onSuccess: ({ data }) => {
-        updateAuthTokens(data.accessToken, data.refreshToken);
-        navigate(emptyUrl, { state: { requireAuth: false } });
-      },
-    },
-  );
+  const { mutate, isLoading } = useSignUp()
 
   return (
     <AuthLayout>
@@ -85,7 +71,7 @@ export const SignUp = () => {
           >
             Sign Up
           </Button>
-          <Button variant="text" onClick={() => navigate(signInUrl)}>
+          <Button variant="text" onClick={() => navigate(SIGN_IN_URL)}>
             Sign In
           </Button>
         </Form>

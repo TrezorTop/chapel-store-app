@@ -1,11 +1,30 @@
-export const emptyUrl = "/";
-export const signInUrl = "/signin";
-export const signUpUrl = "/signup";
-export const mainUrl = "/main";
-export const profileUrl = "profile";
-export const fallbackUrl = "*";
+import {
+  Refresh_UsedTokenError,
+  Refresh_WrongTokenError,
+} from "../../../../shared/consts/error";
 
-export const userAccessTokenKey = "user_token";
-export const userRefreshTokenKey = "refresh_token";
+// ROUTER URLS
+export const EMPTY_URL = "/";
+export const SIGN_IN_URL = "/signin";
+export const SIGN_UP_URL = "/signup";
+export const MAIN_URL = "/main";
+export const PROFILE_URL = "profile";
+export const FALLBACK_URL = "*";
 
-export const apiUrl = import.meta.env.VITE_REACT_APP_REST_ENDPOINT;
+// TOKEN KEYS
+export const USER_ACCESS_TOKEN_KEY = "user_token";
+export const USER_REFRESH_TOKEN_KEY = "refresh_token";
+
+// ENV VARS
+export const API_URL = import.meta.env.VITE_REACT_APP_REST_ENDPOINT;
+
+// BROADCAST CHANNEL KEYS
+export const HTTP_BROADCAST_KEY = "httpInterceptor";
+
+// NETWORK ERRORS
+export const NETWORK_ERROR = "ERR_NETWORK";
+export const AUTH_ERRORS: any[] = [
+  Refresh_WrongTokenError,
+  Refresh_UsedTokenError,
+  "Unauthorized",
+];
