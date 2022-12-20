@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon --inspect",
+    "studio": "npx prisma studio",
     "build": "etsc"
   },
   "prisma": {
