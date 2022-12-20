@@ -6,23 +6,15 @@ import {
 	Refresh_UsedTokenError,
 	Refresh_WrongTokenError
 } from "../../../../shared/consts/error";
-import { LoginBasePath, LoginRequest, LoginResponse } from "../../../../shared/endpoints/login";
-import { PingBasePath } from "../../../../shared/endpoints/ping";
-import { RefreshBasePath, RefreshRequest } from "../../../../shared/endpoints/refresh";
-import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../../../shared/endpoints/register";
-import { jwtAuthMiddleware } from "../../infrastructure/passportConfig";
+import { LoginBasePath, LoginRequest, LoginResponse } from "../../../../shared/endpoints/auth/login";
+import { RefreshBasePath, RefreshRequest } from "../../../../shared/endpoints/auth/refresh";
+import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../../../shared/endpoints/auth/register";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { asyncWrapper, cancelIfFailed } from "../../infrastructure/utils";
 import { comparePassword, decodeToken, generateTokens, getUserByUsername, hashPassword } from "./services";
 
 
 const router = express.Router();
-
-router.get(PingBasePath, jwtAuthMiddleware,
-	(req, res) => {
-		res.status(StatusCodes.OK).send(req.user);
-	}
-);
 
 router.post<
 	null,

@@ -1,4 +1,4 @@
-import { AuthBasePath, BasePath } from "../index";
+import { AuthBasePath, BasePath } from "../../index";
 
 
 export const RegisterBasePath = "/register";
