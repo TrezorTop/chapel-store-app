@@ -39,9 +39,9 @@ model Bundle {
 
 model Config {
     data String
-    car Car @relation(fields: [carId], references: [id])
+    car Car @relation(fields: [carId], references: [id], onDelete: Cascade)
     carId String
-    bundle Bundle @relation(fields: [bundleId], references: [id])
+    bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
     bundleId String
 
     @@id([carId, bundleId])
