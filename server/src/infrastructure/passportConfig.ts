@@ -35,7 +35,7 @@ export const jwtAuthMiddleware: RequestHandler = (req, res, next) => {
 	passport.authenticate("jwt", { session: false, failWithError: true }, (err, req, res) => {
 		if (!req && (!res || res instanceof Error))
 			throw new ApplicationError(StatusCodes.UNAUTHORIZED, General_Unauthorized);
-	});
+	})(req, res);
 
 	next();
 };
