@@ -10,7 +10,7 @@ import { LoginBasePath, LoginRequest, LoginResponse } from "../../../../shared/e
 import { PingBasePath } from "../../../../shared/endpoints/ping";
 import { RefreshBasePath, RefreshRequest } from "../../../../shared/endpoints/refresh";
 import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../../../shared/endpoints/register";
-import { authMiddleware } from "../../infrastructure/passportConfig";
+import { jwtAuthMiddleware } from "../../infrastructure/passportConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { asyncWrapper, cancelIfFailed } from "../../infrastructure/utils";
 import { comparePassword, decodeToken, generateTokens, getUserByUsername, hashPassword } from "./services";
@@ -18,7 +18,7 @@ import { comparePassword, decodeToken, generateTokens, getUserByUsername, hashPa
 
 const router = express.Router();
 
-router.get(PingBasePath, authMiddleware,
+router.get(PingBasePath, jwtAuthMiddleware,
 	(req, res) => {
 		res.status(StatusCodes.OK).send(req.user);
 	}

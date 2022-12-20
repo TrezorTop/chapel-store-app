@@ -1,8 +1,12 @@
 import { User as PrismaUser } from "@prisma/client";
+import { RequestHandler } from "express";
+import { StatusCodes } from "http-status-codes";
 import passport from "passport";
 import { ExtractJwt, Strategy as JwtStrategy, StrategyOptions } from "passport-jwt";
+import { General_Unauthorized } from "../../../shared/consts/error";
 import { getUserByUsername } from "../features/auth/services";
 import { JwtAccessTokenPayload } from "../features/types";
+import { ApplicationError } from "./applicationErrorHandler";
 
 
 declare global {
@@ -27,4 +31,11 @@ export default function () {
 }
 
 
-export const authMiddleware = passport.authenticate("jwt", { session: false });
+export const jwtAuthMiddleware: RequestHandler = (req, res, next) => {
+	passport.authenticate("jwt", { session: false, failWithError: true }, (err, req, res) => {
+		if (!req && (!res || res instanceof Error))
+			throw new ApplicationError(StatusCodes.UNAUTHORIZED, General_Unauthorized);
+	});
+
+	next();
+};
