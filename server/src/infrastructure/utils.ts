@@ -21,12 +21,6 @@ export async function cancelIfFailed<T>(func: () => Promise<T>, status: StatusCo
 }
 
 
-export function cancelIfFalsy<T>(target: T, error: ApplicationError): asserts target is NonNullable<T> {
-	if (!target)
-		throw error;
-}
-
-
 export function asyncWrapper<
 	P = core.ParamsDictionary,
 	ResBody = any,
