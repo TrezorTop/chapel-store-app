@@ -1,6 +1,6 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
-import { CarsResponse } from "../../../../shared/endpoints/cars/getAll";
+import { GetAllCarsResponse } from "../../../../shared/endpoints/cars/getAll";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { asyncWrapper } from "../../infrastructure/utils";
 
@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get<
 	null,
-	CarsResponse,
+	GetAllCarsResponse,
 	null
 >("/", asyncWrapper(async (req, res) => {
 	const cars = await prisma.car.findMany({

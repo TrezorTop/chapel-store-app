@@ -1,16 +1,16 @@
 import { BasePath, ConfigsRootPath } from "../../index";
 
 
-export const ConfigBasePath = "";
+export const GetAllConfigBasePath = "";
 
-export const ConfigPath = `${BasePath}${ConfigsRootPath}${ConfigBasePath}`;
+export const GetAllConfigPath = `${BasePath}${ConfigsRootPath}${GetAllConfigBasePath}`;
 
-export type ConfigParams = {
+export type GetAllConfigParams = {
 	carId: string,
 	bundleId: string
 }
 
-export type ConfigResponse = {
+export type GetAllConfigResponse = {
 	configs: {
 		title: string,
 		data: string

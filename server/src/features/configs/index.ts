@@ -1,6 +1,10 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
-import { ConfigBasePath, ConfigParams, ConfigResponse } from "../../../../shared/endpoints/configs/getAll";
+import {
+	GetAllConfigBasePath,
+	GetAllConfigParams,
+	GetAllConfigResponse
+} from "../../../../shared/endpoints/configs/getAll";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { asyncWrapper } from "../../infrastructure/utils";
 
@@ -9,10 +13,10 @@ const router = express.Router();
 
 router.get<
 	null,
-	ConfigResponse,
+	GetAllConfigResponse,
 	null,
-	ConfigParams
->(ConfigBasePath, asyncWrapper(async (req, res) => {
+	GetAllConfigParams
+>(GetAllConfigBasePath, asyncWrapper(async (req, res) => {
 	const query = req.query;
 
 	const configs = await prisma.config.findMany({

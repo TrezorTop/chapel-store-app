@@ -1,11 +1,11 @@
 import { BasePath, BundlesRootPath } from "../../index";
 
 
-export const BundlesBasePath = "";
+export const GetAllBundlesBasePath = "";
 
-export const BundlesPath = `${BasePath}${BundlesRootPath}${BundlesBasePath}`;
+export const GetAllBundlesPath = `${BasePath}${BundlesRootPath}${GetAllBundlesBasePath}`;
 
-export type BundlesResponse = {
+export type GetAllBundlesResponse = {
 	bundles: {
 		id: string,
 		name: string
