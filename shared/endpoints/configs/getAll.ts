@@ -12,6 +12,7 @@ export type GetAllConfigParams = {
 
 export type GetAllConfigResponse = {
 	configs: {
+		id: string,
 		title: string,
 		data: string
 	}[]

@@ -25,6 +25,7 @@ router.get<
 			bundleId: query.bundleId
 		},
 		select: {
+			id: true,
 			title: true,
 			data: true
 		}
