@@ -3,16 +3,18 @@ import { useEffect, useState } from "react";
 
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../core/components/kit/Input/Input";
+import { useCreatePayment } from "../../../../core/services/payment.service";
 import {
   useBundles,
   useCars,
-  useConfig,
+  useConfigs,
 } from "../../../../core/services/store.service";
 import s from "./Selector.module.scss";
 
 export const Selector = () => {
   const [carId, setCarId] = useState<string>("");
   const [bundleId, setBundleId] = useState<string>("");
+  const [configId, setConfigId] = useState<string>("");
 
   useEffect(() => {
     getCars();
@@ -20,7 +22,8 @@ export const Selector = () => {
 
   const { mutate: getCars, data: carsData } = useCars();
   const { mutate: getBundles, data: bundlesData } = useBundles();
-  const { mutate: getConfig, data: configData } = useConfig();
+  const { mutate: getConfigs, data: configsData } = useConfigs();
+  const { mutate: createPayment } = useCreatePayment();
 
   return (
     <div className={s.root}>
@@ -45,7 +48,10 @@ export const Selector = () => {
 
       <Input
         value={bundleId}
-        onChange={(event) => setBundleId(event.target.value)}
+        onChange={(event) => {
+          getConfigs({ carId, bundleId: event.target.value });
+          setBundleId(event.target.value);
+        }}
         disabled={!carId && !bundlesData}
         inputLabel="Select Bundle"
         variant="outlined"
@@ -59,11 +65,27 @@ export const Selector = () => {
         )) ?? []}
       </Input>
 
+      <Input
+        value={configId}
+        onChange={(event) => setConfigId(event.target.value)}
+        disabled={!bundleId && !configsData}
+        inputLabel="Select Config"
+        variant="outlined"
+        fullWidth
+        select
+      >
+        {configsData?.data.configs.map((config) => (
+          <MenuItem key={config.id} value={config.id}>
+            {config.title}
+          </MenuItem>
+        )) ?? []}
+      </Input>
+
       <Button
         variant="contained"
         size="large"
         fullWidth
-        onClick={() => getConfig({ carId, bundleId })}
+        onClick={() => createPayment({ configId })}
       >
         Proceed Payment
       </Button>

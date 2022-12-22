@@ -1,4 +1,5 @@
 import {
+  General_Unauthorized,
   Refresh_UsedTokenError,
   Refresh_WrongTokenError,
 } from "../../../../shared/consts/error";
@@ -26,5 +27,5 @@ export const NETWORK_ERROR = "ERR_NETWORK";
 export const AUTH_ERRORS: any[] = [
   Refresh_WrongTokenError,
   Refresh_UsedTokenError,
-  "Unauthorized",
+  General_Unauthorized,
 ];
