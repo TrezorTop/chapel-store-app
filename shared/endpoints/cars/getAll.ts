@@ -1,7 +1,7 @@
 import { BasePath, CarsRootPath } from "../../index";
 
 
-export const CarsBasePath = "/";
+export const CarsBasePath = "";
 
 export const CarsPath = `${BasePath}${CarsRootPath}${CarsBasePath}`;
 

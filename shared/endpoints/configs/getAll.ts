@@ -11,7 +11,8 @@ export type ConfigParams = {
 }
 
 export type ConfigResponse = {
-	config: {
+	configs: {
+		title: string,
 		data: string
-	}
+	}[]
 };

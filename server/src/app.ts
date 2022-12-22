@@ -3,12 +3,21 @@ require("dotenv").config();
 import cors from "cors";
 import express from "express";
 import passport from "passport";
-import { AuthRootPath, BasePath, BundlesRootPath, CarsRootPath, ConfigsRootPath, HealthRootPath } from "../../shared";
+import {
+	AuthRootPath,
+	BasePath,
+	BundlesRootPath,
+	CarsRootPath,
+	ConfigsRootPath,
+	HealthRootPath,
+	PaymentsRootPath
+} from "../../shared";
 import authRouter from "./features/auth";
 import bundlesRouter from "./features/bundles";
 import carsRouter from "./features/cars";
 import configsRouter from "./features/configs";
 import healthRouter from "./features/health";
+import paymentsRouter from "./features/payments";
 import { applicationErrorHandler } from "./infrastructure/applicationErrorHandler";
 import passportConfig from "./infrastructure/passportConfig";
 
@@ -29,6 +38,7 @@ import passportConfig from "./infrastructure/passportConfig";
 	mainRouter.use(CarsRootPath, carsRouter);
 	mainRouter.use(BundlesRootPath, bundlesRouter);
 	mainRouter.use(ConfigsRootPath, configsRouter);
+	mainRouter.use(PaymentsRootPath, paymentsRouter);
 	mainRouter.use(HealthRootPath, healthRouter);
 	app.use(applicationErrorHandler);
 

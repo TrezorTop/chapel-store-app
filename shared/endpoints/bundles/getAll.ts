@@ -1,7 +1,7 @@
 import { BasePath, BundlesRootPath } from "../../index";
 
 
-export const BundlesBasePath = "/";
+export const BundlesBasePath = "";
 
 export const BundlesPath = `${BasePath}${BundlesRootPath}${BundlesBasePath}`;
 

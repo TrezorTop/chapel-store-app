@@ -13,12 +13,13 @@ model User {
     username String @id
     passwordHash String
     tokens RefreshToken[]
+    purchases Purchases[]
 }
 
 
 model RefreshToken {
     token String @id
-    owner User @relation(fields: [ownerUsername], references: [username], onDelete: Cascade)
+    owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
     ownerUsername String
 }
 
@@ -37,12 +38,23 @@ model Bundle {
 }
 
 
-model Config {
-    data String
-    car Car @relation(fields: [carId], references: [id], onDelete: Cascade)
-    carId String
-    bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
-    bundleId String
+model Purchases {
+    owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
+    ownerUsername String
+    config Config @relation(fields: [configId], references: [id], onDelete: Restrict)
+    configId String
+    @@id([ownerUsername, configId])
+}
 
-    @@id([carId, bundleId])
+
+model Config {
+    id String @id @default(uuid())
+    title String
+    data String
+    car Car @relation(fields: [carId], references: [id], onDelete: Restrict)
+    carId String
+    bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
+    bundleId String
+    softDeleted Boolean @default(false)
+    purchases Purchases[]
 }
