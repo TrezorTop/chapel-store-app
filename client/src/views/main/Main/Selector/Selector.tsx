@@ -24,7 +24,6 @@ export const Selector = () => {
 
   return (
     <div className={s.root}>
-      <pre>{JSON.stringify(configData?.data)}</pre>
       <Input
         value={carId}
         onChange={(event) => {
