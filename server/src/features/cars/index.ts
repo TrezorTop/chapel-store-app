@@ -1,6 +1,6 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
-import { GetAllCarsResponse } from "../../../../shared/endpoints/cars/getAll";
+import { GetAllCarsBasePath, GetAllCarsResponse } from "../../../../shared/endpoints/cars/getAll";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { asyncWrapper } from "../../infrastructure/utils";
 
@@ -11,7 +11,7 @@ router.get<
 	null,
 	GetAllCarsResponse,
 	null
->("/", asyncWrapper(async (req, res) => {
+>(GetAllCarsBasePath, asyncWrapper(async (req, res) => {
 	const cars = await prisma.car.findMany({
 		select: {
 			id: true,

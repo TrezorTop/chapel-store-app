@@ -62,7 +62,7 @@ router.post<
 		}
 	});
 
-	return res.status(StatusCodes.OK).send(tokens);
+	res.status(StatusCodes.OK).send(tokens);
 }));
 
 router.post<
@@ -91,7 +91,7 @@ router.post<
 		}
 	});
 
-	return res.status(StatusCodes.OK).send(tokens);
+	res.status(StatusCodes.OK).send(tokens);
 }));
 
 export default router;

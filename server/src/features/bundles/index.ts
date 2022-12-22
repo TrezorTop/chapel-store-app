@@ -1,6 +1,6 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
-import { GetAllBundlesResponse } from "../../../../shared/endpoints/bundles/getAll";
+import { GetAllBundlesBasePath, GetAllBundlesResponse } from "../../../../shared/endpoints/bundles/getAll";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { asyncWrapper } from "../../infrastructure/utils";
 
@@ -11,7 +11,7 @@ router.get<
 	null,
 	GetAllBundlesResponse,
 	null
->("/", asyncWrapper(async (req, res) => {
+>(GetAllBundlesBasePath, asyncWrapper(async (req, res) => {
 	const bundles = await prisma.bundle.findMany({
 		select: {
 			id: true,

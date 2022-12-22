@@ -27,13 +27,7 @@ export function asyncWrapper<
 	ReqBody = any,
 	ReqQuery = core.Query,
 	Locals extends Record<string, any> = Record<string, any>
->(handler: RequestHandler<
-	P,
-	ResBody,
-	ReqBody,
-	ReqQuery,
-	Locals
->) {
+>(handler: (...args: Parameters<RequestHandler<P, ResBody, ReqBody, ReqQuery>>) => Promise<unknown>) {
 	const changedHandler: RequestHandler<
 		P,
 		ResBody,
@@ -42,7 +36,7 @@ export function asyncWrapper<
 		Locals
 	> = (req, res, next) => {
 		// @ts-ignore
-		handler(req, res, next).catch((err) => next(err));
+		handler(req, res, next)?.catch((err) => next(err));
 	};
 
 	return changedHandler;
