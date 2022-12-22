@@ -5,12 +5,35 @@ import {
 	CreatePaymentRequest,
 	CreatePaymentResponse
 } from "../../../../shared/endpoints/payments/createPayment";
+import { GetUserConfigsBasePath, GetUserConfigsResponse } from "../../../../shared/endpoints/payments/getUserConfigs";
 import { jwtAuthMiddleware } from "../../infrastructure/passportConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { asyncWrapper } from "../../infrastructure/utils";
 
 
 const router = express.Router();
+
+router.get<
+	null,
+	GetUserConfigsResponse
+>(GetUserConfigsBasePath, jwtAuthMiddleware(), asyncWrapper(async (req, res) => {
+	const configs = await prisma.config.findMany({
+		where: {
+			purchases: {
+				some: {
+					ownerUsername: req.user!.username
+				}
+			}
+		},
+		select: {
+			id: true,
+			data: true,
+			title: true
+		}
+	});
+
+	res.status(StatusCodes.OK).send({ configs: configs });
+}));
 
 router.post<
 	null,
