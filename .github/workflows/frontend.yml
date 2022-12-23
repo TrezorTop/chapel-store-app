@@ -21,4 +21,4 @@ jobs:
             cd client
             npm i
             npm run build
-            npm run preview
+            npm run preview --host
