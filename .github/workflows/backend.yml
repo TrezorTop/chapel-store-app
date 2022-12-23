@@ -9,19 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: SSH and deploy node app
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        script: |
-          cd ~/chapel
-          git pull
-          cd server
-          npm i
-          rm -r -f dist
-          npm run build
-          pm2 restart app
-          npx prisma db push --accept-data-loss
-          pm2 restart studio
+      - name: SSH and deploy node app
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd ~/chapel
+            git pull
+            cd server
+            npm i
+            rm -r -f dist
+            npm run build
+            pm2 restart app
+            npx prisma db push --accept-data-loss
+            pm2 restart studio
