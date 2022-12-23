@@ -8,21 +8,14 @@ import {
   CreatePaymentRequest,
   CreatePaymentResponse,
 } from "../../../../shared/endpoints/payments/createPayment";
-import {
-  GetUserConfigsPath,
-  GetUserConfigsResponse,
-} from "../../../../shared/endpoints/payments/getUserConfigs";
+import { GetUserConfigsPath, GetUserConfigsResponse } from "../../../../shared/endpoints/payments/getUserConfigs";
 import { api } from "../config/api";
 import { PROFILE_URL } from "../utils/consts";
 
 export const useCreatePayment = () => {
   const navigate = useNavigate();
 
-  return useMutation<
-    AxiosResponse<CreatePaymentRequest>,
-    AxiosError<ErrorResponse>,
-    CreatePaymentRequest
-  >(
+  return useMutation<AxiosResponse<CreatePaymentRequest>, AxiosError<ErrorResponse>, CreatePaymentRequest>(
     [CreatePaymentPath],
     ({ configId }) =>
       api.post(CreatePaymentPath, {
@@ -37,8 +30,7 @@ export const useCreatePayment = () => {
 };
 
 export const useUserConfigs = () => {
-  return useQuery<
-    AxiosResponse<GetUserConfigsResponse>,
-    AxiosError<ErrorResponse>
-  >([GetUserConfigsPath], () => api.get(GetUserConfigsPath));
+  return useQuery<AxiosResponse<GetUserConfigsResponse>, AxiosError<ErrorResponse>>([GetUserConfigsPath], () =>
+    api.get(GetUserConfigsPath),
+  );
 };

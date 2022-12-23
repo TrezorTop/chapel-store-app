@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from "react";
 
-import s from './Error.module.scss'
+import s from "./Error.module.scss";
 
 type Error = {
   children?: ReactNode;

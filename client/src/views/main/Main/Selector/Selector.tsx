@@ -1,17 +1,19 @@
 import { MenuItem } from "@mui/material";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { GetAllConfigResponse } from "../../../../../../shared/endpoints/configs/getAll";
 
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../core/components/kit/Input/Input";
 import { useCreatePayment } from "../../../../core/services/payment.service";
-import {
-  useBundles,
-  useCars,
-  useConfigs,
-} from "../../../../core/services/store.service";
+import { useBundles, useCars, useConfigs } from "../../../../core/services/store.service";
+import { GetElementType } from "../../../../core/utils/types/utilityTypes";
 import s from "./Selector.module.scss";
 
-export const Selector = () => {
+type SelectorProps = {
+  setConfig: (data: GetElementType<GetAllConfigResponse["configs"]> | undefined) => void;
+};
+
+export const Selector: FC<SelectorProps> = ({ setConfig }) => {
   const [carId, setCarId] = useState<string>("");
   const [bundleId, setBundleId] = useState<string>("");
   const [configId, setConfigId] = useState<string>("");
@@ -67,7 +69,10 @@ export const Selector = () => {
 
       <Input
         value={configId}
-        onChange={(event) => setConfigId(event.target.value)}
+        onChange={(event) => {
+          setConfig(configsData?.data.configs.find((config) => config.id === event.target.value));
+          setConfigId(event.target.value);
+        }}
         disabled={!bundleId && !configsData}
         inputLabel="Select Config"
         variant="outlined"
@@ -81,12 +86,7 @@ export const Selector = () => {
         )) ?? []}
       </Input>
 
-      <Button
-        variant="contained"
-        size="large"
-        fullWidth
-        onClick={() => createPayment({ configId })}
-      >
+      <Button variant="contained" size="large" fullWidth onClick={() => createPayment({ configId })}>
         Proceed Payment
       </Button>
     </div>

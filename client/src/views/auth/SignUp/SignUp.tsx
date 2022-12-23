@@ -29,7 +29,7 @@ export const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const { mutate, isLoading } = useSignUp()
+  const { mutate, isLoading } = useSignUp();
 
   return (
     <AuthLayout>
@@ -53,9 +53,7 @@ export const SignUp = () => {
             variant="standard"
             type="password"
             placeholder="Repeat password"
-            onChange={(event) =>
-              updateForm("repeatedPassword", event.target.value)
-            }
+            onChange={(event) => updateForm("repeatedPassword", event.target.value)}
             disabled={isLoading}
           />
           <Button

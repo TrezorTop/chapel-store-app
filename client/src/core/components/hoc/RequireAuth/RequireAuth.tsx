@@ -37,8 +37,7 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
 
   const { mutate: mutatePing } = usePing();
 
-  const { mutate: mutateRefreshToken, isLoading: refreshTokenIsLoading } =
-    useRefreshToken();
+  const { mutate: mutateRefreshToken, isLoading: refreshTokenIsLoading } = useRefreshToken();
 
   return (
     <>
