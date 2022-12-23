@@ -17,8 +17,8 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd ~/chapel
+            git checkout origin/frontend
             git pull
             cd client
             npm i
             npm run build
-            npm run preview
