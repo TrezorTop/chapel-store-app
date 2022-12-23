@@ -1,4 +1,4 @@
-import express from "express";
+import { FastifyPluginAsync } from "fastify/types/plugin";
 import { StatusCodes } from "http-status-codes";
 import {
 	Login_WrongPasswordError,
@@ -7,91 +7,90 @@ import {
 	Refresh_WrongTokenError
 } from "../../../../shared/consts/error";
 import { LoginBasePath, LoginRequest, LoginResponse } from "../../../../shared/endpoints/auth/login";
-import { RefreshBasePath, RefreshRequest } from "../../../../shared/endpoints/auth/refresh";
+import { RefreshBasePath, RefreshRequest, RefreshResponse } from "../../../../shared/endpoints/auth/refresh";
 import { RegisterBasePath, RegisterRequest, RegisterResponse } from "../../../../shared/endpoints/auth/register";
 import { prisma } from "../../infrastructure/prismaConnect";
-import { asyncWrapper, cancelIfFailed } from "../../infrastructure/utils";
-import { comparePassword, decodeToken, generateTokens, getUserByUsername, hashPassword } from "./services";
+import { cancelIfFailed } from "../../infrastructure/utils";
+import { initializeServices } from "./services";
 
 
-const router = express.Router();
+const module: FastifyPluginAsync = async (instance) => {
+	const services = initializeServices(instance.jwt);
 
-router.post<
-	null,
-	RegisterResponse,
-	RegisterRequest
->(RegisterBasePath, asyncWrapper(async (req, res) => {
-	const body = req.body;
+	instance.post<{
+		Reply: RegisterResponse,
+		Body: RegisterRequest
+	}>(RegisterBasePath, async (request, reply) => {
+		const body = request.body;
 
-	const hash = await hashPassword(body.password);
-	const tokens = generateTokens(body.username);
-	await prisma.user.create({
-		data: {
-			username: body.username,
-			passwordHash: hash,
-			tokens: {
-				create: {
-					token: tokens.refreshToken
+		const hash = await services.hashPassword(body.password);
+		const tokens = services.generateTokens(body.username);
+		await prisma.user.create({
+			data: {
+				username: body.username,
+				passwordHash: hash,
+				tokens: {
+					create: {
+						token: tokens.refreshToken
+					}
 				}
 			}
-		}
+		});
+
+		return reply.status(StatusCodes.CREATED).send(tokens);
 	});
 
-	res.status(StatusCodes.CREATED).send(tokens);
-}));
+	instance.post<{
+		Reply: LoginResponse,
+		Body: LoginRequest
+	}>(LoginBasePath, async (request, reply) => {
+		const body = request.body;
 
-router.post<
-	null,
-	LoginResponse,
-	LoginRequest
->(LoginBasePath, asyncWrapper(async (req, res) => {
-	const body = req.body;
+		const user = await cancelIfFailed(() => services.getUserByUsername(body.username),
+			StatusCodes.FORBIDDEN, Login_WrongUsernameError
+		);
+		await cancelIfFailed(() => services.comparePassword(body.password, user.passwordHash),
+			StatusCodes.FORBIDDEN, Login_WrongPasswordError
+		);
 
-	const user = await cancelIfFailed(() => getUserByUsername(body.username),
-		StatusCodes.FORBIDDEN, Login_WrongUsernameError
-	);
-	await cancelIfFailed(() => comparePassword(body.password, user.passwordHash),
-		StatusCodes.FORBIDDEN, Login_WrongPasswordError
-	);
-
-	const tokens = generateTokens(body.username);
-	await prisma.refreshToken.create({
-		data: {
-			token: tokens.refreshToken,
-			ownerUsername: body.username
-		}
-	});
-
-	res.status(StatusCodes.OK).send(tokens);
-}));
-
-router.post<
-	null,
-	RefreshRequest,
-	RefreshRequest
->(RefreshBasePath, asyncWrapper(async (req, res) => {
-	const body = req.body;
-
-	const payload = await cancelIfFailed(async () => decodeToken(body.refreshToken),
-		StatusCodes.FORBIDDEN, Refresh_WrongTokenError
-	);
-
-	await cancelIfFailed(() =>
-		prisma.refreshToken.delete({
-			where: {
-				token: body.refreshToken
+		const tokens = services.generateTokens(body.username);
+		await prisma.refreshToken.create({
+			data: {
+				token: tokens.refreshToken,
+				ownerUsername: body.username
 			}
-		}), StatusCodes.FORBIDDEN, Refresh_UsedTokenError
-	);
-	const tokens = generateTokens(payload.ownerUsername);
-	await prisma.refreshToken.create({
-		data: {
-			token: tokens.refreshToken,
-			ownerUsername: payload.ownerUsername
-		}
+		});
+
+		return reply.status(StatusCodes.OK).send(tokens);
 	});
 
-	res.status(StatusCodes.OK).send(tokens);
-}));
+	instance.post<{
+		Reply: RefreshResponse,
+		Body: RefreshRequest
+	}>(RefreshBasePath, async (request, reply) => {
+		const body = request.body;
 
-export default router;
+		const payload = await cancelIfFailed(async () => services.decodeToken(body.refreshToken),
+			StatusCodes.FORBIDDEN, Refresh_WrongTokenError
+		);
+
+		await cancelIfFailed(() =>
+			prisma.refreshToken.delete({
+				where: {
+					token: body.refreshToken
+				}
+			}), StatusCodes.FORBIDDEN, Refresh_UsedTokenError
+		);
+		const tokens = services.generateTokens(payload.username);
+		await prisma.refreshToken.create({
+			data: {
+				token: tokens.refreshToken,
+				ownerUsername: payload.username
+			}
+		});
+
+		reply.status(StatusCodes.OK).send(tokens);
+	});
+};
+
+export default module;

@@ -1,14 +1,15 @@
-import express from "express";
+import { FastifyPluginAsync } from "fastify/types/plugin";
 import { StatusCodes } from "http-status-codes";
 import { PingBasePath } from "../../../../shared/endpoints/health/ping";
-import { jwtAuthMiddleware } from "../../infrastructure/passportConfig";
+import { jwtMiddleware } from "../../infrastructure/jwtConfig";
 
 
-const router = express.Router();
+const module: FastifyPluginAsync = async (instance) => {
+	instance.get(PingBasePath, {
+		onRequest: [jwtMiddleware]
+	}, async (request, reply) => {
+		return reply.status(StatusCodes.OK).send();
+	});
+};
 
-router.get(PingBasePath, jwtAuthMiddleware(), (req, res) => {
-		res.status(StatusCodes.OK).send(req.user);
-	}
-);
-
-export default router;
+export default module;

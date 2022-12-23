@@ -1,4 +1,4 @@
-import express from "express";
+import { FastifyPluginAsync } from "fastify/types/plugin";
 import { StatusCodes } from "http-status-codes";
 import {
 	CreatePaymentBasePath,
@@ -6,50 +6,51 @@ import {
 	CreatePaymentResponse
 } from "../../../../shared/endpoints/payments/createPayment";
 import { GetUserConfigsBasePath, GetUserConfigsResponse } from "../../../../shared/endpoints/payments/getUserConfigs";
-import { jwtAuthMiddleware } from "../../infrastructure/passportConfig";
+import { jwtMiddleware } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
-import { asyncWrapper } from "../../infrastructure/utils";
 
 
-const router = express.Router();
-
-router.get<
-	null,
-	GetUserConfigsResponse
->(GetUserConfigsBasePath, jwtAuthMiddleware(), asyncWrapper(async (req, res) => {
-	const configs = await prisma.config.findMany({
-		where: {
-			purchases: {
-				some: {
-					ownerUsername: req.user!.username
+const module: FastifyPluginAsync = async (instance) => {
+	instance.get<{
+		Reply: GetUserConfigsResponse
+	}>(GetUserConfigsBasePath, {
+		onRequest: [jwtMiddleware]
+	}, async (request, reply) => {
+		const configs = await prisma.config.findMany({
+			where: {
+				purchases: {
+					some: {
+						ownerUsername: request.user.username
+					}
 				}
+			},
+			select: {
+				id: true,
+				data: true,
+				title: true
 			}
-		},
-		select: {
-			id: true,
-			data: true,
-			title: true
-		}
+		});
+
+		return reply.status(StatusCodes.OK).send({ configs: configs });
 	});
 
-	res.status(StatusCodes.OK).send({ configs: configs });
-}));
+	instance.post<{
+		Reply: CreatePaymentResponse,
+		Body: CreatePaymentRequest
+	}>(CreatePaymentBasePath, {
+		onRequest: [jwtMiddleware]
+	}, async (request, reply) => {
+		const body = request.body;
 
-router.post<
-	null,
-	CreatePaymentResponse,
-	CreatePaymentRequest
->(CreatePaymentBasePath, jwtAuthMiddleware(), asyncWrapper(async (req, res) => {
-	const body = req.body;
+		const purchases = await prisma.purchases.create({
+			data: {
+				ownerUsername: request.user.username,
+				configId: body.configId
+			}
+		});
 
-	const purchases = await prisma.purchases.create({
-		data: {
-			ownerUsername: req.user!.username,
-			configId: body.configId
-		}
+		return reply.status(StatusCodes.OK).send({ url: "hueta" });
 	});
+};
 
-	res.status(StatusCodes.OK).send({ url: "hueta" });
-}));
-
-export default router;
+export default module;

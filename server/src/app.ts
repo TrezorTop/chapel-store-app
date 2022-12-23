@@ -1,8 +1,8 @@
 require("dotenv").config();
 
-import cors from "cors";
-import express from "express";
-import passport from "passport";
+import cors from "@fastify/cors";
+import fastify from "fastify";
+import { FastifyPluginAsync } from "fastify/types/plugin";
 import {
 	AuthRootPath,
 	BasePath,
@@ -12,35 +12,40 @@ import {
 	HealthRootPath,
 	PaymentsRootPath
 } from "../../shared";
-import authRouter from "./features/auth";
-import bundlesRouter from "./features/bundles";
-import carsRouter from "./features/cars";
-import configsRouter from "./features/configs";
-import healthRouter from "./features/health";
-import paymentsRouter from "./features/payments";
-import { applicationErrorHandler } from "./infrastructure/applicationErrorHandler";
-import passportConfig from "./infrastructure/passportConfig";
+import authModule from "./features/auth";
+import bundlesModule from "./features/bundles";
+import carsModule from "./features/cars";
+import configsModule from "./features/configs";
+import healthModule from "./features/health";
+import paymentsModule from "./features/payments";
+import { setErrorHandler } from "./infrastructure/applicationErrorHandler";
+import jwtConfig from "./infrastructure/jwtConfig";
 
 
-(async function () {
-	const port = 3000;
-	const app = express();
-	const mainRouter = express.Router();
+const server = fastify();
 
-	app.use(passport.initialize());
-	passportConfig();
-	app.use(cors());
-	app.use(express.json());
-	app.use(express.urlencoded({ extended: false }));
+const routes: FastifyPluginAsync = async (instance) => {
+	await jwtConfig(server);
+	await server.register(cors);
+	await instance.register(authModule, { prefix: AuthRootPath });
+	await instance.register(carsModule, { prefix: CarsRootPath });
+	await instance.register(bundlesModule, { prefix: BundlesRootPath });
+	await instance.register(configsModule, { prefix: ConfigsRootPath });
+	await instance.register(paymentsModule, { prefix: PaymentsRootPath });
+	await instance.register(healthModule, { prefix: HealthRootPath });
+};
 
-	app.use(BasePath, mainRouter);
-	mainRouter.use(AuthRootPath, authRouter);
-	mainRouter.use(CarsRootPath, carsRouter);
-	mainRouter.use(BundlesRootPath, bundlesRouter);
-	mainRouter.use(ConfigsRootPath, configsRouter);
-	mainRouter.use(PaymentsRootPath, paymentsRouter);
-	mainRouter.use(HealthRootPath, healthRouter);
-	app.use(applicationErrorHandler);
+async function start() {
+	try {
+		setErrorHandler(server);
+		await server.register(routes, { prefix: BasePath });
+		await server.listen({ port: 3000 });
 
-	app.listen(process.env.PORT || port, () => console.log("Listening..."));
-})().catch(x => console.error(x));
+		console.log("Listening...");
+	} catch (err) {
+		console.error(err);
+		process.exit(1);
+	}
+}
+
+start();

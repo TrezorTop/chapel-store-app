@@ -1,25 +1,22 @@
-import express from "express";
+import { FastifyPluginAsync } from "fastify/types/plugin";
 import { StatusCodes } from "http-status-codes";
 import { GetAllCarsBasePath, GetAllCarsResponse } from "../../../../shared/endpoints/cars/getAll";
 import { prisma } from "../../infrastructure/prismaConnect";
-import { asyncWrapper } from "../../infrastructure/utils";
 
 
-const router = express.Router();
+const module: FastifyPluginAsync = async (instance) => {
+	instance.get<{
+		Reply: GetAllCarsResponse
+	}>(GetAllCarsBasePath, async (request, reply) => {
+		const cars = await prisma.car.findMany({
+			select: {
+				id: true,
+				name: true
+			}
+		});
 
-router.get<
-	null,
-	GetAllCarsResponse,
-	null
->(GetAllCarsBasePath, asyncWrapper(async (req, res) => {
-	const cars = await prisma.car.findMany({
-		select: {
-			id: true,
-			name: true
-		}
+		return reply.status(StatusCodes.OK).send({ cars: cars });
 	});
+};
 
-	res.status(StatusCodes.OK).send({ cars: cars });
-}));
-
-export default router;
+export default module;

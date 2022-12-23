@@ -1,4 +1,4 @@
-import express from "express";
+import { FastifyPluginAsync } from "fastify/types/plugin";
 import { StatusCodes } from "http-status-codes";
 import {
 	GetAllConfigBasePath,
@@ -6,32 +6,29 @@ import {
 	GetAllConfigResponse
 } from "../../../../shared/endpoints/configs/getAll";
 import { prisma } from "../../infrastructure/prismaConnect";
-import { asyncWrapper } from "../../infrastructure/utils";
 
 
-const router = express.Router();
+const module: FastifyPluginAsync = async (instance) => {
+	instance.get<{
+		Reply: GetAllConfigResponse,
+		Params: GetAllConfigParams
+	}>(GetAllConfigBasePath, async (request, reply) => {
+		const query = request.params;
 
-router.get<
-	null,
-	GetAllConfigResponse,
-	null,
-	GetAllConfigParams
->(GetAllConfigBasePath, asyncWrapper(async (req, res) => {
-	const query = req.query;
+		const configs = await prisma.config.findMany({
+			where: {
+				carId: query.carId,
+				bundleId: query.bundleId
+			},
+			select: {
+				id: true,
+				title: true,
+				data: true
+			}
+		});
 
-	const configs = await prisma.config.findMany({
-		where: {
-			carId: query.carId,
-			bundleId: query.bundleId
-		},
-		select: {
-			id: true,
-			title: true,
-			data: true
-		}
+		return reply.status(StatusCodes.OK).send({ configs: configs });
 	});
+};
 
-	res.status(StatusCodes.OK).send({ configs: configs });
-}));
-
-export default router;
+export default module;

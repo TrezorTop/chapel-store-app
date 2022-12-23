@@ -1,6 +1,6 @@
-import { ErrorRequestHandler } from "express";
+import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
-import { ErrorResponse, UndocumentedError } from "../../../shared/consts/error";
+import { UndocumentedError } from "../../../shared/consts/error";
 
 
 export class ApplicationError {
@@ -11,20 +11,15 @@ export class ApplicationError {
 	}
 }
 
-export const applicationErrorHandler: ErrorRequestHandler<
-	null, ErrorResponse
-> = (err, req, res, next) => {
-	if (res.headersSent) {
-		return next(err);
-	}
+export function setErrorHandler(instance: FastifyInstance) {
+	instance.setErrorHandler((error, request, reply) => {
+		if (error instanceof ApplicationError) {
+			return reply.status(error.status).send({
+				message: error.message
+			});
+		}
 
-	console.error(err);
-
-	if (err instanceof ApplicationError) {
-		return res.status(err.status).send({
-			message: err.message
-		});
-	}
-
-	res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: UndocumentedError });
-};
+		console.error(error);
+		reply.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: UndocumentedError });
+	});
+}

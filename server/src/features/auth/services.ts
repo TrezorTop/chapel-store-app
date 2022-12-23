@@ -1,47 +1,38 @@
+import { FastifyJWT, JWT, SignPayloadType } from "@fastify/jwt";
 import bcrypt from "bcrypt";
-import jwt, { Secret } from "jsonwebtoken";
 import { prisma } from "../../infrastructure/prismaConnect";
-import { JwtAccessTokenPayload } from "../types";
 
 
 const saltRounds = 10;
 
 
-export async function getUserByUsername(username: string) {
-	return await prisma.user.findUnique({
-		where: {
-			username: username
+export function initializeServices(jwt: JWT) {
+	return {
+		getUserByUsername: async function (username: string) {
+			return await prisma.user.findUnique({
+				where: {
+					username: username
+				},
+			});
 		},
-	});
-}
+		decodeToken: function (token: string): FastifyJWT["payload"] {
+			return jwt.verify(token);
+		},
+		generateTokens: function (username: string) {
+			const payload: SignPayloadType = {
+				username: username
+			};
 
-export function decodeToken(token: string) {
-	let payload: JwtAccessTokenPayload;
+			const accessToken = jwt.sign(payload, { expiresIn: "10m" });
+			const rawRefreshToken = jwt.sign(payload, { expiresIn: "30 days" });
 
-	try {
-		payload = jwt.verify(token, process.env.JWT_SECRET as Secret) as JwtAccessTokenPayload;
-	} catch (e) {
-		return null;
-	}
-
-	return payload;
-}
-
-export function generateTokens(username: string) {
-	const payload: JwtAccessTokenPayload = {
-		ownerUsername: username
+			return { accessToken, refreshToken: rawRefreshToken };
+		},
+		hashPassword: async function (password: string) {
+			return await bcrypt.hash(password, saltRounds);
+		},
+		comparePassword: async function (password: string, hash: string) {
+			return await bcrypt.compare(password, hash);
+		}
 	};
-
-	const accessToken = jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "10m" });
-	const rawRefreshToken = jwt.sign(payload, process.env.JWT_SECRET as Secret, { expiresIn: "30 days" });
-
-	return { accessToken, refreshToken: rawRefreshToken };
-}
-
-export async function hashPassword(password: string) {
-	return await bcrypt.hash(password, saltRounds);
-}
-
-export async function comparePassword(password: string, hash: string) {
-	return await bcrypt.compare(password, hash);
 }
