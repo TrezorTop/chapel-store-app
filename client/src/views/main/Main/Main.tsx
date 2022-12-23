@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
+import { GetAllConfigResponse } from "../../../../../shared/endpoints/configs/getAll";
 
 import { Typography } from "../../../core/components/kit/Typography/Typography";
 import { usePing } from "../../../core/services/auth.service";
+import { GetElementType } from "../../../core/utils/types/utilityTypes";
 import { Info } from "./Info/Info";
 import s from "./Main.module.scss";
 import { Selector } from "./Selector/Selector";
 
 export const Main = () => {
-  const { mutate } = usePing();
+  const [config, setConfig] = useState<GetElementType<GetAllConfigResponse["configs"]> | undefined>();
 
   return (
     <>
-      <Typography variant="h3" marginBottom>
+      <Typography variant="h4" marginBottom>
         Choose Configuration
       </Typography>
       <div className={s.container}>
-        <Selector />
-        <Info />
+        <Selector setConfig={setConfig} />
+        <Info title={config?.title} data={config?.data} />
       </div>
     </>
   );

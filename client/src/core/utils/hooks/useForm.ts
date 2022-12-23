@@ -13,10 +13,7 @@ type Error<T> = {
   [key in keyof T]?: string;
 };
 
-export const useForm = <T>(
-  defaultState: Partial<T> = {},
-  options: OptionsProps<T> = {},
-) => {
+export const useForm = <T>(defaultState: Partial<T> = {}, options: OptionsProps<T> = {}) => {
   const [form, setForm] = useState<Partial<T>>(defaultState);
   const [valid, setValid] = useState<boolean>(false);
 

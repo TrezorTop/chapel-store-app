@@ -5,12 +5,7 @@ type Typography = {
   marginBottom?: boolean;
 } & Omit<TypographyProps, "marginBottom">;
 
-export const Typography: FC<Typography> = ({
-  children,
-  marginBottom,
-  variant,
-  ...props
-}) => {
+export const Typography: FC<Typography> = ({ children, marginBottom, variant, ...props }) => {
   return (
     <MuiTypography
       marginBottom={() => {

@@ -7,6 +7,7 @@ import { LoginPath, LoginRequest, LoginResponse } from "../../../../shared/endpo
 import { RefreshPath, RefreshResponse } from "../../../../shared/endpoints/auth/refresh";
 import { RegisterPath, RegisterRequest, RegisterResponse } from "../../../../shared/endpoints/auth/register";
 import { PingPath } from "../../../../shared/endpoints/health/ping";
+import { queryClient } from "../../main";
 import { api } from "../config/api";
 import { EMPTY_URL, MAIN_URL, SIGN_IN_URL, USER_REFRESH_TOKEN_KEY } from "../utils/consts";
 import { updateAuthTokens } from "../utils/functions/auth";
@@ -14,11 +15,7 @@ import { updateAuthTokens } from "../utils/functions/auth";
 export const useSignIn = () => {
   const navigate = useNavigate();
 
-  return useMutation<
-    AxiosResponse<LoginResponse>,
-    AxiosError<ErrorResponse>,
-    LoginRequest
-  >(
+  return useMutation<AxiosResponse<LoginResponse>, AxiosError<ErrorResponse>, LoginRequest>(
     [LoginPath],
     ({ password, username }) =>
       api.post(LoginPath, {
@@ -37,11 +34,7 @@ export const useSignIn = () => {
 export const useSignUp = () => {
   const navigate = useNavigate();
 
-  return useMutation<
-    AxiosResponse<RegisterResponse>,
-    AxiosError<ErrorResponse>,
-    RegisterRequest
-  >(
+  return useMutation<AxiosResponse<RegisterResponse>, AxiosError<ErrorResponse>, RegisterRequest>(
     [RegisterPath],
     ({ username, password }) =>
       api.post(RegisterPath, {
@@ -70,6 +63,7 @@ export const useRefreshToken = () => {
     {
       onSuccess: ({ data }) => {
         updateAuthTokens(data.accessToken, data.refreshToken);
+        queryClient.cancelQueries({ queryKey: [RefreshPath] });
       },
       onError: () => {
         navigate(SIGN_IN_URL);
