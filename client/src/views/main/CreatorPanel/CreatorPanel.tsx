@@ -14,7 +14,9 @@ const CreatorPanel = () => {
 
   return (
     <>
-      <Typography variant="h4" marginBottom>Creator Panel</Typography>
+      <Typography variant="h4" marginBottom>
+        Creator Panel
+      </Typography>
       <Tabs value={selectedTab} onChange={(_, value) => setSelectedTab(value)}>
         <Tab value={TabValues.EDIT_ENTITIES} label={TabValues.EDIT_ENTITIES} />
         <Tab value={TabValues.STATISTICS} label={TabValues.STATISTICS} disabled />
