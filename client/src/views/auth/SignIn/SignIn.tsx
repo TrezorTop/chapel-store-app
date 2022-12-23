@@ -9,7 +9,7 @@ import { Input } from "../../../core/components/kit/Input/Input";
 import { Paper } from "../../../core/components/kit/Paper/Paper";
 import { MAIN_URL, SIGN_UP_URL, USER_ACCESS_TOKEN_KEY } from "../../../core/utils/consts";
 import { useForm } from "../../../core/utils/hooks/useForm";
-import { useSignIn } from "../../../core/services/auth.service";
+import { useSignIn } from "../../../core/services/user.service";
 import s from "./SignIn.module.scss";
 
 type TForm = {

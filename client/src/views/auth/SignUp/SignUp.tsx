@@ -7,7 +7,7 @@ import { Button } from "../../../core/components/kit/Button/Button";
 import { Input } from "../../../core/components/kit/Input/Input";
 import { Paper } from "../../../core/components/kit/Paper/Paper";
 import { SIGN_IN_URL } from "../../../core/utils/consts";
-import { useSignUp } from "../../../core/services/auth.service";
+import { useSignUp } from "../../../core/services/user.service";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignUp.module.scss";
 

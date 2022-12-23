@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { usePing } from "../../../../services/auth.service";
+import { usePing } from "../../../../services/user.service";
 import { CREATOR_URL, MAIN_URL, PROFILE_URL, SIGN_IN_URL } from "../../../../utils/consts";
 import { removeAuthTokens } from "../../../../utils/functions/auth";
 import { Button } from "../../../kit/Button/Button";
