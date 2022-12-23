@@ -17,6 +17,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd ~/chapel
+            git checkout frontend
             git pull
             cd client
             npm i
