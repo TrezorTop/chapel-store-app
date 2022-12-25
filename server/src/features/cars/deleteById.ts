@@ -20,11 +20,9 @@ export const deleteById = async (instance: FastifyInstance) => {
 
 		const deleted = await prisma.car.deleteMany({
 			where: {
-				AND: {
-					id: carId,
-					configs: {
-						none: {}
-					}
+				id: carId,
+				configs: {
+					none: {}
 				}
 			}
 		});

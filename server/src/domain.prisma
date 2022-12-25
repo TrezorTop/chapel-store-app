@@ -25,14 +25,14 @@ model RefreshToken {
 
 
 model Car {
-    id String @id @default(uuid())
+    id String @id @default(cuid())
     name String @unique
     configs Config[]
 }
 
 
 model Bundle {
-    id String @id @default(uuid())
+    id String @id @default(cuid())
     name String @unique
     configs Config[]
 }
@@ -48,7 +48,7 @@ model Purchases {
 
 
 model Config {
-    id String @id @default(uuid())
+    id String @id @default(cuid())
     title String
     data String
     car Car @relation(fields: [carId], references: [id], onDelete: Restrict)

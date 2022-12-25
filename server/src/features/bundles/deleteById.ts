@@ -15,19 +15,36 @@ export const deleteById = async (instance: FastifyInstance) => {
 	}>(DeleteByIdBundlesBasePath, {
 		onRequest: [jwtMiddleware]
 	}, async (request, reply) => {
-		const id = request.params.id;
+		const bundleId = request.params.id;
 
-		const configs = await prisma.config.findMany({
+		const configs = await getConfigsByBundleId(bundleId);
+		if (configs.length > 0)
+			return reply.status(StatusCodes.OK).send({ configs: configs });
+
+		const deleted = await prisma.bundle.deleteMany({
 			where: {
-				bundleId: id
-			},
-			select: {
-				id: true,
-				title: true
+				AND: {
+					id: bundleId,
+					configs: {
+						none: {}
+					}
+				}
 			}
 		});
-		const result = configs.length > 0 ? { configs: configs } : {};
+		if (deleted.count === 0)
+			return reply.status(StatusCodes.OK).send({ configs: await getConfigsByBundleId(bundleId) });
 
-		return reply.status(StatusCodes.OK).send(result);
+		return reply.status(StatusCodes.OK).send();
 	});
 };
+
+
+const getConfigsByBundleId = async (id: string) => await prisma.config.findMany({
+	where: {
+		bundleId: id
+	},
+	select: {
+		id: true,
+		title: true
+	}
+});
