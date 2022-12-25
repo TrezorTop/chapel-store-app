@@ -3,12 +3,12 @@ import { AxiosError, AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { ErrorResponse } from "../../../../shared/consts/error";
+import { GetAllConfigsPath, GetAllConfigsResponse } from "../../../../shared/endpoints/configs/getAllConfigs";
 import {
   CreatePaymentPath,
   CreatePaymentRequest,
   CreatePaymentResponse,
 } from "../../../../shared/endpoints/payments/createPayment";
-import { GetUserConfigsPath, GetUserConfigsResponse } from "../../../../shared/endpoints/payments/getUserConfigs";
 import { api } from "../config/api";
 import { PROFILE_URL } from "../utils/consts";
 
@@ -30,7 +30,7 @@ export const useCreatePayment = () => {
 };
 
 export const useUserConfigs = () => {
-  return useQuery<AxiosResponse<GetUserConfigsResponse>, AxiosError<ErrorResponse>>([GetUserConfigsPath], () =>
-    api.get(GetUserConfigsPath),
+  return useQuery<AxiosResponse<GetAllConfigsResponse>, AxiosError<ErrorResponse>>([GetAllConfigsPath], () =>
+    api.get(GetAllConfigsPath),
   );
 };

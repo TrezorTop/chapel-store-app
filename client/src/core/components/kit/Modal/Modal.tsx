@@ -16,9 +16,9 @@ export const Modal: FC<TModal> = ({ children, modalTitle, modalActons, ...props 
   return (
     <MuiModal {...props}>
       <div className={s.root}>
-        <Paper>
+        <Paper className={s.content}>
           {modalTitle && <ModalTitle>{modalTitle}</ModalTitle>}
-          {children}
+          <div>{children}</div>
           {modalActons && <ModalActions>{modalActons}</ModalActions>}
         </Paper>
       </div>

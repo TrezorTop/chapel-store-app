@@ -4,3 +4,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.content {
+  & > *:not(:last-child) {
+    margin-bottom: 24px;
+  }
+}

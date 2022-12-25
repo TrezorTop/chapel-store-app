@@ -6,5 +6,5 @@ type TModalActions = {
 };
 
 export const ModalActions: FC<TModalActions> = ({ children }) => {
-  return <>{children}</>;
+  return <div>{children}</div>;
 };

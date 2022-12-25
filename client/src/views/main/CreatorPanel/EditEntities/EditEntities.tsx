@@ -2,6 +2,7 @@ import { Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 
 import { Paper } from "../../../../core/components/kit/Paper/Paper";
+import { Bundles } from "./Bundles/Bundles";
 import { Cars } from "./Cars/Cars";
 import s from "./EditEntities.module.scss";
 
@@ -22,7 +23,10 @@ export const EditEntities = () => {
         <Tab value={TabValues.CONFIGS} label={TabValues.CONFIGS} />
       </Tabs>
 
-      <div className={s.content}>{selectedTab === TabValues.CARS && <Cars />}</div>
+      <div className={s.content}>
+        {selectedTab === TabValues.CARS && <Cars />}
+        {selectedTab === TabValues.BUNDLES && <Bundles />}
+      </div>
     </Paper>
   );
 };

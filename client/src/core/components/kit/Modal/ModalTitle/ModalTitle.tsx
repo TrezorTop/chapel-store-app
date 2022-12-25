@@ -6,5 +6,5 @@ type TModalTitle = {
 };
 
 export const ModalTitle: FC<TModalTitle> = ({ children }) => {
-  return <>{children}</>;
+  return <div>{children}</div>;
 };

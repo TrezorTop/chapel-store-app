@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 
 import { ErrorResponse } from "../../../../../../../shared/consts/error";
 import {
-  DeleteByIdCarsParams,
-  DeleteByIdCarsPath,
-  DeleteByIdCarsResponse,
-} from "../../../../../../../shared/endpoints/cars/deleteByIdCars";
-import { GetAllCarsPath, GetAllCarsResponse } from "../../../../../../../shared/endpoints/cars/getAllCars";
+  DeleteByIdBundlesParams,
+  DeleteByIdBundlesPath,
+  DeleteByIdBundlesResponse,
+} from "../../../../../../../shared/endpoints/bundles/deleteByIdBundles";
+import { GetAllBundlesPath, GetAllBundlesResponse } from "../../../../../../../shared/endpoints/bundles/getAllBundles";
 import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../../core/components/kit/Input/Input";
 import { Modal } from "../../../../../core/components/kit/Modal/Modal";
@@ -18,29 +18,29 @@ import { api } from "../../../../../core/config/api";
 import { Header } from "../Header/Header";
 import { ItemCard } from "../ItemCard/ItemCard";
 
-export const Cars = () => {
+export const Bundles = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [errorModal, setErrorModal] = useState<boolean>(false);
 
   useEffect(() => {
-    getCars();
+    getBundles();
   }, []);
 
-  const { data: carsData, mutate: getCars } = useMutation<AxiosResponse<GetAllCarsResponse>, AxiosError<ErrorResponse>>(
-    [GetAllCarsPath],
-    () => api.get(GetAllCarsPath),
-  );
+  const { data: bundlesData, mutate: getBundles } = useMutation<
+    AxiosResponse<GetAllBundlesResponse>,
+    AxiosError<ErrorResponse>
+  >([GetAllBundlesPath], () => api.get(GetAllBundlesPath));
 
   const {
-    data: deleteCarsData,
-    mutate: deleteCar,
+    data: deleteBundlesData,
+    mutate: deleteBundle,
     error: deleteError,
-  } = useMutation<AxiosResponse<DeleteByIdCarsResponse>, AxiosError<DeleteByIdCarsResponse>, DeleteByIdCarsParams>(
-    [DeleteByIdCarsPath],
-    ({ id }) => api.delete(DeleteByIdCarsPath.replace(":id", id)),
+  } = useMutation<AxiosResponse<DeleteByIdBundlesResponse>, AxiosError<DeleteByIdBundlesResponse>, DeleteByIdBundlesParams>(
+    [DeleteByIdBundlesPath],
+    ({ id }) => api.delete(DeleteByIdBundlesPath.replace(":id", id)),
     {
       onSuccess: () => {
-        getCars();
+        getBundles();
       },
       onError: ({ response }) => {
         if (response?.data.configs) {
@@ -69,19 +69,19 @@ export const Cars = () => {
       <Header>
         <Button onClick={() => setModal(true)}>Add</Button>
       </Header>
-      {carsData?.data.cars.map((car) => (
+      {bundlesData?.data.bundles.map((bundle) => (
         <ItemCard
           actions={
             <>
               <Button variant="text">Update</Button>
-              <Button onClick={() => deleteCar({ id: car.id })} variant="text">
+              <Button onClick={() => deleteBundle({ id: bundle.id })} variant="text">
                 Delete
               </Button>
             </>
           }
-          key={car.id}
+          key={bundle.id}
         >
-          {car.name}
+          {bundle.name}
         </ItemCard>
       ))}
     </>
