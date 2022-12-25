@@ -2,8 +2,10 @@ import { StatusCodes } from "http-status-codes";
 import { ApplicationError } from "./applicationErrorHandler";
 
 
-export async function cancelIfFailed<T>(func: () => Promise<T>, status: StatusCodes,
-                                        message: string): Promise<NonNullable<T>> {
+export const cancelIfFailed = async <T>(
+	func: () => Promise<T>, status: StatusCodes,
+	message: string
+): Promise<NonNullable<T>> => {
 	let result: T;
 
 	try {
@@ -16,4 +18,4 @@ export async function cancelIfFailed<T>(func: () => Promise<T>, status: StatusCo
 		throw new ApplicationError(status, message);
 
 	return result;
-}
+};

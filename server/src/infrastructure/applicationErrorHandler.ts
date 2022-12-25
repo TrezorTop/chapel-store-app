@@ -11,7 +11,7 @@ export class ApplicationError {
 	}
 }
 
-export function setErrorHandler(instance: FastifyInstance) {
+export const setErrorHandler = (instance: FastifyInstance) => {
 	instance.setErrorHandler((error, request, reply) => {
 		if (error instanceof ApplicationError) {
 			return reply.status(error.status).send({
@@ -22,4 +22,4 @@ export function setErrorHandler(instance: FastifyInstance) {
 		console.error(error);
 		reply.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: UndocumentedError });
 	});
-}
+};

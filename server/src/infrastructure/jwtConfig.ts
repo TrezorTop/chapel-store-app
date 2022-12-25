@@ -18,7 +18,7 @@ declare module "@fastify/jwt" {
 	}
 }
 
-export default async function (instance: FastifyInstance) {
+export const jwtConfig = async (instance: FastifyInstance) => {
 	if (!process.env.JWT_SECRET)
 		throw new Error(`process.env.JWT_SECRET is required`);
 
