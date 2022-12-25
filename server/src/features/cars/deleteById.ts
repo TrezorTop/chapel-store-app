@@ -20,7 +20,7 @@ export const deleteById = async (instance: FastifyInstance) => {
 
 		const configs = await getConfigsByCarId(carId);
 		if (configs.length > 0)
-			return reply.status(StatusCodes.OK).send({ configs: configs });
+			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: configs });
 
 		const deleted = await prisma.car.deleteMany({
 			where: {
@@ -31,7 +31,7 @@ export const deleteById = async (instance: FastifyInstance) => {
 			}
 		});
 		if (deleted.count === 0)
-			return reply.status(StatusCodes.OK).send({ configs: await getConfigsByCarId(carId) });
+			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: await getConfigsByCarId(carId) });
 
 		return reply.status(StatusCodes.OK).send();
 	});

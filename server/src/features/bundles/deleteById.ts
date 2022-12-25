@@ -20,7 +20,7 @@ export const deleteById = async (instance: FastifyInstance) => {
 
 		const configs = await getConfigsByBundleId(bundleId);
 		if (configs.length > 0)
-			return reply.status(StatusCodes.OK).send({ configs: configs });
+			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: configs });
 
 		const deleted = await prisma.bundle.deleteMany({
 			where: {
@@ -33,7 +33,7 @@ export const deleteById = async (instance: FastifyInstance) => {
 			}
 		});
 		if (deleted.count === 0)
-			return reply.status(StatusCodes.OK).send({ configs: await getConfigsByBundleId(bundleId) });
+			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: await getConfigsByBundleId(bundleId) });
 
 		return reply.status(StatusCodes.OK).send();
 	});
