@@ -12,24 +12,16 @@ export const deleteById = async (instance: FastifyInstance) => {
 	}>(DeleteByIdCarsBasePath, {
 		onRequest: [jwtMiddleware]
 	}, async (request, reply) => {
-		const id = request.params.id;
+		const carId = request.params.id;
 
-		const configs = await prisma.config.findMany({
-			where: {
-				carId: id
-			},
-			select: {
-				id: true,
-				title: true
-			}
-		});
+		const configs = await getConfigsByCarId(carId);
 		if (configs.length > 0)
 			return reply.status(StatusCodes.OK).send({ configs: configs });
 
 		const deleted = await prisma.car.deleteMany({
 			where: {
 				AND: {
-					id: id,
+					id: carId,
 					configs: {
 						none: {}
 					}
@@ -37,8 +29,19 @@ export const deleteById = async (instance: FastifyInstance) => {
 			}
 		});
 		if (deleted.count === 0)
-			return reply.status(StatusCodes.OK).send({ configs: configs });
+			return reply.status(StatusCodes.OK).send({ configs: await getConfigsByCarId(carId) });
 
 		return reply.status(StatusCodes.OK).send();
 	});
 };
+
+
+const getConfigsByCarId = async (id: string) => await prisma.config.findMany({
+	where: {
+		carId: id
+	},
+	select: {
+		id: true,
+		title: true
+	}
+});
