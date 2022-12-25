@@ -1,13 +1,17 @@
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
-import { DeleteByIdCarsBasePath, DeleteByIdCarsResponse } from "../../../../shared/endpoints/cars/deleteByIdCars";
+import {
+	DeleteByIdCarsBasePath,
+	DeleteByIdCarsParams,
+	DeleteByIdCarsResponse
+} from "../../../../shared/endpoints/cars/deleteByIdCars";
 import { jwtMiddleware } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 
 
 export const deleteById = async (instance: FastifyInstance) => {
 	instance.delete<{
-		Params: { id: string }
+		Params: DeleteByIdCarsParams
 		Reply: DeleteByIdCarsResponse
 	}>(DeleteByIdCarsBasePath, {
 		onRequest: [jwtMiddleware]

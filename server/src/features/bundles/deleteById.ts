@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import {
 	DeleteByIdBundlesBasePath,
+	DeleteByIdBundlesParams,
 	DeleteByIdBundlesResponse
 } from "../../../../shared/endpoints/bundles/deleteByIdBundles";
 import { jwtMiddleware } from "../../infrastructure/jwtConfig";
@@ -10,7 +11,7 @@ import { prisma } from "../../infrastructure/prismaConnect";
 
 export const deleteById = async (instance: FastifyInstance) => {
 	instance.delete<{
-		Params: { id: string }
+		Params: DeleteByIdBundlesParams
 		Reply: DeleteByIdBundlesResponse
 	}>(DeleteByIdBundlesBasePath, {
 		onRequest: [jwtMiddleware]
