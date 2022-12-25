@@ -43,7 +43,7 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
     <>
       <AnimatePresence>
         {refreshTokenIsLoading && <GlobalLoader />}
-        {isNetworkError && <GlobalLoader showLoader={false} />}
+        {/* {isNetworkError && <GlobalLoader showLoader={false} />} */}
       </AnimatePresence>
       {children}
     </>

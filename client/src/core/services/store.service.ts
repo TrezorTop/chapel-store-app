@@ -13,9 +13,11 @@ import { api } from "../config/api";
 import { buildRequestUrl } from "../utils/functions/api";
 
 export const useCars = () => {
-  return useMutation<AxiosResponse<GetAllCarsResponse>, AxiosError<ErrorResponse>>([GetAllCarsPath], () =>
-    api.get(GetAllCarsPath),
-  );
+  return {
+    get: useMutation<AxiosResponse<GetAllCarsResponse>, AxiosError<ErrorResponse>>([GetAllCarsPath], () =>
+      api.get(GetAllCarsPath),
+    ),
+  };
 };
 
 export const useBundles = () => {

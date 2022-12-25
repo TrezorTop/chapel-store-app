@@ -22,7 +22,7 @@ export const Selector: FC<SelectorProps> = ({ setConfig }) => {
     getCars();
   }, []);
 
-  const { mutate: getCars, data: carsData } = useCars();
+  const { mutate: getCars, data: carsData } = useCars().get;
   const { mutate: getBundles, data: bundlesData } = useBundles();
   const { mutate: getConfigs, data: configsData } = useConfigs();
   const { mutate: createPayment } = useCreatePayment();
