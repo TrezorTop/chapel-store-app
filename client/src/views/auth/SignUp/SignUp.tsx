@@ -18,14 +18,7 @@ type TForm = {
 };
 
 export const SignUp = () => {
-  const { form, updateForm, valid } = useForm<TForm>(
-    {},
-    {
-      username: { required: true },
-      password: { required: true },
-      repeatedPassword: { required: true, isEqual: "password" },
-    },
-  );
+  const { form, updateForm } = useForm<TForm>();
 
   const navigate = useNavigate();
 
@@ -57,7 +50,7 @@ export const SignUp = () => {
             disabled={isLoading}
           />
           <Button
-            disabled={!valid || isLoading}
+            disabled={isLoading}
             variant="contained"
             type="submit"
             onClick={() =>

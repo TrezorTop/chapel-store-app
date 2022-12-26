@@ -1,47 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-type OptionsProps<T> = {
-  [key in keyof T]?: {
-    required?: boolean;
-    minLenght?: number;
-    maxLenght?: number;
-    isEqual?: keyof T;
-  };
-};
+import { Validator } from "../../../../../shared/validators/types";
 
-type Error<T> = {
-  [key in keyof T]?: string;
-};
+export const useForm = <T>(validators?: Validator<T>, defaultState?: Partial<T>) => {
+  const [isValid, setIsValid] = useState<boolean>();
+  const [form, setForm] = useState<Partial<T>>(defaultState ?? {});
 
-export const useForm = <T>(defaultState: Partial<T> = {}, options: OptionsProps<T> = {}) => {
-  const [form, setForm] = useState<Partial<T>>(defaultState);
-  const [valid, setValid] = useState<boolean>(false);
+  const prevFormValue = useRef<Partial<T>>(form);
 
   useEffect(() => {
-    setValid(
-      Object.keys(options).every((key) => {
-        const value = form[key as keyof T];
-        const field = options[key as keyof T];
+    Object.entries(form).forEach((input) => {
+      if (input[1] !== prevFormValue.current[input[0] as keyof T]) {
+        validators?.[input[0] as keyof T].forEach((validator) => {
+          if (validator(input[1] as T[keyof T])) {
+            console.log("invalid");
+          }
+        });
+      }
+    });
 
-        if (field?.required) {
-          if (!value) return false;
-        }
-
-        if (field?.isEqual) {
-          if (value !== form[field?.isEqual]) return false;
-        }
-
-        if (field?.maxLenght) {
-          if (String(value).length > field?.maxLenght) return false;
-        }
-
-        if (field?.minLenght) {
-          if (String(value).length < field?.minLenght) return false;
-        }
-
-        return true;
-      }),
-    );
+    prevFormValue.current = form;
   }, [form]);
 
   const updateForm = (field: keyof T, value: T[keyof T]) => {
@@ -50,7 +28,6 @@ export const useForm = <T>(defaultState: Partial<T> = {}, options: OptionsProps<
 
   return {
     form,
-    valid,
     updateForm,
   };
 };
