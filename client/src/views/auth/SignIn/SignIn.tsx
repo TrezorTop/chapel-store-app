@@ -26,7 +26,7 @@ export const SignIn = () => {
 
   return (
     <AuthLayout>
-      <Paper>
+      <Paper className={s.root}>
         <Form className={s.form}>
           <Input
             placeholder="Login"

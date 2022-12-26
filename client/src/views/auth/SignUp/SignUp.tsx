@@ -10,6 +10,7 @@ import { SIGN_IN_URL } from "../../../core/utils/consts";
 import { useSignUp } from "../../../core/services/user.service";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignUp.module.scss";
+import { RegisterRequestValidators } from "../../../../../shared/endpoints/auth/register";
 
 type TForm = {
   username: string;
@@ -18,7 +19,10 @@ type TForm = {
 };
 
 export const SignUp = () => {
-  const { form, updateForm } = useForm<TForm>();
+  const { form, updateForm, errors, isValid } = useForm<TForm>({
+    ...RegisterRequestValidators,
+    repeatedPassword: [(value, values) => value === values?.password || "Пароли должны совпадать"],
+  });
 
   const navigate = useNavigate();
 
@@ -26,24 +30,26 @@ export const SignUp = () => {
 
   return (
     <AuthLayout>
-      <Paper>
+      <Paper className={s.root}>
         <Form className={s.form}>
           <Input
-            variant="standard"
-            type=""
+            error={!!errors?.["username"]?.length}
+            helperText={errors?.["username"]?.join(".")}
             placeholder="Login"
             onChange={(event) => updateForm("username", event.target.value)}
             disabled={isLoading}
           />
           <Input
-            variant="standard"
+            error={!!errors?.["password"]?.length}
+            helperText={errors?.["password"]?.join(".")}
             type="password"
             placeholder="Password"
             onChange={(event) => updateForm("password", event.target.value)}
             disabled={isLoading}
           />
           <Input
-            variant="standard"
+            error={!!errors?.["repeatedPassword"]?.length}
+            helperText={errors?.["repeatedPassword"]?.join(".")}
             type="password"
             placeholder="Repeat password"
             onChange={(event) => updateForm("repeatedPassword", event.target.value)}
