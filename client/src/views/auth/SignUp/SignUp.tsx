@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { RegisterRequestValidator } from "../../../../../shared/endpoints/auth/register";
 import { AuthLayout } from "../../../core/components/hoc/AuthLayout/AuthLayout";
 import { Form } from "../../../core/components/hoc/Form/Form";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Input } from "../../../core/components/kit/Input/Input";
 import { Paper } from "../../../core/components/kit/Paper/Paper";
-import { SIGN_IN_URL } from "../../../core/utils/consts";
 import { useSignUp } from "../../../core/services/user.service";
+import { SIGN_IN_URL } from "../../../core/utils/consts";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./SignUp.module.scss";
-import { RegisterRequestValidators } from "../../../../../shared/endpoints/auth/register";
 
 type TForm = {
   username: string;
@@ -20,7 +20,7 @@ type TForm = {
 
 export const SignUp = () => {
   const { form, updateForm, errors, isValid } = useForm<TForm>({
-    ...RegisterRequestValidators,
+    ...RegisterRequestValidator,
     repeatedPassword: [(value, values) => value === values?.password || "Пароли должны совпадать"],
   });
 
