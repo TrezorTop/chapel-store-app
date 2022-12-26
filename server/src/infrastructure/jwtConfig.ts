@@ -27,7 +27,7 @@ export const jwtConfig = async (instance: FastifyInstance) => {
 	});
 };
 
-export const jwtMiddleware: onRequestHookHandler = async function (request, reply, done) {
+export const jwtOnRequestHook: onRequestHookHandler = async function (request) {
 	try {
 		await request.jwtVerify();
 	} catch (err) {
