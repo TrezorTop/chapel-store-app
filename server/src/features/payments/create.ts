@@ -1,3 +1,4 @@
+import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import {
@@ -5,8 +6,17 @@ import {
 	CreatePaymentRequest,
 	CreatePaymentResponse
 } from "../../../../shared/endpoints/payments/createPayment";
-import { jwtMiddleware } from "../../infrastructure/jwtConfig";
+import { Validator } from "../../../../shared/types";
+import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
+import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
+
+
+const bodyValidator: Validator<CreatePaymentRequest> = {
+	configId: [
+		value => cuid.isCuid(value) || "Невалидный id"
+	]
+};
 
 
 export const create = async (instance: FastifyInstance) => {
@@ -14,7 +24,8 @@ export const create = async (instance: FastifyInstance) => {
 		Reply: CreatePaymentResponse,
 		Body: CreatePaymentRequest
 	}>(CreatePaymentBasePath, {
-		onRequest: [jwtMiddleware]
+		onRequest: [jwtOnRequestHook],
+		preValidation: [validatePreValidationHook({ body: bodyValidator })]
 	}, async (request, reply) => {
 		const body = request.body;
 

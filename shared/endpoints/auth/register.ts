@@ -6,7 +6,7 @@ export const RegisterBasePath = "/register";
 
 export const RegisterPath = `${BasePath}${AuthRootPath}${RegisterBasePath}`;
 
-export const RegisterRequestValidators: Validator<RegisterRequest> = {
+export const RegisterRequestValidator: Validator<RegisterRequest> = {
 	username: [
 		value => value.length >= 8 || "Минимальная длина 8 символов",
 		value => value.length <= 32 || "Максимальная длина 32 символа",

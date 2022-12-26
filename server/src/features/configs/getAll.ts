@@ -1,3 +1,4 @@
+import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import {
@@ -5,14 +6,28 @@ import {
 	GetAllConfigsParams,
 	GetAllConfigsResponse
 } from "../../../../shared/endpoints/configs/getAllConfigs";
+import { Validator } from "../../../../shared/types";
 import { prisma } from "../../infrastructure/prismaConnect";
+import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
+
+
+const paramsValidator: Validator<GetAllConfigsParams> = {
+	carId: [
+		value => cuid.isCuid(value) || "Невалидный id"
+	],
+	bundleId: [
+		value => cuid.isCuid(value) || "Невалидный id"
+	]
+};
 
 
 export const getAll = async (instance: FastifyInstance) => {
 	instance.get<{
 		Reply: GetAllConfigsResponse,
 		Params: GetAllConfigsParams
-	}>(GetAllConfigsBasePath, async (request, reply) => {
+	}>(GetAllConfigsBasePath, {
+		preValidation: [validatePreValidationHook({ params: paramsValidator })]
+	}, async (request, reply) => {
 		const query = request.params;
 
 		const configs = await prisma.config.findMany({
