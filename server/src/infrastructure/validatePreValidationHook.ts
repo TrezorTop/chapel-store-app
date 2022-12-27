@@ -39,6 +39,10 @@ const convertToError = (rawErrors: [string, string[]][]): ServerValidationErrorR
 };
 
 const collectErrors = <T>(target: T, validator: Validator<T>) => {
+	// @ts-ignore
+	if (Object.keys(target).length > 0 && Object.keys(validator).length === 0)
+		throw new Error(`Validator not provided for ${JSON.stringify(target)}`);
+
 	return Object
 	.entries(target ?? {})
 	.reduce<[string, string[]][]>((aggr, [key, value]) => {
