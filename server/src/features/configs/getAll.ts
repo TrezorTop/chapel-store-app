@@ -3,7 +3,7 @@ import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import {
 	GetAllConfigsBasePath,
-	GetAllConfigsParams,
+	GetAllConfigsQuery,
 	GetAllConfigsResponse
 } from "../../../../shared/endpoints/configs/getAllConfigs";
 import { Validator } from "../../../../shared/types";
@@ -11,7 +11,7 @@ import { prisma } from "../../infrastructure/prismaConnect";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
 
-const paramsValidator: Validator<GetAllConfigsParams> = {
+const queryValidator: Validator<GetAllConfigsQuery> = {
 	carId: [
 		value => cuid.isCuid(value) || "Невалидный id"
 	],
@@ -24,11 +24,11 @@ const paramsValidator: Validator<GetAllConfigsParams> = {
 export const getAll = async (instance: FastifyInstance) => {
 	instance.get<{
 		Reply: GetAllConfigsResponse,
-		Params: GetAllConfigsParams
+		Querystring: GetAllConfigsQuery
 	}>(GetAllConfigsBasePath, {
-		preValidation: [validatePreValidationHook({ params: paramsValidator })]
+		preValidation: [validatePreValidationHook({ query: queryValidator })]
 	}, async (request, reply) => {
-		const query = request.params;
+		const query = request.query;
 
 		const configs = await prisma.config.findMany({
 			where: {

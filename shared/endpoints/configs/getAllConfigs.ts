@@ -5,7 +5,7 @@ export const GetAllConfigsBasePath = "";
 
 export const GetAllConfigsPath = `${BasePath}${ConfigsRootPath}${GetAllConfigsBasePath}`;
 
-export type GetAllConfigsParams = {
+export type GetAllConfigsQuery = {
 	carId: string,
 	bundleId: string
 }

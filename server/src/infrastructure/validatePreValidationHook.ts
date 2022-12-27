@@ -16,8 +16,8 @@ export const validatePreValidationHook = <TBody = unknown, TParams = unknown, TQ
 ): preValidationHookHandler => {
 	return async (request, reply) => {
 		const bodyRawErrors = collectErrors(request.body, validator.body ?? {});
-		const paramsRawErrors = collectErrors(request.query, validator.query ?? {});
-		const queryRawErrors = collectErrors(request.params, validator.params ?? {});
+		const queryRawErrors = collectErrors(request.query, validator.query ?? {});
+		const paramsRawErrors = collectErrors(request.params, validator.params ?? {});
 
 		if (!bodyRawErrors.length && !paramsRawErrors.length && !queryRawErrors.length)
 			return;
