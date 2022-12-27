@@ -1,3 +1,4 @@
+import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import {
@@ -5,16 +6,25 @@ import {
 	DeleteByIdBundlesParams,
 	DeleteByIdBundlesResponse
 } from "../../../../shared/endpoints/bundles/deleteByIdBundles";
-import { jwtMiddleware } from "../../infrastructure/jwtConfig";
+import { Validator } from "../../../../shared/types";
+import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
+import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
+
+const paramsValidator: Validator<DeleteByIdBundlesParams> = {
+	id: [
+		value => cuid.isCuid(value) || "Невалидный id"
+	]
+};
 
 export const deleteById = async (instance: FastifyInstance) => {
 	instance.delete<{
 		Params: DeleteByIdBundlesParams
 		Reply: DeleteByIdBundlesResponse
 	}>(DeleteByIdBundlesBasePath, {
-		onRequest: [jwtMiddleware]
+		onRequest: [jwtOnRequestHook],
+		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
 		const bundleId = request.params.id;
 

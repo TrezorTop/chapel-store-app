@@ -3,7 +3,7 @@ import React, { FC, ReactNode, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { General_Unauthorized, Refresh_UsedTokenError } from "../../../../../../shared/consts/error";
-import { usePing, useRefreshToken } from "../../../services/auth.service";
+import { usePing, useRefreshToken } from "../../../services/user.service";
 import { HTTP_BROADCAST_KEY, NETWORK_ERROR, SIGN_IN_URL } from "../../../utils/consts";
 import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
@@ -43,7 +43,7 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
     <>
       <AnimatePresence>
         {refreshTokenIsLoading && <GlobalLoader />}
-        {isNetworkError && <GlobalLoader showLoader={false} />}
+        {/* {isNetworkError && <GlobalLoader showLoader={false} />} */}
       </AnimatePresence>
       {children}
     </>

@@ -6,13 +6,11 @@ import { Header } from "./Header/Header";
 import { Main } from "./Main/Main";
 import s from "./MainLayout.module.scss";
 
-type IAuthLayoutProps = HTMLAttributes<HTMLDivElement>;
-
-export const MainLayout: FC<IAuthLayoutProps> = ({ className }) => {
+export const MainLayout: FC = () => {
   return (
     <div className={s.root}>
       <Header />
-      <Main className={className}>
+      <Main className={s.main}>
         <Outlet />
       </Main>
       <Footer />

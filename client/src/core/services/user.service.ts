@@ -73,11 +73,5 @@ export const useRefreshToken = () => {
 };
 
 export const usePing = () => {
-  return useMutation([PingPath], () =>
-    api.get(PingPath, {
-      headers: {
-        "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
-      },
-    }),
-  );
+  return useMutation([PingPath], () => api.get(PingPath));
 };

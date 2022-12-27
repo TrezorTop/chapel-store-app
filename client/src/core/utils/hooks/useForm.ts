@@ -1,48 +1,58 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-type OptionsProps<T> = {
-  [key in keyof T]?: {
-    required?: boolean;
-    minLenght?: number;
-    maxLenght?: number;
-    isEqual?: keyof T;
-  };
+import { Validator } from "../../../../../shared/types";
+
+type TErrors = {
+  [key: string]: string[] | undefined;
 };
 
-type Error<T> = {
-  [key in keyof T]?: string;
-};
+export const useForm = <T>(validators?: Validator<T>, defaultState?: Partial<T>) => {
+  const [form, setForm] = useState<Partial<T>>(defaultState ?? {});
+  const [isValid, setIsValid] = useState<boolean>();
+  const [errors, setErrors] = useState<TErrors>();
 
-export const useForm = <T>(defaultState: Partial<T> = {}, options: OptionsProps<T> = {}) => {
-  const [form, setForm] = useState<Partial<T>>(defaultState);
-  const [valid, setValid] = useState<boolean>(false);
+  const prevFormValue = useRef<Partial<T>>(form);
 
   useEffect(() => {
-    setValid(
-      Object.keys(options).every((key) => {
-        const value = form[key as keyof T];
-        const field = options[key as keyof T];
+    Object.keys(form).forEach((inputKey) => {
+      const inputErrors: string[] = [];
+      validators?.[inputKey as keyof T].some((validator) => {
+        const errorMessage = validator(form[inputKey as keyof T] as T[keyof T], form);
 
-        if (field?.required) {
-          if (!value) return false;
+        if (typeof errorMessage === "string") {
+          inputErrors.push(errorMessage);
         }
+      });
 
-        if (field?.isEqual) {
-          if (value !== form[field?.isEqual]) return false;
-        }
+      setErrors({ ...errors, [inputKey]: inputErrors.length ? inputErrors : undefined });
+    });
+  }, []);
 
-        if (field?.maxLenght) {
-          if (String(value).length > field?.maxLenght) return false;
-        }
+  useEffect(() => {
+    if (!errors) return setIsValid(true);
+    if (!Object.keys(errors).every((error) => errors?.[error]?.length)) return setIsValid(true);
 
-        if (field?.minLenght) {
-          if (String(value).length < field?.minLenght) return false;
-        }
+    return setIsValid(false);
+  }, [errors]);
 
-        return true;
-      }),
-    );
-  }, [form]);
+  // useEffect(() => {
+  //   Object.keys(form).forEach((inputKey) => {
+  //     if (form[inputKey as keyof T] !== prevFormValue.current[inputKey as keyof T]) {
+  //       const inputErrors: string[] = [];
+  //       validators?.[inputKey as keyof T].some((validator) => {
+  //         const errorMessage = validator(form[inputKey as keyof T] as T[keyof T], form);
+
+  //         if (typeof errorMessage === "string") {
+  //           inputErrors.push(errorMessage);
+  //         }
+  //       });
+
+  //       setErrors({ ...errors, [inputKey]: inputErrors.length ? inputErrors : undefined });
+  //     }
+  //   });
+
+  //   prevFormValue.current = form;
+  // }, [form]);
 
   const updateForm = (field: keyof T, value: T[keyof T]) => {
     setForm({ ...form, [field]: value });
@@ -50,7 +60,8 @@ export const useForm = <T>(defaultState: Partial<T> = {}, options: OptionsProps<
 
   return {
     form,
-    valid,
     updateForm,
+    errors,
+    isValid,
   };
 };

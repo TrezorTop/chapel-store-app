@@ -9,7 +9,7 @@ import { Input } from "../../../core/components/kit/Input/Input";
 import { Paper } from "../../../core/components/kit/Paper/Paper";
 import { MAIN_URL, SIGN_UP_URL, USER_ACCESS_TOKEN_KEY } from "../../../core/utils/consts";
 import { useForm } from "../../../core/utils/hooks/useForm";
-import { useSignIn } from "../../../core/services/auth.service";
+import { useSignIn } from "../../../core/services/user.service";
 import s from "./SignIn.module.scss";
 
 type TForm = {
@@ -20,16 +20,13 @@ type TForm = {
 export const SignIn = () => {
   const navigate = useNavigate();
 
-  const { form, updateForm, valid } = useForm<TForm>(
-    {},
-    { password: { required: true }, username: { required: true } },
-  );
+  const { form, updateForm } = useForm<TForm>();
 
   const { mutate, isLoading } = useSignIn();
 
   return (
     <AuthLayout>
-      <Paper>
+      <Paper className={s.root}>
         <Form className={s.form}>
           <Input
             placeholder="Login"
@@ -43,7 +40,7 @@ export const SignIn = () => {
             disabled={isLoading}
           />
           <Button
-            disabled={!valid || isLoading}
+            disabled={isLoading}
             variant="contained"
             type="submit"
             onClick={() =>

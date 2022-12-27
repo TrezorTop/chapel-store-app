@@ -1,6 +1,7 @@
 import { InputLabel, TextField, TextFieldProps } from "@mui/material";
 import classNames from "classnames";
 import React, { FC } from "react";
+import { Typography } from "../Typography/Typography";
 
 import s from "./Input.module.scss";
 
@@ -8,11 +9,11 @@ type InputProps = { inputLabel?: string } & TextFieldProps;
 
 export const Input: FC<InputProps> = ({ inputLabel, children, ...props }) => {
   return (
-    <div>
-      {inputLabel && <InputLabel className={s.label}>{inputLabel}</InputLabel>}
-      <TextField variant="standard" {...props}>
-        {children}
-      </TextField>
-    </div>
+    // <div>
+    //   {inputLabel && <InputLabel className={s.label}>{inputLabel}</InputLabel>}
+    <TextField variant="standard" {...props}>
+      {children}
+    </TextField>
+    // </div>
   );
 };
