@@ -13,9 +13,10 @@ import { validatePreValidationHook } from "../../infrastructure/validatePreValid
 
 
 const paramsValidator: Validator<DeleteByIdBundlesParams> = {
-	id: [
-		value => cuid.isCuid(value) || "Невалидный id"
-	]
+	id: {
+		check: [value => cuid.isCuid(value) || "Невалидный id"],
+		required: true
+	}
 };
 
 export const deleteById = async (instance: FastifyInstance) => {

@@ -8,9 +8,7 @@ export const UpdateBundlesBasePath = "/:id";
 export const UpdateBundlesPath = `${BasePath}${CarsRootPath}${UpdateBundlesBasePath}`;
 
 export const UpdateBundlesRequestValidator: Validator<UpdateBundlesRequest> = {
-	name: [
-		...CreateBundlesRequestValidator.name
-	]
+	name: CreateBundlesRequestValidator.name
 };
 
 export type UpdateBundlesParams = {

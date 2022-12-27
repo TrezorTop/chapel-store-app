@@ -15,9 +15,10 @@ import { validatePreValidationHook } from "../../infrastructure/validatePreValid
 
 
 const paramsValidator: Validator<UpdateCarsParams> = {
-	id: [
-		value => cuid.isCuid(value) || "Невалидный id"
-	]
+	id: {
+		check: [value => cuid.isCuid(value) || "Невалидный id"],
+		required: true
+	}
 };
 
 export const update = async (instance: FastifyInstance) => {

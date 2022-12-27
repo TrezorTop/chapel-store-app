@@ -12,12 +12,14 @@ import { validatePreValidationHook } from "../../infrastructure/validatePreValid
 
 
 const queryValidator: Validator<GetAllConfigsQuery> = {
-	carId: [
-		value => cuid.isCuid(value) || "Невалидный id"
-	],
-	bundleId: [
-		value => cuid.isCuid(value) || "Невалидный id"
-	]
+	carId: {
+		check: [value => cuid.isCuid(value) || "Невалидный id"],
+		required: false
+	},
+	bundleId: {
+		check: [value => cuid.isCuid(value) || "Невалидный id"],
+		required: false
+	}
 };
 
 
