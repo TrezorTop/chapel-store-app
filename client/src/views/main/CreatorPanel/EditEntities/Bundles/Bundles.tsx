@@ -15,8 +15,8 @@ import { Modal } from "../../../../../core/components/kit/Modal/Modal";
 import { Paper } from "../../../../../core/components/kit/Paper/Paper";
 import { Typography } from "../../../../../core/components/kit/Typography/Typography";
 import { api } from "../../../../../core/config/api";
-import { Header } from "../Header/Header";
-import { ItemCard } from "../ItemCard/ItemCard";
+import { ItemCard } from "../../../components/ItemCard/ItemCard";
+import { Header } from "../../../components/EditHeader/EditHeader";
 
 export const Bundles = () => {
   const [modal, setModal] = useState<boolean>(false);

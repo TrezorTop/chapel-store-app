@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { General_Unauthorized, Refresh_UsedTokenError } from "../../../../../../shared/consts/error";
 import { usePing, useRefreshToken } from "../../../services/user.service";
-import { HTTP_BROADCAST_KEY, NETWORK_ERROR, SIGN_IN_URL } from "../../../utils/consts";
+import { AUTH_URL, HTTP_BROADCAST_KEY, NETWORK_ERROR } from "../../../utils/consts";
 import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
 type RequireAuthProps = {
@@ -27,7 +27,7 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
     broadcast.onmessage = (event) => {
       if (event.data === NETWORK_ERROR) setIsNetworkError(true);
       if (event.data === General_Unauthorized) return mutateRefreshToken();
-      if (event.data === Refresh_UsedTokenError) return navigate(SIGN_IN_URL);
+      if (event.data === Refresh_UsedTokenError) return navigate(AUTH_URL);
     };
 
     mutatePing();

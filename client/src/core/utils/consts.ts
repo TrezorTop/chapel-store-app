@@ -2,9 +2,11 @@ import { General_Unauthorized, Refresh_UsedTokenError, Refresh_WrongTokenError }
 
 // ROUTER URLS
 export const EMPTY_URL = "/";
-export const SIGN_IN_URL = "/signin";
-export const SIGN_UP_URL = "/signup";
+export const AUTH_URL = "/auth";
+export const SIGN_IN_URL = "signin";
+export const SIGN_UP_URL = "signup";
 export const MAIN_URL = "/main";
+export const GET_CONFIG_URL = "get-config";
 export const PROFILE_URL = "profile";
 export const CREATOR_URL = "creator";
 export const FALLBACK_URL = "*";

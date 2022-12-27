@@ -9,7 +9,7 @@ import { RegisterPath, RegisterRequest, RegisterResponse } from "../../../../sha
 import { PingPath } from "../../../../shared/endpoints/health/ping";
 import { queryClient } from "../../main";
 import { api } from "../config/api";
-import { EMPTY_URL, MAIN_URL, SIGN_IN_URL, USER_REFRESH_TOKEN_KEY } from "../utils/consts";
+import { AUTH_URL, EMPTY_URL, MAIN_URL, SIGN_IN_URL, USER_REFRESH_TOKEN_KEY } from "../utils/consts";
 import { updateAuthTokens } from "../utils/functions/auth";
 
 export const useSignIn = () => {
@@ -66,7 +66,7 @@ export const useRefreshToken = () => {
         queryClient.cancelQueries({ queryKey: [RefreshPath] });
       },
       onError: () => {
-        navigate(SIGN_IN_URL);
+        navigate(AUTH_URL);
       },
     },
   );

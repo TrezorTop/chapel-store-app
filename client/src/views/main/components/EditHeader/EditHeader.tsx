@@ -1,7 +1,7 @@
 import { type } from "os";
 import React, { FC, ReactNode } from "react";
 
-import s from './Header.module.scss'
+import s from './EditHeader.module.scss'
 
 type HeaderProps = {
   children: ReactNode;
