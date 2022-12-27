@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { GetAllConfigsResponse } from "../../../../../shared/endpoints/configs/getAllConfigs";
 
+import { GetAllConfigsResponse } from "../../../../../shared/endpoints/configs/getAllConfigs";
 import { Typography } from "../../../core/components/kit/Typography/Typography";
-import { usePing } from "../../../core/services/user.service";
 import { GetElementType } from "../../../core/utils/types/utilityTypes";
 import { Info } from "./Info/Info";
 import s from "./Main.module.scss";

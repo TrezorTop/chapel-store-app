@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Paper } from "../../../../core/components/kit/Paper/Paper";
 import { Bundles } from "./Bundles/Bundles";
 import { Cars } from "./Cars/Cars";
+import { Configs } from "./Configs/Configs";
 import s from "./EditEntities.module.scss";
 
 enum TabValues {
@@ -26,6 +27,7 @@ export const EditEntities = () => {
       <div className={s.content}>
         {selectedTab === TabValues.CARS && <Cars />}
         {selectedTab === TabValues.BUNDLES && <Bundles />}
+        {selectedTab === TabValues.CONFIGS && <Configs />}
       </div>
     </Paper>
   );
