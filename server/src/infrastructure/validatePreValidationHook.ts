@@ -15,7 +15,7 @@ export const validatePreValidationHook = <TBody = unknown, TParams = unknown, TQ
 	validator: RequestValidator<TBody, TParams, TQuery>
 ): preValidationHookHandler => {
 	return async (request, reply) => {
-		const bodyRawErrors = collectErrors(request.body, validator.body ?? {});
+		const bodyRawErrors = collectErrors(request.body ?? {}, validator.body ?? {});
 		const queryRawErrors = collectErrors(request.query, validator.query ?? {});
 		const paramsRawErrors = collectErrors(request.params, validator.params ?? {});
 
@@ -40,14 +40,17 @@ const convertToError = (rawErrors: [string, string[]][]): ServerValidationErrorR
 
 const collectErrors = <T>(target: T, validator: Validator<T>) => {
 	// @ts-ignore
-	if (Object.keys(target).length > 0 && Object.keys(validator).length === 0)
+	const targetKeys = Object.keys(target);
+	const validatorKeys = Object.keys(validator);
+
+	if (targetKeys.length > 0 && validatorKeys.length === 0)
 		throw new Error(`Validator not provided for ${JSON.stringify(target)}`);
 
 	return Object
 	.entries(target ?? {})
 	.reduce<[string, string[]][]>((aggr, [key, value]) => {
 		const validatorResults = validator[key as keyof T]
-		.reduce<(string | boolean)[]>((aggr, curr) => aggr.concat(curr(value as T[keyof T])), [])
+		.reduce<(string | boolean)[]>((aggr, curr) => aggr.concat(curr.check(value as T[keyof T])), [])
 		.filter(curr => typeof curr === "string") as string[];
 
 		if (validatorResults.length > 0)
