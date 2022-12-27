@@ -1,0 +1,11 @@
+.root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions {
+  & > *:not(:last-child) {
+    margin-right: 16px;
+  }
+}

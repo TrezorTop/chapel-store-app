@@ -24,6 +24,7 @@ export const App = () => {
   return (
     <div className={s.app} data-theme={isDarkMode ? "dark" : "light"}>
       <Routes>
+        <Route path={""} element={<Navigate to={MAIN_URL} />} />
         <Route path={SIGN_IN_URL} element={<SignIn />} />
         <Route path={SIGN_UP_URL} element={<SignUp />} />
         <Route
@@ -45,7 +46,6 @@ export const App = () => {
             }
           />
         </Route>
-        <Route path={FALLBACK_URL} element={<Navigate to={MAIN_URL} />} />
       </Routes>
     </div>
   );

@@ -1,16 +1,26 @@
 import { MenuItem } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError, AxiosResponse } from "axios";
 import { FC, useEffect, useState } from "react";
-import { GetAllConfigResponse } from "../../../../../../shared/endpoints/configs/getAll";
 
+import { ErrorResponse } from "../../../../../../shared/consts/error";
+import { GetAllBundlesPath, GetAllBundlesResponse } from "../../../../../../shared/endpoints/bundles/getAllBundles";
+import { GetAllCarsPath, GetAllCarsResponse } from "../../../../../../shared/endpoints/cars/getAllCars";
+import {
+  GetAllConfigsParams,
+  GetAllConfigsPath,
+  GetAllConfigsResponse,
+} from "../../../../../../shared/endpoints/configs/getAllConfigs";
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../core/components/kit/Input/Input";
+import { api } from "../../../../core/config/api";
 import { useCreatePayment } from "../../../../core/services/payment.service";
-import { useBundles, useCars, useConfigs } from "../../../../core/services/store.service";
+import { buildRequestUrl } from "../../../../core/utils/functions/api";
 import { GetElementType } from "../../../../core/utils/types/utilityTypes";
 import s from "./Selector.module.scss";
 
 type SelectorProps = {
-  setConfig: (data: GetElementType<GetAllConfigResponse["configs"]> | undefined) => void;
+  setConfig: (data: GetElementType<GetAllConfigsResponse["configs"]> | undefined) => void;
 };
 
 export const Selector: FC<SelectorProps> = ({ setConfig }) => {
@@ -22,9 +32,22 @@ export const Selector: FC<SelectorProps> = ({ setConfig }) => {
     getCars();
   }, []);
 
-  const { mutate: getCars, data: carsData } = useCars();
-  const { mutate: getBundles, data: bundlesData } = useBundles();
-  const { mutate: getConfigs, data: configsData } = useConfigs();
+  const { mutate: getCars, data: carsData } = useMutation<AxiosResponse<GetAllCarsResponse>, AxiosError<ErrorResponse>>(
+    [GetAllCarsPath],
+    () => api.get(GetAllCarsPath),
+  );
+
+  const { mutate: getBundles, data: bundlesData } = useMutation<
+    AxiosResponse<GetAllBundlesResponse>,
+    AxiosError<ErrorResponse>
+  >([GetAllBundlesPath], () => api.get(GetAllBundlesPath));
+
+  const { mutate: getConfigs, data: configsData } = useMutation<
+    AxiosResponse<GetAllConfigsResponse>,
+    AxiosError<ErrorResponse>,
+    GetAllConfigsParams
+  >([GetAllConfigsPath], ({ bundleId, carId }) => api.get(buildRequestUrl(GetAllConfigsPath, { bundleId, carId })));
+  
   const { mutate: createPayment } = useCreatePayment();
 
   return (

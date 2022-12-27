@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import { GetAllConfigResponse } from "../../../../../shared/endpoints/configs/getAll";
 
+import { GetAllConfigsResponse } from "../../../../../shared/endpoints/configs/getAllConfigs";
 import { Typography } from "../../../core/components/kit/Typography/Typography";
-import { usePing } from "../../../core/services/auth.service";
 import { GetElementType } from "../../../core/utils/types/utilityTypes";
 import { Info } from "./Info/Info";
 import s from "./Main.module.scss";
 import { Selector } from "./Selector/Selector";
 
 export const Main = () => {
-  const [config, setConfig] = useState<GetElementType<GetAllConfigResponse["configs"]> | undefined>();
+  const [config, setConfig] = useState<GetElementType<GetAllConfigsResponse["configs"]> | undefined>();
 
   return (
     <>

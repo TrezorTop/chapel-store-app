@@ -1,0 +1,10 @@
+.root {
+  width: 100%;
+
+  display: flex;
+  justify-content: end;
+
+  & > *:not(:last-child) {
+    margin-right: 16px;
+  }
+}
