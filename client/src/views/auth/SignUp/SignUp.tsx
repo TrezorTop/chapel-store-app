@@ -18,9 +18,12 @@ type TForm = {
 };
 
 export const SignUp = () => {
-  const { form, updateForm, errors, isValid } = useForm<TForm>({
+  const { form, updateForm, errors } = useForm<TForm>({
     ...RegisterRequestValidator,
-    repeatedPassword: [(value, values) => value === values?.password || "Пароли должны совпадать"],
+    repeatedPassword: {
+      check: [(value, values) => value === values?.password || "Пароли должны совпадать"],
+      required: true,
+    },
   });
 
   const navigate = useNavigate();
@@ -66,7 +69,7 @@ export const SignUp = () => {
         >
           Sign Up
         </Button>
-        <Button variant="text" onClick={() => navigate(SIGN_IN_URL)}>
+        <Button variant="text" onClick={() => navigate(`../${SIGN_IN_URL}`)}>
           Sign In
         </Button>
       </Form>

@@ -50,7 +50,7 @@ export const SignIn = () => {
         >
           Sign In
         </Button>
-        <Button variant="text" onClick={() => navigate(SIGN_UP_URL)}>
+        <Button variant="text" onClick={() => navigate(`../${SIGN_UP_URL}`)}>
           Sign Up
         </Button>
         {Cookies.get(USER_ACCESS_TOKEN_KEY) && (

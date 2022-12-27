@@ -29,6 +29,7 @@ export const App = () => {
           <Route path={SIGN_IN_URL} element={<SignIn />} />
           <Route path={SIGN_UP_URL} element={<SignUp />} />
           <Route path={""} element={<Navigate to={SIGN_IN_URL} />} />
+          <Route path={"*"} element={<Navigate to={SIGN_IN_URL} />} />
         </Route>
         <Route
           path={MAIN_URL}
@@ -49,6 +50,7 @@ export const App = () => {
             }
           />
           <Route path={""} element={<Navigate to={GET_CONFIG_URL} />} />
+          <Route path={"*"} element={<Navigate to={GET_CONFIG_URL} />} />
         </Route>
         <Route path={"*"} element={<Navigate to={MAIN_URL} />} />
       </Routes>

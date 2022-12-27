@@ -14,45 +14,30 @@ export const useForm = <T>(validators?: Validator<T>, defaultState?: Partial<T>)
   const prevFormValue = useRef<Partial<T>>(form);
 
   useEffect(() => {
-    Object.keys(form).forEach((inputKey) => {
-      const inputErrors: string[] = [];
-      validators?.[inputKey as keyof T].some((validator) => {
-        const errorMessage = validator(form[inputKey as keyof T] as T[keyof T], form);
-
-        if (typeof errorMessage === "string") {
-          inputErrors.push(errorMessage);
-        }
-      });
-
-      setErrors({ ...errors, [inputKey]: inputErrors.length ? inputErrors : undefined });
-    });
-  }, []);
-
-  useEffect(() => {
     if (!errors) return setIsValid(true);
     if (!Object.keys(errors).every((error) => errors?.[error]?.length)) return setIsValid(true);
 
     return setIsValid(false);
   }, [errors]);
 
-  // useEffect(() => {
-  //   Object.keys(form).forEach((inputKey) => {
-  //     if (form[inputKey as keyof T] !== prevFormValue.current[inputKey as keyof T]) {
-  //       const inputErrors: string[] = [];
-  //       validators?.[inputKey as keyof T].some((validator) => {
-  //         const errorMessage = validator(form[inputKey as keyof T] as T[keyof T], form);
+  useEffect(() => {
+    Object.keys(form).forEach((inputKey) => {
+      if (form[inputKey as keyof T] !== prevFormValue.current[inputKey as keyof T]) {
+        const inputErrors: string[] = [];
+        validators?.[inputKey as keyof T].check.some((validator) => {
+          const errorMessage = validator(form[inputKey as keyof T] as T[keyof T], form);
 
-  //         if (typeof errorMessage === "string") {
-  //           inputErrors.push(errorMessage);
-  //         }
-  //       });
+          if (typeof errorMessage === "string") {
+            inputErrors.push(errorMessage);
+          }
+        });
 
-  //       setErrors({ ...errors, [inputKey]: inputErrors.length ? inputErrors : undefined });
-  //     }
-  //   });
+        setErrors({ ...errors, [inputKey]: inputErrors.length ? inputErrors : undefined });
+      }
+    });
 
-  //   prevFormValue.current = form;
-  // }, [form]);
+    prevFormValue.current = form;
+  }, [form]);
 
   const updateForm = (field: keyof T, value: T[keyof T]) => {
     setForm({ ...form, [field]: value });
