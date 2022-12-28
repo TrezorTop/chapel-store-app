@@ -13,9 +13,11 @@ import { validatePreValidationHook } from "../../infrastructure/validatePreValid
 
 
 const bodyValidator: Validator<CreatePaymentRequest> = {
-	configId: [
-		value => cuid.isCuid(value) || "Невалидный id"
-	]
+	configId: {
+		check: [value => cuid.isCuid(value) || "Невалидный id"],
+		required: true
+	}
+
 };
 
 

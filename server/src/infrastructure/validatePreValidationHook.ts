@@ -43,6 +43,18 @@ const collectErrors = <T>(target: T, validator: Validator<T>) => {
 	const targetKeys = Object.keys(target);
 	const validatorKeys = Object.keys(validator);
 
+	const requiredFieldsMissed = Object
+	.entries(validator)
+	.reduce<[string, string[]][]>((aggr, [key, value]) => {
+		if ((value as Validator<T>[keyof Validator<T>]).required && !target[key as keyof T])
+			aggr.push([key, ["Is required"]]);
+
+		return aggr;
+	}, []);
+
+	if (requiredFieldsMissed.length > 0)
+		return requiredFieldsMissed;
+
 	if (targetKeys.length > 0 && validatorKeys.length === 0)
 		throw new Error(`Validator not provided for ${JSON.stringify(target)}`);
 
@@ -50,7 +62,8 @@ const collectErrors = <T>(target: T, validator: Validator<T>) => {
 	.entries(target ?? {})
 	.reduce<[string, string[]][]>((aggr, [key, value]) => {
 		const validatorResults = validator[key as keyof T]
-		.reduce<(string | boolean)[]>((aggr, curr) => aggr.concat(curr.check(value as T[keyof T])), [])
+		.check
+		.reduce<(string | boolean)[]>((aggr, curr) => aggr.concat(curr(value as T[keyof T])), [])
 		.filter(curr => typeof curr === "string") as string[];
 
 		if (validatorResults.length > 0)

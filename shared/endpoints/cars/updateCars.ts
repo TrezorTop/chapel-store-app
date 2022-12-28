@@ -8,9 +8,7 @@ export const UpdateCarsBasePath = "/:id";
 export const UpdateCarsPath = `${BasePath}${CarsRootPath}${UpdateCarsBasePath}`;
 
 export const UpdateCarsRequestValidator: Validator<UpdateCarsRequest> = {
-	name: [
-		...CreateCarsRequestValidator.name
-	]
+	name: CreateCarsRequestValidator.name
 };
 
 export type UpdateCarsParams = {
