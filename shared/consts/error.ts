@@ -13,4 +13,5 @@ export const Login_WrongPasswordError = "Неверный пароль";
 export const Refresh_WrongTokenError = "Неправильный токен";
 export const Refresh_UsedTokenError = "Токен уже был использован";
 
-export const Config_NotFoundError = "Конфиг не найден";
+export const CreateConfigs_WrongCarId = "Неверный carId";
+export const CreateConfigs_WrongBundleId = "Неверный bundleId";
