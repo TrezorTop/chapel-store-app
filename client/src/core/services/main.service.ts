@@ -13,6 +13,11 @@ import {
 } from "../../../../shared/endpoints/cars/deleteByIdCars";
 import { GetAllCarsPath, GetAllCarsResponse } from "../../../../shared/endpoints/cars/getAllCars";
 import {
+  CreateConfigsPath,
+  CreateConfigsRequest,
+  CreateConfigsResponse,
+} from "../../../../shared/endpoints/configs/createConfigs";
+import {
   GetAllConfigsPath,
   GetAllConfigsQuery,
   GetAllConfigsResponse,
@@ -22,6 +27,14 @@ import { buildRequestUrl } from "../utils/functions/api";
 
 export const getConfigs = ({ bundleId, carId }: GetAllConfigsQuery) =>
   api.get<GetAllConfigsResponse>(buildRequestUrl(GetAllConfigsPath, { bundleId, carId }));
+export const createConfig = ({ bundleId, carId, data, title }: CreateConfigsRequest) =>
+  api.post<CreateConfigsResponse>(CreateConfigsPath, {
+    bundleId,
+    carId,
+    data,
+    title,
+  });
+// export const deleteConfig = () => api.delete()
 
 export const getBundles = () => api.get<GetAllBundlesResponse>(GetAllBundlesPath);
 export const createBundle = ({ name }: CreateBundlesRequest) =>

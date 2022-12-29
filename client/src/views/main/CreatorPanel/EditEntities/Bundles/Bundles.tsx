@@ -41,14 +41,7 @@ export const Bundles = () => {
         <ItemCard
           actions={
             <>
-              <Button
-                onClick={() => {
-                  setModal(true);
-                }}
-                variant="text"
-              >
-                Update
-              </Button>
+              <Button variant="text">Update</Button>
               <Button onClick={() => mutateDeleteBundle({ id: bundle.id })} variant="text">
                 Delete
               </Button>

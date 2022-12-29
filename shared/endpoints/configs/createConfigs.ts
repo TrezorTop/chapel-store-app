@@ -1,10 +1,10 @@
-import { BasePath, CarsRootPath } from "../../index";
+import { BasePath, ConfigsRootPath } from "../..";
 import { Validator } from "../../types";
 
 
 export const CreateConfigsBasePath = "";
 
-export const CreateConfigsPath = `${BasePath}${CarsRootPath}${CreateConfigsBasePath}`;
+export const CreateConfigsPath = `${BasePath}${ConfigsRootPath}${CreateConfigsBasePath}`;
 
 export const CreateConfigsRequestValidator: Validator<CreateConfigsRequest> = {
 	title: {

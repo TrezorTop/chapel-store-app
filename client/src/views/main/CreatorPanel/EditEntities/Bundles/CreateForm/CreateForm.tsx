@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { CreateBundlesPath } from "../../../../../../../../shared/endpoints/bundles/createBundles";
 import { GetAllBundlesPath } from "../../../../../../../../shared/endpoints/bundles/getAllBundles";
-import { Form } from "../../../../../../core/components/hoc/Form/Form";
+import { Form } from "../../../../../../core/components/kit/Form/Form";
 import { Button } from "../../../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../../../core/components/kit/Input/Input";
 import { createBundle } from "../../../../../../core/services/main.service";

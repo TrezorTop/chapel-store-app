@@ -7,11 +7,15 @@ import { ErrorResponse } from "../../../../../../shared/consts/error";
 import { GetAllBundlesPath } from "../../../../../../shared/endpoints/bundles/getAllBundles";
 import { GetAllCarsPath, GetAllCarsResponse } from "../../../../../../shared/endpoints/cars/getAllCars";
 import { GetAllConfigsPath, GetAllConfigsResponse } from "../../../../../../shared/endpoints/configs/getAllConfigs";
+import { CreatePaymentPath } from "../../../../../../shared/endpoints/payments/createPayment";
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../core/components/kit/Input/Input";
 import { api } from "../../../../core/config/api";
 import { getBundles, getCars, getConfigs } from "../../../../core/services/main.service";
+import { createPayment } from "../../../../core/services/payment.service";
+import { getMyConfigs } from "../../../../core/services/profile.service";
 import { GetElementType } from "../../../../core/utils/types/utilityTypes";
+import { queryClient } from "../../../../main";
 import s from "./Selector.module.scss";
 
 type SelectorProps = {
@@ -31,6 +35,12 @@ export const Selector: FC<SelectorProps> = ({ setConfig }) => {
 
   const { data: configsData } = useQuery([GetAllConfigsPath], () => getConfigs({ bundleId, carId }), {
     enabled: !!bundleId,
+  });
+
+  const { mutate: mutateCreatePayment } = useMutation([CreatePaymentPath], () => createPayment({ configId }), {
+    onSuccess: () => {
+      queryClient.invalidateQueries([getMyConfigs]);
+    },
   });
 
   return (
@@ -90,7 +100,7 @@ export const Selector: FC<SelectorProps> = ({ setConfig }) => {
         )) ?? []}
       </Input>
 
-      <Button variant="contained" size="large" fullWidth>
+      <Button variant="contained" size="large" fullWidth onClick={() => mutateCreatePayment()}>
         Proceed Payment
       </Button>
     </div>

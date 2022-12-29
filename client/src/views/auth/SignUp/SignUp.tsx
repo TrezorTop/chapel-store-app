@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { RegisterPath } from "../../../../../shared/endpoints/auth/register";
-import { Form } from "../../../core/components/hoc/Form/Form";
+import { Form } from "../../../core/components/kit/Form/Form";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Input } from "../../../core/components/kit/Input/Input";
 import { signUp } from "../../../core/services/user.service";

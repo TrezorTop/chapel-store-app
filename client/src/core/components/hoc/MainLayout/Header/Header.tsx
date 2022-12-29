@@ -45,7 +45,8 @@ export const Header = () => {
           <Button
             variant="outlined"
             onClick={() => {
-              navigate(AUTH_URL);
+              // navigate(AUTH_URL);
+              navigate(AUTH_URL, { state: { email: "hello, I'm an email" } });
               removeAuthTokens();
             }}
           >

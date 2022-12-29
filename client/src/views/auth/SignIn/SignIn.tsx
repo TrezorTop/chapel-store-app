@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import Cookies from "js-cookie";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { LoginPath } from "../../../../../shared/endpoints/auth/login";
-import { Form } from "../../../core/components/hoc/Form/Form";
+import { Form } from "../../../core/components/kit/Form/Form";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Input } from "../../../core/components/kit/Input/Input";
 import { signIn } from "../../../core/services/user.service";
@@ -21,6 +20,7 @@ type TForm = {
 
 export const SignIn = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { form, updateForm } = useForm<TForm>();
 
@@ -61,7 +61,7 @@ export const SignIn = () => {
         <Button variant="text" onClick={() => navigate(`../${SIGN_UP_URL}`)}>
           Sign Up
         </Button>
-        {Cookies.get(USER_ACCESS_TOKEN_KEY) && (
+        {localStorage.getItem(USER_ACCESS_TOKEN_KEY) && (
           <Button variant="text" onClick={() => navigate(MAIN_URL)}>
             Proceed as User
           </Button>

@@ -55,7 +55,7 @@ export const App = () => {
           <Route path={""} element={<Navigate to={GET_CONFIG_URL} />} />
           {/* <Route path={"*"} element={<Navigate to={GET_CONFIG_URL} />} /> */}
         </Route>
-        {/* <Route path={"*"} element={<Navigate to={MAIN_URL} />} /> */}
+        <Route path={"*"} element={<Navigate to={MAIN_URL} />} />
       </Routes>
     </div>
   );
