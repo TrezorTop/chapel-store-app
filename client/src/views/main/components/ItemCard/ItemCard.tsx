@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from "react";
-import { Paper } from "../../../../../core/components/kit/Paper/Paper";
+import { Paper } from "../../../../core/components/kit/Paper/Paper";
 
 import s from "./ItemCard.module.scss";
 
