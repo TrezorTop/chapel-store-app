@@ -1,6 +1,7 @@
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
+import { DeleteByIdCars_NotFound } from "../../../../shared/consts/error";
 import {
 	DeleteByIdCarsBasePath,
 	DeleteByIdCarsParams,
@@ -9,6 +10,7 @@ import {
 import { Validator } from "../../../../shared/types";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
+import { cancelIfFailed } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
 
@@ -27,22 +29,29 @@ export const deleteById = async (instance: FastifyInstance) => {
 		onRequest: [jwtOnRequestHook],
 		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
-		const carId = request.params.id;
+		const params = request.params;
 
-		const configs = await getConfigsByCarId(carId);
+		await cancelIfFailed(() => prisma.car.findUnique({
+				where: {
+					id: params.id
+				}
+			}), StatusCodes.NOT_FOUND, DeleteByIdCars_NotFound
+		);
+
+		const configs = await getConfigsByCarId(params.id);
 		if (configs.length > 0)
 			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: configs });
 
 		const deleted = await prisma.car.deleteMany({
 			where: {
-				id: carId,
+				id: params.id,
 				configs: {
 					none: {}
 				}
 			}
 		});
 		if (deleted.count === 0)
-			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: await getConfigsByCarId(carId) });
+			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: await getConfigsByCarId(params.id) });
 
 		return reply.status(StatusCodes.OK).send();
 	});

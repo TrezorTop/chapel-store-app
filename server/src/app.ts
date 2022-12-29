@@ -19,7 +19,7 @@ import { carsModule } from "./features/cars";
 import { configsModule } from "./features/configs";
 import { healthModule } from "./features/health";
 import { meModule } from "./features/me";
-import { paymentsModule } from "./features/payments";
+import { paymentsModule } from "./features/purchases";
 import { setErrorHandler } from "./infrastructure/applicationErrorHandler";
 import { jwtConfig } from "./infrastructure/jwtConfig";
 

@@ -1,11 +1,11 @@
-import { BasePath, CarsRootPath } from "../../index";
+import { BasePath, BundlesRootPath } from "../../index";
 import { Validator } from "../../types";
 import { CreateBundlesRequestValidator } from "./createBundles";
 
 
 export const UpdateBundlesBasePath = "/:id";
 
-export const UpdateBundlesPath = `${BasePath}${CarsRootPath}${UpdateBundlesBasePath}`;
+export const UpdateBundlesPath = `${BasePath}${BundlesRootPath}${UpdateBundlesBasePath}`;
 
 export const UpdateBundlesRequestValidator: Validator<UpdateBundlesRequest> = {
 	name: CreateBundlesRequestValidator.name

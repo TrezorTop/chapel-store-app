@@ -35,7 +35,8 @@ export const getAll = async (instance: FastifyInstance) => {
 		const configs = await prisma.config.findMany({
 			where: {
 				carId: query.carId,
-				bundleId: query.bundleId
+				bundleId: query.bundleId,
+				softDeleted: false
 			},
 			select: {
 				id: true,
