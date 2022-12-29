@@ -2,10 +2,8 @@ import { AnimatePresence } from "framer-motion";
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { General_Unauthorized, Refresh_UsedTokenError } from "../../../../../../shared/consts/error";
-import { usePing, useRefreshToken } from "../../../services/user.service";
+import { Refresh_UsedTokenError } from "../../../../../../shared/consts/error";
 import { AUTH_URL, HTTP_BROADCAST_KEY, NETWORK_ERROR } from "../../../utils/consts";
-import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
 type RequireAuthProps = {
   children: ReactNode;
@@ -26,23 +24,23 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
 
     broadcast.onmessage = (event) => {
       if (event.data === NETWORK_ERROR) setIsNetworkError(true);
-      if (event.data === General_Unauthorized) return mutateRefreshToken();
+      // if (event.data === General_Unauthorized) return mutateRefreshToken();
       if (event.data === Refresh_UsedTokenError) return navigate(AUTH_URL);
     };
 
-    mutatePing();
+    // mutatePing();
 
     return () => broadcast.close();
   }, []);
 
-  const { mutate: mutatePing } = usePing();
+  // const { mutate: mutatePing } = usePing();
 
-  const { mutate: mutateRefreshToken, isLoading: refreshTokenIsLoading } = useRefreshToken();
+  // const { mutate: mutateRefreshToken, isLoading: refreshTokenIsLoading } = useRefreshToken();
 
   return (
     <>
       <AnimatePresence>
-        {refreshTokenIsLoading && <GlobalLoader />}
+        {/* {refreshTokenIsLoading && <GlobalLoader />} */}
         {/* {isNetworkError && <GlobalLoader showLoader={false} />} */}
       </AnimatePresence>
       {children}

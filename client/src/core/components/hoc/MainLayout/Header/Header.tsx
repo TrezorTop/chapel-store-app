@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { usePing } from "../../../../services/user.service";
 import { AUTH_URL, CREATOR_URL, MAIN_URL, PROFILE_URL } from "../../../../utils/consts";
 import { removeAuthTokens } from "../../../../utils/functions/auth";
 import { Button } from "../../../kit/Button/Button";
@@ -10,7 +9,7 @@ import s from "./Header.module.scss";
 export const Header = () => {
   const navigate = useNavigate();
 
-  const { mutate } = usePing();
+  // const { mutate } = usePing();
 
   return (
     <div className={s.root}>
@@ -24,9 +23,7 @@ export const Header = () => {
           >
             MAIN
           </Button>
-          <Button variant="contained" onClick={() => mutate()}>
-            ping server
-          </Button>
+          <Button variant="contained">ping server</Button>
         </div>
         <div className={s.container}>
           <Button

@@ -1,12 +1,14 @@
+import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { RegisterRequestValidator } from "../../../../../shared/endpoints/auth/register";
+import { RegisterPath } from "../../../../../shared/endpoints/auth/register";
 import { Form } from "../../../core/components/hoc/Form/Form";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Input } from "../../../core/components/kit/Input/Input";
-import { useSignUp } from "../../../core/services/user.service";
-import { SIGN_IN_URL } from "../../../core/utils/consts";
+import { signUp } from "../../../core/services/user.service";
+import { MAIN_URL, SIGN_IN_URL } from "../../../core/utils/consts";
+import { updateAuthTokens } from "../../../core/utils/functions/auth";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import { Window } from "../components/Window/Window";
 import s from "./SignUp.module.scss";
@@ -18,39 +20,32 @@ type TForm = {
 };
 
 export const SignUp = () => {
-  const { form, updateForm, errors } = useForm<TForm>({
-    ...RegisterRequestValidator,
-    repeatedPassword: {
-      check: [(value, values) => value === values?.password || "Пароли должны совпадать"],
-      required: true,
-    },
-  });
+  const { form, updateForm } = useForm<TForm>();
 
   const navigate = useNavigate();
 
-  const { mutate, isLoading } = useSignUp();
+  const { isLoading, mutate } = useMutation([RegisterPath], signUp, {
+    onSuccess: ({ data }) => {
+      updateAuthTokens(data.accessToken, data.refreshToken);
+      navigate(MAIN_URL);
+    },
+  });
 
   return (
     <Window>
       <Form className={s.form}>
         <Input
-          error={!!errors?.["username"]?.length}
-          helperText={errors?.["username"]?.join(".")}
           placeholder="Login"
           onChange={(event) => updateForm("username", event.target.value)}
           disabled={isLoading}
         />
         <Input
-          error={!!errors?.["password"]?.length}
-          helperText={errors?.["password"]?.join(".")}
           type="password"
           placeholder="Password"
           onChange={(event) => updateForm("password", event.target.value)}
           disabled={isLoading}
         />
         <Input
-          error={!!errors?.["repeatedPassword"]?.length}
-          helperText={errors?.["repeatedPassword"]?.join(".")}
           type="password"
           placeholder="Repeat password"
           onChange={(event) => updateForm("repeatedPassword", event.target.value)}

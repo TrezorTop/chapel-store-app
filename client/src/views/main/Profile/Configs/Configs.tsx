@@ -1,12 +1,12 @@
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { GetMyConfigsPath } from "../../../../../../shared/endpoints/me/getMyConfigs";
 import { Typography } from "../../../../core/components/kit/Typography/Typography";
 import { ItemCard } from "../../../../core/components/ui/ItemCard/ItemCard";
-import { useUserConfigs } from "../../../../core/services/payment.service";
-
+import { getMyConfigs } from "../../../../core/services/profile.service";
 import s from "./Configs.module.scss";
 
 export const Configs = () => {
-  const { data: userConfigsData } = useUserConfigs();
+  const { data } = useQuery([GetMyConfigsPath], getMyConfigs);
 
   return (
     <div>
@@ -15,7 +15,7 @@ export const Configs = () => {
       </Typography>
 
       <div className={s.container}>
-        {userConfigsData?.data.configs.map((config) => (
+        {data?.data.configs.map((config) => (
           <ItemCard key={config.id} title={config.title} />
         ))}
       </div>

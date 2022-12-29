@@ -5,7 +5,7 @@ import { useEventListener } from "usehooks-ts";
 import s from "./Form.module.scss";
 
 interface IFormProps extends FormHTMLAttributes<HTMLFormElement> {
-  children: ReactNode;
+  children?: ReactNode;
   gaps?: boolean;
 }
 

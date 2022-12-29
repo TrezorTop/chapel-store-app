@@ -1,12 +1,15 @@
+import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import { LoginPath } from "../../../../../shared/endpoints/auth/login";
 import { Form } from "../../../core/components/hoc/Form/Form";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Input } from "../../../core/components/kit/Input/Input";
-import { useSignIn } from "../../../core/services/user.service";
+import { signIn } from "../../../core/services/user.service";
 import { MAIN_URL, SIGN_UP_URL, USER_ACCESS_TOKEN_KEY } from "../../../core/utils/consts";
+import { updateAuthTokens } from "../../../core/utils/functions/auth";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import { Window } from "../components/Window/Window";
 import s from "./SignIn.module.scss";
@@ -21,7 +24,12 @@ export const SignIn = () => {
 
   const { form, updateForm } = useForm<TForm>();
 
-  const { mutate, isLoading } = useSignIn();
+  const { isLoading, mutate } = useMutation([LoginPath], signIn, {
+    onSuccess: ({ data }) => {
+      updateAuthTokens(data.accessToken, data.refreshToken);
+      navigate(MAIN_URL);
+    },
+  });
 
   return (
     <Window>

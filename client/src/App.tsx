@@ -7,7 +7,15 @@ import { AuthLayout } from "./core/components/hoc/AuthLayout/AuthLayout";
 import { MainLayout } from "./core/components/hoc/MainLayout/MainLayout";
 import { RequireAuth } from "./core/components/hoc/RequireAuth/RequireAuth";
 import { GlobalLoader } from "./core/components/kit/GlobalLoader/GlobalLoader";
-import { AUTH_URL, CREATOR_URL, GET_CONFIG_URL, MAIN_URL, PROFILE_URL, SIGN_IN_URL, SIGN_UP_URL } from "./core/utils/consts";
+import {
+  AUTH_URL,
+  CREATOR_URL,
+  GET_CONFIG_URL,
+  MAIN_URL,
+  PROFILE_URL,
+  SIGN_IN_URL,
+  SIGN_UP_URL,
+} from "./core/utils/consts";
 import { SignIn } from "./views/auth/SignIn/SignIn";
 import { SignUp } from "./views/auth/SignUp/SignUp";
 import { Main } from "./views/main/Main/Main";
@@ -29,30 +37,25 @@ export const App = () => {
           <Route path={SIGN_IN_URL} element={<SignIn />} />
           <Route path={SIGN_UP_URL} element={<SignUp />} />
           <Route path={""} element={<Navigate to={SIGN_IN_URL} />} />
-          <Route path={"*"} element={<Navigate to={SIGN_IN_URL} />} />
+          {/* <Route path={"*"} element={<Navigate to={SIGN_IN_URL} />} /> */}
         </Route>
-        <Route
-          path={MAIN_URL}
-          element={
-            // <RequireAuth>
-              <MainLayout />
-            // </RequireAuth>
-          }
-        >
+        <Route path={MAIN_URL} element={<MainLayout />}>
           <Route path={GET_CONFIG_URL} element={<Main />} />
           <Route path={PROFILE_URL} element={<Profile />} />
           <Route
-            path={CREATOR_URL}
+            path={CREATOR_URL + "/*"}
             element={
               <Suspense fallback={<GlobalLoader />}>
-                <CreatorPanel />
+                <RequireAuth>
+                  <CreatorPanel />
+                </RequireAuth>
               </Suspense>
             }
           />
           <Route path={""} element={<Navigate to={GET_CONFIG_URL} />} />
-          <Route path={"*"} element={<Navigate to={GET_CONFIG_URL} />} />
+          {/* <Route path={"*"} element={<Navigate to={GET_CONFIG_URL} />} /> */}
         </Route>
-        <Route path={"*"} element={<Navigate to={MAIN_URL} />} />
+        {/* <Route path={"*"} element={<Navigate to={MAIN_URL} />} /> */}
       </Routes>
     </div>
   );
