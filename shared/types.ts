@@ -1,8 +1,8 @@
 export type Validator<T> = {
   [Key in keyof T]: {
     check: ((
-        value: T[Key],
-        values?: Partial<T>,
+	    value: Required<T>[Key],
+	    values?: Partial<T>,
     ) => boolean | string)[],
     required: boolean
   };

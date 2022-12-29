@@ -5,7 +5,7 @@ import {
 	CreatePaymentBasePath,
 	CreatePaymentRequest,
 	CreatePaymentResponse
-} from "../../../../shared/endpoints/payments/createPayment";
+} from "../../../../shared/endpoints/purchases/createPurchases";
 import { Validator } from "../../../../shared/types";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
