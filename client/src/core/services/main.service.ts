@@ -18,6 +18,11 @@ import {
   CreateConfigsResponse,
 } from "../../../../shared/endpoints/configs/createConfigs";
 import {
+  DeleteByIdConfigsParams,
+  DeleteByIdConfigsPath,
+  DeleteByIdConfigsResponse,
+} from "../../../../shared/endpoints/configs/deleteByIdConfigs";
+import {
   GetAllConfigsPath,
   GetAllConfigsQuery,
   GetAllConfigsResponse,
@@ -34,7 +39,8 @@ export const createConfig = ({ bundleId, carId, data, title }: CreateConfigsRequ
     data,
     title,
   });
-// export const deleteConfig = () => api.delete()
+export const deleteConfig = ({ id }: DeleteByIdConfigsParams) =>
+  api.delete<DeleteByIdConfigsResponse>(DeleteByIdConfigsPath.replace(":id", id));
 
 export const getBundles = () => api.get<GetAllBundlesResponse>(GetAllBundlesPath);
 export const createBundle = ({ name }: CreateBundlesRequest) =>

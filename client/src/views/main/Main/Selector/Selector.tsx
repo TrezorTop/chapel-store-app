@@ -1,16 +1,13 @@
 import { MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { AxiosError, AxiosResponse } from "axios";
 import { FC, useEffect, useState } from "react";
 
-import { ErrorResponse } from "../../../../../../shared/consts/error";
 import { GetAllBundlesPath } from "../../../../../../shared/endpoints/bundles/getAllBundles";
-import { GetAllCarsPath, GetAllCarsResponse } from "../../../../../../shared/endpoints/cars/getAllCars";
+import { GetAllCarsPath } from "../../../../../../shared/endpoints/cars/getAllCars";
 import { GetAllConfigsPath, GetAllConfigsResponse } from "../../../../../../shared/endpoints/configs/getAllConfigs";
-import { CreatePaymentPath } from "../../../../../../shared/endpoints/payments/createPayment";
+import { CreatePaymentPath } from "../../../../../../shared/endpoints/purchases/createPurchases";
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../core/components/kit/Input/Input";
-import { api } from "../../../../core/config/api";
 import { getBundles, getCars, getConfigs } from "../../../../core/services/main.service";
 import { createPayment } from "../../../../core/services/payment.service";
 import { getMyConfigs } from "../../../../core/services/profile.service";

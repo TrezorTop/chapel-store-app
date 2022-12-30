@@ -1,9 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import {
+  DeleteByIdConfigsParams,
+  DeleteByIdConfigsPath,
+} from "../../../../../../../shared/endpoints/configs/deleteByIdConfigs";
 import { GetAllConfigsPath } from "../../../../../../../shared/endpoints/configs/getAllConfigs";
 import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Modal } from "../../../../../core/components/kit/Modal/Modal";
-import { getConfigs } from "../../../../../core/services/main.service";
+import { deleteConfig, getConfigs } from "../../../../../core/services/main.service";
 import { queryClient } from "../../../../../main";
 import { Header } from "../../../components/EditHeader/EditHeader";
 import { ItemCard } from "../../../components/ItemCard/ItemCard";
@@ -14,11 +18,15 @@ export const Configs = () => {
 
   const { data: configsData } = useQuery([GetAllConfigsPath], () => getConfigs({}));
 
-  const {} = useMutation(["DeleteConfig"], () => deleteConfig, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["DeleteConfig"]);
+  const { mutate: mutateDeleteConfig } = useMutation(
+    [DeleteByIdConfigsPath],
+    ({ id }: DeleteByIdConfigsParams) => deleteConfig({ id }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([GetAllConfigsPath]);
+      },
     },
-  });
+  );
 
   return (
     <>
@@ -34,9 +42,9 @@ export const Configs = () => {
           actions={
             <>
               <Button variant="text">Update</Button>
-              {/* <Button onClick={() => mutateDeleteCar({ id: config.id })} variant="text">
+              <Button onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
                 Delete
-              </Button> */}
+              </Button>
             </>
           }
           key={config.id}
