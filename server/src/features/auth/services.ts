@@ -1,4 +1,5 @@
 import { FastifyJWT, JWT, SignPayloadType } from "@fastify/jwt";
+import { Role } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { prisma } from "../../infrastructure/prismaConnect";
 
@@ -22,9 +23,10 @@ export function decodeToken(token: string): FastifyJWT["payload"] {
 }
 
 
-export function generateTokens(username: string) {
+export function generateTokens(username: string, role: Role) {
 	const payload: SignPayloadType = {
-		username: username
+		username: username,
+		role: role
 	};
 
 	const accessToken = deps.jwt.sign(payload, { expiresIn: "10m" });

@@ -1,4 +1,5 @@
 import fastifyJwt from "@fastify/jwt";
+import { Role, User } from "@prisma/client";
 import { FastifyInstance } from "fastify";
 import { onRequestHookHandler } from "fastify/types/hooks";
 import { StatusCodes } from "http-status-codes";
@@ -9,12 +10,10 @@ import { ApplicationError } from "./applicationErrorHandler";
 declare module "@fastify/jwt" {
 	interface FastifyJWT {
 		payload: {
-			username: string;
+			username: User["username"];
+			role: Role
 		};
-		user: {
-			id: string,
-			username: string;
-		};
+		user: Pick<User, "username" | "role">;
 	}
 }
 
@@ -27,7 +26,15 @@ export const jwtConfig = async (instance: FastifyInstance) => {
 	});
 };
 
-export const jwtOnRequestHook: onRequestHookHandler = async function (request) {
+export const optionalJwtOnRequestHook: onRequestHookHandler = async (request) => {
+	if (!request.headers["authorization"])
+		return;
+
+	// @ts-ignore
+	await jwtOnRequestHook(request);
+};
+
+export const jwtOnRequestHook: onRequestHookHandler = async (request) => {
 	try {
 		await request.jwtVerify();
 	} catch (err) {

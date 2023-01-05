@@ -24,7 +24,7 @@ export const refresh = async (instance: FastifyInstance) => {
 				}
 			}), StatusCodes.FORBIDDEN, Refresh_UsedTokenError
 		);
-		const tokens = generateTokens(payload.username);
+		const tokens = generateTokens(payload.username, payload.role);
 		await prisma.refreshToken.create({
 			data: {
 				token: tokens.refreshToken,

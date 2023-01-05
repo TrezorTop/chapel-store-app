@@ -21,7 +21,7 @@ export const register = async (instance: FastifyInstance) => {
 		const body = request.body;
 
 		const hash = await hashPassword(body.password);
-		const tokens = generateTokens(body.username);
+		const tokens = generateTokens(body.username, "USER");
 		await prisma.user.create({
 			data: {
 				username: body.username,
