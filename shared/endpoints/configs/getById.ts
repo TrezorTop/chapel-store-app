@@ -13,6 +13,8 @@ export type GetByIdConfigsResponse = {
 	config: {
 		id: string,
 		title: string,
-		data: string
+		data: string,
+		bundleId: string,
+		carId: string
 	}
 };

@@ -38,7 +38,9 @@ export const getById = async (instance: FastifyInstance) => {
 			select: {
 				id: true,
 				title: true,
-				data: true
+				data: true,
+				bundleId: true,
+				carId: true
 			}
 		}), StatusCodes.NOT_FOUND, GetByIdConfigs_NotFound);
 
