@@ -32,11 +32,10 @@ export const deleteById = async (instance: FastifyInstance) => {
 		const params = request.params;
 
 		await cancelIfFailed(() => prisma.bundle.findUnique({
-				where: {
-					id: params.id
-				}
-			}), StatusCodes.NOT_FOUND, DeleteByIdBundles_NotFound
-		);
+			where: {
+				id: params.id
+			}
+		}), StatusCodes.NOT_FOUND, DeleteByIdBundles_NotFound);
 
 		const configs = await getConfigsByBundleId(params.id);
 		if (configs.length > 0)
