@@ -1,6 +1,7 @@
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
+import { DeleteByIdBundles_NotFound } from "../../../../shared/consts/error";
 import {
 	DeleteByIdBundlesBasePath,
 	DeleteByIdBundlesParams,
@@ -9,13 +10,15 @@ import {
 import { Validator } from "../../../../shared/types";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
+import { cancelIfFailed } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
 
 const paramsValidator: Validator<DeleteByIdBundlesParams> = {
-	id: [
-		value => cuid.isCuid(value) || "Невалидный id"
-	]
+	id: {
+		check: [value => cuid.isCuid(value) || "Невалидный id"],
+		required: true
+	}
 };
 
 export const deleteById = async (instance: FastifyInstance) => {
@@ -26,16 +29,23 @@ export const deleteById = async (instance: FastifyInstance) => {
 		onRequest: [jwtOnRequestHook],
 		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
-		const bundleId = request.params.id;
+		const params = request.params;
 
-		const configs = await getConfigsByBundleId(bundleId);
+		await cancelIfFailed(() => prisma.bundle.findUnique({
+				where: {
+					id: params.id
+				}
+			}), StatusCodes.NOT_FOUND, DeleteByIdBundles_NotFound
+		);
+
+		const configs = await getConfigsByBundleId(params.id);
 		if (configs.length > 0)
 			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: configs });
 
 		const deleted = await prisma.bundle.deleteMany({
 			where: {
 				AND: {
-					id: bundleId,
+					id: params.id,
 					configs: {
 						none: {}
 					}
@@ -43,7 +53,7 @@ export const deleteById = async (instance: FastifyInstance) => {
 			}
 		});
 		if (deleted.count === 0)
-			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: await getConfigsByBundleId(bundleId) });
+			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: await getConfigsByBundleId(params.id) });
 
 		return reply.status(StatusCodes.OK).send();
 	});

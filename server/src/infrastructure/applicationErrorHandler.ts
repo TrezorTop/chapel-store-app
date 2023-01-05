@@ -19,7 +19,16 @@ export const setErrorHandler = (instance: FastifyInstance) => {
 			});
 		}
 
-		console.error(error);
+		console.error("Unhandled, undocumented error occured", {
+			request: {
+				url: request.raw.url,
+				method: request.raw.method,
+				body: request.body,
+				query: request.query,
+				params: request.params,
+			},
+			error: error
+		});
 		reply.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: UndocumentedError });
 	});
 };

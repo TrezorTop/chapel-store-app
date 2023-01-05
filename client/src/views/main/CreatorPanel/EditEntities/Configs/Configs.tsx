@@ -1,65 +1,57 @@
-import { Button, Paper } from "@mui/material";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError, AxiosResponse } from "axios";
-import React, { useEffect, useState } from "react";
-
-import { ErrorResponse } from "../../../../../../../shared/consts/error";
-import { GetAllCarsPath } from "../../../../../../../shared/endpoints/cars/getAllCars";
-import { GetAllConfigsPath, GetAllConfigsResponse } from "../../../../../../../shared/endpoints/configs/getAllConfigs";
-import { Input } from "../../../../../core/components/kit/Input/Input";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
+import {
+  DeleteByIdConfigsParams,
+  DeleteByIdConfigsPath,
+} from "../../../../../../../shared/endpoints/configs/deleteByIdConfigs";
+import { GetAllConfigsPath } from "../../../../../../../shared/endpoints/configs/getAllConfigs";
+import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Modal } from "../../../../../core/components/kit/Modal/Modal";
-import { Typography } from "../../../../../core/components/kit/Typography/Typography";
-import { api } from "../../../../../core/config/api";
-import { Header } from "../Header/Header";
-import { ItemCard } from "../ItemCard/ItemCard";
+import { deleteConfig, getConfigs } from "../../../../../core/services/main.service";
+import { queryClient } from "../../../../../main";
+import { Header } from "../../../components/EditHeader/EditHeader";
+import { ItemCard } from "../../../components/ItemCard/ItemCard";
+import { CreateForm } from "./CreateForm/CreateForm";
 
 export const Configs = () => {
   const [modal, setModal] = useState<boolean>(false);
-  const [errorModal, setErrorModal] = useState<boolean>(false);
 
-  useEffect(() => {
-    getConfigs();
-  }, []);
+  const { data: configsData } = useQuery([GetAllConfigsPath], () => getConfigs({}));
 
-  const { data: configsData, mutate: getConfigs } = useMutation<
-    AxiosResponse<GetAllConfigsResponse>,
-    AxiosError<ErrorResponse>
-  >([GetAllConfigsPath], () => api.get(GetAllConfigsPath));
+  const { mutate: mutateDeleteConfig } = useMutation(
+    [DeleteByIdConfigsPath],
+    ({ id }: DeleteByIdConfigsParams) => deleteConfig({ id }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([GetAllConfigsPath]);
+      },
+    },
+  );
 
   return (
     <>
-      {/* <Modal open={modal} onClose={() => setModal(false)}>
-        <Input />
+      <Modal open={modal} onClose={() => setModal(false)}>
+        <CreateForm />
       </Modal>
-      <Modal
-        modalTitle={<Typography variant="h6">Delete these configs first</Typography>}
-        open={errorModal}
-        onClose={() => setErrorModal(false)}
-      >
-        <>
-          {deleteError?.response?.data.configs?.map((config) => (
-            <Paper key={config.id}>{config.title}</Paper>
-          ))}
-        </>
-      </Modal>
+
       <Header>
         <Button onClick={() => setModal(true)}>Add</Button>
       </Header>
-      {configsData?.data.cars.map((car) => (
+      {configsData?.data.configs.map((config) => (
         <ItemCard
           actions={
             <>
               <Button variant="text">Update</Button>
-              <Button onClick={() => deleteConfig({ id: car.id })} variant="text">
+              <Button onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
                 Delete
               </Button>
             </>
           }
-          key={car.id}
+          key={config.id}
         >
-          {car.name}
+          {config.title}
         </ItemCard>
-      ))} */}
+      ))}
     </>
   );
 };

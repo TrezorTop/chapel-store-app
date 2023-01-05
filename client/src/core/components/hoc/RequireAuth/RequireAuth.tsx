@@ -1,10 +1,18 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "framer-motion";
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { General_Unauthorized, Refresh_UsedTokenError } from "../../../../../../shared/consts/error";
-import { usePing, useRefreshToken } from "../../../services/user.service";
-import { HTTP_BROADCAST_KEY, NETWORK_ERROR, SIGN_IN_URL } from "../../../utils/consts";
+import {
+  General_Unauthorized,
+  Refresh_UsedTokenError,
+  Refresh_WrongTokenError,
+} from "../../../../../../shared/consts/error";
+import { RefreshPath } from "../../../../../../shared/endpoints/auth/refresh";
+import { PingPath } from "../../../../../../shared/endpoints/health/ping";
+import { ping, refreshToken } from "../../../services/user.service";
+import { AUTH_URL, HTTP_BROADCAST_KEY, NETWORK_ERROR, USER_REFRESH_TOKEN_KEY } from "../../../utils/consts";
+import { updateAuthTokens } from "../../../utils/functions/auth";
 import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
 type RequireAuthProps = {
@@ -27,17 +35,19 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
     broadcast.onmessage = (event) => {
       if (event.data === NETWORK_ERROR) setIsNetworkError(true);
       if (event.data === General_Unauthorized) return mutateRefreshToken();
-      if (event.data === Refresh_UsedTokenError) return navigate(SIGN_IN_URL);
+      if (event.data === Refresh_UsedTokenError || event.data === Refresh_WrongTokenError) return navigate(AUTH_URL);
     };
-
-    mutatePing();
 
     return () => broadcast.close();
   }, []);
 
-  const { mutate: mutatePing } = usePing();
+  useQuery([PingPath], ping);
 
-  const { mutate: mutateRefreshToken, isLoading: refreshTokenIsLoading } = useRefreshToken();
+  const { mutate: mutateRefreshToken, isLoading: refreshTokenIsLoading } = useMutation(
+    [RefreshPath],
+    () => refreshToken({ refreshToken: localStorage.getItem(USER_REFRESH_TOKEN_KEY) ?? "" }),
+    { onSuccess: ({ data }) => updateAuthTokens(data.accessToken, data.refreshToken) },
+  );
 
   return (
     <>

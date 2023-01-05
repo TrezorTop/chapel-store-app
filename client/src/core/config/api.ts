@@ -1,5 +1,4 @@
 import axios, { AxiosError } from "axios";
-import Cookies from "js-cookie";
 
 import { ErrorResponse } from "../../../../shared/consts/error";
 import { API_URL, AUTH_ERRORS, HTTP_BROADCAST_KEY, NETWORK_ERROR, USER_ACCESS_TOKEN_KEY } from "../utils/consts";
@@ -8,7 +7,7 @@ export const api = axios.create({
   baseURL: API_URL,
   timeout: 15000,
   headers: {
-    authorization: `Bearer ${Cookies.get(USER_ACCESS_TOKEN_KEY)}`,
+    authorization: `Bearer ${localStorage.getItem(USER_ACCESS_TOKEN_KEY)}`,
   },
 });
 const httpBroadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);

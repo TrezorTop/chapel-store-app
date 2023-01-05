@@ -18,8 +18,7 @@ export const refresh = async (instance: FastifyInstance) => {
 			StatusCodes.FORBIDDEN, Refresh_WrongTokenError
 		);
 
-		await cancelIfFailed(() =>
-			prisma.refreshToken.delete({
+		await cancelIfFailed(() => prisma.refreshToken.delete({
 				where: {
 					token: body.refreshToken
 				}

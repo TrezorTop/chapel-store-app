@@ -1,13 +1,5 @@
-.root {
-  width: 25%;
-}
-
 .form {
   display: flex;
 
   flex-direction: column;
-
-  & > *:not(:last-child) {
-    margin-bottom: 12px;
-  }
 }

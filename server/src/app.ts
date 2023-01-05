@@ -10,6 +10,7 @@ import {
 	CarsRootPath,
 	ConfigsRootPath,
 	HealthRootPath,
+	MeRootPath,
 	PaymentsRootPath
 } from "../../shared";
 import { authModule } from "./features/auth";
@@ -17,7 +18,8 @@ import { bundlesModule } from "./features/bundles";
 import { carsModule } from "./features/cars";
 import { configsModule } from "./features/configs";
 import { healthModule } from "./features/health";
-import { paymentsModule } from "./features/payments";
+import { meModule } from "./features/me";
+import { paymentsModule } from "./features/purchases";
 import { setErrorHandler } from "./infrastructure/applicationErrorHandler";
 import { jwtConfig } from "./infrastructure/jwtConfig";
 
@@ -31,6 +33,7 @@ const routes: FastifyPluginAsync = async (instance) => {
 	instance.register(carsModule, { prefix: CarsRootPath });
 	instance.register(bundlesModule, { prefix: BundlesRootPath });
 	instance.register(configsModule, { prefix: ConfigsRootPath });
+	instance.register(meModule, { prefix: MeRootPath });
 	instance.register(paymentsModule, { prefix: PaymentsRootPath });
 	instance.register(healthModule, { prefix: HealthRootPath });
 };

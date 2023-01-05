@@ -5,7 +5,7 @@ import {
 	CreatePaymentBasePath,
 	CreatePaymentRequest,
 	CreatePaymentResponse
-} from "../../../../shared/endpoints/payments/createPayment";
+} from "../../../../shared/endpoints/purchases/createPurchases";
 import { Validator } from "../../../../shared/types";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
@@ -13,9 +13,11 @@ import { validatePreValidationHook } from "../../infrastructure/validatePreValid
 
 
 const bodyValidator: Validator<CreatePaymentRequest> = {
-	configId: [
-		value => cuid.isCuid(value) || "Невалидный id"
-	]
+	configId: {
+		check: [value => cuid.isCuid(value) || "Невалидный id"],
+		required: true
+	}
+
 };
 
 
