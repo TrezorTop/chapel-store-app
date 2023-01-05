@@ -21,3 +21,6 @@ export const UpdateCars_NotFound = "Такой машины не существ�
 export const DeleteByIdCars_NotFound = "Такой машины не существует";
 export const UpdateBundles_NotFound = "Такого бандла не существует";
 export const DeleteByIdBundles_NotFound = "Такого бандла не существует";
+export const GetByIdBundles_NotFound = "Такого бандла не существует";
+export const GetByIdCars_NotFound = "Такой машины не существует";
+export const GetByIdConfigs_NotFound = "Такого конфига не существует";
