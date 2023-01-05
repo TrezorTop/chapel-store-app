@@ -7,6 +7,7 @@ import {
 	GetAllConfigsResponse
 } from "../../../../shared/endpoints/configs/getAllConfigs";
 import { Validator } from "../../../../shared/types";
+import { optionalJwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
@@ -28,6 +29,7 @@ export const getAll = async (instance: FastifyInstance) => {
 		Reply: GetAllConfigsResponse,
 		Querystring: GetAllConfigsQuery
 	}>(GetAllConfigsBasePath, {
+		onRequest: [optionalJwtOnRequestHook],
 		preValidation: [validatePreValidationHook({ query: queryValidator })]
 	}, async (request, reply) => {
 		const query = request.query;
@@ -36,7 +38,7 @@ export const getAll = async (instance: FastifyInstance) => {
 			where: {
 				carId: query.carId,
 				bundleId: query.bundleId,
-				softDeleted: false
+				...(request?.user?.role !== "ADMIN" && { softDeleted: false })
 			},
 			select: {
 				id: true,

@@ -8,6 +8,7 @@ import {
 	GetByIdConfigsResponse
 } from "../../../../shared/endpoints/configs/getById";
 import { Validator } from "../../../../shared/types";
+import { optionalJwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
@@ -26,6 +27,7 @@ export const getById = async (instance: FastifyInstance) => {
 		Reply: GetByIdConfigsResponse,
 		Params: GetByIdConfigsParams
 	}>(GetByIdConfigsBasePath, {
+		onRequest: [optionalJwtOnRequestHook],
 		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
 		const params = request.params;
@@ -33,7 +35,7 @@ export const getById = async (instance: FastifyInstance) => {
 		const config = await cancelIfFailed(async () => await prisma.config.findFirst({
 			where: {
 				id: params.id,
-				softDeleted: false
+				...(request?.user?.role !== "ADMIN" && { softDeleted: false })
 			},
 			select: {
 				id: true,
