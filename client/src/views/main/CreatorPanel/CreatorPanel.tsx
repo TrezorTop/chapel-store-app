@@ -7,12 +7,12 @@ import { EDIT_ENTITIES_URL, STATISTICS_URL } from "../../../core/utils/consts";
 import { EditEntities } from "./EditEntities/EditEntities";
 
 enum TabValues {
-  EDIT_ENTITIES = "EDIT ENTITIES",
-  STATISTICS = "STATISTICS",
+  EditEntities = "EDIT ENTITIES",
+  Statistics = "STATISTICS",
 }
 
 const CreatorPanel = () => {
-  const [selectedTab, setSelectedTab] = useState<TabValues>(TabValues.EDIT_ENTITIES);
+  const [selectedTab, setSelectedTab] = useState<TabValues>(TabValues.EditEntities);
 
   const navigate = useNavigate();
 
@@ -23,13 +23,13 @@ const CreatorPanel = () => {
       </Typography>
       <Tabs value={selectedTab} onChange={(_, value) => setSelectedTab(value)}>
         <Tab
-          value={TabValues.EDIT_ENTITIES}
-          label={TabValues.EDIT_ENTITIES}
+          value={TabValues.EditEntities}
+          label={TabValues.EditEntities}
           onClick={() => navigate(EDIT_ENTITIES_URL)}
         />
         <Tab
-          value={TabValues.STATISTICS}
-          label={TabValues.STATISTICS}
+          value={TabValues.Statistics}
+          label={TabValues.Statistics}
           onClick={() => navigate(STATISTICS_URL)}
           disabled
         />

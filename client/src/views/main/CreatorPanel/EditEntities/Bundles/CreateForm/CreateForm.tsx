@@ -8,6 +8,7 @@ import { Button } from "../../../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../../../core/components/kit/Input/Input";
 import { createBundle } from "../../../../../../core/services/main.service";
 import { queryClient } from "../../../../../../main";
+import { FormActions } from "../../../../../../core/components/kit/Form/FormActions/FormActions";
 
 export const CreateForm = () => {
   const [name, setName] = useState<string>("");
@@ -21,7 +22,9 @@ export const CreateForm = () => {
   return (
     <Form>
       <Input inputLabel={"Bundle Name"} onChange={(event) => setName(event.target.value)} />
-      <Button onClick={() => mutate({ name })}>Submit</Button>
+      <FormActions>
+        <Button onClick={() => mutate({ name })}>Submit</Button>
+      </FormActions>
     </Form>
   );
 };

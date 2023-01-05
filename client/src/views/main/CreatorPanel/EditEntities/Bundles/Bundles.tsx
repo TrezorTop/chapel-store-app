@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router";
 
 import { ErrorResponse } from "../../../../../../../shared/consts/error";
 import { DeleteByIdBundlesPath } from "../../../../../../../shared/endpoints/bundles/deleteByIdBundles";
@@ -16,6 +17,7 @@ import { CreateForm } from "./CreateForm/CreateForm";
 
 export const Bundles = () => {
   const [modal, setModal] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const { data: bundlesData } = useQuery<AxiosResponse<GetAllBundlesResponse>, AxiosError<ErrorResponse>>(
     [GetAllBundlesPath],
@@ -37,11 +39,16 @@ export const Bundles = () => {
       <Header>
         <Button onClick={() => setModal(true)}>Add</Button>
       </Header>
+
+      <Outlet />
+
       {bundlesData?.data.bundles.map((bundle) => (
         <ItemCard
           actions={
             <>
-              <Button variant="text">Update</Button>
+              <Button variant="text" onClick={() => navigate(`${bundle.id}/edit`)}>
+                Update
+              </Button>
               <Button onClick={() => mutateDeleteBundle({ id: bundle.id })} variant="text">
                 Delete
               </Button>

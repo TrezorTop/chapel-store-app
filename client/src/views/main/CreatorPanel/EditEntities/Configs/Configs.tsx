@@ -1,5 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { Outlet, useNavigate } from "react-router";
+
 import {
   DeleteByIdConfigsParams,
   DeleteByIdConfigsPath,
@@ -15,6 +17,7 @@ import { CreateForm } from "./CreateForm/CreateForm";
 
 export const Configs = () => {
   const [modal, setModal] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const { data: configsData } = useQuery([GetAllConfigsPath], () => getConfigs({}));
 
@@ -37,11 +40,16 @@ export const Configs = () => {
       <Header>
         <Button onClick={() => setModal(true)}>Add</Button>
       </Header>
+
+      <Outlet />
+
       {configsData?.data.configs.map((config) => (
         <ItemCard
           actions={
             <>
-              <Button variant="text">Update</Button>
+              <Button variant="text" onClick={() => navigate(`${config.id}/edit`)}>
+                Update
+              </Button>
               <Button onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
                 Delete
               </Button>

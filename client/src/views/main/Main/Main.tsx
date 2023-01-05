@@ -8,7 +8,7 @@ import s from "./Main.module.scss";
 import { Selector } from "./Selector/Selector";
 
 export const Main = () => {
-  const [config, setConfig] = useState<GetElementType<GetAllConfigsResponse["configs"]> | undefined>();
+  const [configId, setConfigId] = useState<string>("");
 
   return (
     <>
@@ -16,8 +16,8 @@ export const Main = () => {
         Choose Configuration
       </Typography>
       <div className={s.container}>
-        <Selector setConfig={setConfig} />
-        <Info title={config?.title} data={config?.data} />
+        <Selector setSelectedConfig={setConfigId} />
+        <Info configId={configId} />
       </div>
     </>
   );
