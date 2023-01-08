@@ -12,6 +12,10 @@ export type GetByIdCarsParams = {
 export type GetByIdCarsResponse = {
 	car: {
 		id: string,
-		name: string
+		name: string,
+		configs: {
+			id: string,
+			title: string
+		}[]
 	}
 };

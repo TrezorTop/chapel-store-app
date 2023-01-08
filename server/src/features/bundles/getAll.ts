@@ -11,8 +11,14 @@ export const getAll = async (instance: FastifyInstance) => {
 		const bundles = await prisma.bundle.findMany({
 			select: {
 				id: true,
-				name: true
-			}
+				name: true,
+				configs: {
+					select: {
+						id: true,
+						title: true
+					}
+				}
+			},
 		});
 
 		return reply.status(StatusCodes.OK).send({ bundles: bundles });

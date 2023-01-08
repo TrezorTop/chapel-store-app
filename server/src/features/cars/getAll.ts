@@ -11,7 +11,13 @@ export const getAll = async (instance: FastifyInstance) => {
 		const cars = await prisma.car.findMany({
 			select: {
 				id: true,
-				name: true
+				name: true,
+				configs: {
+					select: {
+						id: true,
+						title: true
+					}
+				}
 			}
 		});
 

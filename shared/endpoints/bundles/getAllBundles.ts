@@ -8,6 +8,10 @@ export const GetAllBundlesPath = `${BasePath}${BundlesRootPath}${GetAllBundlesBa
 export type GetAllBundlesResponse = {
 	bundles: {
 		id: string,
-		name: string
+		name: string,
+		configs: {
+			id: string,
+			title: string
+		}[]
 	}[]
 };
