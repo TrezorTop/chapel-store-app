@@ -1,3 +1,4 @@
+import { JsonValue } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, MeRootPath } from "../../index";
 
 
@@ -9,6 +10,6 @@ export type GetMyConfigsResponse = {
 	configs: {
 		id: string,
 		title: string,
-		data: string
+		data: JsonValue
 	}[]
 };

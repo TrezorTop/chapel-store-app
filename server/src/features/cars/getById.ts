@@ -33,6 +33,14 @@ export const getById = async (instance: FastifyInstance) => {
 		const car = await cancelIfFailed(async () => await prisma.car.findUnique({
 			where: {
 				id: params.id
+			},
+			include: {
+				configs: {
+					select: {
+						id: true,
+						title: true
+					}
+				}
 			}
 		}), StatusCodes.NOT_FOUND, GetByIdCars_NotFound);
 

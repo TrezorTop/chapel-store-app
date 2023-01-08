@@ -32,6 +32,14 @@ export const getById = async (instance: FastifyInstance) => {
 		const bundle = await cancelIfFailed(async () => await prisma.bundle.findUnique({
 			where: {
 				id: params.id
+			},
+			include: {
+				configs: {
+					select: {
+						id: true,
+						title: true
+					}
+				}
 			}
 		}), StatusCodes.NOT_FOUND, GetByIdBundles_NotFound);
 

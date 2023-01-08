@@ -10,7 +10,8 @@ export type GetAllBundlesResponse = {
 		id: string,
 		name: string,
 		configs: {
-			id: string
+			id: string,
+			title: string
 		}[]
 	}[]
 };

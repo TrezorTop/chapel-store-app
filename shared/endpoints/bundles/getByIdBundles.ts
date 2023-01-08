@@ -12,6 +12,10 @@ export type GetByIdBundlesParams = {
 export type GetByIdBundlesResponse = {
 	bundle: {
 		id: string,
-		name: string
+		name: string,
+		configs: {
+			id: string,
+			title: string
+		}[]
 	}
 };

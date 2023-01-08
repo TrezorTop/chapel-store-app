@@ -32,15 +32,17 @@ export const getById = async (instance: FastifyInstance) => {
 	}, async (request, reply) => {
 		const params = request.params;
 
+		const isAdmin = request?.user?.role === "ADMIN";
+
 		const config = await cancelIfFailed(async () => await prisma.config.findFirst({
 			where: {
 				id: params.id,
-				...(request?.user?.role !== "ADMIN" && { softDeleted: false })
+				...(!isAdmin && { softDeleted: false })
 			},
 			select: {
 				id: true,
 				title: true,
-				data: true,
+				data: isAdmin,
 				bundleId: true,
 				carId: true
 			}

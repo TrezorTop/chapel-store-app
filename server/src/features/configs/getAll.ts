@@ -42,8 +42,7 @@ export const getAll = async (instance: FastifyInstance) => {
 			},
 			select: {
 				id: true,
-				title: true,
-				data: true
+				title: true
 			}
 		});
 

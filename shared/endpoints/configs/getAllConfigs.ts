@@ -13,7 +13,6 @@ export type GetAllConfigsQuery = {
 export type GetAllConfigsResponse = {
 	configs: {
 		id: string,
-		title: string,
-		data: string
+		title: string
 	}[]
 };

@@ -18,7 +18,7 @@ export const getAll = async (instance: FastifyInstance) => {
 						title: true
 					}
 				}
-			}
+			},
 		});
 
 		return reply.status(StatusCodes.OK).send({ bundles: bundles });
