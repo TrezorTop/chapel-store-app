@@ -25,3 +25,4 @@ export const DeleteByIdBundles_NotFound = "Такого бандла не сущ
 export const GetByIdBundles_NotFound = "Такого бандла не существует";
 export const GetByIdCars_NotFound = "Такой машины не существует";
 export const GetByIdConfigs_NotFound = "Такого конфига не существует";
+export const GetMyConfigById_NotFound = "Такого конфига не существует";
