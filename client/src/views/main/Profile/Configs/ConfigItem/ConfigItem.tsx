@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FC } from "react";
+import { JsonValue } from "../../../../../../../server/src/infrastructure/prismaConnect";
 
 import { GetByIdConfigsPath } from "../../../../../../../shared/endpoints/configs/getById";
 import { GetMyConfigsResponse } from "../../../../../../../shared/endpoints/me/getMyConfigs";
@@ -16,7 +17,7 @@ type ItemCardProps = {
 export const ConfigItem: FC<ItemCardProps> = ({ config }) => {
   const { mutate } = useMutation([GetByIdConfigsPath], () => getConfig({ id: config?.id ?? "" }), {
     onSuccess: ({ data }) => {
-      generateFile(data.config?.title, data.config?.data);
+      generateFile(data.config?.title, data.config?.data?.toString());
     },
   });
 
