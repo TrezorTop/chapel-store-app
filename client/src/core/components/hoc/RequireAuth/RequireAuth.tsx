@@ -11,7 +11,7 @@ import {
 import { RefreshPath } from "../../../../../../shared/endpoints/auth/refresh";
 import { PingPath } from "../../../../../../shared/endpoints/health/ping";
 import { ping, refreshToken } from "../../../services/user.service";
-import { AUTH_URL, HTTP_BROADCAST_KEY, NETWORK_ERROR, USER_REFRESH_TOKEN_KEY } from "../../../utils/consts";
+import { AUTH_URL, HTTP_BROADCAST_KEY, NETWORK_ERROR, SIGN_IN_URL, USER_REFRESH_TOKEN_KEY } from "../../../utils/consts";
 import { updateAuthTokens } from "../../../utils/functions/auth";
 import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
@@ -35,7 +35,8 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
     broadcast.onmessage = (event) => {
       if (event.data === NETWORK_ERROR) setIsNetworkError(true);
       if (event.data === General_Unauthorized) return mutateRefreshToken();
-      if (event.data === Refresh_UsedTokenError || event.data === Refresh_WrongTokenError) return navigate(AUTH_URL);
+      if (event.data === Refresh_UsedTokenError || event.data === Refresh_WrongTokenError)
+        return navigate(`${AUTH_URL}/${SIGN_IN_URL}`, { state: { referrer: location.pathname } });
     };
 
     return () => broadcast.close();

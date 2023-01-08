@@ -1,12 +1,14 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 import { DeleteByIdCarsParams, DeleteByIdCarsPath } from "../../../../../../../shared/endpoints/cars/deleteByIdCars";
 import { GetAllCarsPath } from "../../../../../../../shared/endpoints/cars/getAllCars";
 import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Modal } from "../../../../../core/components/kit/Modal/Modal";
 import { Paper } from "../../../../../core/components/kit/Paper/Paper";
+import { Typography } from "../../../../../core/components/kit/Typography/Typography";
 import { deleteCar, getCars } from "../../../../../core/services/main.service";
 import { queryClient } from "../../../../../main";
 import { Header } from "../../../components/EditHeader/EditHeader";
@@ -61,6 +63,16 @@ export const Cars = () => {
           key={car.id}
         >
           {car.name}
+          {!!car.configs.length && (
+            <Typography variant="subtitle2">
+              Linked with{" "}
+              {car.configs.map((config) => (
+                <React.Fragment key={config.id}>
+                  <Link to={`../configs/${config.id}/edit`} >{config.title}</Link>,{" "}
+                </React.Fragment>
+              ))}
+            </Typography>
+          )}
         </ItemCard>
       ))}
     </>

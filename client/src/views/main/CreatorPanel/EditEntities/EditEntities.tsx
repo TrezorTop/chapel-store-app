@@ -61,7 +61,7 @@ export const EditEntities = () => {
             element={<Configs />}
             children={<Route path={UPDATE_ENTITY_URL} element={<EditConfig />} />}
           />
-          <Route path={""} element={<Navigate to={EDIT_ENTITIES_CARS_URL} />} />
+          <Route path={""} element={<Navigate to={"../"} />} />
         </Routes>
       </div>
     </div>

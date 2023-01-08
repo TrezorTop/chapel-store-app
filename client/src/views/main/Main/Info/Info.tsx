@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { GetByIdConfigsPath } from "../../../../../../shared/endpoints/configs/getById";
 
 import { Typography } from "../../../../core/components/kit/Typography/Typography";
@@ -10,9 +10,13 @@ type InfoProps = {
 };
 
 export const Info: FC<InfoProps> = ({ configId }) => {
-  const { data: configData } = useQuery([GetByIdConfigsPath], () => getConfig({ id: configId }), {
+  const { data: configData, refetch } = useQuery([GetByIdConfigsPath], () => getConfig({ id: configId }), {
     enabled: !!configId,
   });
+
+  useEffect(() => {
+    configId && refetch();
+  }, [configId]);
 
   return (
     <div>

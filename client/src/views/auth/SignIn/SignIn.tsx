@@ -22,12 +22,14 @@ export const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const referrer = (location.state as { referrer: string })?.referrer;
+
   const { form, updateForm } = useForm<TForm>();
 
   const { isLoading, mutate } = useMutation([LoginPath], signIn, {
     onSuccess: ({ data }) => {
       updateAuthTokens(data.accessToken, data.refreshToken);
-      navigate(MAIN_URL);
+      navigate(referrer ?? MAIN_URL);
     },
   });
 

@@ -3,8 +3,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useDarkMode } from "usehooks-ts";
 
 import s from "./App.module.scss";
-import { AuthLayout } from "./core/components/hoc/AuthLayout/AuthLayout";
-import { MainLayout } from "./core/components/hoc/MainLayout/MainLayout";
+import { AuthLayout } from "./core/components/hoc/layouts/AuthLayout/AuthLayout";
+import { MainLayout } from "./core/components/hoc/layouts/MainLayout/MainLayout";
 import { RequireAuth } from "./core/components/hoc/RequireAuth/RequireAuth";
 import { GlobalLoader } from "./core/components/kit/GlobalLoader/GlobalLoader";
 import {
@@ -19,9 +19,9 @@ import {
 import { SignIn } from "./views/auth/SignIn/SignIn";
 import { SignUp } from "./views/auth/SignUp/SignUp";
 import { Main } from "./views/main/Main/Main";
-import { Profile } from "./views/main/Profile/Profile";
 
 const CreatorPanel = React.lazy(() => import("./views/main/CreatorPanel/CreatorPanel"));
+const Profile = React.lazy(() => import("./views/main/Profile/Profile"));
 
 export const App = () => {
   const { isDarkMode, toggle, enable, disable } = useDarkMode();
@@ -41,7 +41,16 @@ export const App = () => {
         </Route>
         <Route path={MAIN_URL} element={<MainLayout />}>
           <Route path={GET_CONFIG_URL} element={<Main />} />
-          <Route path={PROFILE_URL} element={<Profile />} />
+          <Route
+            path={PROFILE_URL}
+            element={
+              <Suspense fallback={<GlobalLoader />}>
+                <RequireAuth>
+                  <Profile />
+                </RequireAuth>
+              </Suspense>
+            }
+          />
           <Route
             path={CREATOR_URL + "/*"}
             element={

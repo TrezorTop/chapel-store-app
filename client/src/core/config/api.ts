@@ -7,7 +7,9 @@ export const api = axios.create({
   baseURL: API_URL,
   timeout: 15000,
   headers: {
-    authorization: `Bearer ${localStorage.getItem(USER_ACCESS_TOKEN_KEY)}`,
+    ...(localStorage.getItem(USER_ACCESS_TOKEN_KEY) && {
+      authorization: `Bearer ${localStorage.getItem(USER_ACCESS_TOKEN_KEY)}`,
+    }),
   },
 });
 const httpBroadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);

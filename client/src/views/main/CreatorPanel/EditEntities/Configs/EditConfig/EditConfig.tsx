@@ -14,13 +14,12 @@ import { Form } from "../../../../../../core/components/kit/Form/Form";
 import { FormActions } from "../../../../../../core/components/kit/Form/FormActions/FormActions";
 import { Input } from "../../../../../../core/components/kit/Input/Input";
 import { Paper } from "../../../../../../core/components/kit/Paper/Paper";
-import { Textarea } from "../../../../../../core/components/kit/Textarea/Textarea";
 import { getBundles, getCars, getConfig, updateConfig } from "../../../../../../core/services/main.service";
 import { queryClient } from "../../../../../../main";
 
 export const EditConfig = () => {
   const [title, setTitle] = useState<string>("");
-  const [data, setData] = useState<string>("");
+  const [file, setFile] = useState<File>();
   const [bundleId, setBundleId] = useState<string>("");
   const [carId, setCarId] = useState<string>("");
 
@@ -29,7 +28,6 @@ export const EditConfig = () => {
   const { data: getConfigData, refetch } = useQuery([GetByIdConfigsPath], () => getConfig({ id: id ?? "" }), {
     onSuccess: ({ data }) => {
       setTitle(data.config.title);
-      setData(data.config.data);
       setBundleId(data.config.bundleId);
       setCarId(data.config.carId);
     },
@@ -44,7 +42,8 @@ export const EditConfig = () => {
 
   const { mutate } = useMutation(
     [UpdateConfigsPath],
-    () => updateConfig({ id: id ?? "", title, data, bundleId, carId }),
+    async () =>
+      updateConfig({ id: id ?? "", title, ...(file && { data: JSON.parse(await file?.text()) }), bundleId, carId }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries([GetAllConfigsPath]);
@@ -56,15 +55,15 @@ export const EditConfig = () => {
     <Paper>
       <Form>
         <Input value={title} inputLabel={"Config Title"} onChange={(event) => setTitle(event.target.value)} />
-        <Textarea maxRows={15} value={data} disabled />
         <FileDropzone
-          onChange={async (files) => {
-            const file = await files[0].text();
-            setData(file);
+          onChange={(files) => {
+            const file = files[0];
+            setFile(file);
           }}
           accept={{ "application/json": [".json"] }}
           label="Click or place json file here"
         />
+        {file && <Paper>{file?.name}</Paper>}
         <Input value={carId} select inputLabel={"Car"} onChange={(event) => setCarId(event.target.value)}>
           {carsData?.data.cars.map((car) => (
             <MenuItem key={car.id} value={car.id}>

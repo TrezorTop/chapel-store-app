@@ -1,6 +1,4 @@
 import { InputLabel } from "@mui/material";
-import { flexbox } from "@mui/system";
-import { type } from "os";
 import React, { CSSProperties, FC, ReactNode, useEffect, useState } from "react";
 import { Accept, useDropzone } from "react-dropzone";
 

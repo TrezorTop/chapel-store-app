@@ -38,9 +38,13 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
     enabled: !!carId,
   });
 
-  const { data: configsData } = useQuery([GetAllConfigsPath], () => getConfigs({ bundleId, carId }), {
-    enabled: !!bundleId,
-  });
+  const { data: configsData, refetch: refetchConfigs } = useQuery(
+    [GetAllConfigsPath],
+    () => getConfigs({ bundleId, carId }),
+    {
+      enabled: !!bundleId,
+    },
+  );
 
   const { mutate: mutateCreatePayment } = useMutation([CreatePaymentPath], () => createPayment({ configId }), {
     onSuccess: () => {
@@ -75,11 +79,21 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
     });
   }, [carId, bundleId, configId]);
 
+  useEffect(() => {
+    setBundleId("");
+  }, [carId]);
+
+  useEffect(() => {
+    setConfigId("");
+    refetchConfigs();
+  }, [bundleId]);
+
   return (
     <div className={s.root}>
       <Input
         value={carId}
         onChange={(event) => {
+          setBundleId("");
           setCarId(event.target.value);
         }}
         disabled={!carsData}
