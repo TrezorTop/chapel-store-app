@@ -16,17 +16,7 @@ export const CreateConfigsRequestValidator: Validator<CreateConfigsRequest> = {
 		required: true
 	},
 	data: {
-		check: [
-			value => {
-				try {
-					JSON.parse(value);
-				} catch (e) {
-					return "Невалидный json";
-				}
-
-				return true;
-			}
-		],
+		check: [],
 		required: true
 	},
 	carId: {

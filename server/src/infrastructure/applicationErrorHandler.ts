@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
-import { UndocumentedError } from "../../../shared/consts/error";
+import { General_WrongRequestSyntax, UndocumentedError } from "../../../shared/consts/error";
 
 
 export class ApplicationError {
@@ -12,7 +12,13 @@ export class ApplicationError {
 }
 
 export const setErrorHandler = (instance: FastifyInstance) => {
-	instance.setErrorHandler((error, request, reply) => {
+	instance.setErrorHandler((error: Error | SyntaxError | ApplicationError, request, reply) => {
+		if (error instanceof SyntaxError) {
+			return reply.status(StatusCodes.BAD_REQUEST).send({
+				message: General_WrongRequestSyntax
+			});
+		}
+
 		if (error instanceof ApplicationError) {
 			return reply.status(error.status).send({
 				message: error.message

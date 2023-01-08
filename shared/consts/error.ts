@@ -6,6 +6,7 @@ export type ErrorResponse = {
 export const UndocumentedError = "Что-то пошло не так...";
 
 export const General_Unauthorized = "Не авторизован";
+export const General_WrongRequestSyntax = "Ошибка синтаксиса в запросе";
 
 export const Login_WrongUsernameError = "Неправильное имя пользователя";
 export const Login_WrongPasswordError = "Неверный пароль";
