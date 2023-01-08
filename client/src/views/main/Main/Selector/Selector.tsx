@@ -114,7 +114,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
         onChange={(event) => {
           setBundleId(event.target.value);
         }}
-        disabled={!carId && !bundlesData}
+        disabled={!carId || !bundlesData}
         inputLabel="Select Bundle"
         variant="outlined"
         fullWidth
@@ -126,14 +126,13 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
           </MenuItem>
         )) ?? []}
       </Input>
-
       <Input
         value={configId}
         onChange={(event) => {
           setSelectedConfig(event.target.value);
           setConfigId(event.target.value);
         }}
-        disabled={!bundleId && !configsData}
+        disabled={!bundleId || !configsData}
         inputLabel="Select Config"
         variant="outlined"
         fullWidth
@@ -145,7 +144,6 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
           </MenuItem>
         )) ?? []}
       </Input>
-
       <Button variant="contained" size="large" fullWidth onClick={() => mutateCreatePayment()}>
         Proceed Payment
       </Button>
