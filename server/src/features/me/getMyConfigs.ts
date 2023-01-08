@@ -21,7 +21,6 @@ export const getMyConfigs = async (instance: FastifyInstance) => {
 			},
 			select: {
 				id: true,
-				data: true,
 				title: true
 			}
 		});
