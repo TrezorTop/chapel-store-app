@@ -1,3 +1,4 @@
+import { JsonValue } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, ConfigsRootPath } from "../../index";
 import { Validator } from "../../types";
 
@@ -49,7 +50,7 @@ export type CreateConfigsResponse = {
 	config: {
 		id: string,
 		title: string,
-		data: string,
+		data: JsonValue,
 		carId: string,
 		bundleId: string
 	}
