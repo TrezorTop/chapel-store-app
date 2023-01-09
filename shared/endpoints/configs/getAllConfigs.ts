@@ -13,6 +13,7 @@ export type GetAllConfigsQuery = {
 export type GetAllConfigsResponse = {
 	configs: {
 		id: string,
-		title: string
+		title: string,
+		softDeleted?: boolean,
 	}[]
 };

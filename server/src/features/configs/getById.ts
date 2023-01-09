@@ -43,6 +43,7 @@ export const getById = async (instance: FastifyInstance) => {
 				id: true,
 				title: true,
 				data: isAdmin,
+				softDeleted: isAdmin,
 				bundleId: true,
 				carId: true
 			}
