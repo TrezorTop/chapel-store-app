@@ -50,9 +50,13 @@ export const Configs = () => {
               <Button variant="text" onClick={() => navigate(`${config.id}/edit`)}>
                 Update
               </Button>
-              <Button onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
-                Delete
-              </Button>
+              {config.softDeleted ? (
+                <Button variant="text" disabled>Deleted</Button>
+              ) : (
+                <Button onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
+                  Delete
+                </Button>
+              )}
             </>
           }
           key={config.id}

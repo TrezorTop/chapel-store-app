@@ -46,6 +46,7 @@ export const Bundles = () => {
               <Button variant="text" onClick={() => navigate(`${bundle.id}/edit`)}>
                 Update
               </Button>
+
               <Button onClick={() => mutateDeleteBundle({ id: bundle.id })} variant="text">
                 Delete
               </Button>
