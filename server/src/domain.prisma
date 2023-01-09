@@ -57,7 +57,6 @@ model Purchases {
 model Config {
     id String @id @default(cuid())
     title String
-    data Json
     car Car @relation(fields: [carId], references: [id], onDelete: Restrict)
     carId String
     bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
