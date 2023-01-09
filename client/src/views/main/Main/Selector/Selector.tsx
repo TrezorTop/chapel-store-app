@@ -80,11 +80,11 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
   }, [carId, bundleId, configId]);
 
   useEffect(() => {
-    setBundleId("");
+    // setBundleId("");
   }, [carId]);
 
   useEffect(() => {
-    setConfigId("");
+    // setConfigId("");
     refetchConfigs();
   }, [bundleId]);
 

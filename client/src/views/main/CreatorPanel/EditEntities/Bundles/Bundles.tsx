@@ -58,7 +58,7 @@ export const Bundles = () => {
               Linked with{" "}
               {bundle.configs.map((config) => (
                 <React.Fragment key={config.id}>
-                  <Link to={`../configs/${config.id}/edit`} >{config.title}</Link>,{" "}
+                  <Link to={`../configs/${config.id}/edit`}>{config.title}</Link>,{" "}
                 </React.Fragment>
               ))}
             </Typography>

@@ -1,12 +1,11 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { FC } from "react";
-import { JsonValue } from "../../../../../../../server/src/infrastructure/prismaConnect";
 
-import { GetByIdConfigsPath } from "../../../../../../../shared/endpoints/configs/getById";
+import { GetMyConfigByIdPath } from "../../../../../../../shared/endpoints/me/getMyConfigById";
 import { GetMyConfigsResponse } from "../../../../../../../shared/endpoints/me/getMyConfigs";
 import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Paper } from "../../../../../core/components/kit/Paper/Paper";
-import { getConfig } from "../../../../../core/services/main.service";
+import { getMyConfigById } from "../../../../../core/services/profile.service";
 import { generateFile } from "../../../../../core/utils/functions/generateFile";
 import s from "./ConfigItem.module.scss";
 
@@ -15,9 +14,9 @@ type ItemCardProps = {
 };
 
 export const ConfigItem: FC<ItemCardProps> = ({ config }) => {
-  const { mutate } = useMutation([GetByIdConfigsPath], () => getConfig({ id: config?.id ?? "" }), {
+  const { mutate } = useMutation([GetMyConfigByIdPath], () => getMyConfigById({ id: config?.id ?? "" }), {
     onSuccess: ({ data }) => {
-      generateFile(data.config?.title, data.config?.data?.toString());
+      generateFile(data.config?.title, JSON.stringify(data.config.data));
     },
   });
 
