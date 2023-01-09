@@ -34,15 +34,18 @@ export const getAll = async (instance: FastifyInstance) => {
 	}, async (request, reply) => {
 		const query = request.query;
 
+		const isAdmin = request?.user?.role === "ADMIN";
+
 		const configs = await prisma.config.findMany({
 			where: {
 				carId: query.carId,
 				bundleId: query.bundleId,
-				...(request?.user?.role !== "ADMIN" && { softDeleted: false })
+				...(!isAdmin && { softDeleted: false })
 			},
 			select: {
 				id: true,
-				title: true
+				title: true,
+				softDeleted: isAdmin
 			}
 		});
 

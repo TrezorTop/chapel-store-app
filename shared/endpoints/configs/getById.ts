@@ -15,6 +15,7 @@ export type GetByIdConfigsResponse = {
 		id: string,
 		title: string,
 		data?: JsonValue,
+		softDeleted?: boolean,
 		bundleId: string,
 		carId: string
 	}
