@@ -51,9 +51,11 @@ export const Configs = () => {
                 Update
               </Button>
               {config.softDeleted ? (
-                <Button variant="text" disabled>Deleted</Button>
+                <Button variant="text" disabled>
+                  Deleted
+                </Button>
               ) : (
-                <Button onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
+                <Button color="error" onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
                   Delete
                 </Button>
               )}

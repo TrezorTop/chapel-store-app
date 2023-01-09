@@ -55,7 +55,7 @@ export const Cars = () => {
               <Button variant="text" onClick={() => navigate(`${car.id}/edit`)}>
                 Update
               </Button>
-              <Button onClick={() => mutateDeleteCar({ id: car.id })} variant="text">
+              <Button color="error" onClick={() => mutateDeleteCar({ id: car.id })} variant="text">
                 Delete
               </Button>
             </>
@@ -68,7 +68,7 @@ export const Cars = () => {
               Linked with{" "}
               {car.configs.map((config) => (
                 <React.Fragment key={config.id}>
-                  <Link to={`../configs/${config.id}/edit`} >{config.title}</Link>,{" "}
+                  <Link to={`../configs/${config.id}/edit`}>{config.title}</Link>,{" "}
                 </React.Fragment>
               ))}
             </Typography>
