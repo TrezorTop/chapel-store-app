@@ -1,4 +1,3 @@
-import { JsonValue } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, ConfigsRootPath } from "../../index";
 import { Validator } from "../../types";
 import { makeOptionalValidator } from "../../utils";
@@ -17,7 +16,7 @@ export type UpdateConfigsParams = {
 
 export type UpdateConfigsRequest = {
 	title?: string,
-	data?: string,
+	data?: File[],
 	carId?: string,
 	bundleId?: string
 }
@@ -25,8 +24,8 @@ export type UpdateConfigsRequest = {
 export type UpdateConfigsResponse = {
 	config: {
 		title: string,
-		data: JsonValue,
 		carId: string,
-		bundleId: string
+		bundleId: string,
+		softDeleted: boolean
 	}
 };

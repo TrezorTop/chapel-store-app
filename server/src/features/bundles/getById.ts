@@ -29,7 +29,7 @@ export const getById = async (instance: FastifyInstance) => {
 	}, async (request, reply) => {
 		const params = request.params;
 
-		const bundle = await cancelIfFailed(async () => await prisma.bundle.findUnique({
+		const bundle = await cancelIfFailed(() => prisma.bundle.findUnique({
 			where: {
 				id: params.id
 			},

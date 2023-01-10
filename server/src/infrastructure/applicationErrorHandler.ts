@@ -1,29 +1,64 @@
-import { FastifyInstance } from "fastify";
+import { FastifyError, FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
-import { General_WrongRequestSyntax, UndocumentedError } from "../../../shared/consts/error";
+import {
+	ErrorResponse,
+	General_FileIsTooLarge,
+	General_WrongRequestSyntax,
+	UndocumentedError
+} from "../../../shared/consts/error";
 
 
 export class ApplicationError {
 	constructor(
 		readonly status: StatusCodes,
-		readonly message: string
+		readonly message: string,
+		readonly additionalInfo?: object
 	) {
 	}
 }
 
+const rules: {
+	[key: string]: {
+		status: StatusCodes,
+		message: string,
+		additionalInfo?: (error: FastifyError) => object
+	}
+} = {
+	"LIMIT_FILE_SIZE": {
+		status: StatusCodes.REQUEST_TOO_LONG,
+		message: General_FileIsTooLarge
+	}
+};
+
 export const setErrorHandler = (instance: FastifyInstance) => {
-	instance.setErrorHandler((error: Error | SyntaxError | ApplicationError, request, reply) => {
+	instance.setErrorHandler((error: FastifyError | SyntaxError | ApplicationError, request, reply) => {
 		if (error instanceof SyntaxError) {
 			return reply.status(StatusCodes.BAD_REQUEST).send({
 				message: General_WrongRequestSyntax
-			});
+			} satisfies ErrorResponse);
 		}
 
 		if (error instanceof ApplicationError) {
 			return reply.status(error.status).send({
-				message: error.message
-			});
+				message: error.message,
+				...(error.additionalInfo && {
+					info: {
+						...error.additionalInfo
+					}
+				})
+			} satisfies ErrorResponse);
 		}
+
+		const rule = rules[error.code];
+		if (rule)
+			return reply.status(rule.status).send({
+				message: rule.message,
+				...(rule.additionalInfo && {
+					info: {
+						...rule.additionalInfo?.(error)
+					}
+				})
+			} satisfies ErrorResponse);
 
 		console.error("Unhandled, undocumented error occured", {
 			request: {
@@ -35,6 +70,8 @@ export const setErrorHandler = (instance: FastifyInstance) => {
 			},
 			error: error
 		});
-		reply.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: UndocumentedError });
+		reply.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+			message: UndocumentedError
+		} satisfies ErrorResponse);
 	});
 };
