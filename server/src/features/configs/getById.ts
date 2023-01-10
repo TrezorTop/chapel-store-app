@@ -1,16 +1,16 @@
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
+import fs from "fs";
 import { StatusCodes } from "http-status-codes";
-import { GetByIdConfigs_NotFound } from "../../../../shared/consts/error";
-import {
-	GetByIdConfigsBasePath,
-	GetByIdConfigsParams,
-	GetByIdConfigsResponse
-} from "../../../../shared/endpoints/configs/getById";
+import path from "path";
+import { getMimeType } from "stream-mime-type";
+import { GetByIdConfigs_NotFound, VeryBadThingsHappend } from "../../../../shared/consts/error";
+import { GetByIdConfigsBasePath, GetByIdConfigsParams } from "../../../../shared/endpoints/configs/getById";
 import { Validator } from "../../../../shared/types";
-import { optionalJwtOnRequestHook } from "../../infrastructure/jwtConfig";
+import { configsPath } from "../../constants";
+import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
-import { cancelIfFailed } from "../../infrastructure/utils";
+import { cancelIfFailed, findSingleFile } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
 
@@ -24,33 +24,37 @@ const paramsValidator: Validator<GetByIdConfigsParams> = {
 
 export const getById = async (instance: FastifyInstance) => {
 	instance.get<{
-		Reply: GetByIdConfigsResponse,
 		Params: GetByIdConfigsParams
 	}>(GetByIdConfigsBasePath, {
-		onRequest: [optionalJwtOnRequestHook],
+		onRequest: [jwtOnRequestHook],
 		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
 		const params = request.params;
 
 		const isAdmin = request?.user?.role === "ADMIN";
 
-		const config = await cancelIfFailed(async () => await prisma.config.findFirst({
+		await cancelIfFailed(() => prisma.config.findFirst({
 			where: {
 				id: params.id,
-				...(!isAdmin && { softDeleted: false })
-			},
-			select: {
-				id: true,
-				title: true,
-				data: isAdmin,
-				softDeleted: isAdmin,
-				bundleId: true,
-				carId: true
+				...(!isAdmin && {
+					purchases: {
+						some: {
+							ownerUsername: request.user.username
+						}
+					}
+				})
 			}
 		}), StatusCodes.NOT_FOUND, GetByIdConfigs_NotFound);
 
-		return reply.status(StatusCodes.OK).send({
-			config: config
-		});
+		const file = await cancelIfFailed(() => findSingleFile(
+				`${params.id}.**`,
+				{ cwd: configsPath }
+			),
+			StatusCodes.BAD_REQUEST, VeryBadThingsHappend
+		);
+		const stream = fs.createReadStream(path.join(configsPath, file), { autoClose: true });
+		const mime = await getMimeType(stream);
+
+		return reply.status(StatusCodes.OK).type(mime.mime).send(mime.stream);
 	});
 };

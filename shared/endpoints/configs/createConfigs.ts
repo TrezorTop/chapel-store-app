@@ -1,4 +1,3 @@
-import { JsonValue } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, ConfigsRootPath } from "../../index";
 import { Validator } from "../../types";
 
@@ -29,9 +28,15 @@ export const CreateConfigsRequestValidator: Validator<CreateConfigsRequest> = {
 	}
 };
 
+export const CreateConfigsSettings = {
+	minFilesCount: 1,
+	maxFilesCount: 10,
+	maxFileSize: 10_485_760
+};
+
 export type CreateConfigsRequest = {
 	title: string,
-	data: string,
+	data: File[],
 	carId: string,
 	bundleId: string
 }
@@ -40,7 +45,6 @@ export type CreateConfigsResponse = {
 	config: {
 		id: string,
 		title: string,
-		data: JsonValue,
 		carId: string,
 		bundleId: string
 	}

@@ -1,4 +1,3 @@
-import { JsonValue } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, ConfigsRootPath } from "../../index";
 
 
@@ -10,13 +9,4 @@ export type GetByIdConfigsParams = {
 	id: string
 }
 
-export type GetByIdConfigsResponse = {
-	config: {
-		id: string,
-		title: string,
-		data?: JsonValue,
-		softDeleted?: boolean,
-		bundleId: string,
-		carId: string
-	}
-};
+export type GetByIdConfigsResponse = {};

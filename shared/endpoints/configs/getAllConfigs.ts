@@ -15,5 +15,7 @@ export type GetAllConfigsResponse = {
 		id: string,
 		title: string,
 		softDeleted?: boolean,
+		bundleId: string,
+		carId: string
 	}[]
 };

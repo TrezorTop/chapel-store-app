@@ -45,7 +45,9 @@ export const getAll = async (instance: FastifyInstance) => {
 			select: {
 				id: true,
 				title: true,
-				softDeleted: isAdmin
+				softDeleted: isAdmin,
+				bundleId: true,
+				carId: true
 			}
 		});
 

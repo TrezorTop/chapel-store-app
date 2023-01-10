@@ -30,7 +30,7 @@ export const getById = async (instance: FastifyInstance) => {
 	}, async (request, reply) => {
 		const params = request.params;
 
-		const car = await cancelIfFailed(async () => await prisma.car.findUnique({
+		const car = await cancelIfFailed(() => prisma.car.findUnique({
 			where: {
 				id: params.id
 			},
