@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-05T22:33:09.831Z",
+  "__export_date": "2023-01-10T05:46:28.136Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
       "_id": "req_5468db98f34b45bda77ae760b3a252d3",
       "parentId": "fld_1e622a22079d43b491e03b8e232fdb5e",
-      "modified": 1672954236622,
+      "modified": 1673208773556,
       "created": 1672338365944,
       "url": "{{ _.baseUrl }}/me/configs",
       "name": "Configs",
@@ -55,7 +55,7 @@
     {
       "_id": "req_8a05dc9a106642ff8f0e7801a478bdbb",
       "parentId": "fld_592f8c4a2313405c8fbe7d042c6973c7",
-      "modified": 1672338474127,
+      "modified": 1673326579452,
       "created": 1671718413220,
       "url": "{{ _.baseUrl }}/payments",
       "name": "Create",
@@ -63,7 +63,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"configId\": \"1c7260b8-5f15-4c83-a09d-b03cbe15935c\"\n}"
+        "text": "{\n\t\"configId\": \"clcppnmc90001pkvv0cjl23vl\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -103,7 +103,7 @@
     {
       "_id": "req_b8d3c143beee451689f3aa63d2b81add",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1672343844802,
+      "modified": 1673316326416,
       "created": 1672343765670,
       "url": "{{ _.baseUrl }}/configs/clc9hhxa900033s2cb1m8bul5",
       "name": "DeleteById",
@@ -141,27 +141,67 @@
     {
       "_id": "req_f4520b4631bc4062be989346b8ddd085",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1672343783236,
+      "modified": 1673329463861,
       "created": 1672248318853,
       "url": "{{ _.baseUrl }}/configs",
       "name": "Create",
       "description": "",
       "method": "POST",
       "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"title\": \"title\",\n\t\"data\": \"{}\",\n\t\"carId\": \"clc3nvy7h00023sdc5b1m0n2u\",\n\t\"bundleId\": \"clc3m2lbj00043s0cvg7mlu07\"\n}"
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_c732fb0b00894fc583f061c660f0eacf",
+            "name": "title",
+            "value": "Title",
+            "description": "",
+            "type": "text",
+            "multiline": false
+          },
+          {
+            "id": "pair_25ea55ed13e440068afdf2b5a9419981",
+            "name": "carId",
+            "value": "clcnqk2qz00023s6rofkxr5gc",
+            "description": ""
+          },
+          {
+            "id": "pair_2ad970eeb67b4479ba54ba6203432b17",
+            "name": "bundleId",
+            "value": "clcnqk5k600043s6ruj08p012",
+            "description": ""
+          },
+          {
+            "id": "pair_ca409220b8df41de9b2d1becba99c7b0",
+            "name": "data",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "C:\\Users\\Catalan\\Desktop\\Images\\1_Dota-2-Visage.jpg",
+            "disabled": false
+          },
+          {
+            "id": "pair_a215171e9a904e3a98f6d8e7408b7afc",
+            "name": "data",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "C:\\Users\\Catalan\\Desktop\\Images\\8_Dota2-Outworld-Devourer.jpg",
+            "disabled": false
+          }
+        ]
       },
       "parameters": [],
       "headers": [
         {
           "name": "Content-Type",
-          "value": "application/json",
+          "value": "multipart/form-data",
           "id": "pair_5c3458136cc1420383332ee1aa190448"
         }
       ],
       "authentication": {
         "type": "bearer",
-        "token": "{{ _.accessToken }}"
+        "token": "{{ _.accessToken }}",
+        "disabled": false
       },
       "metaSortKey": -1672248318853,
       "isPrivate": false,
@@ -174,31 +214,70 @@
       "_type": "request"
     },
     {
-      "_id": "req_27681238926a47dd9a2cbdc3e4b87427",
+      "_id": "req_ffbabea43e9a44d7b524402c5af55675",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1672957821388,
-      "created": 1672956328609,
-      "url": "{{ _.baseUrl }}/configs/clc9ippex00013sqplfabhhe2",
+      "modified": 1673329469484,
+      "created": 1673327544380,
+      "url": "{{ _.baseUrl }}/configs/clcpt2kgj0000id3s3tjh6y34",
       "name": "Update",
       "description": "",
       "method": "PUT",
       "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"title\": \"3\"\n}"
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_c732fb0b00894fc583f061c660f0eacf",
+            "name": "title",
+            "value": "New Title",
+            "description": "",
+            "type": "text",
+            "multiline": false
+          },
+          {
+            "id": "pair_25ea55ed13e440068afdf2b5a9419981",
+            "name": "carId",
+            "value": "clcnqk2qz00023s6rofkxr5gc",
+            "description": ""
+          },
+          {
+            "id": "pair_2ad970eeb67b4479ba54ba6203432b17",
+            "name": "bundleId",
+            "value": "clcnqk5k600043s6ruj08p012",
+            "description": ""
+          },
+          {
+            "id": "pair_ca409220b8df41de9b2d1becba99c7b0",
+            "name": "data",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "C:\\Users\\Catalan\\Desktop\\Images\\1920x1080_1648180872188.jpeg",
+            "disabled": false
+          },
+          {
+            "id": "pair_a215171e9a904e3a98f6d8e7408b7afc",
+            "name": "data",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "C:\\Users\\Catalan\\Desktop\\Images\\23311.jpg",
+            "disabled": false
+          }
+        ]
       },
       "parameters": [],
       "headers": [
         {
           "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_da6dc6cb69d4463ab5654adb932b28e8"
+          "value": "multipart/form-data",
+          "id": "pair_5c3458136cc1420383332ee1aa190448"
         }
       ],
       "authentication": {
         "type": "bearer",
         "token": "{{ _.accessToken }}"
       },
-      "metaSortKey": -1671746237842.875,
+      "metaSortKey": -1671997278347.9375,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -211,7 +290,7 @@
     {
       "_id": "req_65f1a3b0335f45108329b1f09c316519",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1672955619963,
+      "modified": 1673329362376,
       "created": 1671562037984,
       "url": "{{ _.baseUrl }}/configs",
       "name": "GetAll",
@@ -253,9 +332,9 @@
     {
       "_id": "req_dd863cd4b1c34e6ea7b81c8ee970446b",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1672955739919,
+      "modified": 1673329486220,
       "created": 1672941024325,
-      "url": "{{ _.baseUrl }}/configs/clc9ippex00013sqplfabhhe2",
+      "url": "{{ _.baseUrl }}/configs/clcpt2kgj0000id3s3tjh6y34",
       "name": "GetById",
       "description": "",
       "method": "GET",
@@ -264,7 +343,8 @@
       "headers": [],
       "authentication": {
         "type": "bearer",
-        "token": "{{ _.accessToken }}"
+        "token": "{{ _.accessToken }}",
+        "disabled": false
       },
       "metaSortKey": -1671244156782.75,
       "isPrivate": false,
@@ -314,9 +394,9 @@
     {
       "_id": "req_1655bb60ce3d4cb5be112e5167b1cf5e",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1672940307996,
+      "modified": 1673205544868,
       "created": 1672940142670,
-      "url": "{{ _.baseUrl }}/bundles/clc93vf91002o3spy5j4i9vhi",
+      "url": "{{ _.baseUrl }}/bundles/clcnqk5k600043s6ruj08p012",
       "name": "GetById",
       "description": "",
       "method": "GET",
@@ -337,7 +417,7 @@
     {
       "_id": "req_cc6fda7eb9f14298aeb3553430e615f4",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1672177164893,
+      "modified": 1673205370860,
       "created": 1672169646898,
       "url": "{{ _.baseUrl }}/bundles",
       "name": "Create",
@@ -468,9 +548,9 @@
     {
       "_id": "req_0e3c0d69f62142e7afcd3f05e38a1e66",
       "parentId": "fld_f2389e734c154d8f968245c6184d6d26",
-      "modified": 1672940505216,
+      "modified": 1673205690866,
       "created": 1672940483869,
-      "url": "{{ _.baseUrl }}/cars/clc94fo0r002q3spy0k8llmf8",
+      "url": "{{ _.baseUrl }}/cars/clcnqk2qz00023s6rofkxr5gc",
       "name": "GetById",
       "description": "",
       "method": "GET",
@@ -526,7 +606,7 @@
     {
       "_id": "req_0f46d774f63c4dc1a50c5dcb377ec383",
       "parentId": "fld_f2389e734c154d8f968245c6184d6d26",
-      "modified": 1672957970035,
+      "modified": 1673202673889,
       "created": 1672171488879,
       "url": "{{ _.baseUrl }}/cars/clc94fo0r002q3spy0k8llmf8",
       "name": "Update",
@@ -588,7 +668,7 @@
     {
       "_id": "req_7bb8b6554d0b49098560eb3e0146a684",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1672068578042,
+      "modified": 1673203968253,
       "created": 1670023167894,
       "url": "{{ _.baseUrl }}/auth/register",
       "name": "Register",
@@ -596,7 +676,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"username\": \"2\",\n\t\"password\": \"2\"\n}"
+        "text": "{\n\t\"username\": \"12345678\",\n\t\"password\": \"12345678\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -632,7 +712,7 @@
     {
       "_id": "req_3281754849da475da04cd4db1efb6f90",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1672957817261,
+      "modified": 1673329251979,
       "created": 1670263199596,
       "url": "{{ _.baseUrl }}/auth/login",
       "name": "Login",
@@ -640,7 +720,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"username\": \"1\",\n\t\"password\": \"1\"\n}"
+        "text": "{\n\t\"username\": \"12345678\",\n\t\"password\": \"12345678\"\n}"
       },
       "parameters": [],
       "headers": [

@@ -52,7 +52,7 @@ export const getById = async (instance: FastifyInstance) => {
 			),
 			StatusCodes.BAD_REQUEST, VeryBadThingsHappend
 		);
-		const stream = fs.createReadStream(path.join(configsPath, file), { autoClose: true });
+		const stream = fs.createReadStream(path.join(configsPath, file));
 		const mime = await getMimeType(stream);
 
 		return reply.status(StatusCodes.OK).type(mime.mime).send(mime.stream);
