@@ -109,6 +109,8 @@ async function processAsSingleArchiveFile(id: string, file: Required<File>) {
 
 function isArchive(mimeType: string) {
 	return mimeType === "application/zip" ||
+		mimeType === "application/x-rar" ||
+		mimeType === "application/x-7z" ||
 		mimeType === "application/x-rar-compressed" ||
 		mimeType === "application/x-7z-compressed";
 }
