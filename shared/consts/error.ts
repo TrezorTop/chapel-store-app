@@ -8,9 +8,8 @@ export const UndocumentedError = "Что-то пошло не так...";
 export const VeryBadThingsHappend = "Опять за работу :(";
 
 export const General_Unauthorized = "Не авторизован";
-export const General_ExpectedMultipart = "Ожидается multipart запрос";
 export const General_WrongRequestSyntax = "Ошибка синтаксиса в запросе";
-export const General_FieldLimitReached = "Слишком много полей";
+export const General_NotEnoughtPermissions = "Недостаточно прав";
 export const General_FileIsTooLarge = "Файл слишком велик";
 
 export const Login_WrongUsernameError = "Неправильное имя пользователя";

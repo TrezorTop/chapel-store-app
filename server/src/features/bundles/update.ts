@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
@@ -29,7 +30,7 @@ export const update = async (instance: FastifyInstance) => {
 		Body: UpdateBundlesRequest,
 		Params: UpdateBundlesParams
 	}>(UpdateBundlesBasePath, {
-		onRequest: [jwtOnRequestHook],
+		onRequest: [jwtOnRequestHook({ requiredRole: Role.ADMIN })],
 		preValidation: [validatePreValidationHook({ body: UpdateBundlesRequestValidator, params: paramsValidator })]
 	}, async (request, reply) => {
 		const body = request.body;
