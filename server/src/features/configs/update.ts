@@ -75,7 +75,7 @@ export const update = async (instance: FastifyInstance) => {
 			},
 			data: {
 				title: body.title,
-				softDeleted: body.softDeleted,
+				softDeleted: body?.softDeleted === "true",
 				carId: body.carId,
 				bundleId: body.bundleId
 			}
