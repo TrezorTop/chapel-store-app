@@ -2,6 +2,7 @@ import AdmZip from "adm-zip";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { File } from "fastify-multer/lib/interfaces";
+import { createReadStream } from "fs";
 import * as fs from "fs/promises";
 import { StatusCodes } from "http-status-codes";
 import path from "path";
@@ -77,7 +78,7 @@ export async function processFiles(id: string, files: Required<File>[]) {
 	if (files.length === 1) {
 		const file = files[0];
 
-		const { mime } = await getMimeType(file.stream);
+		const { mime } = await getMimeType(createReadStream(file.path));
 
 		if (!isArchive(mime))
 			throw new ApplicationError(StatusCodes.BAD_REQUEST, CreateConfigs_FileIsNotArchive, {
