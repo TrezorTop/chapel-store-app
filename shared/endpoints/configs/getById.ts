@@ -9,4 +9,12 @@ export type GetByIdConfigsParams = {
 	id: string
 }
 
-export type GetByIdConfigsResponse = {};
+export type GetByIdConfigsResponse = {
+	config: {
+		id: string,
+		title: string,
+		softDeleted?: boolean,
+		bundleId: string,
+		carId: string
+	}
+};

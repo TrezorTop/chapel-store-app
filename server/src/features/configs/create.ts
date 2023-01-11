@@ -2,9 +2,11 @@ import AdmZip from "adm-zip";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { File } from "fastify-multer/lib/interfaces";
+import { createReadStream } from "fs";
 import * as fs from "fs/promises";
 import { StatusCodes } from "http-status-codes";
 import path from "path";
+import { getMimeType } from "stream-mime-type";
 import {
 	CreateConfigs_FileIsNotArchive,
 	CreateConfigs_NotEnoughFiles,
@@ -76,7 +78,9 @@ export async function processFiles(id: string, files: Required<File>[]) {
 	if (files.length === 1) {
 		const file = files[0];
 
-		if (!isArchive(file.mimetype))
+		const { mime } = await getMimeType(createReadStream(file.path));
+
+		if (!isArchive(mime))
 			throw new ApplicationError(StatusCodes.BAD_REQUEST, CreateConfigs_FileIsNotArchive, {
 				target: file.filename,
 				required: "zip/rar/7z"
@@ -109,6 +113,9 @@ async function processAsSingleArchiveFile(id: string, file: Required<File>) {
 
 function isArchive(mimeType: string) {
 	return mimeType === "application/zip" ||
+		mimeType === "application/vnd.rar" ||
+		mimeType === "application/x-rar" ||
+		mimeType === "application/x-7z" ||
 		mimeType === "application/x-rar-compressed" ||
 		mimeType === "application/x-7z-compressed";
 }
