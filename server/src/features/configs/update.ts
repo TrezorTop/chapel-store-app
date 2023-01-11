@@ -54,17 +54,20 @@ export const update = async (instance: FastifyInstance) => {
 			),
 			StatusCodes.BAD_REQUEST, VeryBadThingsHappend
 		);
-		const oldPath = path.join(configsPath, file);
-		const tempPath = path.join(configsPath, `${file}.old`);
-		await fs.rename(oldPath, tempPath);
 
-		try {
-			await processFiles(params.id, request.files);
-		} catch (e) {
-			await fs.rename(tempPath, oldPath);
-			throw e;
+		if (request.files.length > 0) {
+			const oldPath = path.join(configsPath, file);
+			const tempPath = path.join(configsPath, `${file}.old`);
+			await fs.rename(oldPath, tempPath);
+
+			try {
+				await processFiles(params.id, request.files);
+			} catch (e) {
+				await fs.rename(tempPath, oldPath);
+				throw e;
+			}
+			await fs.rm(tempPath);
 		}
-		await fs.rm(tempPath);
 
 		const updated = await prisma.config.update({
 			where: {
@@ -72,6 +75,7 @@ export const update = async (instance: FastifyInstance) => {
 			},
 			data: {
 				title: body.title,
+				softDeleted: body.softDeleted,
 				carId: body.carId,
 				bundleId: body.bundleId
 			}

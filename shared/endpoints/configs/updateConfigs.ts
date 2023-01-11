@@ -17,6 +17,7 @@ export type UpdateConfigsParams = {
 export type UpdateConfigsRequest = {
 	title?: string,
 	data?: File[],
+	softDeleted?: boolean,
 	carId?: string,
 	bundleId?: string
 }
