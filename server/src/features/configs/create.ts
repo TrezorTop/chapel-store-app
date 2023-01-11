@@ -5,6 +5,7 @@ import { File } from "fastify-multer/lib/interfaces";
 import * as fs from "fs/promises";
 import { StatusCodes } from "http-status-codes";
 import path from "path";
+import { getMimeType } from "stream-mime-type";
 import {
 	CreateConfigs_FileIsNotArchive,
 	CreateConfigs_NotEnoughFiles,
@@ -76,7 +77,9 @@ export async function processFiles(id: string, files: Required<File>[]) {
 	if (files.length === 1) {
 		const file = files[0];
 
-		if (!isArchive(file.mimetype))
+		const { mime } = await getMimeType(file.stream);
+
+		if (!isArchive(mime))
 			throw new ApplicationError(StatusCodes.BAD_REQUEST, CreateConfigs_FileIsNotArchive, {
 				target: file.filename,
 				required: "zip/rar/7z"
