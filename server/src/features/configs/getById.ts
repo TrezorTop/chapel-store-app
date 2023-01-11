@@ -3,7 +3,6 @@ import { FastifyInstance } from "fastify";
 import fs from "fs";
 import { StatusCodes } from "http-status-codes";
 import path from "path";
-import { getMimeType } from "stream-mime-type";
 import { GetByIdConfigs_NotFound, VeryBadThingsHappend } from "../../../../shared/consts/error";
 import { GetByIdConfigsBasePath, GetByIdConfigsParams } from "../../../../shared/endpoints/configs/getById";
 import { Validator } from "../../../../shared/types";
@@ -52,9 +51,10 @@ export const getById = async (instance: FastifyInstance) => {
 			),
 			StatusCodes.BAD_REQUEST, VeryBadThingsHappend
 		);
-		const stream = fs.createReadStream(path.join(configsPath, file));
-		const mime = await getMimeType(stream);
+		const stream = fs.createReadStream(path.join(configsPath, file), {
+			encoding: "base64"
+		});
 
-		return reply.status(StatusCodes.OK).type(mime.mime).send(mime.stream);
+		return reply.status(StatusCodes.OK).type("application/octet-stream").send(stream);
 	});
 };

@@ -9,7 +9,7 @@ if (!fs.existsSync(tmpFolder)) {
 	fs.mkdirSync(tmpFolder);
 }
 
-export const configsPath = path.join(process.cwd(), "configs");
+export const configsPath = process.env.CONFIGS_DISK_PATH!;
 if (!fs.existsSync(configsPath)) {
 	fs.mkdirSync(configsPath);
 }
