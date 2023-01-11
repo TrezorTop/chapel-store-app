@@ -6,12 +6,12 @@ import { CreateConfigsSettings } from "../../shared/endpoints/configs/createConf
 
 export const tmpFolder = path.join(path.parse(process.cwd()).root, "tmp");
 if (!fs.existsSync(tmpFolder)) {
-	fs.mkdirSync(tmpFolder);
+	fs.mkdirSync(tmpFolder, { recursive: true });
 }
 
 export const configsPath = process.env.CONFIGS_DISK_PATH!;
 if (!fs.existsSync(configsPath)) {
-	fs.mkdirSync(configsPath);
+	fs.mkdirSync(configsPath, { recursive: true });
 }
 
 
