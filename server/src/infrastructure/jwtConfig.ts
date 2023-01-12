@@ -44,7 +44,7 @@ export const jwtOnRequestHook = (options?: { requiredRole?: Role }): onRequestHo
 			throw new ApplicationError(StatusCodes.UNAUTHORIZED, General_Unauthorized);
 		}
 
-		if (request.user.role !== options?.requiredRole)
+		if (options?.requiredRole && request.user.role !== options.requiredRole)
 			throw new ApplicationError(StatusCodes.FORBIDDEN, General_NotEnoughtPermissions);
 	};
 };
