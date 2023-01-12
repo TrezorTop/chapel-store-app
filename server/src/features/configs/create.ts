@@ -76,6 +76,7 @@ export async function processFiles(id: string, files: Required<File>[]) {
 			minFilesCount: CreateConfigsSettings.minFilesCount
 		});
 
+
 	if (files.length === 1) {
 		const file = files[0];
 
@@ -88,10 +89,11 @@ export async function processFiles(id: string, files: Required<File>[]) {
 			});
 
 		await processAsSingleArchiveFile(id, file);
-		return;
+	} else {
+		await processAsMultipleFiles(id, files);
 	}
 
-	await processAsMultipleFiles(id, files);
+
 }
 
 async function processAsMultipleFiles(id: string, files: Required<File>[]) {
