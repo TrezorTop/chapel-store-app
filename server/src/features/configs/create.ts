@@ -1,15 +1,11 @@
-import { Role } from "@prisma/client";
-import AdmZip from "adm-zip";
+import { File as DbFile, Role } from "@prisma/client";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { File } from "fastify-multer/lib/interfaces";
-import { createReadStream } from "fs";
 import * as fs from "fs/promises";
 import { StatusCodes } from "http-status-codes";
 import path from "path";
-import { getMimeType } from "stream-mime-type";
 import {
-	CreateConfigs_FileIsNotArchive,
 	CreateConfigs_NotEnoughFiles,
 	CreateConfigs_WrongBundleId,
 	CreateConfigs_WrongCarId
@@ -54,7 +50,6 @@ export const create = async (instance: FastifyInstance) => {
 		);
 
 		const id = cuid();
-		await processFiles(id, request.files);
 		const created = await prisma.config.create({
 			data: {
 				id: id,
@@ -63,6 +58,7 @@ export const create = async (instance: FastifyInstance) => {
 				carId: body.carId
 			}
 		});
+		await processFiles(id, request.files);
 
 		return reply.status(StatusCodes.CREATED).send({
 			config: created
@@ -76,47 +72,31 @@ export async function processFiles(id: string, files: Required<File>[]) {
 			minFilesCount: CreateConfigsSettings.minFilesCount
 		});
 
-	if (files.length === 1) {
-		const file = files[0];
+	const newFiles = await saveFiles(id, files);
 
-		const { mime } = await getMimeType(createReadStream(file.path));
-
-		if (!isArchive(mime))
-			throw new ApplicationError(StatusCodes.BAD_REQUEST, CreateConfigs_FileIsNotArchive, {
-				target: file.filename,
-				required: "zip/rar/7z"
-			});
-
-		await processAsSingleArchiveFile(id, file);
-		return;
-	}
-
-	await processAsMultipleFiles(id, files);
+	await prisma.file.createMany({
+		data: newFiles
+	});
 }
 
-async function processAsMultipleFiles(id: string, files: Required<File>[]) {
-	const zip = new AdmZip();
+async function saveFiles(id: string, files: Required<File>[]): Promise<DbFile[]> {
+	const uploadPath = path.join(configsPath, id);
+	await fs.mkdir(uploadPath);
+	const dbFiles: DbFile[] = [];
 
 	files.forEach(file => {
-		zip.addLocalFile(file.path, "", file.originalname);
+		const fileName = `${cuid()}${path.extname(file.originalname)}`;
+		const filePath = path.join(uploadPath, fileName);
+
+		dbFiles.push({
+			name: fileName,
+			originalName: file.originalname,
+			size: String(file.size),
+			configId: id
+		});
+
+		fs.rename(file.path, filePath);
 	});
 
-	const uploadPath = path.join(configsPath, `${id}.zip`);
-	await zip.writeZipPromise(uploadPath);
-}
-
-async function processAsSingleArchiveFile(id: string, file: Required<File>) {
-	const ext = path.extname(file.originalname);
-	const uploadPath = path.join(configsPath, `${id}${ext}`);
-
-	await fs.rename(file.path, uploadPath);
-}
-
-function isArchive(mimeType: string) {
-	return mimeType === "application/zip" ||
-		mimeType === "application/vnd.rar" ||
-		mimeType === "application/x-rar" ||
-		mimeType === "application/x-7z" ||
-		mimeType === "application/x-rar-compressed" ||
-		mimeType === "application/x-7z-compressed";
+	return dbFiles;
 }

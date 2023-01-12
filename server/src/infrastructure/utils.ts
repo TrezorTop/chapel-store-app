@@ -28,7 +28,7 @@ export const findSingleFile = async (pattern: string, options?: IOptions) => {
 
 
 export const removeTempFiles: onResponseAsyncHookHandler = async (request) => {
-	await Promise.all(request.files.map(file => fs.rm(file.path)));
+	await Promise.all(request.files.map(file => fs.rm(file.path, { force: true })));
 };
 
 

@@ -8,7 +8,11 @@ export const prisma = new PrismaClient();
 
 prisma.$use(async (params, next) => {
 	if (params.action === "findMany") {
-		console.log(42);
+		params.args.orderBy = [
+			{ createdAt: "desc" },
+			{ id: "desc" },
+			(params.args.orderBy && params.args.orderBy)
+		];
 	}
 	return next(params);
 });

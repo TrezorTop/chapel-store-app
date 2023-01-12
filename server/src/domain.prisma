@@ -74,6 +74,17 @@ model Config {
     softDeleted Boolean @default(false)
     purchases Purchases[]
 
+    files File[]
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt @default(now())
+}
+
+
+model File {
+    name String @id
+    originalName String
+    size String
+    config Config @relation(fields: [configId], references: [id], onDelete: Restrict)
+    configId String
 }

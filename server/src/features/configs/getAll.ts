@@ -47,7 +47,8 @@ export const getAll = async (instance: FastifyInstance) => {
 				title: true,
 				softDeleted: isAdmin,
 				bundleId: true,
-				carId: true
+				carId: true,
+				createdAt: true
 			}
 		});
 
