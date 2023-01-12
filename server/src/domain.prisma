@@ -46,7 +46,8 @@ model Car {
 model Bundle {
     id String @id @default(cuid())
     name String @unique
-    configs Config[]
+    configs BundleConfigs[]
+    price Int
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt @default(now())
@@ -56,11 +57,21 @@ model Bundle {
 model Purchases {
     owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
     ownerUsername String
-    config Config @relation(fields: [configId], references: [id], onDelete: Restrict)
-    configId String
+    bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
+    bundleId String
     @@id([ownerUsername, configId])
 
     createdAt DateTime @default(now())
+}
+
+
+model BundleConfigs {
+    bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
+    bundleId String
+    config Config @relation(fields: [configId], references: [id], onDelete: Restrict)
+    configId String
+
+    @@id([bundleId, configId])
 }
 
 
@@ -74,6 +85,7 @@ model Config {
     softDeleted Boolean @default(false)
     purchases Purchases[]
 
+    bundles BundleConfigs[]
     files File[]
 
     createdAt DateTime @default(now())
