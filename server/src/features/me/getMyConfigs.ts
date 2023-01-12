@@ -9,7 +9,7 @@ export const getMyConfigs = async (instance: FastifyInstance) => {
 	instance.get<{
 		Reply: GetMyConfigsResponse
 	}>(GetMyConfigsBasePath, {
-		onRequest: [jwtOnRequestHook]
+		onRequest: [jwtOnRequestHook()]
 	}, async (request, reply) => {
 		const configs = await prisma.config.findMany({
 			where: {

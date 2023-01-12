@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import {
@@ -16,7 +17,7 @@ export const create = async (instance: FastifyInstance) => {
 		Reply: CreateBundlesResponse,
 		Body: CreateBundlesRequest
 	}>(CreateBundlesBasePath, {
-		onRequest: [jwtOnRequestHook],
+		onRequest: [jwtOnRequestHook({ requiredRole: Role.ADMIN })],
 		preValidation: [validatePreValidationHook({ body: CreateBundlesRequestValidator })]
 	}, async (request, reply) => {
 		const body = request.body;

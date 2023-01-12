@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import fs from "fs/promises";
@@ -34,7 +35,7 @@ export const update = async (instance: FastifyInstance) => {
 		Params: UpdateConfigsParams
 	}>(UpdateConfigsBasePath, {
 		preHandler: [configMulterHandler],
-		onRequest: [jwtOnRequestHook],
+		onRequest: [jwtOnRequestHook({ requiredRole: Role.ADMIN })],
 		preValidation: [validatePreValidationHook({ body: UpdateConfigsRequestValidator, params: paramsValidator })],
 		onResponse: [removeTempFiles]
 	}, async (request, reply) => {
@@ -48,14 +49,14 @@ export const update = async (instance: FastifyInstance) => {
 			}), StatusCodes.NOT_FOUND, UpdateConfigs_NotFound
 		);
 
-		const file = await cancelIfFailed(() => findSingleFile(
-				`${params.id}.**`,
-				{ cwd: configsPath }
-			),
-			StatusCodes.BAD_REQUEST, VeryBadThingsHappend
-		);
-
 		if (request.files.length > 0) {
+			const file = await cancelIfFailed(() => findSingleFile(
+					`${params.id}.**`,
+					{ cwd: configsPath }
+				),
+				StatusCodes.BAD_REQUEST, VeryBadThingsHappend
+			);
+
 			const oldPath = path.join(configsPath, file);
 			const tempPath = path.join(configsPath, `${file}.old`);
 			await fs.rename(oldPath, tempPath);

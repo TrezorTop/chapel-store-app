@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import AdmZip from "adm-zip";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
@@ -32,7 +33,7 @@ export const create = async (instance: FastifyInstance) => {
 		Body: CreateConfigsRequest
 	}>(CreateConfigsBasePath, {
 		preHandler: [configMulterHandler],
-		onRequest: [jwtOnRequestHook],
+		onRequest: [jwtOnRequestHook({ requiredRole: Role.ADMIN })],
 		onResponse: [removeTempFiles]
 	}, async (request, reply) => {
 		const body = request.body;

@@ -29,7 +29,7 @@ export const getAll = async (instance: FastifyInstance) => {
 		Reply: GetAllConfigsResponse,
 		Querystring: GetAllConfigsQuery
 	}>(GetAllConfigsBasePath, {
-		onRequest: [optionalJwtOnRequestHook],
+		onRequest: [optionalJwtOnRequestHook()],
 		preValidation: [validatePreValidationHook({ query: queryValidator })]
 	}, async (request, reply) => {
 		const query = request.query;

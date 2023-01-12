@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
@@ -26,7 +27,7 @@ export const deleteById = async (instance: FastifyInstance) => {
 		Reply: DeleteByIdConfigsResponse,
 		Params: DeleteByIdConfigsParams
 	}>(DeleteByIdConfigsBasePath, {
-		onRequest: [jwtOnRequestHook],
+		onRequest: [jwtOnRequestHook({ requiredRole: Role.ADMIN })],
 		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
 		const params = request.params;

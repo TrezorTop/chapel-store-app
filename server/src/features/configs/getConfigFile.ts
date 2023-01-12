@@ -31,7 +31,7 @@ export const getConfigFile = async (instance: FastifyInstance) => {
 		Params: GetConfigFileParams,
 		Reply: GetConfigFileResponse
 	}>(GetConfigFileBasePath, {
-		onRequest: [jwtOnRequestHook],
+		onRequest: [jwtOnRequestHook()],
 		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
 		const params = request.params;

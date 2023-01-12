@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
@@ -26,12 +27,12 @@ export const create = async (instance: FastifyInstance) => {
 		Reply: CreatePaymentResponse,
 		Body: CreatePaymentRequest
 	}>(CreatePaymentBasePath, {
-		onRequest: [jwtOnRequestHook],
+		onRequest: [jwtOnRequestHook({ requiredRole: Role.ADMIN })],
 		preValidation: [validatePreValidationHook({ body: bodyValidator })]
 	}, async (request, reply) => {
 		const body = request.body;
 
-		const purchases = await prisma.purchases.create({
+		await prisma.purchases.create({
 			data: {
 				ownerUsername: request.user.username,
 				configId: body.configId

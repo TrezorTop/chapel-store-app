@@ -22,7 +22,7 @@ export const getById = async (instance: FastifyInstance) => {
 	instance.get<{
 		Params: GetByIdConfigsParams
 	}>(GetByIdConfigsBasePath, {
-		onRequest: [optionalJwtOnRequestHook],
+		onRequest: [optionalJwtOnRequestHook()],
 		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
 		const params = request.params;
