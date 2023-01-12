@@ -11,7 +11,7 @@ prisma.$use(async (params, next) => {
 		params.args.orderBy = [
 			{ createdAt: "desc" },
 			{ id: "desc" },
-			...params.args.orderBy
+			(params.args.orderBy && params.args.orderBy)
 		];
 	}
 	return next(params);

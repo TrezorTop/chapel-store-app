@@ -39,7 +39,14 @@ export const getById = async (instance: FastifyInstance) => {
 				title: true,
 				softDeleted: isAdmin,
 				bundleId: true,
-				carId: true
+				carId: true,
+				files: {
+					select: {
+						name: true,
+						originalName: true,
+						size: true
+					}
+				}
 			}
 		}), StatusCodes.NOT_FOUND, GetByIdConfigs_NotFound);
 

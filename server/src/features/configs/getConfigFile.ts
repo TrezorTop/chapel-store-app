@@ -1,10 +1,8 @@
-import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import fs from "fs";
 import { StatusCodes } from "http-status-codes";
 import path from "path";
 import { GetByIdConfigs_NotFound, VeryBadThingsHappend } from "../../../../shared/consts/error";
-import { GetByIdConfigsParams } from "../../../../shared/endpoints/configs/getById";
 import {
 	GetConfigFileBasePath,
 	GetConfigFileParams,
@@ -18,9 +16,9 @@ import { cancelIfFailed, findSingleFile } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
 
-const paramsValidator: Validator<GetByIdConfigsParams> = {
-	id: {
-		check: [value => cuid.isCuid(value) || "Невалидный id"],
+const paramsValidator: Validator<GetConfigFileParams> = {
+	name: {
+		check: [],
 		required: true
 	}
 };
@@ -38,26 +36,30 @@ export const getConfigFile = async (instance: FastifyInstance) => {
 
 		const isAdmin = request?.user?.role === "ADMIN";
 
-		await cancelIfFailed(() => prisma.config.findFirst({
+		const dbFile = await cancelIfFailed(() => prisma.file.findFirst({
 			where: {
-				id: params.id,
+				name: params.name,
 				...(!isAdmin && {
-					purchases: {
-						some: {
-							ownerUsername: request.user.username
+					config: {
+						purchases: {
+							some: {
+								ownerUsername: request.user.username
+							}
 						}
 					}
 				})
-			}
+			},
+			select: { configId: true }
 		}), StatusCodes.NOT_FOUND, GetByIdConfigs_NotFound);
 
+		const configFolder = path.join(configsPath, dbFile.configId);
 		const file = await cancelIfFailed(() => findSingleFile(
-				`${params.id}.**`,
-				{ cwd: configsPath }
+				params.name,
+				{ cwd: configFolder }
 			),
 			StatusCodes.BAD_REQUEST, VeryBadThingsHappend
 		);
-		const stream = fs.createReadStream(path.join(configsPath, file), {
+		const stream = fs.createReadStream(path.join(configFolder, file), {
 			encoding: "base64"
 		});
 
