@@ -81,8 +81,6 @@ model Config {
     title String
     car Car @relation(fields: [carId], references: [id], onDelete: Restrict)
     carId String
-    bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
-    bundleId String
     softDeleted Boolean @default(false)
 
     bundles BundleConfigs[]
