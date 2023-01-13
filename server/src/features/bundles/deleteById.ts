@@ -38,34 +38,20 @@ export const deleteById = async (instance: FastifyInstance) => {
 			}
 		}), StatusCodes.NOT_FOUND, DeleteByIdBundles_NotFound);
 
-		const configs = await getConfigsByBundleId(params.id);
-		if (configs.length > 0)
-			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: configs });
-
-		const deleted = await prisma.bundle.deleteMany({
+		const bundle = await prisma.bundle.update({
 			where: {
-				AND: {
-					id: params.id,
-					configs: {
-						none: {}
-					}
-				}
+				id: params.id
+			},
+			data: {
+				softDeleted: true
+			},
+			select: {
+				id: true,
+				name: true,
+				price: true
 			}
 		});
-		if (deleted.count === 0)
-			return reply.status(StatusCodes.BAD_REQUEST).send({ configs: await getConfigsByBundleId(params.id) });
 
-		return reply.status(StatusCodes.OK).send();
+		return reply.status(StatusCodes.OK).send({ bundle: bundle });
 	});
 };
-
-
-const getConfigsByBundleId = async (id: string) => await prisma.config.findMany({
-	where: {
-		bundleId: id
-	},
-	select: {
-		id: true,
-		title: true
-	}
-});

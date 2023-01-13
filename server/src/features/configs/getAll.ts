@@ -7,7 +7,6 @@ import {
 	GetAllConfigsResponse
 } from "../../../../shared/endpoints/configs/getAllConfigs";
 import { Validator } from "../../../../shared/types";
-import { optionalJwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
@@ -29,26 +28,32 @@ export const getAll = async (instance: FastifyInstance) => {
 		Reply: GetAllConfigsResponse,
 		Querystring: GetAllConfigsQuery
 	}>(GetAllConfigsBasePath, {
-		onRequest: [optionalJwtOnRequestHook()],
 		preValidation: [validatePreValidationHook({ query: queryValidator })]
 	}, async (request, reply) => {
 		const query = request.query;
 
-		const isAdmin = request?.user?.role === "ADMIN";
-
 		const configs = await prisma.config.findMany({
 			where: {
 				carId: query.carId,
-				bundleId: query.bundleId,
-				...(!isAdmin && { softDeleted: false })
+				...(query.bundleId && {
+					bundles: {
+						some: {
+							bundleId: query.bundleId
+						}
+					}
+				})
 			},
 			select: {
 				id: true,
 				title: true,
-				softDeleted: isAdmin,
-				bundleId: true,
+				bundles: {
+					select: {
+						bundleId: true
+					}
+				},
 				carId: true,
-				createdAt: true
+				createdAt: true,
+				updatedAt: true
 			}
 		});
 

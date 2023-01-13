@@ -2,9 +2,12 @@ import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import { GetByIdConfigs_NotFound } from "../../../../shared/consts/error";
-import { GetByIdConfigsBasePath, GetByIdConfigsParams } from "../../../../shared/endpoints/configs/getById";
+import {
+	GetByIdConfigsBasePath,
+	GetByIdConfigsParams,
+	GetByIdConfigsResponse
+} from "../../../../shared/endpoints/configs/getById";
 import { Validator } from "../../../../shared/types";
-import { optionalJwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
@@ -20,26 +23,28 @@ const paramsValidator: Validator<GetByIdConfigsParams> = {
 
 export const getById = async (instance: FastifyInstance) => {
 	instance.get<{
-		Params: GetByIdConfigsParams
+		Params: GetByIdConfigsParams,
+		Reply: GetByIdConfigsResponse
 	}>(GetByIdConfigsBasePath, {
-		onRequest: [optionalJwtOnRequestHook()],
 		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
 		const params = request.params;
 
-		const isAdmin = request?.user?.role === "ADMIN";
-
 		const config = await cancelIfFailed(async () => await prisma.config.findFirst({
 			where: {
 				id: params.id,
-				...(!isAdmin && { softDeleted: false })
 			},
 			select: {
 				id: true,
 				title: true,
-				softDeleted: isAdmin,
-				bundleId: true,
+				bundles: {
+					select: {
+						bundleId: true
+					}
+				},
 				carId: true,
+				createdAt: true,
+				updatedAt: true,
 				files: {
 					select: {
 						name: true,

@@ -2,7 +2,7 @@ import { Role } from "@prisma/client";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
-import { UpdateBundles_NotFound } from "../../../../shared/consts/error";
+import { CreateBundles_WrongConfigId, UpdateBundles_NotFound } from "../../../../shared/consts/error";
 import {
 	UpdateBundlesBasePath,
 	UpdateBundlesParams,
@@ -11,6 +11,7 @@ import {
 	UpdateBundlesResponse
 } from "../../../../shared/endpoints/bundles/updateBundles";
 import { Validator } from "../../../../shared/types";
+import { ApplicationError } from "../../infrastructure/applicationErrorHandler";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
@@ -43,12 +44,37 @@ export const update = async (instance: FastifyInstance) => {
 			}), StatusCodes.NOT_FOUND, UpdateBundles_NotFound
 		);
 
+		if (body.configs) {
+			const count = await prisma.config.count({
+				where: {
+					id: {
+						in: body.configs
+					}
+				}
+			});
+			if (count !== body.configs.length)
+				throw new ApplicationError(StatusCodes.NOT_FOUND, CreateBundles_WrongConfigId);
+		}
+
 		const updated = await prisma.bundle.update({
 			where: {
 				id: params.id
 			},
 			data: {
-				name: body.name
+				name: body.name,
+				configs: {
+					deleteMany: { bundleId: params.id },
+					...(body?.configs?.length && {
+						createMany: {
+							data: body.configs.map(id => ({ configId: id }))
+						}
+					})
+				}
+			},
+			select: {
+				id: true,
+				name: true,
+				price: true
 			}
 		});
 

@@ -8,6 +8,7 @@ import {
 	GetByIdBundlesResponse
 } from "../../../../shared/endpoints/bundles/getByIdBundles";
 import { Validator } from "../../../../shared/types";
+import { optionalJwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
@@ -25,22 +26,30 @@ export const getById = async (instance: FastifyInstance) => {
 		Reply: GetByIdBundlesResponse,
 		Params: GetByIdBundlesParams
 	}>(GetByIdBundlesBasePath, {
-		preValidation: [validatePreValidationHook({ params: paramsValidator })]
+		preValidation: [validatePreValidationHook({ params: paramsValidator })],
+		onRequest: [optionalJwtOnRequestHook()]
 	}, async (request, reply) => {
 		const params = request.params;
+		const isAdmin = request?.user?.role === "ADMIN";
 
 		const bundle = await cancelIfFailed(() => prisma.bundle.findUnique({
 			where: {
-				id: params.id
+				id: params.id,
+				...(!isAdmin && { softDeleted: false }),
 			},
-			include: {
+			select: {
+				id: true,
+				name: true,
+				softDeleted: isAdmin,
+				price: true,
+				createdAt: true,
+				updatedAt: true,
 				configs: {
 					select: {
-						id: true,
-						title: true
+						configId: true
 					}
 				}
-			}
+			},
 		}), StatusCodes.NOT_FOUND, GetByIdBundles_NotFound);
 
 		return reply.status(StatusCodes.OK).send({
