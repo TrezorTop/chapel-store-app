@@ -59,7 +59,7 @@ model Purchases {
     ownerUsername String
     bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
     bundleId String
-    @@id([ownerUsername, configId])
+    @@id([ownerUsername, bundleId])
 
     createdAt DateTime @default(now())
 }
