@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-11T19:27:39.566Z",
+  "__export_date": "2023-01-13T21:02:43.907Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
@@ -103,9 +103,9 @@
     {
       "_id": "req_b8d3c143beee451689f3aa63d2b81add",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1673464393044,
+      "modified": 1673642624282,
       "created": 1672343765670,
-      "url": "{{ _.baseUrl }}/configs/clc9hhxa900033s2cb1m8bul5",
+      "url": "{{ _.baseUrl }}/configs/clcuuojdy0000fkvvajj3ga1g",
       "name": "DeleteById",
       "description": "",
       "method": "DELETE",
@@ -141,7 +141,7 @@
     {
       "_id": "req_f4520b4631bc4062be989346b8ddd085",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1673462140760,
+      "modified": 1673641858746,
       "created": 1672248318853,
       "url": "{{ _.baseUrl }}/configs",
       "name": "Create",
@@ -153,7 +153,7 @@
           {
             "id": "pair_c732fb0b00894fc583f061c660f0eacf",
             "name": "title",
-            "value": "Title",
+            "value": "Local 1",
             "description": "",
             "type": "text",
             "multiline": false
@@ -161,13 +161,7 @@
           {
             "id": "pair_25ea55ed13e440068afdf2b5a9419981",
             "name": "carId",
-            "value": "clcnqk2qz00023s6rofkxr5gc",
-            "description": ""
-          },
-          {
-            "id": "pair_2ad970eeb67b4479ba54ba6203432b17",
-            "name": "bundleId",
-            "value": "clcnqk5k600043s6ruj08p012",
+            "value": "clcutekih00003soa161hkiyj",
             "description": ""
           },
           {
@@ -176,7 +170,7 @@
             "value": "",
             "description": "",
             "type": "file",
-            "fileName": "C:\\Users\\Catalan\\Desktop\\test.rar",
+            "fileName": "C:\\Users\\Catalan\\Desktop\\Images\\23311.jpg",
             "disabled": false
           },
           {
@@ -186,7 +180,7 @@
             "description": "",
             "type": "file",
             "fileName": "C:\\Users\\Catalan\\Desktop\\Images\\8_Dota2-Outworld-Devourer.jpg",
-            "disabled": true
+            "disabled": false
           }
         ]
       },
@@ -216,9 +210,9 @@
     {
       "_id": "req_ffbabea43e9a44d7b524402c5af55675",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1673465255056,
+      "modified": 1673642621689,
       "created": 1673327544380,
-      "url": "{{ _.baseUrl }}/configs/clcs0zh3i0000c53s6vw960pb",
+      "url": "{{ _.baseUrl }}/configs/clcuuojdy0000fkvvajj3ga1g",
       "name": "Update",
       "description": "",
       "method": "PUT",
@@ -228,7 +222,7 @@
           {
             "id": "pair_c732fb0b00894fc583f061c660f0eacf",
             "name": "title",
-            "value": "New Title 1",
+            "value": "Local Updated",
             "description": "",
             "type": "text",
             "multiline": false,
@@ -238,20 +232,6 @@
             "id": "pair_25ea55ed13e440068afdf2b5a9419981",
             "name": "carId",
             "value": "clcnqk2qz00023s6rofkxr5gc",
-            "description": "",
-            "disabled": true
-          },
-          {
-            "id": "pair_2ad970eeb67b4479ba54ba6203432b17",
-            "name": "bundleId",
-            "value": "clcnqk5k600043s6ruj08p012",
-            "description": "",
-            "disabled": true
-          },
-          {
-            "id": "pair_b6d99556503447a49131f73fb6e23612",
-            "name": "softDeleted",
-            "value": "false",
             "description": "",
             "disabled": true
           },
@@ -271,7 +251,7 @@
             "description": "",
             "type": "file",
             "fileName": "C:\\Users\\Catalan\\Desktop\\Images\\23311.jpg",
-            "disabled": true
+            "disabled": false
           }
         ]
       },
@@ -300,7 +280,7 @@
     {
       "_id": "req_65f1a3b0335f45108329b1f09c316519",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1673458458942,
+      "modified": 1673642405183,
       "created": 1671562037984,
       "url": "{{ _.baseUrl }}/configs",
       "name": "GetAll",
@@ -311,14 +291,14 @@
         {
           "id": "pair_e1bbabcae3594040b1270d1f1cfdcc17",
           "name": "carId",
-          "value": "clc3nvy7h00023sdc5b1m0n2u",
+          "value": "clcutekih00003soa161hkiyj",
           "description": "",
           "disabled": true
         },
         {
           "id": "pair_c2b559d0a28446bda172a6145b05952e",
           "name": "bundleId",
-          "value": "clc3m2lbj00043s0cvg7mlu07",
+          "value": "clcutfvjg00023soakg1tag2w",
           "description": "",
           "disabled": true
         }
@@ -342,9 +322,9 @@
     {
       "_id": "req_dd863cd4b1c34e6ea7b81c8ee970446b",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1673462143450,
+      "modified": 1673639910171,
       "created": 1672941024325,
-      "url": "{{ _.baseUrl }}/configs/clcs05di300003svva5dzf395",
+      "url": "{{ _.baseUrl }}/configs/clcuxz5n40000asvvgyope7jh",
       "name": "GetById",
       "description": "",
       "method": "GET",
@@ -367,36 +347,9 @@
       "_type": "request"
     },
     {
-      "_id": "req_b837e427b36946a6a17d1468818b375c",
-      "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1673462149097,
-      "created": 1673462046233,
-      "url": "{{ _.baseUrl }}/configs/getFileEncoded/clcs05di300003svva5dzf395",
-      "name": "GetFileEncoded",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [],
-      "headers": [],
-      "authentication": {
-        "type": "bearer",
-        "token": "{{ _.accessToken }}",
-        "disabled": false
-      },
-      "metaSortKey": -1671217844664.8125,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
       "_id": "req_edcba59e690c49d2aeffe5eb368ddf3d",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1672338534012,
+      "modified": 1673643632516,
       "created": 1671560210823,
       "url": "{{ _.baseUrl }}/bundles",
       "name": "GetAll",
@@ -405,7 +358,10 @@
       "body": {},
       "parameters": [],
       "headers": [],
-      "authentication": {},
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}"
+      },
       "metaSortKey": -1671349405404.5,
       "isPrivate": false,
       "settingStoreCookies": true,
@@ -431,9 +387,9 @@
     {
       "_id": "req_1655bb60ce3d4cb5be112e5167b1cf5e",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1673205544868,
+      "modified": 1673643254337,
       "created": 1672940142670,
-      "url": "{{ _.baseUrl }}/bundles/clcnqk5k600043s6ruj08p012",
+      "url": "{{ _.baseUrl }}/bundles/clcuygoyv0000vvvgw5xrd08s",
       "name": "GetById",
       "description": "",
       "method": "GET",
@@ -452,9 +408,36 @@
       "_type": "request"
     },
     {
+      "_id": "req_b837e427b36946a6a17d1468818b375c",
+      "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
+      "modified": 1673643266138,
+      "created": 1673462046233,
+      "url": "{{ _.baseUrl }}/bundles/clcuygoyv0000vvvgw5xrd08s/files",
+      "name": "GetFileEncoded",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}",
+        "disabled": false
+      },
+      "metaSortKey": -1671349405385.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "req_cc6fda7eb9f14298aeb3553430e615f4",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1673205370860,
+      "modified": 1673641125962,
       "created": 1672169646898,
       "url": "{{ _.baseUrl }}/bundles",
       "name": "Create",
@@ -462,7 +445,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"name\": \"Hueta\"\n}"
+        "text": "{\n\t\"name\": \"Local Hueta\",\n\t\"price\": 2.25,\n\t\"configs\": [\n\t\t\"clcuyfs7g0000vgvv2gxy2ctx\"\n\t]\n}"
       },
       "parameters": [],
       "headers": [
@@ -489,15 +472,15 @@
     {
       "_id": "req_63db6ca00ebe4b05a0912ade31430197",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1672172902698,
+      "modified": 1673642720939,
       "created": 1672172875458,
-      "url": "{{ _.baseUrl }}/bundles/clc3m2lbj00043s0cvg7mlu07",
+      "url": "{{ _.baseUrl }}/bundles/clcuygoyv0000vvvgw5xrd08s",
       "name": "Update",
       "description": "",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"name\": \"Hueta\"\n}"
+        "text": "{\n\t\"configs\": [\"clcuyfs7g0000vgvv2gxy2ctx\"]\n}"
       },
       "parameters": [],
       "headers": [
@@ -524,9 +507,9 @@
     {
       "_id": "req_8166a47703514fe98c0b63553af06bf4",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1672338534817,
+      "modified": 1673643270666,
       "created": 1671974949061,
-      "url": "{{ _.baseUrl }}/bundles/784087e3-84a2-4342-b309-c77fce9f1107",
+      "url": "{{ _.baseUrl }}/bundles/clcuygoyv0000vvvgw5xrd08s",
       "name": "DeleteById",
       "description": "",
       "method": "DELETE",
@@ -705,7 +688,7 @@
     {
       "_id": "req_7bb8b6554d0b49098560eb3e0146a684",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673203968253,
+      "modified": 1673632243543,
       "created": 1670023167894,
       "url": "{{ _.baseUrl }}/auth/register",
       "name": "Register",
@@ -749,7 +732,7 @@
     {
       "_id": "req_3281754849da475da04cd4db1efb6f90",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673465022834,
+      "modified": 1673643264214,
       "created": 1670263199596,
       "url": "{{ _.baseUrl }}/auth/login",
       "name": "Login",
@@ -781,7 +764,7 @@
     {
       "_id": "req_0a7307ecc8534b6d92e4770aee9d329a",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673329927009,
+      "modified": 1673553487606,
       "created": 1670265998591,
       "url": "{{ _.baseUrl }}/auth/refresh",
       "name": "Refresh",
