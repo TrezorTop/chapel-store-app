@@ -48,6 +48,7 @@ model Bundle {
     name String @unique
     configs BundleConfigs[]
     price Int
+    purchases Purchases[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt @default(now())
@@ -83,7 +84,6 @@ model Config {
     bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
     bundleId String
     softDeleted Boolean @default(false)
-    purchases Purchases[]
 
     bundles BundleConfigs[]
     files File[]
