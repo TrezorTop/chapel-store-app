@@ -95,6 +95,6 @@ model File {
     name String @id
     originalName String
     size String
-    config Config @relation(fields: [configId], references: [id], onDelete: Restrict)
+    config Config @relation(fields: [configId], references: [id], onDelete: Cascade)
     configId String
 }
