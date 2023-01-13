@@ -48,6 +48,7 @@ model Bundle {
     name String @unique
     configs BundleConfigs[]
     price Int
+    softDeleted Boolean @default(false)
     purchases Purchases[]
 
     createdAt DateTime @default(now())
@@ -81,7 +82,6 @@ model Config {
     title String
     car Car @relation(fields: [carId], references: [id], onDelete: Restrict)
     carId String
-    softDeleted Boolean @default(false)
 
     bundles BundleConfigs[]
     files File[]
