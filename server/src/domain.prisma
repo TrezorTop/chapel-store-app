@@ -47,7 +47,7 @@ model Bundle {
     id String @id @default(cuid())
     name String @unique
     configs BundleConfigs[]
-    price Int
+    price Decimal
     softDeleted Boolean @default(false)
     purchases Purchases[]
 
