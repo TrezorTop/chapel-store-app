@@ -26,7 +26,12 @@ export const getAll = async (instance: FastifyInstance) => {
 				updatedAt: true,
 				configs: {
 					select: {
-						configId: true
+						config: {
+							select: {
+								id: true,
+								title: true
+							}
+						}
 					}
 				}
 			},

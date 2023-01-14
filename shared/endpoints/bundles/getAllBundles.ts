@@ -15,7 +15,10 @@ export type GetAllBundlesResponse = {
 		createdAt: Date,
 		updatedAt: Date,
 		configs: {
-			configId: string
+			config: {
+				id: string,
+				title: string
+			}
 		}[]
 	}[]
 };
