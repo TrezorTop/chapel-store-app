@@ -62,6 +62,8 @@ export const update = async (instance: FastifyInstance) => {
 			},
 			data: {
 				name: body.name,
+				price: body.price,
+				softDeleted: body.softDeleted,
 				configs: {
 					deleteMany: { bundleId: params.id },
 					...(body?.configs?.length && {
@@ -74,7 +76,13 @@ export const update = async (instance: FastifyInstance) => {
 			select: {
 				id: true,
 				name: true,
-				price: true
+				price: true,
+				softDeleted: true,
+				configs: {
+					select: {
+						configId: true
+					}
+				}
 			}
 		});
 
