@@ -1,7 +1,6 @@
 import { BasePath, ConfigsRootPath } from "../../index";
 import { Validator } from "../../types";
 
-
 export const CreateConfigsBasePath = "";
 
 export const CreateConfigsPath = `${BasePath}${ConfigsRootPath}${CreateConfigsBasePath}`;

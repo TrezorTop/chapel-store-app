@@ -1,14 +1,16 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { AxiosError, AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
-import { ErrorResponse } from "../../../../../../../shared/consts/error";
 import { DeleteByIdBundlesPath } from "../../../../../../../shared/endpoints/bundles/deleteByIdBundles";
-import { GetAllBundlesPath, GetAllBundlesResponse } from "../../../../../../../shared/endpoints/bundles/getAllBundles";
+import { GetAllBundlesPath } from "../../../../../../../shared/endpoints/bundles/getAllBundles";
+import { UpdateBundlesPath } from "../../../../../../../shared/endpoints/bundles/updateBundles";
 import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Modal } from "../../../../../core/components/kit/Modal/Modal";
-import { api } from "../../../../../core/config/api";
-import { deleteBundle } from "../../../../../core/services/main.service";
+import { Typography } from "../../../../../core/components/kit/Typography/Typography";
+import { deleteBundle, getBundles, updateBundle } from "../../../../../core/services/main.service";
+import { EDIT_ENTITIES_SETUPS_URL } from "../../../../../core/utils/consts/urls";
 import { queryClient } from "../../../../../main";
 import { Header } from "../../../components/EditHeader/EditHeader";
 import { ItemCard } from "../../../components/ItemCard/ItemCard";
@@ -16,13 +18,17 @@ import { CreateForm } from "./CreateForm/CreateForm";
 
 export const Bundles = () => {
   const [modal, setModal] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  const { data: bundlesData } = useQuery<AxiosResponse<GetAllBundlesResponse>, AxiosError<ErrorResponse>>(
-    [GetAllBundlesPath],
-    () => api.get(GetAllBundlesPath),
-  );
+  const { data: bundlesData } = useQuery([GetAllBundlesPath], () => getBundles());
 
   const { mutate: mutateDeleteBundle } = useMutation([DeleteByIdBundlesPath], deleteBundle, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([GetAllBundlesPath]);
+    },
+  });
+
+  const { mutate: mutateUpdateBundle } = useMutation([UpdateBundlesPath], updateBundle, {
     onSuccess: () => {
       queryClient.invalidateQueries([GetAllBundlesPath]);
     },
@@ -37,26 +43,35 @@ export const Bundles = () => {
       <Header>
         <Button onClick={() => setModal(true)}>Add</Button>
       </Header>
+
+      <Outlet />
+
       {bundlesData?.data.bundles.map((bundle) => (
         <ItemCard
+          key={bundle.id}
           actions={
             <>
-              <Button
-                onClick={() => {
-                  setModal(true);
-                }}
-                variant="text"
-              >
+              <Button variant="text" onClick={() => navigate(`${bundle.id}/edit`)}>
                 Update
               </Button>
-              <Button onClick={() => mutateDeleteBundle({ id: bundle.id })} variant="text">
-                Delete
-              </Button>
+
+              {bundle.softDeleted ? (
+                <Button
+                  color="warning"
+                  onClick={() => mutateUpdateBundle({ id: bundle.id, softDeleted: false })}
+                  variant="text"
+                >
+                  Restore
+                </Button>
+              ) : (
+                <Button color="error" onClick={() => mutateDeleteBundle({ id: bundle.id })} variant="text">
+                  Delete
+                </Button>
+              )}
             </>
           }
-          key={bundle.id}
         >
-          {bundle.name}
+          {bundle.name} {bundle.softDeleted && <Typography variant="caption">Deleted</Typography>}
         </ItemCard>
       ))}
     </>

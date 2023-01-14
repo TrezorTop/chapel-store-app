@@ -1,8 +1,7 @@
 .root {
-  display: flex;
-  & > *:not(:last-child) {
-    margin-right: 16px;
-  }
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
 }
 
 .content {

@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { RegisterPath } from "../../../../../shared/endpoints/auth/register";
-import { Form } from "../../../core/components/hoc/Form/Form";
+import { Form } from "../../../core/components/kit/Form/Form";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Input } from "../../../core/components/kit/Input/Input";
 import { signUp } from "../../../core/services/user.service";
-import { MAIN_URL, SIGN_IN_URL } from "../../../core/utils/consts";
+import { MAIN_URL, SIGN_IN_URL } from "../../../core/utils/consts/urls";
 import { updateAuthTokens } from "../../../core/utils/functions/auth";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import { Window } from "../components/Window/Window";

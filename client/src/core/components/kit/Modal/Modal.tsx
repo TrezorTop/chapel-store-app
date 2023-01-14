@@ -12,7 +12,7 @@ type TModal = {
   modalActons?: ReactNode;
 } & ModalProps;
 
-export const Modal: FC<TModal> = ({ children, modalTitle, modalActons, ...props }) => {
+export const Modal: FC<TModal> = ({ children, modalTitle, modalActons, keepMounted, ...props }) => {
   return (
     <MuiModal {...props}>
       <div className={s.root}>

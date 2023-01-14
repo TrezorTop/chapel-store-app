@@ -1,44 +1,102 @@
 import { MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { AxiosError, AxiosResponse } from "axios";
 import { FC, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import { ErrorResponse } from "../../../../../../shared/consts/error";
 import { GetAllBundlesPath } from "../../../../../../shared/endpoints/bundles/getAllBundles";
-import { GetAllCarsPath, GetAllCarsResponse } from "../../../../../../shared/endpoints/cars/getAllCars";
-import { GetAllConfigsPath, GetAllConfigsResponse } from "../../../../../../shared/endpoints/configs/getAllConfigs";
+import { GetAllCarsPath } from "../../../../../../shared/endpoints/cars/getAllCars";
+import { GetAllConfigsPath } from "../../../../../../shared/endpoints/configs/getAllConfigs";
+import { CreatePaymentPath } from "../../../../../../shared/endpoints/purchases/createPurchases";
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../core/components/kit/Input/Input";
-import { api } from "../../../../core/config/api";
-import { getBundles, getCars, getConfigs } from "../../../../core/services/main.service";
-import { GetElementType } from "../../../../core/utils/types/utilityTypes";
+import { getBundles, getCars, getSetups } from "../../../../core/services/main.service";
+import { createPayment } from "../../../../core/services/payment.service";
+import { getProfileConfigs } from "../../../../core/services/profile.service";
+import { queryClient } from "../../../../main";
 import s from "./Selector.module.scss";
 
+enum QueryParams {
+  CarId = "carId",
+  BundleId = "bundleId",
+  ConfigId = "ConfigId",
+}
+
 type SelectorProps = {
-  setConfig: (data: GetElementType<GetAllConfigsResponse["configs"]> | undefined) => void;
+  setSelectedConfig: (data: string) => void;
 };
 
-export const Selector: FC<SelectorProps> = ({ setConfig }) => {
+export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [carId, setCarId] = useState<string>("");
   const [bundleId, setBundleId] = useState<string>("");
   const [configId, setConfigId] = useState<string>("");
 
   const { data: carsData } = useQuery([GetAllCarsPath], getCars);
 
-  const { data: bundlesData } = useQuery([GetAllBundlesPath], getBundles, {
+  const { data: bundlesData, refetch: refetchBundles } = useQuery([GetAllBundlesPath], getBundles, {
     enabled: !!carId,
   });
 
-  const { data: configsData } = useQuery([GetAllConfigsPath], () => getConfigs({ bundleId, carId }), {
-    enabled: !!bundleId,
+  const { data: configsData, refetch: refetchConfigs } = useQuery(
+    [GetAllConfigsPath],
+    () => getSetups({ bundleId, carId }),
+    {
+      enabled: !!bundleId,
+    },
+  );
+
+  const { mutate: mutateCreatePayment } = useMutation([CreatePaymentPath], () => createPayment({ configId }), {
+    onSuccess: () => {
+      queryClient.invalidateQueries([getProfileConfigs]);
+    },
   });
+
+  useEffect(() => {
+    setSearchParams({
+      ...(carId && { [QueryParams.CarId]: carId }),
+      ...(bundleId && { [QueryParams.BundleId]: bundleId }),
+      ...(configId && { [QueryParams.ConfigId]: configId }),
+    });
+
+    const queryCarId = searchParams.get(QueryParams.CarId);
+    const queryBundleId = searchParams.get(QueryParams.BundleId);
+    const queryConfigId = searchParams.get(QueryParams.ConfigId);
+
+    queryCarId && setCarId(queryCarId);
+    queryBundleId && setBundleId(queryBundleId);
+    if (queryConfigId) {
+      setConfigId(queryConfigId);
+      setSelectedConfig(queryConfigId);
+    }
+  }, []);
+
+  useEffect(() => {
+    setSearchParams({
+      ...(carId && { [QueryParams.CarId]: carId }),
+      ...(bundleId && { [QueryParams.BundleId]: bundleId }),
+      ...(configId && { [QueryParams.ConfigId]: configId }),
+    });
+  }, [carId, bundleId, configId]);
+
+  // useEffect(() => {
+  //   // carId && setBundleId("");
+  //   // refetchBundles()
+  // }, [carId]);
+
+  // useEffect(() => {
+  //   // setConfigId("");
+  //   // bundleId && refetchConfigs();
+  // }, [bundleId]);
 
   return (
     <div className={s.root}>
       <Input
         value={carId}
         onChange={(event) => {
+          setBundleId("");
           setCarId(event.target.value);
+          refetchBundles()
         }}
         disabled={!carsData}
         inputLabel="Select Car"
@@ -58,7 +116,7 @@ export const Selector: FC<SelectorProps> = ({ setConfig }) => {
         onChange={(event) => {
           setBundleId(event.target.value);
         }}
-        disabled={!carId && !bundlesData}
+        disabled={!carId || !bundlesData}
         inputLabel="Select Bundle"
         variant="outlined"
         fullWidth
@@ -70,15 +128,14 @@ export const Selector: FC<SelectorProps> = ({ setConfig }) => {
           </MenuItem>
         )) ?? []}
       </Input>
-
-      <Input
+      {/* <Input
         value={configId}
         onChange={(event) => {
-          setConfig(configsData?.data.configs.find((config) => config.id === event.target.value));
+          setSelectedConfig(event.target.value);
           setConfigId(event.target.value);
         }}
-        disabled={!bundleId && !configsData}
-        inputLabel="Select Config"
+        disabled={!bundleId || !configsData}
+        inputLabel="Select Setup"
         variant="outlined"
         fullWidth
         select
@@ -88,9 +145,8 @@ export const Selector: FC<SelectorProps> = ({ setConfig }) => {
             {config.title}
           </MenuItem>
         )) ?? []}
-      </Input>
-
-      <Button variant="contained" size="large" fullWidth>
+      </Input> */}
+      <Button variant="contained" size="large" fullWidth onClick={() => mutateCreatePayment()}>
         Proceed Payment
       </Button>
     </div>

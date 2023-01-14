@@ -1,9 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { AUTH_URL, CREATOR_URL, MAIN_URL, PROFILE_URL } from "../../../../utils/consts";
-import { removeAuthTokens } from "../../../../utils/functions/auth";
-import { Button } from "../../../kit/Button/Button";
+import {
+  AUTH_URL,
+  CREATOR_URL,
+  EDIT_ENTITIES_CARS_URL,
+  EDIT_ENTITIES_URL,
+  MAIN_URL,
+  PROFILE_URL,
+} from "../../../../../utils/consts/urls";
+import { removeAuthTokens } from "../../../../../utils/functions/auth";
+import { Button } from "../../../../kit/Button/Button";
 import s from "./Header.module.scss";
 
 export const Header = () => {
@@ -23,13 +30,12 @@ export const Header = () => {
           >
             MAIN
           </Button>
-          <Button variant="contained">ping server</Button>
         </div>
         <div className={s.container}>
           <Button
             variant="text"
             onClick={() => {
-              navigate(CREATOR_URL);
+              navigate(`${CREATOR_URL}/${EDIT_ENTITIES_URL}/${EDIT_ENTITIES_CARS_URL}`);
             }}
           >
             Creator Panel

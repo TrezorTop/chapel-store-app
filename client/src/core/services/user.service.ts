@@ -22,3 +22,8 @@ export const refershToken = ({ refreshToken }: RefreshRequest) =>
   });
 
 export const ping = () => api.get(PingPath);
+
+export const refreshToken = ({ refreshToken }: RefreshRequest) =>
+  api.post<RefreshResponse>(RefreshPath, {
+    refreshToken,
+  });

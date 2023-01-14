@@ -16,3 +16,24 @@
   --text-secondary: grey;
   --accent: darkred;
 }
+
+html {
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #b0b0b0 #ffffff;
+  }
+
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #b0b0b0;
+    border-radius: 90px;
+    border: 3px solid #ffffff;
+  }
+}

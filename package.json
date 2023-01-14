@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "react-dropzone": "^14.2.3"
+  }
+}
