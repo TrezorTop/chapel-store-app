@@ -71,7 +71,6 @@ model Purchases {
 
 model UncomittedOrders {
     id String @id @default(cuid())
-    invoiceId String
     owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
     ownerUsername String
     bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
