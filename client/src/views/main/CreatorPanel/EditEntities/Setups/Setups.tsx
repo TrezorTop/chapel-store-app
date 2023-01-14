@@ -53,7 +53,7 @@ export const Setups = () => {
 
   return (
     <>
-      <Modal open={modal} onClose={() => setModal(false)}>
+      {/* <Modal open={modal} onClose={() => setModal(false)}>
         <CreateForm />
       </Modal>
 
@@ -95,7 +95,7 @@ export const Setups = () => {
             </Typography>
           )}
         </ItemCard>
-      ))}
+      ))} */}
     </>
   );
 };
