@@ -22,6 +22,9 @@ export const proceed = async (instance: FastifyInstance) => {
 				}
 			}), StatusCodes.NOT_FOUND, VeryBadThingsHappend
 		);
+		if (body.status === "fail")
+			return reply.status(StatusCodes.BAD_REQUEST).send();
+
 		await prisma.purchases.create({
 			data: {
 				ownerUsername: order.ownerUsername,
