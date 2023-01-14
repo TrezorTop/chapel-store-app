@@ -32,7 +32,7 @@ export const getById = async (instance: FastifyInstance) => {
 		const params = request.params;
 		const isAdmin = request?.user?.role === "ADMIN";
 
-		const bundle = await cancelIfFailed(() => prisma.bundle.findUnique({
+		const bundle = await cancelIfFailed(() => prisma.bundle.findFirst({
 			where: {
 				id: params.id,
 				...(!isAdmin && { softDeleted: false }),
