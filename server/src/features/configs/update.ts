@@ -63,12 +63,9 @@ export const update = async (instance: FastifyInstance) => {
 			await fs.rename(oldPath, tempPath);
 			try {
 				await prisma.$transaction(async (tx) => {
-					tx.config.update({
+					await tx.file.deleteMany({
 						where: {
-							id: params.id
-						},
-						data: {
-							files: { deleteMany: {} }
+							configId: params.id
 						}
 					});
 					await processFiles(params.id, request.files);
