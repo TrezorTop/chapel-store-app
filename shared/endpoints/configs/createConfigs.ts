@@ -20,10 +20,6 @@ export const CreateConfigsRequestValidator: Validator<CreateConfigsRequest> = {
 	carId: {
 		check: [],
 		required: true
-	},
-	bundleId: {
-		check: [],
-		required: true
 	}
 };
 
@@ -36,8 +32,7 @@ export const CreateConfigsSettings = {
 export type CreateConfigsRequest = {
 	title: string,
 	data: File[],
-	carId: string,
-	bundleId: string
+	carId: string
 }
 
 export type CreateConfigsResponse = {
@@ -45,6 +40,5 @@ export type CreateConfigsResponse = {
 		id: string,
 		title: string,
 		carId: string,
-		bundleId: string
 	}
 };

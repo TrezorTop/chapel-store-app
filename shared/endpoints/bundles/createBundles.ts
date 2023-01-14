@@ -1,4 +1,5 @@
 import { BasePath, BundlesRootPath } from "../..";
+import { Decimal } from "../../../server/src/infrastructure/prismaConnect";
 import { Validator } from "../../types";
 
 
@@ -13,16 +14,27 @@ export const CreateBundlesRequestValidator: Validator<CreateBundlesRequest> = {
 			value => value.length <= 32 || "Максимальная длина 32 символа"
 		],
 		required: true
+	},
+	price: {
+		check: [],
+		required: true
+	},
+	configs: {
+		check: [],
+		required: true
 	}
 };
 
 export type CreateBundlesRequest = {
-	name: string
+	name: string,
+	price: number,
+	configs: string[]
 }
 
 export type CreateBundlesResponse = {
 	bundle: {
 		id: string,
-		name: string
+		name: string,
+		price: Decimal
 	}
 };

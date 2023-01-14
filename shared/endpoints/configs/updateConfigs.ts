@@ -17,16 +17,13 @@ export type UpdateConfigsParams = {
 export type UpdateConfigsRequest = {
 	title?: string,
 	data?: File[],
-	softDeleted?: string,
-	carId?: string,
-	bundleId?: string
+	carId?: string
 }
 
 export type UpdateConfigsResponse = {
 	config: {
+		id: string,
 		title: string,
 		carId: string,
-		bundleId: string,
-		softDeleted: boolean
 	}
 };

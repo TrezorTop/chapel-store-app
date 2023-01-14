@@ -1,3 +1,4 @@
+import { Decimal } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, BundlesRootPath } from "../../index";
 
 
@@ -8,8 +9,9 @@ export const DeleteByIdBundlesPath = `${BasePath}${BundlesRootPath}${DeleteByIdB
 export type DeleteByIdBundlesParams = { id: string };
 
 export type DeleteByIdBundlesResponse = {
-	configs?: {
+	bundle: {
 		id: string,
-		title: string
-	}[]
+		name: string,
+		price: Decimal
+	}
 };

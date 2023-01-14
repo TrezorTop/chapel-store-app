@@ -1,14 +1,18 @@
 import { Role } from "@prisma/client";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
+import fs from "fs/promises";
 import { StatusCodes } from "http-status-codes";
-import { DeleteConfigs_NotFound } from "../../../../shared/consts/error";
+import path from "path";
+import { DeleteConfigs_BundlesRelationNotEmpty, DeleteConfigs_NotFound } from "../../../../shared/consts/error";
 import {
 	DeleteByIdConfigsBasePath,
 	DeleteByIdConfigsParams,
 	DeleteByIdConfigsResponse
 } from "../../../../shared/endpoints/configs/deleteByIdConfigs";
 import { Validator } from "../../../../shared/types";
+import { configsPath } from "../../constants";
+import { ApplicationError } from "../../infrastructure/applicationErrorHandler";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
@@ -32,21 +36,30 @@ export const deleteById = async (instance: FastifyInstance) => {
 	}, async (request, reply) => {
 		const params = request.params;
 
-		await cancelIfFailed(() => prisma.config.findUnique({
+		const config = await cancelIfFailed(() => prisma.config.findUnique({
 				where: {
 					id: params.id
+				},
+				select: {
+					_count: {
+						select: {
+							bundles: true
+						}
+					}
 				}
 			}), StatusCodes.NOT_FOUND, DeleteConfigs_NotFound
 		);
 
-		await prisma.config.update({
+		if (config._count.bundles > 0)
+			throw new ApplicationError(StatusCodes.FORBIDDEN, DeleteConfigs_BundlesRelationNotEmpty);
+
+		await prisma.config.delete({
 			where: {
 				id: params.id
-			},
-			data: {
-				softDeleted: true
 			}
 		});
+		const configPath = path.join(configsPath, params.id);
+		await fs.rm(configPath, { recursive: true, force: true });
 
 		return reply.status(StatusCodes.OK).send();
 	});

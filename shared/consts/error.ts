@@ -20,10 +20,13 @@ export const Refresh_UsedTokenError = "Токен уже был использо
 
 export const CreateConfigs_WrongCarId = "Неверный carId";
 export const CreateConfigs_WrongBundleId = "Неверный bundleId";
-export const CreateConfigs_FileIsNotArchive = "Файл не является архивом";
 export const CreateConfigs_NotEnoughFiles = "Недостаточно файлов";
 
+export const CreateBundles_WrongConfigId = "Такого конфига не существует";
+
 export const DeleteConfigs_NotFound = "Такого конфига не существует";
+
+export const DeleteConfigs_BundlesRelationNotEmpty = "У конфига есть связи с бандлами";
 
 export const UpdateCars_NotFound = "Такой машины не существует";
 
@@ -41,4 +44,4 @@ export const GetByIdCars_NotFound = "Такой машины не существ
 
 export const GetByIdConfigs_NotFound = "Такого конфига не существует";
 
-export const GetMyConfigById_NotFound = "Такого конфига не существует";
+export const GetBundleFiles_NotFound = "Такого бандла не существует";

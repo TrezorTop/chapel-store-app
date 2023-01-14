@@ -5,11 +5,7 @@ import { File } from "fastify-multer/lib/interfaces";
 import * as fs from "fs/promises";
 import { StatusCodes } from "http-status-codes";
 import path from "path";
-import {
-	CreateConfigs_NotEnoughFiles,
-	CreateConfigs_WrongBundleId,
-	CreateConfigs_WrongCarId
-} from "../../../../shared/consts/error";
+import { CreateConfigs_NotEnoughFiles, CreateConfigs_WrongCarId } from "../../../../shared/consts/error";
 import {
 	CreateConfigsBasePath,
 	CreateConfigsRequest,
@@ -35,13 +31,6 @@ export const create = async (instance: FastifyInstance) => {
 		const body = request.body;
 
 		await cancelIfFailed(() =>
-			prisma.bundle.findUnique({
-				where: {
-					id: body.bundleId
-				}
-			}), StatusCodes.NOT_FOUND, CreateConfigs_WrongBundleId
-		);
-		await cancelIfFailed(() =>
 			prisma.car.findUnique({
 				where: {
 					id: body.carId
@@ -54,7 +43,6 @@ export const create = async (instance: FastifyInstance) => {
 			data: {
 				id: id,
 				title: body.title,
-				bundleId: body.bundleId,
 				carId: body.carId
 			}
 		});

@@ -51,7 +51,7 @@ export const update = async (instance: FastifyInstance) => {
 
 		if (request.files.length > 0) {
 			const file = await cancelIfFailed(() => findSingleFile(
-					`${params.id}.**`,
+					params.id,
 					{ cwd: configsPath }
 				),
 				StatusCodes.BAD_REQUEST, VeryBadThingsHappend
@@ -67,7 +67,8 @@ export const update = async (instance: FastifyInstance) => {
 				await fs.rename(tempPath, oldPath);
 				throw e;
 			}
-			await fs.rm(tempPath);
+
+			await fs.rm(tempPath, { recursive: true, force: true });
 		}
 
 		const updated = await prisma.config.update({
@@ -76,9 +77,7 @@ export const update = async (instance: FastifyInstance) => {
 			},
 			data: {
 				title: body.title,
-				softDeleted: body?.softDeleted === "true",
-				carId: body.carId,
-				bundleId: body.bundleId
+				carId: body.carId
 			}
 		});
 
