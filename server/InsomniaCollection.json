@@ -1,16 +1,16 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-13T21:02:43.907Z",
+  "__export_date": "2023-01-14T16:22:26.252Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
       "_id": "req_5468db98f34b45bda77ae760b3a252d3",
       "parentId": "fld_1e622a22079d43b491e03b8e232fdb5e",
-      "modified": 1673208773556,
+      "modified": 1673713127985,
       "created": 1672338365944,
-      "url": "{{ _.baseUrl }}/me/configs",
-      "name": "Configs",
+      "url": "{{ _.baseUrl }}/me/bundles",
+      "name": "Bundles",
       "description": "",
       "method": "GET",
       "body": {},
@@ -55,7 +55,7 @@
     {
       "_id": "req_8a05dc9a106642ff8f0e7801a478bdbb",
       "parentId": "fld_592f8c4a2313405c8fbe7d042c6973c7",
-      "modified": 1673326579452,
+      "modified": 1673712744093,
       "created": 1671718413220,
       "url": "{{ _.baseUrl }}/payments",
       "name": "Create",
@@ -99,6 +99,42 @@
       "environmentPropertyOrder": null,
       "metaSortKey": -1671718401598,
       "_type": "request_group"
+    },
+    {
+      "_id": "req_75722a498560430fa8f7c7ec85ade14d",
+      "parentId": "fld_592f8c4a2313405c8fbe7d042c6973c7",
+      "modified": 1673712765738,
+      "created": 1673712111905,
+      "url": "{{ _.baseUrl }}/payments/proceed",
+      "name": "Proceed",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"status\": \"success\",\n\t\"order_id\": \"clcw5bvv700003sozxd71pxe5\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_ecf350fd0dfe48798f373e611f6a609c"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}",
+        "disabled": false
+      },
+      "metaSortKey": -1671165220403.9375,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
     },
     {
       "_id": "req_b8d3c143beee451689f3aa63d2b81add",
@@ -349,7 +385,7 @@
     {
       "_id": "req_edcba59e690c49d2aeffe5eb368ddf3d",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1673643632516,
+      "modified": 1673708576009,
       "created": 1671560210823,
       "url": "{{ _.baseUrl }}/bundles",
       "name": "GetAll",
@@ -732,7 +768,7 @@
     {
       "_id": "req_3281754849da475da04cd4db1efb6f90",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673643264214,
+      "modified": 1673712754808,
       "created": 1670263199596,
       "url": "{{ _.baseUrl }}/auth/login",
       "name": "Login",
@@ -835,7 +871,7 @@
     {
       "_id": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
       "parentId": "wrk_342923f919d04c4994d679961620182b",
-      "modified": 1671482630684,
+      "modified": 1673643775796,
       "created": 1670023099250,
       "name": "Base Environment",
       "data": {
@@ -877,7 +913,7 @@
     {
       "_id": "env_a6f4812ef3654350ae02475a19367546",
       "parentId": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
-      "modified": 1671482735963,
+      "modified": 1673643770954,
       "created": 1671482613188,
       "name": "VPS",
       "data": {
