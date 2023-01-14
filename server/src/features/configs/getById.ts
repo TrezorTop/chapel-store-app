@@ -39,7 +39,12 @@ export const getById = async (instance: FastifyInstance) => {
 				title: true,
 				bundles: {
 					select: {
-						bundleId: true
+						bundle: {
+							select: {
+								id: true,
+								name: true
+							}
+						}
 					}
 				},
 				carId: true,
