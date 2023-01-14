@@ -14,6 +14,7 @@ import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
+import { CreateInvoiceResponse } from "./index";
 
 
 const bodyValidator: Validator<CreatePaymentRequest> = {
@@ -66,10 +67,3 @@ export const create = async (instance: FastifyInstance) => {
 		return reply.status(StatusCodes.OK).send({ url: res.data.pay_url });
 	});
 };
-
-type CreateInvoiceResponse = {
-	status: "success" | "error",
-	pay_url: string,
-	invoice_id: string,
-	currency: string
-}
