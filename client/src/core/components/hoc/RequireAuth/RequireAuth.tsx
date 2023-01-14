@@ -10,8 +10,16 @@ import {
 } from "../../../../../../shared/consts/error";
 import { RefreshPath } from "../../../../../../shared/endpoints/auth/refresh";
 import { PingPath } from "../../../../../../shared/endpoints/health/ping";
+import { api } from "../../../config/api";
 import { ping, refreshToken } from "../../../services/user.service";
-import { AUTH_URL, HTTP_BROADCAST_KEY, NETWORK_ERROR, SIGN_IN_URL, USER_REFRESH_TOKEN_KEY } from "../../../utils/consts/urls";
+import {
+  AUTH_URL,
+  HTTP_BROADCAST_KEY,
+  NETWORK_ERROR,
+  SIGN_IN_URL,
+  USER_ACCESS_TOKEN_KEY,
+  USER_REFRESH_TOKEN_KEY,
+} from "../../../utils/consts/urls";
 import { updateAuthTokens } from "../../../utils/functions/auth";
 import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
@@ -30,6 +38,8 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
   useEffect(() => {
     // if (requireAuth === false) return;
 
+    api.defaults.headers["authorization"] = `Bearer ${localStorage.getItem(USER_ACCESS_TOKEN_KEY)}`;
+
     const broadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);
 
     broadcast.onmessage = (event) => {
@@ -39,7 +49,10 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
         return navigate(`${AUTH_URL}/${SIGN_IN_URL}`, { state: { referrer: location.pathname } });
     };
 
-    return () => broadcast.close();
+    return () => {
+      delete api.defaults.headers["authorization"];
+      broadcast.close();
+    };
   }, []);
 
   useQuery([PingPath], ping);
@@ -56,7 +69,7 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
         {refreshTokenIsLoading && <GlobalLoader />}
         {/* {isNetworkError && <GlobalLoader showLoader={false} />} */}
       </AnimatePresence>
-      {children}
+      {api.defaults.headers["authorization"] && children}
     </>
   );
 };

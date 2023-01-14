@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 
 import { DeleteByIdBundlesPath } from "../../../../../../../shared/endpoints/bundles/deleteByIdBundles";
 import { GetAllBundlesPath } from "../../../../../../../shared/endpoints/bundles/getAllBundles";
@@ -10,7 +9,6 @@ import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Modal } from "../../../../../core/components/kit/Modal/Modal";
 import { Typography } from "../../../../../core/components/kit/Typography/Typography";
 import { deleteBundle, getBundles, updateBundle } from "../../../../../core/services/main.service";
-import { EDIT_ENTITIES_SETUPS_URL } from "../../../../../core/utils/consts/urls";
 import { queryClient } from "../../../../../main";
 import { Header } from "../../../components/EditHeader/EditHeader";
 import { ItemCard } from "../../../components/ItemCard/ItemCard";
@@ -20,7 +18,7 @@ export const Bundles = () => {
   const [modal, setModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { data: bundlesData } = useQuery([GetAllBundlesPath], () => getBundles());
+  const { data: bundlesData } = useQuery([GetAllBundlesPath], () => getBundles({}));
 
   const { mutate: mutateDeleteBundle } = useMutation([DeleteByIdBundlesPath], deleteBundle, {
     onSuccess: () => {
@@ -71,7 +69,12 @@ export const Bundles = () => {
             </>
           }
         >
-          {bundle.name} {bundle.softDeleted && <Typography variant="caption">Deleted</Typography>}
+          <Typography color={bundle.softDeleted ? "error" : "inherit"}>{bundle.name}</Typography>{" "}
+          {bundle.softDeleted && (
+            <Typography variant="caption" color="error">
+              Deleted
+            </Typography>
+          )}
         </ItemCard>
       ))}
     </>

@@ -1,15 +1,15 @@
-import { MenuItem } from "@mui/material";
+import { CircularProgress, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FC, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { GetAllBundlesPath } from "../../../../../../shared/endpoints/bundles/getAllBundles";
+import { GetByIdBundlesPath } from "../../../../../../shared/endpoints/bundles/getByIdBundles";
 import { GetAllCarsPath } from "../../../../../../shared/endpoints/cars/getAllCars";
-import { GetAllConfigsPath } from "../../../../../../shared/endpoints/configs/getAllConfigs";
 import { CreatePaymentPath } from "../../../../../../shared/endpoints/purchases/createPurchases";
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../core/components/kit/Input/Input";
-import { getBundles, getCars, getSetups } from "../../../../core/services/main.service";
+import { getBundle, getBundles, getCars } from "../../../../core/services/main.service";
 import { createPayment } from "../../../../core/services/payment.service";
 import { getProfileConfigs } from "../../../../core/services/profile.service";
 import { queryClient } from "../../../../main";
@@ -31,26 +31,23 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
   const [carId, setCarId] = useState<string>("");
   const [bundleId, setBundleId] = useState<string>("");
   const [configId, setConfigId] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   const { data: carsData } = useQuery([GetAllCarsPath], getCars);
 
-  const { data: bundlesData, refetch: refetchBundles } = useQuery([GetAllBundlesPath], getBundles, {
+  const { data: bundlesData, refetch: refetchBundles } = useQuery([GetAllBundlesPath], () => getBundles({ carId }), {
     enabled: !!carId,
   });
 
-  const { data: configsData, refetch: refetchConfigs } = useQuery(
-    [GetAllConfigsPath],
-    () => getSetups({ bundleId, carId }),
+  const { mutate: mutateCreatePayment, isLoading } = useMutation(
+    [CreatePaymentPath],
+    () => createPayment({ bundleId, email }),
     {
-      enabled: !!bundleId,
+      onSuccess: () => {
+        queryClient.invalidateQueries([getProfileConfigs]);
+      },
     },
   );
-
-  const { mutate: mutateCreatePayment } = useMutation([CreatePaymentPath], () => createPayment({ configId }), {
-    onSuccess: () => {
-      queryClient.invalidateQueries([getProfileConfigs]);
-    },
-  });
 
   useEffect(() => {
     setSearchParams({
@@ -79,15 +76,15 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
     });
   }, [carId, bundleId, configId]);
 
-  // useEffect(() => {
-  //   // carId && setBundleId("");
-  //   // refetchBundles()
-  // }, [carId]);
+  useEffect(() => {
+    if (!carId) return;
+    refetchBundles();
+  }, [carId]);
 
-  // useEffect(() => {
-  //   // setConfigId("");
-  //   // bundleId && refetchConfigs();
-  // }, [bundleId]);
+  useEffect(() => {
+    // if (!bundleId) return;
+    setSelectedConfig(bundleId);
+  }, [bundleId]);
 
   return (
     <div className={s.root}>
@@ -96,7 +93,6 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
         onChange={(event) => {
           setBundleId("");
           setCarId(event.target.value);
-          refetchBundles()
         }}
         disabled={!carsData}
         inputLabel="Select Car"
@@ -128,26 +124,23 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
           </MenuItem>
         )) ?? []}
       </Input>
-      {/* <Input
-        value={configId}
-        onChange={(event) => {
-          setSelectedConfig(event.target.value);
-          setConfigId(event.target.value);
-        }}
-        disabled={!bundleId || !configsData}
-        inputLabel="Select Setup"
-        variant="outlined"
+
+      <Input
+        placeholder="Email (Optional)"
         fullWidth
-        select
+        inputLabel="Send payment info to"
+        variant="outlined"
+        onChange={(event) => setEmail(event.target.value)}
+      />
+      <Button
+        disabled={isLoading}
+        variant="outlined"
+        color="success"
+        size="large"
+        fullWidth
+        onClick={() => mutateCreatePayment()}
       >
-        {configsData?.data.configs.map((config) => (
-          <MenuItem key={config.id} value={config.id}>
-            {config.title}
-          </MenuItem>
-        )) ?? []}
-      </Input> */}
-      <Button variant="contained" size="large" fullWidth onClick={() => mutateCreatePayment()}>
-        Proceed Payment
+        {isLoading ? <CircularProgress color="success" /> : <>Proceed Payment</>}
       </Button>
     </div>
   );

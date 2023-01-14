@@ -4,7 +4,11 @@ import {
   CreateBundlesResponse,
 } from "../../../../shared/endpoints/bundles/createBundles";
 import { DeleteByIdBundlesParams, DeleteByIdBundlesPath } from "../../../../shared/endpoints/bundles/deleteByIdBundles";
-import { GetAllBundlesPath, GetAllBundlesResponse } from "../../../../shared/endpoints/bundles/getAllBundles";
+import {
+  GetAllBundlesPath,
+  GetAllBundlesQuery,
+  GetAllBundlesResponse,
+} from "../../../../shared/endpoints/bundles/getAllBundles";
 import {
   GetBundleFilesBasePath,
   GetBundleFilesParams,
@@ -41,11 +45,7 @@ import {
   DeleteByIdConfigsPath,
   DeleteByIdConfigsResponse,
 } from "../../../../shared/endpoints/configs/deleteByIdConfigs";
-import {
-  GetAllConfigsPath,
-  GetAllConfigsQuery,
-  GetAllConfigsResponse,
-} from "../../../../shared/endpoints/configs/getAllConfigs";
+import { GetAllConfigsPath, GetAllConfigsResponse } from "../../../../shared/endpoints/configs/getAllConfigs";
 import {
   GetByIdConfigsParams,
   GetByIdConfigsPath,
@@ -59,8 +59,7 @@ import {
 import { api } from "../config/api";
 import { buildRequestUrl } from "../utils/functions/api";
 
-export const getSetups = (data: GetAllConfigsQuery) =>
-  api.get<GetAllConfigsResponse>(buildRequestUrl(GetAllConfigsPath, data));
+export const getSetups = () => api.get<GetAllConfigsResponse>(GetAllConfigsPath);
 export const getSetupById = ({ id }: GetByIdConfigsParams) =>
   api.get<GetByIdConfigsResponse>(GetByIdConfigsPath.replace(":id", id));
 export const createSetup = (formData: FormData) =>
@@ -74,7 +73,8 @@ export const updateSetup = ({ id }: UpdateConfigsParams, formData: FormData) =>
 export const deleteSetup = ({ id }: DeleteByIdConfigsParams) =>
   api.delete<DeleteByIdConfigsResponse>(DeleteByIdConfigsPath.replace(":id", id));
 
-export const getBundles = () => api.get<GetAllBundlesResponse>(GetAllBundlesPath);
+export const getBundles = (data: GetAllBundlesQuery) =>
+  api.get<GetAllBundlesResponse>(buildRequestUrl(GetAllBundlesPath, data));
 export const getBundle = ({ id }: GetByIdBundlesParams) =>
   api.get<GetByIdBundlesResponse>(GetByIdBundlesPath.replace(":id", id));
 export const createBundle = (data: CreateBundlesRequest) => api.post<CreateBundlesResponse>(CreateBundlesPath, data);

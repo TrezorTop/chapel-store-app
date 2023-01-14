@@ -10,6 +10,7 @@ import { Modal } from "../../../../../core/components/kit/Modal/Modal";
 import { Paper } from "../../../../../core/components/kit/Paper/Paper";
 import { Typography } from "../../../../../core/components/kit/Typography/Typography";
 import { deleteCar, getCars } from "../../../../../core/services/main.service";
+import { EDIT_ENTITIES_SETUPS_URL } from "../../../../../core/utils/consts/urls";
 import { queryClient } from "../../../../../main";
 import { Header } from "../../../components/EditHeader/EditHeader";
 import { ItemCard } from "../../../components/ItemCard/ItemCard";
@@ -68,7 +69,7 @@ export const Cars = () => {
               Linked with{" "}
               {car.configs.map((config) => (
                 <React.Fragment key={config.id}>
-                  <Link to={`../configs/${config.id}/edit`}>{config.title}</Link>,{" "}
+                  <Link to={`../${EDIT_ENTITIES_SETUPS_URL}/${config.id}/edit`}>{config.title}</Link>,{" "}
                 </React.Fragment>
               ))}
             </Typography>
