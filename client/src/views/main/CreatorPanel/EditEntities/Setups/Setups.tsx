@@ -23,7 +23,7 @@ export const Setups = () => {
   const [modal, setModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { data: configsData } = useQuery([GetAllConfigsPath], () => getSetups({}));
+  const { data: configsData } = useQuery([GetAllConfigsPath], getSetups);
 
   const { mutate: mutateDeleteConfig } = useMutation(
     [DeleteByIdConfigsPath],
@@ -83,19 +83,17 @@ export const Setups = () => {
           }
           key={config.id}
         >
-          <Typography color={config.softDeleted ? "error" : "inherit"}>
-            {config.title}{" "}
-            {!!config.bundles.length && (
-              <Typography variant="subtitle2">
-                Linked with{" "}
-                {config.bundles.map(({ bundleId }) => (
-                  <React.Fragment key={bundleId}>
-                    <Link to={`../${EDIT_ENTITIES_BUNDLES_URL}/${bundleId}/edit`}>{config.title}</Link>,{" "}
-                  </React.Fragment>
-                ))}
-              </Typography>
-            )}
-          </Typography>
+          {config.title}
+          {!!config.bundles.length && (
+            <Typography variant="subtitle2">
+              Linked with{" "}
+              {config.bundles.map(({ bundle }) => (
+                <React.Fragment key={bundle.id}>
+                  <Link to={`../${EDIT_ENTITIES_BUNDLES_URL}/${bundle.id}/edit`}>{bundle.name}</Link>,{" "}
+                </React.Fragment>
+              ))}
+            </Typography>
+          )}
         </ItemCard>
       ))}
     </>

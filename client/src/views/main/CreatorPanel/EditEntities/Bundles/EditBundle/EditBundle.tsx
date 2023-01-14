@@ -34,7 +34,7 @@ export const EditBundle = () => {
     refetch();
   }, [id]);
 
-  const { data: setupsData } = useQuery([GetAllConfigsPath], () => getSetups({}));
+  const { data: setupsData } = useQuery([GetAllConfigsPath], getSetups);
 
   const { mutate } = useMutation([UpdateBundlesPath], () => updateBundle({ id: id ?? "", name, price, configs }), {
     onSuccess: () => {

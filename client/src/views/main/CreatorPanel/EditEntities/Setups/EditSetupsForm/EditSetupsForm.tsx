@@ -24,7 +24,7 @@ export const EditSetupsForm = () => {
 
   const { id } = useParams<{ id: string }>();
 
-  const { data: setupData } = useQuery([GetByIdConfigsPath], () => getSetupById({ id: id ?? "" }), {
+  const { data: setupData, refetch } = useQuery([GetByIdConfigsPath], () => getSetupById({ id: id ?? "" }), {
     onSuccess: ({ data }) => {
       setTitle(data.config.title);
       setCarId(data.config.carId);
@@ -32,9 +32,7 @@ export const EditSetupsForm = () => {
   });
 
   useEffect(() => {
-    if (!id) return;
-
-    queryClient.invalidateQueries([GetByIdConfigsPath]);
+    refetch();
   }, [id]);
 
   const { data: carsData } = useQuery([GetAllCarsPath], getCars);

@@ -23,7 +23,7 @@ export const CreateForm = () => {
     },
   });
 
-  const { data: setupsData } = useQuery([GetAllConfigsPath], () => getSetups({}));
+  const { data: setupsData } = useQuery([GetAllConfigsPath], getSetups);
 
   return (
     <Form>
