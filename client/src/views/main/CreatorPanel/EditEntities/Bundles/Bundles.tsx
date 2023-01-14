@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 
 import { DeleteByIdBundlesPath } from "../../../../../../../shared/endpoints/bundles/deleteByIdBundles";
 import { GetAllBundlesPath } from "../../../../../../../shared/endpoints/bundles/getAllBundles";
+import { UpdateBundlesPath } from "../../../../../../../shared/endpoints/bundles/updateBundles";
 import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Modal } from "../../../../../core/components/kit/Modal/Modal";
 import { Typography } from "../../../../../core/components/kit/Typography/Typography";
-import { deleteBundle, getBundles } from "../../../../../core/services/main.service";
+import { deleteBundle, getBundles, updateBundle } from "../../../../../core/services/main.service";
+import { EDIT_ENTITIES_SETUPS_URL } from "../../../../../core/utils/consts/urls";
 import { queryClient } from "../../../../../main";
 import { Header } from "../../../components/EditHeader/EditHeader";
 import { ItemCard } from "../../../components/ItemCard/ItemCard";
@@ -21,6 +23,12 @@ export const Bundles = () => {
   const { data: bundlesData } = useQuery([GetAllBundlesPath], () => getBundles());
 
   const { mutate: mutateDeleteBundle } = useMutation([DeleteByIdBundlesPath], deleteBundle, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([GetAllBundlesPath]);
+    },
+  });
+
+  const { mutate: mutateUpdateBundle } = useMutation([UpdateBundlesPath], updateBundle, {
     onSuccess: () => {
       queryClient.invalidateQueries([GetAllBundlesPath]);
     },
@@ -47,23 +55,23 @@ export const Bundles = () => {
                 Update
               </Button>
 
-              <Button color="error" onClick={() => mutateDeleteBundle({ id: bundle.id })} variant="text">
-                Delete
-              </Button>
+              {bundle.softDeleted ? (
+                <Button
+                  color="warning"
+                  onClick={() => mutateUpdateBundle({ id: bundle.id, softDeleted: false })}
+                  variant="text"
+                >
+                  Restore
+                </Button>
+              ) : (
+                <Button color="error" onClick={() => mutateDeleteBundle({ id: bundle.id })} variant="text">
+                  Delete
+                </Button>
+              )}
             </>
           }
         >
-          {bundle.name}
-          {!!bundle.configs.length && (
-            <Typography variant="subtitle2">
-              Linked with{" "}
-              {bundle.configs.map((config) => (
-                <React.Fragment key={config.id}>
-                  <Link to={`../configs/${config.id}/edit`}>{config.title}</Link>,{" "}
-                </React.Fragment>
-              ))}
-            </Typography>
-          )}
+          {bundle.name} {bundle.softDeleted && <Typography variant="caption">Deleted</Typography>}
         </ItemCard>
       ))}
     </>

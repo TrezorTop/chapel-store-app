@@ -18,9 +18,10 @@ type TFileDropzoneProps = {
   onChange?: (files: File[]) => void;
   accept?: Accept;
   label?: string;
+  multiple?: boolean;
 };
 
-export const FileDropzone: FC<TFileDropzoneProps> = ({ onChange, accept, label }) => {
+export const FileDropzone: FC<TFileDropzoneProps> = ({ onChange, accept, label, multiple = true }) => {
   const [files, setFiles] = useState<File[]>();
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export const FileDropzone: FC<TFileDropzoneProps> = ({ onChange, accept, label }
     onDrop: (event) => {
       setFiles(event);
     },
-    multiple: false,
+    multiple: multiple,
     onDragEnter: () => {},
     onDragOver: () => {},
     onDragLeave: () => {},

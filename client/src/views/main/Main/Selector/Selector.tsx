@@ -9,9 +9,9 @@ import { GetAllConfigsPath } from "../../../../../../shared/endpoints/configs/ge
 import { CreatePaymentPath } from "../../../../../../shared/endpoints/purchases/createPurchases";
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Input } from "../../../../core/components/kit/Input/Input";
-import { getBundles, getCars, getConfigs } from "../../../../core/services/main.service";
+import { getBundles, getCars, getSetups } from "../../../../core/services/main.service";
 import { createPayment } from "../../../../core/services/payment.service";
-import { getMyConfigs } from "../../../../core/services/profile.service";
+import { getProfileConfigs } from "../../../../core/services/profile.service";
 import { queryClient } from "../../../../main";
 import s from "./Selector.module.scss";
 
@@ -34,13 +34,13 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
 
   const { data: carsData } = useQuery([GetAllCarsPath], getCars);
 
-  const { data: bundlesData } = useQuery([GetAllBundlesPath], getBundles, {
+  const { data: bundlesData, refetch: refetchBundles } = useQuery([GetAllBundlesPath], getBundles, {
     enabled: !!carId,
   });
 
   const { data: configsData, refetch: refetchConfigs } = useQuery(
     [GetAllConfigsPath],
-    () => getConfigs({ bundleId, carId }),
+    () => getSetups({ bundleId, carId }),
     {
       enabled: !!bundleId,
     },
@@ -48,7 +48,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
 
   const { mutate: mutateCreatePayment } = useMutation([CreatePaymentPath], () => createPayment({ configId }), {
     onSuccess: () => {
-      queryClient.invalidateQueries([getMyConfigs]);
+      queryClient.invalidateQueries([getProfileConfigs]);
     },
   });
 
@@ -79,14 +79,15 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
     });
   }, [carId, bundleId, configId]);
 
-  useEffect(() => {
-    // carId && setBundleId("");
-  }, [carId]);
+  // useEffect(() => {
+  //   // carId && setBundleId("");
+  //   // refetchBundles()
+  // }, [carId]);
 
-  useEffect(() => {
-    // setConfigId("");
-    bundleId && refetchConfigs();
-  }, [bundleId]);
+  // useEffect(() => {
+  //   // setConfigId("");
+  //   // bundleId && refetchConfigs();
+  // }, [bundleId]);
 
   return (
     <div className={s.root}>
@@ -95,6 +96,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
         onChange={(event) => {
           setBundleId("");
           setCarId(event.target.value);
+          refetchBundles()
         }}
         disabled={!carsData}
         inputLabel="Select Car"
@@ -126,14 +128,14 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
           </MenuItem>
         )) ?? []}
       </Input>
-      <Input
+      {/* <Input
         value={configId}
         onChange={(event) => {
           setSelectedConfig(event.target.value);
           setConfigId(event.target.value);
         }}
         disabled={!bundleId || !configsData}
-        inputLabel="Select Config"
+        inputLabel="Select Setup"
         variant="outlined"
         fullWidth
         select
@@ -143,7 +145,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
             {config.title}
           </MenuItem>
         )) ?? []}
-      </Input>
+      </Input> */}
       <Button variant="contained" size="large" fullWidth onClick={() => mutateCreatePayment()}>
         Proceed Payment
       </Button>

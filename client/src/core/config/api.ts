@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 
 import { ErrorResponse } from "../../../../shared/consts/error";
-import { API_URL, AUTH_ERRORS, HTTP_BROADCAST_KEY, NETWORK_ERROR, USER_ACCESS_TOKEN_KEY } from "../utils/consts";
+import { API_URL, AUTH_ERRORS, HTTP_BROADCAST_KEY, NETWORK_ERROR, USER_ACCESS_TOKEN_KEY } from "../utils/consts/urls";
 
 export const api = axios.create({
   baseURL: API_URL,

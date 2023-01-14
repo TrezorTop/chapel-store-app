@@ -2,25 +2,24 @@ import { Tab, Tabs } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router";
 
-import { Paper } from "../../../../core/components/kit/Paper/Paper";
 import {
   EDIT_ENTITIES_BUNDLES_URL,
   EDIT_ENTITIES_CARS_URL,
-  EDIT_ENTITIES_CONFIGS_URL,
+  EDIT_ENTITIES_SETUPS_URL,
   UPDATE_ENTITY_URL,
-} from "../../../../core/utils/consts";
+} from "../../../../core/utils/consts/urls";
 import { Bundles } from "./Bundles/Bundles";
 import { EditBundle } from "./Bundles/EditBundle/EditBundle";
 import { Cars } from "./Cars/Cars";
-import { EditCar } from "./Cars/EditCar/EditCar";
-import { Configs } from "./Configs/Configs";
-import { EditConfig } from "./Configs/EditConfig/EditConfig";
+import { EditCarsForm } from "./Cars/EditCarsForm/EditCarsForm";
 import s from "./EditEntities.module.scss";
+import { EditSetupsForm } from "./Setups/EditSetupsForm/EditSetupsForm";
+import { Setups } from "./Setups/Setups";
 
 enum TabValues {
   Cars = "CARS",
   Bundles = "BUNDLES",
-  Configs = "CONFIGS",
+  Setups = "SETUPS",
 }
 
 export const EditEntities = () => {
@@ -31,7 +30,7 @@ export const EditEntities = () => {
   useEffect(() => {
     if (location.pathname.includes(EDIT_ENTITIES_CARS_URL)) return setSelectedTab(TabValues.Cars);
     if (location.pathname.includes(EDIT_ENTITIES_BUNDLES_URL)) return setSelectedTab(TabValues.Bundles);
-    if (location.pathname.includes(EDIT_ENTITIES_CONFIGS_URL)) return setSelectedTab(TabValues.Configs);
+    if (location.pathname.includes(EDIT_ENTITIES_SETUPS_URL)) return setSelectedTab(TabValues.Setups);
   }, [location.pathname]);
 
   const navigate = useNavigate();
@@ -40,8 +39,8 @@ export const EditEntities = () => {
     <div className={s.root}>
       <Tabs value={selectedTab} orientation="vertical" onChange={(_, value) => setSelectedTab(value)}>
         <Tab value={TabValues.Cars} label={TabValues.Cars} onClick={() => navigate(EDIT_ENTITIES_CARS_URL)} />
+        <Tab value={TabValues.Setups} label={TabValues.Setups} onClick={() => navigate(EDIT_ENTITIES_SETUPS_URL)} />
         <Tab value={TabValues.Bundles} label={TabValues.Bundles} onClick={() => navigate(EDIT_ENTITIES_BUNDLES_URL)} />
-        <Tab value={TabValues.Configs} label={TabValues.Configs} onClick={() => navigate(EDIT_ENTITIES_CONFIGS_URL)} />
       </Tabs>
 
       <div className={s.content}>
@@ -49,7 +48,7 @@ export const EditEntities = () => {
           <Route
             path={EDIT_ENTITIES_CARS_URL}
             element={<Cars />}
-            children={<Route path={UPDATE_ENTITY_URL} element={<EditCar />} />}
+            children={<Route path={UPDATE_ENTITY_URL} element={<EditCarsForm />} />}
           />
           <Route
             path={EDIT_ENTITIES_BUNDLES_URL}
@@ -57,9 +56,9 @@ export const EditEntities = () => {
             children={<Route path={UPDATE_ENTITY_URL} element={<EditBundle />} />}
           />
           <Route
-            path={EDIT_ENTITIES_CONFIGS_URL}
-            element={<Configs />}
-            children={<Route path={UPDATE_ENTITY_URL} element={<EditConfig />} />}
+            path={EDIT_ENTITIES_SETUPS_URL}
+            element={<Setups />}
+            children={<Route path={UPDATE_ENTITY_URL} element={<EditSetupsForm />} />}
           />
           <Route path={""} element={<Navigate to={"../"} />} />
         </Routes>

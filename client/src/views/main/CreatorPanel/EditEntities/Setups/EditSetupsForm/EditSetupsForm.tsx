@@ -1,9 +1,8 @@
-import { MenuItem } from "@mui/material";
+import { InputLabel, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { GetAllBundlesPath } from "../../../../../../../../shared/endpoints/bundles/getAllBundles";
 import { GetAllCarsPath } from "../../../../../../../../shared/endpoints/cars/getAllCars";
 import { GetAllConfigsPath } from "../../../../../../../../shared/endpoints/configs/getAllConfigs";
 import { GetByIdConfigsPath } from "../../../../../../../../shared/endpoints/configs/getById";
@@ -14,39 +13,48 @@ import { Form } from "../../../../../../core/components/kit/Form/Form";
 import { FormActions } from "../../../../../../core/components/kit/Form/FormActions/FormActions";
 import { Input } from "../../../../../../core/components/kit/Input/Input";
 import { Paper } from "../../../../../../core/components/kit/Paper/Paper";
-import { getBundles, getCars, getConfig, updateConfig } from "../../../../../../core/services/main.service";
+import { getCars, getSetupById, updateSetup } from "../../../../../../core/services/main.service";
+import { formatBytes } from "../../../../../../core/utils/functions/file";
 import { queryClient } from "../../../../../../main";
 
-export const EditConfig = () => {
+export const EditSetupsForm = () => {
   const [title, setTitle] = useState<string>("");
-  const [file, setFile] = useState<File>();
-  const [bundleId, setBundleId] = useState<string>("");
+  const [files, setFiles] = useState<File[]>();
   const [carId, setCarId] = useState<string>("");
 
   const { id } = useParams<{ id: string }>();
 
-  const { data: getConfigData, refetch } = useQuery([GetByIdConfigsPath], () => getConfig({ id: id ?? "" }), {
+  const { data: setupData } = useQuery([GetByIdConfigsPath], () => getSetupById({ id: id ?? "" }), {
     onSuccess: ({ data }) => {
       setTitle(data.config.title);
-      setBundleId(data.config.bundleId);
       setCarId(data.config.carId);
     },
   });
 
   useEffect(() => {
-    refetch();
+    if (!id) return;
+
+    queryClient.invalidateQueries([GetByIdConfigsPath]);
   }, [id]);
 
   const { data: carsData } = useQuery([GetAllCarsPath], getCars);
-  const { data: bundlesData } = useQuery([GetAllBundlesPath], getBundles);
 
   const { mutate } = useMutation(
     [UpdateConfigsPath],
-    async () =>
-      updateConfig({ id: id ?? "", title, ...(file && { data: JSON.parse(await file?.text()) }), bundleId, carId }),
+    () => {
+      const formData = new FormData();
+
+      formData.append("title", title);
+      formData.append("carId", carId);
+
+      files?.forEach((file) => formData.append("data", file, file.name));
+
+      return updateSetup({ id: id ?? "" }, formData);
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries([GetAllConfigsPath]);
+        queryClient.invalidateQueries([GetByIdConfigsPath]);
       },
     },
   );
@@ -54,25 +62,35 @@ export const EditConfig = () => {
   return (
     <Paper>
       <Form>
-        <Input value={title} inputLabel={"Config Title"} onChange={(event) => setTitle(event.target.value)} />
+        {setupData?.data.config.files && (
+          <>
+            <InputLabel>Current Setup Files</InputLabel>
+            {setupData?.data.config.files.map((file, index) => (
+              <Paper key={index}>
+                {file.originalName} {formatBytes(+file.size)}
+              </Paper>
+            ))}
+          </>
+        )}
+        <Input value={title} inputLabel={"Setup Title"} onChange={(event) => setTitle(event.target.value)} />
         <FileDropzone
           onChange={(files) => {
-            const file = files[0];
-            setFile(file);
+            setFiles(files);
           }}
-          accept={{ "application/json": [".json"] }}
           label="Click or place json file here"
         />
-        {file && <Paper>{file?.name}</Paper>}
+        {files?.length && (
+          <>
+            <InputLabel>Uploaded Files</InputLabel>
+            {files.map((file, index) => (
+              <Paper key={index}>
+                {file.name} {formatBytes(+file.size)}
+              </Paper>
+            ))}
+          </>
+        )}
         <Input value={carId} select inputLabel={"Car"} onChange={(event) => setCarId(event.target.value)}>
           {carsData?.data.cars.map((car) => (
-            <MenuItem key={car.id} value={car.id}>
-              {car.name}
-            </MenuItem>
-          ))}
-        </Input>
-        <Input value={bundleId} select inputLabel={"Bundle"} onChange={(event) => setBundleId(event.target.value)}>
-          {bundlesData?.data.bundles.map((car) => (
             <MenuItem key={car.id} value={car.id}>
               {car.name}
             </MenuItem>

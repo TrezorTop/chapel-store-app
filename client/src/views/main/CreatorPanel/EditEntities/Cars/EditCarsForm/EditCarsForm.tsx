@@ -13,7 +13,7 @@ import { Paper } from "../../../../../../core/components/kit/Paper/Paper";
 import { getCar, updateCar } from "../../../../../../core/services/main.service";
 import { queryClient } from "../../../../../../main";
 
-export const EditCar = () => {
+export const EditCarsForm = () => {
   const [name, setName] = useState<string>("");
 
   const { id } = useParams<{ id: string }>();

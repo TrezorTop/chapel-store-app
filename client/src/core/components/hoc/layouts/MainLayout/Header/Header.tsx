@@ -8,7 +8,7 @@ import {
   EDIT_ENTITIES_URL,
   MAIN_URL,
   PROFILE_URL,
-} from "../../../../../utils/consts";
+} from "../../../../../utils/consts/urls";
 import { removeAuthTokens } from "../../../../../utils/functions/auth";
 import { Button } from "../../../../kit/Button/Button";
 import s from "./Header.module.scss";

@@ -11,7 +11,7 @@ import {
 import { RefreshPath } from "../../../../../../shared/endpoints/auth/refresh";
 import { PingPath } from "../../../../../../shared/endpoints/health/ping";
 import { ping, refreshToken } from "../../../services/user.service";
-import { AUTH_URL, HTTP_BROADCAST_KEY, NETWORK_ERROR, SIGN_IN_URL, USER_REFRESH_TOKEN_KEY } from "../../../utils/consts";
+import { AUTH_URL, HTTP_BROADCAST_KEY, NETWORK_ERROR, SIGN_IN_URL, USER_REFRESH_TOKEN_KEY } from "../../../utils/consts/urls";
 import { updateAuthTokens } from "../../../utils/functions/auth";
 import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 

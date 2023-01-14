@@ -1,10 +1,10 @@
 import { Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router";
-import { Paper } from "../../../core/components/kit/Paper/Paper";
+import { Navigate, Route, Routes, useNavigate } from "react-router";
 
+import { Paper } from "../../../core/components/kit/Paper/Paper";
 import { Typography } from "../../../core/components/kit/Typography/Typography";
-import { EDIT_ENTITIES_CARS_URL, EDIT_ENTITIES_URL, STATISTICS_URL } from "../../../core/utils/consts";
+import { EDIT_ENTITIES_CARS_URL, EDIT_ENTITIES_URL, STATISTICS_URL } from "../../../core/utils/consts/urls";
 import { EditEntities } from "./EditEntities/EditEntities";
 
 enum TabValues {
