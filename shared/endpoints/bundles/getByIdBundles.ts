@@ -19,7 +19,10 @@ export type GetByIdBundlesResponse = {
 		createdAt: Date,
 		updatedAt: Date,
 		configs: {
-			configId: string
+			config: {
+				id: string,
+				title: string
+			}
 		}[]
 	}
 };

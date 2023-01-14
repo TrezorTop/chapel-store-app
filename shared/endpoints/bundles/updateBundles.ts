@@ -9,7 +9,13 @@ export const UpdateBundlesBasePath = "/:id";
 
 export const UpdateBundlesPath = `${BasePath}${BundlesRootPath}${UpdateBundlesBasePath}`;
 
-export const UpdateBundlesRequestValidator: Validator<UpdateBundlesRequest> = makeOptionalValidator(CreateBundlesRequestValidator);
+export const UpdateBundlesRequestValidator: Validator<UpdateBundlesRequest> = {
+	...makeOptionalValidator(CreateBundlesRequestValidator),
+	softDeleted: {
+		check: [],
+		required: false
+	}
+};
 
 export type UpdateBundlesParams = {
 	id: string
@@ -18,6 +24,7 @@ export type UpdateBundlesParams = {
 export type UpdateBundlesRequest = {
 	name?: string
 	price?: number,
+	softDeleted?: boolean,
 	configs?: string[]
 }
 

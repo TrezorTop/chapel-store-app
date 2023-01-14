@@ -15,7 +15,10 @@ export type GetByIdConfigsResponse = {
 		title: string,
 		softDeleted?: boolean,
 		bundles: {
-			bundleId: string
+			bundle: {
+				id: string,
+				name: string
+			}
 		}[],
 		carId: string,
 		createdAt: Date,

@@ -6,6 +6,11 @@ export const GetAllBundlesBasePath = "";
 
 export const GetAllBundlesPath = `${BasePath}${BundlesRootPath}${GetAllBundlesBasePath}`;
 
+export type GetAllBundlesQuery = {
+	carId?: string,
+	bundleId?: string
+}
+
 export type GetAllBundlesResponse = {
 	bundles: {
 		id: string,
@@ -15,7 +20,10 @@ export type GetAllBundlesResponse = {
 		createdAt: Date,
 		updatedAt: Date,
 		configs: {
-			configId: string
+			config: {
+				id: string,
+				title: string
+			}
 		}[]
 	}[]
 };

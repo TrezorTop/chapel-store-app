@@ -1,20 +1,47 @@
+import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
-import { GetAllBundlesBasePath, GetAllBundlesResponse } from "../../../../shared/endpoints/bundles/getAllBundles";
+import {
+	GetAllBundlesBasePath,
+	GetAllBundlesQuery,
+	GetAllBundlesResponse
+} from "../../../../shared/endpoints/bundles/getAllBundles";
+import { Validator } from "../../../../shared/types";
 import { optionalJwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
+import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
+
+
+const queryValidator: Validator<GetAllBundlesQuery> = {
+	carId: {
+		check: [value => cuid.isCuid(value) || "Невалидный id"],
+		required: false
+	}
+};
 
 
 export const getAll = async (instance: FastifyInstance) => {
 	instance.get<{
-		Reply: GetAllBundlesResponse
+		Reply: GetAllBundlesResponse,
+		Querystring: GetAllBundlesQuery
 	}>(GetAllBundlesBasePath, {
-		onRequest: [optionalJwtOnRequestHook()]
+		onRequest: [optionalJwtOnRequestHook()],
+		preValidation: [validatePreValidationHook({ query: queryValidator })]
 	}, async (request, reply) => {
+		const query = request.query;
 		const isAdmin = request?.user?.role === "ADMIN";
 
 		const bundles = await prisma.bundle.findMany({
 			where: {
+				...(query.carId && {
+					configs: {
+						some: {
+							config: {
+								carId: query.carId,
+							}
+						}
+					}
+				}),
 				...(!isAdmin && { softDeleted: false }),
 			},
 			select: {
@@ -26,7 +53,12 @@ export const getAll = async (instance: FastifyInstance) => {
 				updatedAt: true,
 				configs: {
 					select: {
-						configId: true
+						config: {
+							select: {
+								id: true,
+								title: true
+							}
+						}
 					}
 				}
 			},
