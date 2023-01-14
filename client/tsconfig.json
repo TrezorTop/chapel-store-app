@@ -21,7 +21,7 @@
       }
     ]
   },
-  "include": ["src", "../shared", "../server"],
+  "include": ["src", "../shared", "../server/src/infrasructure/prismaConnect.ts"],
   "references": [
     {
       "path": "./tsconfig.node.json"

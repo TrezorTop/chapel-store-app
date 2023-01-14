@@ -66,6 +66,7 @@ export const Header = () => {
                 removeAuthTokens();
                 refetch();
               }}
+              color="error"
             >
               Log Out
             </Button>
@@ -75,6 +76,7 @@ export const Header = () => {
               onClick={() => {
                 navigate(AUTH_URL);
               }}
+              color="secondary"
             >
               Log In
             </Button>

@@ -1,4 +1,4 @@
-import { MenuItem } from "@mui/material";
+import { CircularProgress, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FC, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -31,6 +31,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
   const [carId, setCarId] = useState<string>("");
   const [bundleId, setBundleId] = useState<string>("");
   const [configId, setConfigId] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   const { data: carsData } = useQuery([GetAllCarsPath], getCars);
 
@@ -38,11 +39,15 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
     enabled: !!carId,
   });
 
-  const { mutate: mutateCreatePayment } = useMutation([CreatePaymentPath], () => createPayment({ configId }), {
-    onSuccess: () => {
-      queryClient.invalidateQueries([getProfileConfigs]);
+  const { mutate: mutateCreatePayment, isLoading } = useMutation(
+    [CreatePaymentPath],
+    () => createPayment({ bundleId, email }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([getProfileConfigs]);
+      },
     },
-  });
+  );
 
   useEffect(() => {
     setSearchParams({
@@ -119,8 +124,23 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
           </MenuItem>
         )) ?? []}
       </Input>
-      <Button variant="contained" size="large" fullWidth onClick={() => mutateCreatePayment()}>
-        Proceed Payment
+
+      <Input
+        placeholder="Email (Optional)"
+        fullWidth
+        inputLabel="Send payment info to"
+        variant="outlined"
+        onChange={(event) => setEmail(event.target.value)}
+      />
+      <Button
+        disabled={isLoading}
+        variant="outlined"
+        color="success"
+        size="large"
+        fullWidth
+        onClick={() => mutateCreatePayment()}
+      >
+        {isLoading ? <CircularProgress color="success" /> : <>Proceed Payment</>}
       </Button>
     </div>
   );
