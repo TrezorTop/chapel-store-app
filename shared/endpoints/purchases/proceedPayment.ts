@@ -7,6 +7,5 @@ export const ProceedPaymentPath = `${BasePath}${PaymentsRootPath}${ProceedPaymen
 
 export type ProceedPaymentRequest = {
 	status: "success" | "fail",
-	order_id: string,
-	invoice_id: string,
+	order_id: string
 };
