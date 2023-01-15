@@ -10,6 +10,7 @@
   --text-primary: black;
   --text-secondary: royalblue;
   --accent: #FF4C29;
+  --overlay: #ffffffbf;
 }
 
 [data-theme="dark"] {
@@ -17,6 +18,7 @@
   --text-primary: white;
   --text-secondary: grey;
   --accent: #FF4C29;
+  --overlay: #474747bf;
 }
 
 html {

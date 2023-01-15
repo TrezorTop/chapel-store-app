@@ -19,7 +19,7 @@ export const Restore = () => {
   const navigate = useNavigate();
 
   return (
-    <Window>
+    <Window header="Password Restoration">
       <Form>
         {step === Step.Email && (
           <Email

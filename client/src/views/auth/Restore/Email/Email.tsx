@@ -1,8 +1,14 @@
-import React, { FC } from "react";
+import { useMutation } from "@tanstack/react-query";
+import React, { FC, useCallback } from "react";
+import {
+  RequestResetPasswordPath,
+  RequestResetPasswordRequestValidator,
+} from "../../../../../../shared/endpoints/auth/requestResetPassword";
 
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { FormActions } from "../../../../core/components/kit/Form/FormActions/FormActions";
 import { Input } from "../../../../core/components/kit/Input/Input";
+import { requestResetPassword } from "../../../../core/services/user.service";
 import { useForm } from "../../../../core/utils/hooks/useForm";
 
 type TForm = {
@@ -14,13 +20,21 @@ type TEmailProps = {
 };
 
 export const Email: FC<TEmailProps> = ({ onSubmit }) => {
-  const { form, updateForm } = useForm<TForm>();
+  const { form, updateForm, isFieldValid } = useForm<TForm>();
+
+  const { isLoading } = useMutation([RequestResetPasswordPath], () => requestResetPassword({ email: form.email! }));
+
+  const isValid = useCallback(() => {
+    return !isLoading && isFieldValid(RequestResetPasswordRequestValidator.email.check, form.email);
+  }, [form, isLoading]);
 
   return (
     <>
-      <Input placeholder="Email" onChange={(event) => updateForm({ email: event.target.value })} />
+      <Input placeholder="Email" variant="outlined" onChange={(event) => updateForm({ email: event.target.value })} />
       <FormActions variant="vertical">
-        <Button onClick={() => onSubmit()}>Continue</Button>
+        <Button disabled={!isValid()} onClick={() => onSubmit()}>
+          Continue
+        </Button>
       </FormActions>
     </>
   );

@@ -44,7 +44,7 @@ export const SignIn = () => {
   }, [form, isLoading]);
 
   return (
-    <Window>
+    <Window header='Authorization'>
       <Form>
         <Input
           placeholder="Login or Email"
@@ -77,11 +77,11 @@ export const SignIn = () => {
           <Button variant="text" onClick={() => navigate(`../${RESTORE_URL}`)}>
             Restore
           </Button>
-          {localStorage.getItem(USER_ACCESS_TOKEN_KEY) && localStorage.getItem(USER_REFRESH_TOKEN_KEY) && (
+          {/* {localStorage.getItem(USER_ACCESS_TOKEN_KEY) && localStorage.getItem(USER_REFRESH_TOKEN_KEY) && (
             <Button variant="text" onClick={() => navigate(MAIN_URL)}>
               Proceed as User
             </Button>
-          )}
+          )} */}
         </FormActions>
       </Form>
     </Window>
