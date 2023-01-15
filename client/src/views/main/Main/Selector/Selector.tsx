@@ -59,6 +59,11 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
     refetchBundles();
   }, [form.carId]);
 
+  useEffect(() => {
+    if (!form.bundleId) return;
+    setSelectedBundle(form.bundleId);
+  }, [form.bundleId]);
+
   const isValid = useCallback(() => {
     return form.carId && form.bundleId;
   }, [form.bundleId, form.carId]);
