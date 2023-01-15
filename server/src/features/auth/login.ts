@@ -33,7 +33,9 @@ export const login = async (instance: FastifyInstance) => {
 		await prisma.refreshToken.create({
 			data: {
 				token: tokens.refreshToken,
-				ownerUsername: body.username
+				owner: {
+					connect: user
+				}
 			}
 		});
 
