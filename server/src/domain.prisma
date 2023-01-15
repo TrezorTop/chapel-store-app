@@ -79,7 +79,7 @@ model UncomittedOrders {
 }
 
 
-model PasswordChangerTokens {
+model EmailTokens {
     id Int @id
     email String
 }
