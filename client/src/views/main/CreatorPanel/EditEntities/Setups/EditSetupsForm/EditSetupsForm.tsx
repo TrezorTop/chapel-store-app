@@ -1,4 +1,4 @@
-import { InputLabel, MenuItem } from "@mui/material";
+import { CircularProgress, InputLabel, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -128,7 +128,7 @@ export const EditSetupsForm = () => {
               mutate();
             }}
           >
-            Update
+            {isLoading ? <CircularProgress size={25} /> : <>Update</>}
           </Button>
         </FormActions>
       </Form>

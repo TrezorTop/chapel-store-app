@@ -14,6 +14,7 @@ import {
   MAIN_URL,
   PAYMENT_URL,
   PROFILE_URL,
+  RESTORE_URL,
   SIGN_IN_URL,
   SIGN_UP_URL,
 } from "./core/utils/consts/urls";
@@ -38,6 +39,7 @@ export const App = () => {
         <Route path={AUTH_URL} element={<AuthLayout />}>
           <Route path={SIGN_IN_URL} element={<SignIn />} />
           <Route path={SIGN_UP_URL} element={<SignUp />} />
+          <Route path={RESTORE_URL} element={<SignUp />} />
           <Route path={""} element={<Navigate to={SIGN_IN_URL} />} />
         </Route>
         <Route path={MAIN_URL} element={<MainLayout />}>

@@ -41,7 +41,7 @@ export const SignIn = () => {
     <Window>
       <Form className={s.form}>
         <Input
-          placeholder="Login"
+          placeholder="Login or Email"
           onChange={(event) => updateForm({ username: event.target.value })}
           disabled={isLoading}
         />
@@ -66,6 +66,9 @@ export const SignIn = () => {
         </Button>
         <Button variant="text" onClick={() => navigate(`../${SIGN_UP_URL}`)}>
           Sign Up
+        </Button>
+        <Button variant="text" onClick={() => navigate(`../${SIGN_UP_URL}`)}>
+          Restore
         </Button>
         {localStorage.getItem(USER_ACCESS_TOKEN_KEY) && localStorage.getItem(USER_REFRESH_TOKEN_KEY) && (
           <Button variant="text" onClick={() => navigate(MAIN_URL)}>

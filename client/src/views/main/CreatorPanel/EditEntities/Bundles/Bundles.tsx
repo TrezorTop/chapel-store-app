@@ -39,6 +39,7 @@ export const Bundles = () => {
       </Modal>
 
       <Header>
+        <Typography variant="h4">Bundles</Typography>
         <Button onClick={() => setModal(true)}>Add</Button>
       </Header>
 
@@ -46,6 +47,8 @@ export const Bundles = () => {
 
       {bundlesData?.data.bundles.map((bundle) => (
         <ItemCard
+          entityId={bundle.id}
+          entityName={bundle.name}
           key={bundle.id}
           actions={
             <>
