@@ -40,7 +40,7 @@ export const Header = () => {
           </Button>
         </div>
         <div className={s.container}>
-          {isSuccess && data?.data.me.role === "ADMIN" && (
+          {isSuccess && data?.data.me?.role === "ADMIN" && (
             <Button
               variant="text"
               onClick={() => {
@@ -51,14 +51,17 @@ export const Header = () => {
             </Button>
           )}
 
-          <Button
-            variant="text"
-            onClick={() => {
-              navigate(PROFILE_URL);
-            }}
-          >
-            Profile
-          </Button>
+          {isSuccess && (
+            <Button
+              variant="text"
+              onClick={() => {
+                navigate(PROFILE_URL);
+              }}
+            >
+              Profile
+            </Button>
+          )}
+
           {isSuccess ? (
             <Button
               variant="outlined"

@@ -16,11 +16,6 @@ export const signUp = ({ password, username }: RegisterRequest) =>
     password,
   });
 
-export const refershToken = ({ refreshToken }: RefreshRequest) =>
-  api.post<RefreshResponse>(RefreshPath, {
-    refreshToken,
-  });
-
 export const ping = () => api.get(PingPath);
 
 export const refreshToken = ({ refreshToken }: RefreshRequest) =>

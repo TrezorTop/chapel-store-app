@@ -16,7 +16,9 @@ export const CreateBundlesRequestValidator: Validator<CreateBundlesRequest> = {
 		required: true
 	},
 	price: {
-		check: [],
+		check: [
+			value => value >= 1 || "Минимальная цена 1 единица"
+		],
 		required: true
 	},
 	configs: {
