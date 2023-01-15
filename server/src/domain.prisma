@@ -79,9 +79,17 @@ model UncomittedOrders {
 }
 
 
-model EmailTokens {
+model ChangerTokens {
     id Int @id
     email String
+}
+
+
+model RegisterTokens {
+    id Int @id
+    email String
+    username String
+    passwordHash String
 }
 
 
