@@ -42,6 +42,11 @@ export const verifyEmail = async (instance: FastifyInstance) => {
 				}
 			}
 		});
+		await prisma.registerTokens.deleteMany({
+			where: {
+				email: registerToken.email
+			}
+		});
 
 		return reply.status(StatusCodes.OK).send();
 	});
