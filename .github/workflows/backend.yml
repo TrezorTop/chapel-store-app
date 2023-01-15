@@ -23,5 +23,6 @@ jobs:
             npm i
             rm -r -f dist
             npm run build
+            npx prisma generate
             pm2 restart app
             pm2 restart studio
