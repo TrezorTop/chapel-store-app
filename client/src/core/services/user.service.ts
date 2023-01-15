@@ -11,7 +11,11 @@ import {
   RequestResetPasswordRequest,
   RequestResetPasswordResponse,
 } from "../../../../shared/endpoints/auth/requestResetPassword";
-import { VerifyEmailPath, VerifyEmailRequest, VerifyEmailResponse } from "../../../../shared/endpoints/auth/verifyEmail";
+import {
+  VerifyEmailPath,
+  VerifyEmailRequest,
+  VerifyEmailResponse,
+} from "../../../../shared/endpoints/auth/verifyEmail";
 import { PingPath } from "../../../../shared/endpoints/health/ping";
 import { api } from "../config/api";
 
@@ -25,7 +29,7 @@ export const ping = () => api.get(PingPath);
 export const refreshToken = (data: RefreshRequest) => api.post<RefreshResponse>(RefreshPath, data);
 
 export const requestResetPassword = (data: RequestResetPasswordRequest) =>
-  api.post<RequestResetPasswordResponse>(RequestResetPasswordPath, { data });
+  api.post<RequestResetPasswordResponse>(RequestResetPasswordPath, data);
 
 export const confirmResetPassword = (data: ConfirmResetPasswordRequest) =>
   api.post<ConfirmResetPasswordResponse>(ConfirmResetPasswordPath, data);

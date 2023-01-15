@@ -11,7 +11,7 @@ export const RegisterRequestValidator: Validator<RegisterRequest> = {
     check: [
       (value) => value.length >= 8 || "Минимальная длина 8 символов",
       (value) => value.length <= 32 || "Максимальная длина 32 символа",
-      (value) => !/[^a-zA-Z\d_.]/gu.test(value) || "Разрешенные символы: a-Z, A-Z, цифры, _ и .",
+      (value) => !/[^a-zA-Z\d_.]/gu.test(value) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "Разрешенные символы: a-Z, A-Z, цифры, _ и .",
     ],
     required: true,
   },
