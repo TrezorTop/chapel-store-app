@@ -17,6 +17,7 @@ type TForm = {
   username: string;
   password: string;
   repeatedPassword: string;
+  email: string;
 };
 
 export const SignUp = () => {
@@ -49,6 +50,11 @@ export const SignUp = () => {
           disabled={isLoading}
         />
         <Input
+          placeholder="Email"
+          onChange={(event) => updateForm({ email: event.target.value })}
+          disabled={isLoading}
+        />
+        <Input
           type="password"
           placeholder="Password"
           onChange={(event) => updateForm({ password: event.target.value })}
@@ -67,6 +73,7 @@ export const SignUp = () => {
           onClick={() =>
             mutate({
               username: form.username ?? "",
+              email: form.email ?? "",
               password: form.password ?? "",
             })
           }

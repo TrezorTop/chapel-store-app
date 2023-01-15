@@ -10,6 +10,7 @@ export const EMPTY_URL = "/";
 export const AUTH_URL = "/auth";
 export const SIGN_IN_URL = "signin";
 export const SIGN_UP_URL = "signup";
+export const RESTORE_URL = "restore";
 
 export const MAIN_URL = "/main";
 export const GET_SETUP_URL = "get-config";

@@ -100,7 +100,7 @@ export const Payment = () => {
           fullWidth
           onClick={() => mutateCreatePayment()}
         >
-          {isLoadingConfig || isLoadingPayment ? <CircularProgress color="success" /> : <>Continue</>}
+          {isLoadingConfig || isLoadingPayment ? <CircularProgress size={25} color="success" /> : <>Continue</>}
         </Button>
       </Form>
     </>

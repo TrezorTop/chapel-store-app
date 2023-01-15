@@ -1,6 +1,17 @@
-.root {
+.vertical {
   display: flex;
+
   justify-content: end;
+
+  & > *:not(:last-child) {
+    margin-right: 16px;
+  }
+}
+
+.horizontal {
+  display: flex;
+
+  flex-direction: column;
 
   & > *:not(:last-child) {
     margin-right: 16px;

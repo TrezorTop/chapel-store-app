@@ -1,4 +1,4 @@
-import { MenuItem } from "@mui/material";
+import { CircularProgress, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 
@@ -80,7 +80,7 @@ export const CreateForm = () => {
             mutate(formData);
           }}
         >
-          Submit
+          {isLoading ? <CircularProgress size={25} /> : <>Submit</>}
         </Button>
       </FormActions>
     </Form>

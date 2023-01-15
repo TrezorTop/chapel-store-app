@@ -58,6 +58,7 @@ export const Setups = () => {
       </Modal>
 
       <Header>
+        <Typography variant="h4">Setups</Typography>
         <Button onClick={() => setModal(true)}>Add</Button>
       </Header>
 
@@ -99,4 +100,3 @@ export const Setups = () => {
     </>
   );
 };
-
