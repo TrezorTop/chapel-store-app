@@ -79,6 +79,13 @@ model UncomittedOrders {
 }
 
 
+model PasswordChangerTokens {
+    id String @id @default(cuid())
+    key String
+    ownerUsername String
+}
+
+
 model BundleConfigs {
     bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
     bundleId String
