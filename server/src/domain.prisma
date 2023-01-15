@@ -11,7 +11,6 @@ generator client {
 
 model User {
     username String @id
-    email String
     passwordHash String
     role Role @default(USER)
     tokens RefreshToken[]
