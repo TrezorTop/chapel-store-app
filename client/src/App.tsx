@@ -10,6 +10,7 @@ import { RequireAuth } from "./core/components/hoc/RequireAuth/RequireAuth";
 import { GlobalLoader } from "./core/components/kit/GlobalLoader/GlobalLoader";
 import {
   AUTH_URL,
+  COLOR_THEME_KEY,
   CREATOR_URL,
   GET_SETUP_URL,
   MAIN_URL,
@@ -31,10 +32,8 @@ const Profile = React.lazy(() => import("./views/main/Profile/Profile"));
 export const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 export const App = () => {
-  const { toggle, enable, disable } = useDarkMode();
-
   const [mode, setMode] = React.useState<"light" | "dark">(
-    localStorage.getItem("usehooks-ts-dark-mode") === "true" ? "dark" : "light",
+    localStorage.getItem(COLOR_THEME_KEY) === "true" ? "dark" : "light",
   );
   const colorMode = React.useMemo(
     () => ({
@@ -55,17 +54,18 @@ export const App = () => {
           secondary: {
             main: "#FF4C29",
           },
-          background: {
-            default: "#082032",
-            paper: "#082032",
-          },
+          ...(mode === "dark" && {
+            background: {
+              paper: "#082032",
+            },
+          }),
         },
       }),
     [mode],
   );
 
   return (
-    <div className={s.app} data-theme={localStorage.getItem("usehooks-ts-dark-mode") === "true" ? "dark" : "light"}>
+    <div className={s.app} data-theme={localStorage.getItem(COLOR_THEME_KEY) === "true" ? "dark" : "light"}>
       <ThemeProvider theme={theme}>
         <ColorModeContext.Provider value={colorMode}>
           <Routes>
