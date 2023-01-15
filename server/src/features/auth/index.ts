@@ -6,12 +6,14 @@ import { refresh } from "./refresh";
 import { register } from "./register";
 import { requestResetPassword } from "./requestResetPassword";
 import { deps } from "./services";
+import { verifyEmail } from "./verifyEmail";
 
 
 export const authModule: FastifyPluginAsync = async (instance) => {
 	deps.jwt = instance.jwt;
 
 	instance.register(register);
+	instance.register(verifyEmail);
 	instance.register(login);
 	instance.register(refresh);
 	instance.register(requestResetPassword);

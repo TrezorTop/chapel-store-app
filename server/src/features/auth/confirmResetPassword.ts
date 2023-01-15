@@ -22,7 +22,7 @@ export const confirmResetPassword = async (instance: FastifyInstance) => {
 	}, async (request, reply) => {
 		const body = request.body;
 
-		const changerToken = await cancelIfFailed(async () => await prisma.passwordChangerTokens.delete({
+		const changerToken = await cancelIfFailed(async () => await prisma.changerTokens.delete({
 				where: {
 					id: Number(body.token)
 				}

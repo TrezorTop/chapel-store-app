@@ -17,6 +17,7 @@ export const Login_WrongPasswordError = "Неверный пароль";
 
 export const RequestResetPassword_UserDoesNotExists = "Пользователь не существует";
 export const ConfirmResetPassword_WrongToken = "Плохой токен";
+export const VerifyEmail_WrongToken = "Плохой токен";
 
 export const Refresh_WrongTokenError = "Неправильный токен";
 export const Refresh_UsedTokenError = "Токен уже был использован";

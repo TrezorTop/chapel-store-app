@@ -30,6 +30,9 @@ export function decodeToken<T>(token: string): T {
 	return deps.jwt.verify(token) as T;
 }
 
+export function generateNumberToken() {
+	return Math.floor(Math.random() * 899999 + 100000);
+}
 
 export function generateTokens(username: string, role: Role) {
 	const payload: UserJwt = {
