@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-15T17:26:07.757Z",
+  "__export_date": "2023-01-15T19:05:34.566Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
       "_id": "req_5468db98f34b45bda77ae760b3a252d3",
       "parentId": "fld_1e622a22079d43b491e03b8e232fdb5e",
-      "modified": 1673714146714,
+      "modified": 1673809201013,
       "created": 1672338365944,
       "url": "{{ _.baseUrl }}/me/bundles",
       "name": "Bundles",
@@ -51,6 +51,32 @@
       "description": "",
       "scope": "collection",
       "_type": "workspace"
+    },
+    {
+      "_id": "req_06798a31e1b342b5b61bad78a0f08d30",
+      "parentId": "fld_1e622a22079d43b491e03b8e232fdb5e",
+      "modified": 1673809220052,
+      "created": 1673809211113,
+      "url": "{{ _.baseUrl }}/me",
+      "name": "Info",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}"
+      },
+      "metaSortKey": -1672293342398.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
     },
     {
       "_id": "req_8a05dc9a106642ff8f0e7801a478bdbb",
@@ -724,7 +750,7 @@
     {
       "_id": "req_7bb8b6554d0b49098560eb3e0146a684",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673799418178,
+      "modified": 1673805441163,
       "created": 1670023167894,
       "url": "{{ _.baseUrl }}/auth/register",
       "name": "Register",
@@ -732,7 +758,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"username\": \"12345678\",\n\t\"password\": \"12345678\"\n}"
+        "text": "{\n\t\"username\": \"12345678\",\n\t\"email\": \"12345678@gmail.com\",\n\t\"password\": \"12345678\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -766,9 +792,41 @@
       "_type": "request_group"
     },
     {
+      "_id": "req_05d05c9651ef463f97e5e348a9f2ee00",
+      "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
+      "modified": 1673805457697,
+      "created": 1673805362319,
+      "url": "{{ _.baseUrl }}/auth/verifyEmail",
+      "name": "VerifyEmail",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"token\": \"486105\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_2b8474b5700c40a8b5302f1420e0043b"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1670260127977.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "req_26be053d889c4cea9ab427deba50060c",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673803397017,
+      "modified": 1673805433319,
       "created": 1673796741341,
       "url": "{{ _.baseUrl }}/auth/requestResetPassword",
       "name": "RequestResetPassword",
@@ -832,7 +890,7 @@
     {
       "_id": "req_3281754849da475da04cd4db1efb6f90",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673803408956,
+      "modified": 1673809184283,
       "created": 1670263199596,
       "url": "{{ _.baseUrl }}/auth/login",
       "name": "Login",
@@ -840,7 +898,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"username\": \"12345678\",\n\t\"password\": \"12345678\"\n}"
+        "text": "{\n\t\"username\": \"TrezorTop\",\n\t\"password\": \"BorisTop92\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -864,7 +922,7 @@
     {
       "_id": "req_0a7307ecc8534b6d92e4770aee9d329a",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673553487606,
+      "modified": 1673805420749,
       "created": 1670265998591,
       "url": "{{ _.baseUrl }}/auth/refresh",
       "name": "Refresh",
