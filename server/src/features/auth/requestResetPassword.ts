@@ -37,6 +37,7 @@ export const requestResetPassword = async (instance: FastifyInstance) => {
 		await mailSender.sendMail({
 			from: process.env.GMAIL_MAIL,
 			to: body.email,
+			subject: "Email Confirmation",
 			text: `
 Hello, ${user.username}!
 
