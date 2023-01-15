@@ -1,9 +1,15 @@
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import { Login_WrongPasswordError, Login_WrongUsernameError } from "../../../../shared/consts/error";
-import { LoginBasePath, LoginRequest, LoginResponse } from "../../../../shared/endpoints/auth/login";
+import {
+	LoginBasePath,
+	LoginRequest,
+	LoginRequestValidator,
+	LoginResponse
+} from "../../../../shared/endpoints/auth/login";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
+import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 import { comparePassword, generateTokens, getUserByUsername } from "./services";
 
 
@@ -11,7 +17,9 @@ export const login = async (instance: FastifyInstance) => {
 	instance.post<{
 		Reply: LoginResponse,
 		Body: LoginRequest
-	}>(LoginBasePath, async (request, reply) => {
+	}>(LoginBasePath, {
+		preValidation: [validatePreValidationHook({ body: LoginRequestValidator })]
+	}, async (request, reply) => {
 		const body = request.body;
 
 		const user = await cancelIfFailed(() => getUserByUsername(body.username),

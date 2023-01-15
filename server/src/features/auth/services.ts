@@ -11,9 +11,12 @@ export const deps: {
 } = {};
 
 export async function getUserByUsername(username: string) {
-	return await prisma.user.findUnique({
+	return await prisma.user.findFirst({
 		where: {
-			username: username
+			OR: {
+				username: username,
+				email: username
+			}
 		},
 	});
 }

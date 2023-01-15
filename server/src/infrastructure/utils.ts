@@ -5,6 +5,7 @@ import * as fs from "fs/promises";
 import { IOptions } from "glob";
 import glob from "glob-promise";
 import { StatusCodes } from "http-status-codes";
+import nodemailer from "nodemailer";
 import { ApplicationError } from "./applicationErrorHandler";
 
 
@@ -16,6 +17,22 @@ declare module "fastify" {
 	}
 }
 
+console.log(process.env.NODE_ENV);
+
+export const mailSender = nodemailer.createTransport(process.env.NODE_ENV === "development" ?
+	{
+		host: "127.0.0.1",
+		port: 25,
+		secure: false,
+	} : {
+		host: "smtp.gmail.com",
+		port: 465,
+		secure: true,
+		auth: {
+			user: process.env.GMAIL_MAIL,
+			pass: process.env.GMAIL_PASSWORD,
+		},
+	});
 
 export const findSingleFile = async (pattern: string, options?: IOptions) => {
 	const files = await glob(pattern, options);
