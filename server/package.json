@@ -25,12 +25,14 @@
     "glob": "^8.0.3",
     "glob-promise": "^6.0.1",
     "http-status-codes": "^2.2.0",
+    "nodemailer": "^6.9.0",
     "stream-mime-type": "^1.0.2"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.0",
     "@types/bcrypt": "^5.0.0",
     "@types/node": "^18.11.17",
+    "@types/nodemailer": "^6.4.7",
     "cpy": "^9.0.1",
     "esbuild": "^0.15.18",
     "esbuild-node-tsc": "^2.0.4",

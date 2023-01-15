@@ -4,6 +4,7 @@ import { Refresh_UsedTokenError, Refresh_WrongTokenError } from "../../../../sha
 import { RefreshBasePath, RefreshRequest, RefreshResponse } from "../../../../shared/endpoints/auth/refresh";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
+import { UserJwt } from "./index";
 import { decodeToken, generateTokens } from "./services";
 
 
@@ -14,7 +15,7 @@ export const refresh = async (instance: FastifyInstance) => {
 	}>(RefreshBasePath, async (request, reply) => {
 		const body = request.body;
 
-		const payload = await cancelIfFailed(async () => decodeToken(body.refreshToken),
+		const payload = await cancelIfFailed(async () => decodeToken<UserJwt>(body.refreshToken),
 			StatusCodes.FORBIDDEN, Refresh_WrongTokenError
 		);
 

@@ -11,6 +11,7 @@ generator client {
 
 model User {
     username String @id
+    email String @unique
     passwordHash String
     role Role @default(USER)
     tokens RefreshToken[]
@@ -75,6 +76,12 @@ model UncomittedOrders {
     ownerUsername String
     bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
     bundleId String
+}
+
+
+model PasswordChangerTokens {
+    id Int @id
+    email String
 }
 
 

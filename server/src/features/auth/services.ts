@@ -1,7 +1,8 @@
-import { FastifyJWT, JWT, SignPayloadType } from "@fastify/jwt";
+import { JWT } from "@fastify/jwt";
 import { Role } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { prisma } from "../../infrastructure/prismaConnect";
+import { UserJwt } from "./index";
 
 
 const saltRounds = 10;
@@ -11,25 +12,32 @@ export const deps: {
 } = {};
 
 export async function getUserByUsername(username: string) {
-	return await prisma.user.findUnique({
+	return await prisma.user.findFirst({
 		where: {
-			username: username
+			OR: [
+				{
+					username: username
+				},
+				{
+					email: username
+				}
+			],
 		},
 	});
 }
 
-export function decodeToken(token: string): FastifyJWT["payload"] {
-	return deps.jwt.verify(token);
+export function decodeToken<T>(token: string): T {
+	return deps.jwt.verify(token) as T;
 }
 
 
 export function generateTokens(username: string, role: Role) {
-	const payload: SignPayloadType = {
+	const payload: UserJwt = {
 		username: username,
 		role: role
 	};
 
-	const accessToken = deps.jwt.sign(payload, { expiresIn: "10m" });
+	const accessToken = deps.jwt.sign(payload, { expiresIn: "2m" });
 	const rawRefreshToken = deps.jwt.sign(payload, { expiresIn: "30 days" });
 
 	return { accessToken, refreshToken: rawRefreshToken };

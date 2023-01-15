@@ -25,6 +25,7 @@ export const register = async (instance: FastifyInstance) => {
 		await prisma.user.create({
 			data: {
 				username: body.username,
+				email: body.email,
 				passwordHash: hash,
 				tokens: {
 					create: {
