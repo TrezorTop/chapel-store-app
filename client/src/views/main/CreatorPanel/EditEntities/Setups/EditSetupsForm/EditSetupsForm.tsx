@@ -73,7 +73,7 @@ export const EditSetupsForm = () => {
       isFieldValid(UpdateConfigsRequestValidator.carId.check, form.carId) &&
       form.files?.length
     );
-  }, [form.title, form.files, form.carId, isLoading]);
+  }, [form, isLoading]);
 
   return (
     <Paper>

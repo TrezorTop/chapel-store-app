@@ -7,6 +7,6 @@ type TFormActionsProps = {
   variant?: "vertical" | "horizontal";
 };
 
-export const FormActions: FC<TFormActionsProps> = ({ children, variant = "vertical" }) => {
+export const FormActions: FC<TFormActionsProps> = ({ children, variant = "horizontal" }) => {
   return <div className={s[variant]}>{children}</div>;
 };

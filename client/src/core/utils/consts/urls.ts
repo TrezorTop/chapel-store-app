@@ -31,6 +31,9 @@ export const UPDATE_ENTITY_URL = ":id/edit";
 export const USER_ACCESS_TOKEN_KEY = "user_token";
 export const USER_REFRESH_TOKEN_KEY = "refresh_token";
 
+// THEME
+export const COLOR_THEME_KEY = "usehooks-ts-dark-mode";
+
 // ENV VARS
 export const API_URL = import.meta.env.VITE_REACT_APP_REST_ENDPOINT;
 
