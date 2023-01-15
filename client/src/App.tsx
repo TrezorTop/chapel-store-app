@@ -12,6 +12,7 @@ import {
   CREATOR_URL,
   GET_SETUP_URL,
   MAIN_URL,
+  PAYMENT_URL,
   PROFILE_URL,
   SIGN_IN_URL,
   SIGN_UP_URL,
@@ -19,6 +20,7 @@ import {
 import { SignIn } from "./views/auth/SignIn/SignIn";
 import { SignUp } from "./views/auth/SignUp/SignUp";
 import { Main } from "./views/main/Main/Main";
+import { Payment } from "./views/main/Payment/Payment";
 
 const CreatorPanel = React.lazy(() => import("./views/main/CreatorPanel/CreatorPanel"));
 const Profile = React.lazy(() => import("./views/main/Profile/Profile"));
@@ -37,10 +39,17 @@ export const App = () => {
           <Route path={SIGN_IN_URL} element={<SignIn />} />
           <Route path={SIGN_UP_URL} element={<SignUp />} />
           <Route path={""} element={<Navigate to={SIGN_IN_URL} />} />
-          {/* <Route path={"*"} element={<Navigate to={SIGN_IN_URL} />} /> */}
         </Route>
         <Route path={MAIN_URL} element={<MainLayout />}>
           <Route path={GET_SETUP_URL} element={<Main />} />
+          <Route
+            path={PAYMENT_URL + '/:bundleId'}
+            element={
+              <RequireAuth>
+                <Payment />
+              </RequireAuth>
+            }
+          />
           <Route
             path={PROFILE_URL}
             element={
@@ -62,7 +71,6 @@ export const App = () => {
             }
           />
           <Route path={""} element={<Navigate to={GET_SETUP_URL} />} />
-          {/* <Route path={"*"} element={<Navigate to={GET_CONFIG_URL} />} /> */}
         </Route>
         <Route path={"*"} element={<Navigate to={MAIN_URL} />} />
       </Routes>

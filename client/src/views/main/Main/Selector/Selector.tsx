@@ -1,19 +1,16 @@
-import { CircularProgress, MenuItem } from "@mui/material";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { FC, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { MenuItem } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { FC, useCallback, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { GetAllBundlesPath } from "../../../../../../shared/endpoints/bundles/getAllBundles";
-import { GetByIdBundlesPath } from "../../../../../../shared/endpoints/bundles/getByIdBundles";
 import { GetAllCarsPath } from "../../../../../../shared/endpoints/cars/getAllCars";
-import { CreatePaymentPath } from "../../../../../../shared/endpoints/purchases/createPurchases";
 import { Button } from "../../../../core/components/kit/Button/Button";
+import { Form } from "../../../../core/components/kit/Form/Form";
 import { Input } from "../../../../core/components/kit/Input/Input";
-import { getBundle, getBundles, getCars } from "../../../../core/services/main.service";
-import { createPayment } from "../../../../core/services/payment.service";
-import { getProfileConfigs } from "../../../../core/services/profile.service";
-import { queryClient } from "../../../../main";
-import s from "./Selector.module.scss";
+import { getBundles, getCars } from "../../../../core/services/main.service";
+import { PAYMENT_URL } from "../../../../core/utils/consts/urls";
+import { useForm } from "../../../../core/utils/hooks/useForm";
 
 enum QueryParams {
   CarId = "carId",
@@ -21,78 +18,57 @@ enum QueryParams {
   ConfigId = "ConfigId",
 }
 
-type SelectorProps = {
-  setSelectedConfig: (data: string) => void;
+type TForm = {
+  carId: string;
+  bundleId: string;
 };
 
-export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
+type SelectorProps = {
+  setSelectedBundle: (data: string) => void;
+};
+
+export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [carId, setCarId] = useState<string>("");
-  const [bundleId, setBundleId] = useState<string>("");
-  const [configId, setConfigId] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const { form, updateForm, isFieldValid } = useForm<TForm>({
+    carId: searchParams.get(QueryParams.CarId) ?? "",
+    bundleId: searchParams.get(QueryParams.BundleId) ?? "",
+  });
+
+  const navigate = useNavigate();
 
   const { data: carsData } = useQuery([GetAllCarsPath], getCars);
 
-  const { data: bundlesData, refetch: refetchBundles } = useQuery([GetAllBundlesPath], () => getBundles({ carId }), {
-    enabled: !!carId,
-  });
-
-  const { mutate: mutateCreatePayment, isLoading } = useMutation(
-    [CreatePaymentPath],
-    () => createPayment({ bundleId, email }),
+  const { data: bundlesData, refetch: refetchBundles } = useQuery(
+    [GetAllBundlesPath],
+    () => getBundles({ carId: form.carId }),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries([getProfileConfigs]);
-      },
+      enabled: !!form.carId,
     },
   );
 
   useEffect(() => {
     setSearchParams({
-      ...(carId && { [QueryParams.CarId]: carId }),
-      ...(bundleId && { [QueryParams.BundleId]: bundleId }),
-      ...(configId && { [QueryParams.ConfigId]: configId }),
+      ...(form.carId && { [QueryParams.CarId]: form.carId }),
+      ...(form.bundleId && { [QueryParams.BundleId]: form.bundleId }),
     });
-
-    const queryCarId = searchParams.get(QueryParams.CarId);
-    const queryBundleId = searchParams.get(QueryParams.BundleId);
-    const queryConfigId = searchParams.get(QueryParams.ConfigId);
-
-    queryCarId && setCarId(queryCarId);
-    queryBundleId && setBundleId(queryBundleId);
-    if (queryConfigId) {
-      setConfigId(queryConfigId);
-      setSelectedConfig(queryConfigId);
-    }
-  }, []);
+  }, [form.carId, form.bundleId]);
 
   useEffect(() => {
-    setSearchParams({
-      ...(carId && { [QueryParams.CarId]: carId }),
-      ...(bundleId && { [QueryParams.BundleId]: bundleId }),
-      ...(configId && { [QueryParams.ConfigId]: configId }),
-    });
-  }, [carId, bundleId, configId]);
-
-  useEffect(() => {
-    if (!carId) return;
+    if (!form.carId) return;
     refetchBundles();
-  }, [carId]);
+  }, [form.carId]);
 
-  useEffect(() => {
-    // if (!bundleId) return;
-    setSelectedConfig(bundleId);
-  }, [bundleId]);
+  const isValid = useCallback(() => {
+    return form.carId && form.bundleId;
+  }, [form.bundleId, form.carId]);
 
   return (
-    <div className={s.root}>
+    <Form>
       <Input
-        value={carId}
+        value={form.carId}
         onChange={(event) => {
-          setBundleId("");
-          setCarId(event.target.value);
+          updateForm({ carId: event.target.value, bundleId: "" });
         }}
         disabled={!carsData}
         inputLabel="Select Car"
@@ -108,11 +84,11 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
       </Input>
 
       <Input
-        value={bundleId}
+        value={form.bundleId}
         onChange={(event) => {
-          setBundleId(event.target.value);
+          updateForm({ bundleId: event.target.value });
         }}
-        disabled={!carId || !bundlesData}
+        disabled={!form.carId || !bundlesData}
         inputLabel="Select Bundle"
         variant="outlined"
         fullWidth
@@ -125,23 +101,16 @@ export const Selector: FC<SelectorProps> = ({ setSelectedConfig }) => {
         )) ?? []}
       </Input>
 
-      <Input
-        placeholder="Email (Optional)"
-        fullWidth
-        inputLabel="Send payment info to"
-        variant="outlined"
-        onChange={(event) => setEmail(event.target.value)}
-      />
       <Button
-        disabled={isLoading}
+        disabled={!isValid()}
         variant="outlined"
         color="success"
         size="large"
         fullWidth
-        onClick={() => mutateCreatePayment()}
+        onClick={() => navigate(`../${PAYMENT_URL}/${form.bundleId}`)}
       >
-        {isLoading ? <CircularProgress color="success" /> : <>Proceed Payment</>}
+        Proceed Payment
       </Button>
-    </div>
+    </Form>
   );
 };

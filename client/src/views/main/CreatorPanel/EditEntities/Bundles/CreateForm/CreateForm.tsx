@@ -1,23 +1,31 @@
+import { MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
-import { CreateBundlesPath } from "../../../../../../../../shared/endpoints/bundles/createBundles";
+import {
+  CreateBundlesPath,
+  CreateBundlesRequestValidator,
+} from "../../../../../../../../shared/endpoints/bundles/createBundles";
 import { GetAllBundlesPath } from "../../../../../../../../shared/endpoints/bundles/getAllBundles";
-import { Form } from "../../../../../../core/components/kit/Form/Form";
+import { GetAllConfigsPath } from "../../../../../../../../shared/endpoints/configs/getAllConfigs";
 import { Button } from "../../../../../../core/components/kit/Button/Button";
+import { Form } from "../../../../../../core/components/kit/Form/Form";
+import { FormActions } from "../../../../../../core/components/kit/Form/FormActions/FormActions";
 import { Input } from "../../../../../../core/components/kit/Input/Input";
 import { createBundle, getSetups } from "../../../../../../core/services/main.service";
+import { useForm } from "../../../../../../core/utils/hooks/useForm";
 import { queryClient } from "../../../../../../main";
-import { FormActions } from "../../../../../../core/components/kit/Form/FormActions/FormActions";
-import { GetAllConfigsPath } from "../../../../../../../../shared/endpoints/configs/getAllConfigs";
-import { MenuItem } from "@mui/material";
+
+type TForm = {
+  name: string;
+  price: number;
+  setups: string[];
+};
 
 export const CreateForm = () => {
-  const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
-  const [configs, setConfigs] = useState<string[]>([]);
+  const { form, updateForm, isFieldValid } = useForm<TForm>({ name: "", price: 0, setups: [] });
 
-  const { mutate } = useMutation([CreateBundlesPath], createBundle, {
+  const { mutate, isLoading } = useMutation([CreateBundlesPath], createBundle, {
     onSuccess: () => {
       queryClient.invalidateQueries([GetAllBundlesPath]);
     },
@@ -25,17 +33,27 @@ export const CreateForm = () => {
 
   const { data: setupsData } = useQuery([GetAllConfigsPath], getSetups);
 
+  const isValid = useCallback(() => {
+    return (
+      !isLoading &&
+      isFieldValid(CreateBundlesRequestValidator.name.check, form.name) &&
+      isFieldValid(CreateBundlesRequestValidator.price.check, String(form.price)) &&
+      form.setups &&
+      form.setups.length >= 1
+    );
+  }, [form.name, form.price, form.setups, isLoading]);
+
   return (
     <Form>
-      <Input inputLabel={"Bundle Name"} onChange={(event) => setName(event.target.value)} />
-      <Input type="number" inputLabel={"Price"} onChange={(event) => setPrice(+event.target.value)} />
+      <Input inputLabel={"Bundle Name"} onChange={(event) => updateForm({ name: event.target.value })} />
+      <Input type="number" inputLabel={"Price"} onChange={(event) => updateForm({ price: +event.target.value })} />
       <Input
         select
         inputLabel={"Setups"}
         SelectProps={{
-          value: configs,
+          value: form.setups,
           multiple: true,
-          onChange: (event) => setConfigs(event.target.value as string[]),
+          onChange: (event) => updateForm({ setups: event.target.value as string[] }),
         }}
       >
         {setupsData?.data.configs.map((setup) => (
@@ -45,7 +63,12 @@ export const CreateForm = () => {
         ))}
       </Input>
       <FormActions>
-        <Button onClick={() => mutate({ name, price, configs })}>Submit</Button>
+        <Button
+          disabled={!isValid()}
+          onClick={() => mutate({ name: form.name!, price: form.price!, configs: form.setups! })}
+        >
+          Submit
+        </Button>
       </FormActions>
     </Form>
   );

@@ -60,7 +60,12 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
   const { mutate: mutateRefreshToken, isLoading: refreshTokenIsLoading } = useMutation(
     [RefreshPath],
     () => refreshToken({ refreshToken: localStorage.getItem(USER_REFRESH_TOKEN_KEY) ?? "" }),
-    { onSuccess: ({ data }) => updateAuthTokens(data.accessToken, data.refreshToken) },
+    {
+      onSuccess: ({ data }) => {
+        updateAuthTokens(data.accessToken, data.refreshToken);
+        api.defaults.headers["authorization"] = `Bearer ${data.accessToken}`;
+      },
+    },
   );
 
   return (

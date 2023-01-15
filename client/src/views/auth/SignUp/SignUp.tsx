@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { RegisterPath } from "../../../../../shared/endpoints/auth/register";
-import { Form } from "../../../core/components/kit/Form/Form";
+import { RegisterPath, RegisterRequestValidator } from "../../../../../shared/endpoints/auth/register";
 import { Button } from "../../../core/components/kit/Button/Button";
+import { Form } from "../../../core/components/kit/Form/Form";
 import { Input } from "../../../core/components/kit/Input/Input";
 import { signUp } from "../../../core/services/user.service";
 import { MAIN_URL, SIGN_IN_URL } from "../../../core/utils/consts/urls";
@@ -20,7 +20,7 @@ type TForm = {
 };
 
 export const SignUp = () => {
-  const { form, updateForm } = useForm<TForm>();
+  const { form, updateForm, isFieldValid } = useForm<TForm>();
 
   const navigate = useNavigate();
 
@@ -31,28 +31,37 @@ export const SignUp = () => {
     },
   });
 
+  const isValid = useCallback(() => {
+    return (
+      !isLoading &&
+      isFieldValid(RegisterRequestValidator.username.check, form.username) &&
+      isFieldValid(RegisterRequestValidator.password.check, form.password) &&
+      form.repeatedPassword === form.password
+    );
+  }, [form.password, form.repeatedPassword, form.username, isLoading]);
+
   return (
     <Window>
       <Form className={s.form}>
         <Input
           placeholder="Login"
-          onChange={(event) => updateForm("username", event.target.value)}
+          onChange={(event) => updateForm({ username: event.target.value })}
           disabled={isLoading}
         />
         <Input
           type="password"
           placeholder="Password"
-          onChange={(event) => updateForm("password", event.target.value)}
+          onChange={(event) => updateForm({ password: event.target.value })}
           disabled={isLoading}
         />
         <Input
           type="password"
           placeholder="Repeat password"
-          onChange={(event) => updateForm("repeatedPassword", event.target.value)}
+          onChange={(event) => updateForm({ repeatedPassword: event.target.value })}
           disabled={isLoading}
         />
         <Button
-          disabled={isLoading}
+          disabled={!isValid()}
           variant="contained"
           type="submit"
           onClick={() =>

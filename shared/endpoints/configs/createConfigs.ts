@@ -18,7 +18,7 @@ export const CreateConfigsRequestValidator: Validator<CreateConfigsRequest> = {
 		required: true
 	},
 	carId: {
-		check: [],
+		check: [value => !!value || "Нужно добавить машину"],
 		required: true
 	}
 };
