@@ -26,7 +26,7 @@ export const CreateForm = () => {
 
   const isValid = useCallback(() => {
     return !isLoading && isFieldValid(CreateCarsRequestValidator.name.check, form.name);
-  }, [form.name, isLoading]);
+  }, [form, isLoading]);
 
   return (
     <Form>

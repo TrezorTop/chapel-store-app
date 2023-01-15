@@ -1,6 +1,7 @@
 import "./index.scss";
 import "normalize.css";
 
+import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -13,6 +14,12 @@ export const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
     },
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    // mode: "dark",
   },
 });
 

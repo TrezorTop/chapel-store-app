@@ -4,21 +4,10 @@ import { RegisterPath, RegisterRequest, RegisterResponse } from "../../../../sha
 import { PingPath } from "../../../../shared/endpoints/health/ping";
 import { api } from "../config/api";
 
-export const signIn = ({ password, username }: LoginRequest) =>
-  api.post<LoginResponse>(LoginPath, {
-    password,
-    username,
-  });
+export const signIn = (data: LoginRequest) => api.post<LoginResponse>(LoginPath, data);
 
-export const signUp = ({ password, username }: RegisterRequest) =>
-  api.post<RegisterResponse>(RegisterPath, {
-    username,
-    password,
-  });
+export const signUp = (data: RegisterRequest) => api.post<RegisterResponse>(RegisterPath, data);
 
 export const ping = () => api.get(PingPath);
 
-export const refreshToken = ({ refreshToken }: RefreshRequest) =>
-  api.post<RefreshResponse>(RefreshPath, {
-    refreshToken,
-  });
+export const refreshToken = (data: RefreshRequest) => api.post<RefreshResponse>(RefreshPath, data);

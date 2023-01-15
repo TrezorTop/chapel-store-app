@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { RegisterPath, RegisterRequestValidator } from "../../../../../shared/endpoints/auth/register";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Form } from "../../../core/components/kit/Form/Form";
+import { FormActions } from "../../../core/components/kit/Form/FormActions/FormActions";
 import { Input } from "../../../core/components/kit/Input/Input";
 import { signUp } from "../../../core/services/user.service";
 import { MAIN_URL, SIGN_IN_URL } from "../../../core/utils/consts/urls";
 import { updateAuthTokens } from "../../../core/utils/functions/auth";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import { Window } from "../components/Window/Window";
-import s from "./SignUp.module.scss";
 
 type TForm = {
   username: string;
@@ -37,13 +37,14 @@ export const SignUp = () => {
       !isLoading &&
       isFieldValid(RegisterRequestValidator.username.check, form.username) &&
       isFieldValid(RegisterRequestValidator.password.check, form.password) &&
+      isFieldValid(RegisterRequestValidator.email.check, form.email) &&
       form.repeatedPassword === form.password
     );
-  }, [form.password, form.repeatedPassword, form.username, isLoading]);
+  }, [form, isLoading]);
 
   return (
     <Window>
-      <Form className={s.form}>
+      <Form>
         <Input
           placeholder="Login"
           onChange={(event) => updateForm({ username: event.target.value })}
@@ -66,23 +67,26 @@ export const SignUp = () => {
           onChange={(event) => updateForm({ repeatedPassword: event.target.value })}
           disabled={isLoading}
         />
-        <Button
-          disabled={!isValid()}
-          variant="contained"
-          type="submit"
-          onClick={() =>
-            mutate({
-              username: form.username ?? "",
-              email: form.email ?? "",
-              password: form.password ?? "",
-            })
-          }
-        >
-          Sign Up
-        </Button>
-        <Button variant="text" onClick={() => navigate(`../${SIGN_IN_URL}`)}>
-          Sign In
-        </Button>
+
+        <FormActions variant="vertical">
+          <Button
+            disabled={!isValid()}
+            variant="contained"
+            type="submit"
+            onClick={() =>
+              mutate({
+                username: form.username ?? "",
+                email: form.email ?? "",
+                password: form.password ?? "",
+              })
+            }
+          >
+            Sign Up
+          </Button>
+          <Button variant="text" onClick={() => navigate(`../${SIGN_IN_URL}`)}>
+            Sign In
+          </Button>
+        </FormActions>
       </Form>
     </Window>
   );
