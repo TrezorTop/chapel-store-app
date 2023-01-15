@@ -37,7 +37,7 @@ export const Header = () => {
   const { data, refetch, isSuccess, isError } = useQuery([GetMyInfoPath], getMyProfileInfo, {
     enabled: !!localStorage.getItem(USER_ACCESS_TOKEN_KEY),
     retry: false,
-    onError: (error) => {
+    onError: (error: any) => {
       if (error.response.data.message === General_Unauthorized) {
         mutateRefreshToken();
       }

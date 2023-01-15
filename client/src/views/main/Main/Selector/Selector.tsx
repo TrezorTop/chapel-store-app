@@ -66,7 +66,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
 
   const isValid = useCallback(() => {
     return form.carId && form.bundleId;
-  }, [form.bundleId, form.carId]);
+  }, [form]);
 
   return (
     <Form>

@@ -7,6 +7,8 @@ import { Typography } from "../../../core/components/kit/Typography/Typography";
 import { EDIT_ENTITIES_CARS_URL, EDIT_ENTITIES_URL, STATISTICS_URL } from "../../../core/utils/consts/urls";
 import { EditEntities } from "./EditEntities/EditEntities";
 
+import s from "./CreatorPanel.module.scss";
+
 enum TabValues {
   EditEntities = "EDIT ENTITIES",
   Statistics = "STATISTICS",
@@ -36,7 +38,7 @@ const CreatorPanel = () => {
         />
       </Tabs>
 
-      <Paper>
+      <Paper className={s.content}>
         <Routes>
           <Route path={EDIT_ENTITIES_URL + "/*"} element={<EditEntities />} />
           <Route path={""} element={<Navigate to={"../"} />} />

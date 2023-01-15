@@ -41,7 +41,7 @@ export const CreateForm = () => {
       form.setups &&
       form.setups.length >= 1
     );
-  }, [form.name, form.price, form.setups, isLoading]);
+  }, [form, isLoading]);
 
   return (
     <Form>

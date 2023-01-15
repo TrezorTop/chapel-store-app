@@ -1,6 +1,7 @@
 import "./index.scss";
 import "normalize.css";
 
+import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -16,12 +17,18 @@ export const queryClient = new QueryClient({
   },
 });
 
+const darkTheme = createTheme({
+  palette: {
+    // mode: "dark",
+  },
+});
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </QueryClientProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 );

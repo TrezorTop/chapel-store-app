@@ -43,7 +43,7 @@ export const EditCarsForm = () => {
       UpdateCarsRequestValidator?.name?.check &&
       isFieldValid(UpdateCarsRequestValidator.name.check, form.name)
     );
-  }, [form.name, isLoading]);
+  }, [form, isLoading]);
 
   return (
     <Paper>

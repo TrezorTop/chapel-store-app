@@ -54,7 +54,7 @@ export const Payment = () => {
     if (isLoadingConfig || isLoadingPayment) return false;
 
     return form.selectedPayment;
-  }, [form.selectedPayment, form.email, isLoadingConfig, isLoadingPayment]);
+  }, [form, isLoadingConfig, isLoadingPayment]);
 
   return (
     <>
