@@ -15,11 +15,14 @@ export const General_FileIsTooLarge = "Файл слишком велик";
 export const Login_WrongUsernameError = "Неправильное имя пользователя";
 export const Login_WrongPasswordError = "Неверный пароль";
 
+export const RequestResetPassword_UserDoesNotExists = "Пользователь не существует";
+export const ConfirmResetPassword_WrongToken = "Плохой токен";
+export const VerifyEmail_WrongToken = "Плохой токен";
+
 export const Refresh_WrongTokenError = "Неправильный токен";
 export const Refresh_UsedTokenError = "Токен уже был использован";
 
 export const CreateConfigs_WrongCarId = "Неверный carId";
-export const CreateConfigs_WrongBundleId = "Неверный bundleId";
 export const CreateConfigs_NotEnoughFiles = "Недостаточно файлов";
 
 export const CreateBundles_WrongConfigId = "Такого конфига не существует";
@@ -35,6 +38,7 @@ export const UpdateConfigs_NotFound = "Такого конфига не суще
 export const DeleteByIdCars_NotFound = "Такой машины не существует";
 
 export const UpdateBundles_NotFound = "Такого бандла не существует";
+export const CreatePurchases_NotFound = "Такого бандла не существует";
 
 export const DeleteByIdBundles_NotFound = "Такого бандла не существует";
 

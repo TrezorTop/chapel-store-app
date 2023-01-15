@@ -11,10 +11,12 @@ generator client {
 
 model User {
     username String @id
+    email String @unique
     passwordHash String
     role Role @default(USER)
     tokens RefreshToken[]
     purchases Purchases[]
+    uncomittedOrders UncomittedOrders[]
 
     createdAt DateTime @default(now())
 }
@@ -50,6 +52,7 @@ model Bundle {
     price Decimal
     softDeleted Boolean @default(false)
     purchases Purchases[]
+    uncomittedOrders UncomittedOrders[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt @default(now())
@@ -64,6 +67,29 @@ model Purchases {
     @@id([ownerUsername, bundleId])
 
     createdAt DateTime @default(now())
+}
+
+
+model UncomittedOrders {
+    id String @id @default(cuid())
+    owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
+    ownerUsername String
+    bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
+    bundleId String
+}
+
+
+model ChangerTokens {
+    id Int @id
+    email String
+}
+
+
+model RegisterTokens {
+    id Int @id
+    email String
+    username String
+    passwordHash String
 }
 
 

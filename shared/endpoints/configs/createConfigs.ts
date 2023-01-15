@@ -18,7 +18,7 @@ export const CreateConfigsRequestValidator: Validator<CreateConfigsRequest> = {
 		required: true
 	},
 	carId: {
-		check: [],
+		check: [value => !!value || "Нужно добавить машину"],
 		required: true
 	}
 };
@@ -26,7 +26,7 @@ export const CreateConfigsRequestValidator: Validator<CreateConfigsRequest> = {
 export const CreateConfigsSettings = {
 	minFilesCount: 1,
 	maxFilesCount: 10,
-	maxFileSize: 10_485_760
+	maxFileSize: 104_857_600
 };
 
 export type CreateConfigsRequest = {

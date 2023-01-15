@@ -1,29 +1,32 @@
-export const generateFile = (fileName?: string, fileData?: string) => {
-  const blob = new Blob([fileData ?? "No File Data Provided"], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.download = fileName ?? "file.txt";
-  link.href = url;
-  link.click();
+export const decodeFile = (fileName?: string, fileData?: string) => {
+  const contentType = "application/zip";
+  const sliceSize = 512;
 
-  link.remove();
-  URL.revokeObjectURL(url);
-};
+  const byteCharacters = atob(fileData!);
+  const byteArrays = [];
 
-export const decodeFile = (base64: string, filename: string) => {
-  if (!base64) return;
+  for (let offset = 0, length = byteCharacters.length; offset < length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
 
-  let arr = base64.split(",");
-  const mime = arr[0]?.match(/:(.*?);/)?.[1];
-  const bstr = atob(arr[0]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0, length = slice.length; i < length; i += 1) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
 
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
+    const byteArray = new Uint8Array(byteNumbers);
+
+    byteArrays.push(byteArray);
   }
 
-  return new File([u8arr], filename, { type: mime });
+  const blob = new Blob(byteArrays, { type: contentType });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.download = fileName ?? "archive.zip";
+  link.href = url;
+
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
 };
 
 export const formatBytes = (bytes: number, decimals = 2) => {
@@ -41,20 +44,3 @@ export const formatBytes = (bytes: number, decimals = 2) => {
 interface IRuntimeForm {
   [key: string]: any;
 }
-
-export class RuntimeForm<T extends IRuntimeForm> {
-  constructor(private _form: T) {}
-  public formData(): FormData {
-    const form = new FormData();
-
-    for (const key in this._form) {
-      if (this._form[key] !== undefined) {
-        form.append(key, this._form[key]);
-      }
-    }
-
-    return form;
-  }
-}
-
-new RuntimeForm<{ foo: string }>({ foo: "bar" });

@@ -7,8 +7,9 @@ import {
 	RegisterResponse
 } from "../../../../shared/endpoints/auth/register";
 import { prisma } from "../../infrastructure/prismaConnect";
+import { mailSender } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
-import { generateTokens, hashPassword } from "./services";
+import { generateNumberToken, hashPassword } from "./services";
 
 
 export const register = async (instance: FastifyInstance) => {
@@ -21,19 +22,27 @@ export const register = async (instance: FastifyInstance) => {
 		const body = request.body;
 
 		const hash = await hashPassword(body.password);
-		const tokens = generateTokens(body.username, "USER");
-		await prisma.user.create({
+		const id = generateNumberToken();
+		await prisma.registerTokens.create({
 			data: {
+				id: id,
 				username: body.username,
+				email: body.email,
 				passwordHash: hash,
-				tokens: {
-					create: {
-						token: tokens.refreshToken
-					}
-				}
 			}
 		});
+		await mailSender.sendMail({
+			from: process.env.GMAIL_MAIL,
+			to: body.email,
+			text: `
+Hello, ${body.username}!
 
-		return reply.status(StatusCodes.CREATED).send(tokens);
+To verify your e-mail address, please use this key
+				
+${id}
+			`
+		});
+
+		return reply.status(StatusCodes.OK).send();
 	});
 };

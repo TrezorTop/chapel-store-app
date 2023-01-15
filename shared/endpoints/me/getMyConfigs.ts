@@ -1,13 +1,21 @@
+import { Decimal } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, MeRootPath } from "../../index";
 
 
-export const GetMyConfigsBasePath = "/configs";
+export const GetMyBundlesBasePath = "/bundles";
 
-export const GetMyConfigsPath = `${BasePath}${MeRootPath}${GetMyConfigsBasePath}`;
+export const GetMyBundlesPath = `${BasePath}${MeRootPath}${GetMyBundlesBasePath}`;
 
-export type GetMyConfigsResponse = {
-	configs: {
-		id: string,
-		title: string
-	}[]
+export type GetMyBundlesResponse = {
+	bundles: {
+		id: string;
+		name: string;
+		price: Decimal;
+		configs: {
+			config: {
+				id: string;
+				title: string;
+			};
+		}[];
+	}[];
 };

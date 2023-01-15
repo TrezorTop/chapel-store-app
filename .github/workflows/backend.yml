@@ -23,6 +23,6 @@ jobs:
             npm i
             rm -r -f dist
             npm run build
+            npx prisma generate
             pm2 restart app
-            npx prisma db push --accept-data-loss
             pm2 restart studio

@@ -6,7 +6,7 @@ import s from "./Main.module.scss";
 import { Selector } from "./Selector/Selector";
 
 export const Main = () => {
-  const [configId, setConfigId] = useState<string>("");
+  const [bundleId, setBundleId] = useState<string>("");
 
   return (
     <>
@@ -14,8 +14,8 @@ export const Main = () => {
         Choose Setup
       </Typography>
       <div className={s.container}>
-        <Selector setSelectedConfig={setConfigId} />
-        <Info configId={configId} />
+        <Selector setSelectedBundle={setBundleId} />
+        <Info bundleId={bundleId} />
       </div>
     </>
   );

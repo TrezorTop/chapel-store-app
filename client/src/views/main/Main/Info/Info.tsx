@@ -7,25 +7,29 @@ import { getBundle } from "../../../../core/services/main.service";
 import { formatCurrency } from "../../../../core/utils/functions/number";
 
 type InfoProps = {
-  configId: string;
+  bundleId: string;
 };
 
-export const Info: FC<InfoProps> = ({ configId }) => {
-  const { data: configData, refetch } = useQuery([GetByIdConfigsPath], () => getBundle({ id: configId }), {
-    enabled: !!configId,
+export const Info: FC<InfoProps> = ({ bundleId }) => {
+  const { data: configData, refetch } = useQuery([GetByIdConfigsPath], () => getBundle({ id: bundleId }), {
+    enabled: !!bundleId,
   });
 
   useEffect(() => {
-    configId && refetch();
-  }, [configId]);
+    bundleId && refetch();
+  }, [bundleId]);
 
   return (
     <div>
-      <Typography variant="h4" marginBottom>
-        <div>{configData?.data.bundle?.name}</div>
-        <div>{formatCurrency(+configData?.data.bundle?.price!)}</div>
-        <div>{configData?.data.bundle?.configs.map((config) => config.config.title)}</div>
-      </Typography>
+      {configData && (
+        <>
+          <Typography variant="h4" marginBottom>
+            {configData?.data.bundle?.name}
+          </Typography>
+          <Typography variant="h4">{formatCurrency(+configData?.data.bundle?.price!)}</Typography>
+          <Typography variant="h4">{configData?.data.bundle?.configs.map((config) => config.config.title)}</Typography>
+        </>
+      )}
     </div>
   );
 };

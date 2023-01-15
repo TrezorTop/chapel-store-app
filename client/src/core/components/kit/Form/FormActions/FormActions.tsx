@@ -1,11 +1,12 @@
 import React, { FC, ReactNode } from "react";
 
-import s from './FormActions.module.scss'
+import s from "./FormActions.module.scss";
 
 type TFormActionsProps = {
-  children: ReactNode;
+  children?: ReactNode;
+  variant?: "vertical" | "horizontal";
 };
 
-export const FormActions: FC<TFormActionsProps> = ({ children }) => {
-  return <div className={s.root}>{children}</div>;
+export const FormActions: FC<TFormActionsProps> = ({ children, variant = "horizontal" }) => {
+  return <div className={s[variant]}>{children}</div>;
 };

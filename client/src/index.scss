@@ -1,20 +1,24 @@
 * {
   box-sizing: border-box;
   font-family: sans-serif;
+  transition: color 250ms;
+  transition: background-color 250ms;
 }
 
 :root {
   --background: white;
   --text-primary: black;
   --text-secondary: royalblue;
-  --accent: purple;
+  --accent: #FF4C29;
+  --overlay: #ffffffbf;
 }
 
 [data-theme="dark"] {
-  --background: black;
+  --background: #2C394B;
   --text-primary: white;
   --text-secondary: grey;
-  --accent: darkred;
+  --accent: #FF4C29;
+  --overlay: #474747bf;
 }
 
 html {

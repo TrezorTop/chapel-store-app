@@ -10,8 +10,8 @@ import {
   GetAllBundlesResponse,
 } from "../../../../shared/endpoints/bundles/getAllBundles";
 import {
-  GetBundleFilesBasePath,
   GetBundleFilesParams,
+  GetBundleFilesPath,
   GetBundleFilesResponse,
 } from "../../../../shared/endpoints/bundles/getBundleFiles";
 import {
@@ -82,7 +82,7 @@ export const updateBundle = ({ id, ...data }: UpdateBundlesParams & UpdateBundle
   api.put<UpdateBundlesResponse>(UpdateBundlesPath.replace(":id", id), data);
 export const deleteBundle = ({ id }: DeleteByIdBundlesParams) => api.delete(DeleteByIdBundlesPath.replace(":id", id));
 export const getBundleFiles = ({ id }: GetBundleFilesParams) =>
-  api.get<GetBundleFilesResponse>(GetBundleFilesBasePath.replace(":id", id));
+  api.get<GetBundleFilesResponse>(GetBundleFilesPath.replace(":id", id));
 
 export const getCars = () => api.get<GetAllCarsResponse>(GetAllCarsPath);
 export const getCar = ({ id }: GetByIdCarsParams) => api.get<GetByIdCarsResponse>(GetByIdCarsPath.replace(":id", id));

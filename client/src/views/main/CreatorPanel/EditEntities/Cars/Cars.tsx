@@ -44,6 +44,7 @@ export const Cars = () => {
       </Modal>
 
       <Header>
+        <Typography variant="h4">Cars</Typography>
         <Button onClick={() => setModal(true)}>Add</Button>
       </Header>
 

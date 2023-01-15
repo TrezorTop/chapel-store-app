@@ -9,10 +9,6 @@ import { ApplicationError } from "./applicationErrorHandler";
 
 declare module "@fastify/jwt" {
 	interface FastifyJWT {
-		payload: {
-			username: User["username"];
-			role: Role
-		};
 		user: Pick<User, "username" | "role">;
 	}
 }

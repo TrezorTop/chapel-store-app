@@ -10,7 +10,7 @@ export const Input: FC<InputProps> = ({ inputLabel, className, children, ...prop
   return (
     <div>
       {inputLabel && <InputLabel className={s.label}>{inputLabel}</InputLabel>}
-      <TextField className={classNames(s.input, className)} variant="standard" {...props}>
+      <TextField className={classNames(s.input, className)} variant="outlined" {...props}>
         {children}
       </TextField>
     </div>
