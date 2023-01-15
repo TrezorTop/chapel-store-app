@@ -1,6 +1,7 @@
 import { AuthRootPath, BasePath } from "../../index";
 import { Validator } from "../../types";
 
+
 export const RegisterBasePath = "/register";
 
 export const RegisterPath = `${BasePath}${AuthRootPath}${RegisterBasePath}`;
@@ -34,7 +35,4 @@ export type RegisterRequest = {
   password: string;
 };
 
-export type RegisterResponse = {
-  accessToken: string;
-  refreshToken: string;
-};
+export type RegisterResponse = {};

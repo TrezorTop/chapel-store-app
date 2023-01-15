@@ -10,7 +10,7 @@ import {
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed, mailSender } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
-import { getUserByUsername } from "./services";
+import { generateNumberToken, getUserByUsername } from "./services";
 
 
 export const requestResetPassword = async (instance: FastifyInstance) => {
@@ -26,8 +26,8 @@ export const requestResetPassword = async (instance: FastifyInstance) => {
 			StatusCodes.NOT_FOUND, RequestResetPassword_UserDoesNotExists
 		);
 
-		const id = Math.floor(Math.random() * 899999 + 100000);
-		await prisma.passwordChangerTokens.create({
+		const id = generateNumberToken();
+		await prisma.changerTokens.create({
 			data: {
 				id: id,
 				email: body.email
