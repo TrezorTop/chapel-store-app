@@ -81,7 +81,7 @@ model UncomittedOrders {
 
 model PasswordChangerTokens {
     id Int @id
-    ownerUsername String
+    email String
 }
 
 
