@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-14T16:22:26.252Z",
+  "__export_date": "2023-01-15T17:26:07.757Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
       "_id": "req_5468db98f34b45bda77ae760b3a252d3",
       "parentId": "fld_1e622a22079d43b491e03b8e232fdb5e",
-      "modified": 1673713127985,
+      "modified": 1673714146714,
       "created": 1672338365944,
       "url": "{{ _.baseUrl }}/me/bundles",
       "name": "Bundles",
@@ -177,7 +177,7 @@
     {
       "_id": "req_f4520b4631bc4062be989346b8ddd085",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1673641858746,
+      "modified": 1673803412810,
       "created": 1672248318853,
       "url": "{{ _.baseUrl }}/configs",
       "name": "Create",
@@ -446,9 +446,9 @@
     {
       "_id": "req_b837e427b36946a6a17d1468818b375c",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1673643266138,
+      "modified": 1673796690757,
       "created": 1673462046233,
-      "url": "{{ _.baseUrl }}/bundles/clcuygoyv0000vvvgw5xrd08s/files",
+      "url": "{{ _.baseUrl }}/bundles/clcw53bxb00023sx3c2kbce28/files",
       "name": "GetFileEncoded",
       "description": "",
       "method": "GET",
@@ -627,7 +627,7 @@
     {
       "_id": "req_f988a7d8e3af43f5a6dcad813bb801cb",
       "parentId": "fld_f2389e734c154d8f968245c6184d6d26",
-      "modified": 1672169382389,
+      "modified": 1673803414522,
       "created": 1672169319199,
       "url": "{{ _.baseUrl }}/cars",
       "name": "Create",
@@ -724,7 +724,7 @@
     {
       "_id": "req_7bb8b6554d0b49098560eb3e0146a684",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673632243543,
+      "modified": 1673799418178,
       "created": 1670023167894,
       "url": "{{ _.baseUrl }}/auth/register",
       "name": "Register",
@@ -766,9 +766,73 @@
       "_type": "request_group"
     },
     {
+      "_id": "req_26be053d889c4cea9ab427deba50060c",
+      "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
+      "modified": 1673803397017,
+      "created": 1673796741341,
+      "url": "{{ _.baseUrl }}/auth/requestResetPassword",
+      "name": "RequestResetPassword",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"12345678@gmail.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_2b8474b5700c40a8b5302f1420e0043b"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1670260127965,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_cfb05d15ab414daf80d49769586d6c0d",
+      "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
+      "modified": 1673803405325,
+      "created": 1673802330374,
+      "url": "{{ _.baseUrl }}/auth/confirmResetPassword",
+      "name": "ConfirmResetPassword",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"password\": \"123456789\",\n\t\"token\": \"997400\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_2b8474b5700c40a8b5302f1420e0043b"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1670260127952.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "req_3281754849da475da04cd4db1efb6f90",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673712754808,
+      "modified": 1673803408956,
       "created": 1670263199596,
       "url": "{{ _.baseUrl }}/auth/login",
       "name": "Login",
