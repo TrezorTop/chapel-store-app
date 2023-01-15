@@ -80,8 +80,7 @@ model UncomittedOrders {
 
 
 model PasswordChangerTokens {
-    id String @id @default(cuid())
-    key String
+    key Int @id
     ownerUsername String
 }
 
