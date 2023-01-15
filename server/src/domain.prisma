@@ -65,6 +65,8 @@ model Purchases {
     bundleId String
     @@id([ownerUsername, bundleId])
 
+    new String
+
     createdAt DateTime @default(now())
 }
 
