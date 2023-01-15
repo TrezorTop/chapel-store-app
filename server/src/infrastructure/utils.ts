@@ -17,8 +17,6 @@ declare module "fastify" {
 	}
 }
 
-console.log(process.env.NODE_ENV);
-
 export const mailSender = nodemailer.createTransport(process.env.NODE_ENV === "development" ?
 	{
 		host: "127.0.0.1",
