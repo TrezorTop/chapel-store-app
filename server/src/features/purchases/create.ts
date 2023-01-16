@@ -1,4 +1,3 @@
-import { Role } from "@prisma/client";
 import axios from "axios";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
@@ -35,7 +34,7 @@ export const create = async (instance: FastifyInstance) => {
 		Reply: CreatePaymentResponse,
 		Body: CreatePaymentRequest
 	}>(CreatePaymentBasePath, {
-		onRequest: [jwtOnRequestHook({ requiredRole: Role.ADMIN })],
+		onRequest: [jwtOnRequestHook()],
 		preValidation: [validatePreValidationHook({ body: bodyValidator })]
 	}, async (request, reply) => {
 		const body = request.body;

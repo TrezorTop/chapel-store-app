@@ -33,6 +33,7 @@ export const register = async (instance: FastifyInstance) => {
 		});
 		await mailSender.sendMail({
 			from: process.env.GMAIL_MAIL,
+			subject: "Email Confirmation",
 			to: body.email,
 			text: `
 Hello, ${body.username}!
