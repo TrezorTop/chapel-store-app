@@ -27,7 +27,6 @@ export const proceedYookassa = async (instance: FastifyInstance) => {
 		if (body.status !== "succeeded")
 			return reply.status(StatusCodes.BAD_REQUEST).send();
 
-
 		await prisma.purchases.create({
 			data: {
 				ownerUsername: order.ownerUsername,

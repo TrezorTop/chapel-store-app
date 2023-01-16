@@ -75,21 +75,24 @@ async function cryptoCloudHandler(request: FastifyRequest<{
 	Body: CreatePaymentRequest
 }>, bundle: Bundle): Promise<CreatePaymentResponse> {
 	const { data } = await prisma.$transaction(async (tx) => {
-		const order = await tx.uncomittedOrders.create({
-			data: {
-				ownerUsername: request.user.username,
-				bundleId: bundle.id
-			}
-		});
+		const id = cuid();
 		const res = await axios.post<CryptoCloud_CreateInvoiceResponse>("https://api.cryptocloud.plus/v1/invoice/create", {
 			shop_id: process.env.CRYPTOCLOUD_SHOPID,
 			amount: bundle.price,
-			order_id: order.id,
+			order_id: id,
 			currency: "RUB",
 			...(request.body.email && { email: request.body.email })
 		}, {
 			headers: {
 				"Authorization": `Token ${process.env.CRYPTOCLOUD_TOKEN}`
+			}
+		});
+		const order = await tx.uncomittedOrders.create({
+			data: {
+				id: id,
+				ownerUsername: request.user.username,
+				bundleId: bundle.id,
+				paymentId: res.data.invoice_id
 			}
 		});
 		if (res.data.status === "error")
@@ -105,30 +108,8 @@ async function yookassaHandler(request: FastifyRequest<{
 	Reply: CreatePaymentResponse,
 	Body: CreatePaymentRequest
 }>, bundle: Bundle): Promise<CreatePaymentResponse> {
-	/*
-	payment = Payment.create({
-    "amount": {
-        "value": "100.00",
-        "currency": "RUB"
-    },
-    "confirmation": {
-        "type": "redirect",
-        "return_url": "https://www.example.com/return_url"
-    },
-    "capture": True,
-    "description": "Заказ №37",
-    "metadata": {
-      "order_id": "37"
-    }
-})
-	 */
 	const { data } = await prisma.$transaction(async (tx) => {
-		const order = await tx.uncomittedOrders.create({
-			data: {
-				ownerUsername: request.user.username,
-				bundleId: bundle.id
-			}
-		});
+		const id = cuid();
 		const authKey = Buffer.from(`${process.env.YOOKASSA_SHOPID}:${process.env.YOOKASSA_KEY}`).toString("base64");
 		const res = await axios.post<Yookassa_CreateInvoiceResponse>("https://api.yookassa.ru/v3/payments", {
 			capture: true,
@@ -142,12 +123,19 @@ async function yookassaHandler(request: FastifyRequest<{
 			},
 			"description": `Заказ на бандл "${bundle.name}"`,
 			metadata: {
-				orderId: order.id
+				orderId: id
 			} satisfies YookassaMetadata
 		}, {
 			headers: {
 				"Authorization": `Basic ${authKey}`,
 				"Idempotence-Key": crypto.randomUUID()
+			}
+		});
+		const order = await tx.uncomittedOrders.create({
+			data: {
+				ownerUsername: request.user.username,
+				bundleId: bundle.id,
+				paymentId: res.data.id
 			}
 		});
 		if (res.data.status === "canceled")

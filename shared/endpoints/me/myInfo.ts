@@ -9,6 +9,7 @@ export const GetMyInfoPath = `${BasePath}${MeRootPath}${GetMyInfoBasePath}`;
 export type GetMyInfoResponse = {
 	me: {
 		username: string,
-		role: Role
+		role: Role,
+		isUnprocessedOrders: boolean
 	}
 };
