@@ -8,7 +8,6 @@ export const ping = async (instance: FastifyInstance) => {
 	instance.get(PingBasePath, {
 		onRequest: [jwtOnRequestHook()]
 	}, async (request, reply) => {
-		throw new Error("gdfhfj");
 		return reply.status(StatusCodes.OK).send();
 	});
 };
