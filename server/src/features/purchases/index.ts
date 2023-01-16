@@ -1,11 +1,13 @@
 import { FastifyPluginAsync } from "fastify/types/plugin";
 import { create } from "./create";
-import { proceed } from "./proceed";
+import { proceedCryptoCloud } from "./proceedCryptoCloud";
+import { proceedYookassa } from "./proceedYookassa";
 
 
 export const paymentsModule: FastifyPluginAsync = async (instance) => {
 	instance.register(create);
-	instance.register(proceed);
+	instance.register(proceedCryptoCloud);
+	instance.register(proceedYookassa);
 };
 
 

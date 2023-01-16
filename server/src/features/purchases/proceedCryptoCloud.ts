@@ -1,15 +1,18 @@
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import { VeryBadThingsHappend } from "../../../../shared/consts/error";
-import { ProceedPaymentBasePath, ProceedPaymentRequest } from "../../../../shared/endpoints/purchases/proceedPayment";
+import {
+	ProceedPaymentCryptoCloudBasePath,
+	ProceedPaymentCryptoCloudRequest
+} from "../../../../shared/endpoints/purchases/proceedPaymentCryptocloud";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
 
 
-export const proceed = async (instance: FastifyInstance) => {
+export const proceedCryptoCloud = async (instance: FastifyInstance) => {
 	instance.post<{
-		Body: ProceedPaymentRequest
-	}>(ProceedPaymentBasePath, async (request, reply) => {
+		Body: ProceedPaymentCryptoCloudRequest
+	}>(ProceedPaymentCryptoCloudBasePath, async (request, reply) => {
 		const body = request.body;
 
 		const order = await cancelIfFailed(() => prisma.uncomittedOrders.delete({
