@@ -27,7 +27,7 @@ export const Info: FC<InfoProps> = ({ bundleId }) => {
           <Typography variant="h4" marginBottom>
             {configData?.data.bundle?.name}
           </Typography>
-          <Typography variant="h4">{formatCurrency(+configData?.data.bundle?.price!)}</Typography>
+          <Typography variant="h4" marginBottom>{formatCurrency(+configData?.data.bundle?.price!)}</Typography>
           <Typography variant="h4">
             {configData?.data.bundle?.configs.map((config) => (
               <>
