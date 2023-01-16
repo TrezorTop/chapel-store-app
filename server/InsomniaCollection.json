@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-15T19:05:34.566Z",
+  "__export_date": "2023-01-16T18:52:41.862Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
@@ -55,7 +55,7 @@
     {
       "_id": "req_06798a31e1b342b5b61bad78a0f08d30",
       "parentId": "fld_1e622a22079d43b491e03b8e232fdb5e",
-      "modified": 1673809220052,
+      "modified": 1673886672260,
       "created": 1673809211113,
       "url": "{{ _.baseUrl }}/me",
       "name": "Info",
@@ -129,10 +129,10 @@
     {
       "_id": "req_75722a498560430fa8f7c7ec85ade14d",
       "parentId": "fld_592f8c4a2313405c8fbe7d042c6973c7",
-      "modified": 1673712765738,
+      "modified": 1673895035317,
       "created": 1673712111905,
-      "url": "{{ _.baseUrl }}/payments/proceed",
-      "name": "Proceed",
+      "url": "{{ _.baseUrl }}/payments/proceed/cryptocloud",
+      "name": "ProceedCryptoCloud",
       "description": "",
       "method": "POST",
       "body": {
@@ -153,6 +153,42 @@
         "disabled": false
       },
       "metaSortKey": -1671165220403.9375,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ba28181f3afa4a51888c19b1ff177843",
+      "parentId": "fld_592f8c4a2313405c8fbe7d042c6973c7",
+      "modified": 1673895116294,
+      "created": 1673895111230,
+      "url": "{{ _.baseUrl }}/payments/proceed/yookassa",
+      "name": "ProceedYookassa",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"status\": \"success\",\n\t\"order_id\": \"clcw5bvv700003sozxd71pxe5\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_ecf350fd0dfe48798f373e611f6a609c"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}",
+        "disabled": false
+      },
+      "metaSortKey": -1671152064332.4688,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -890,7 +926,7 @@
     {
       "_id": "req_3281754849da475da04cd4db1efb6f90",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673809184283,
+      "modified": 1673890617639,
       "created": 1670263199596,
       "url": "{{ _.baseUrl }}/auth/login",
       "name": "Login",
@@ -922,7 +958,7 @@
     {
       "_id": "req_0a7307ecc8534b6d92e4770aee9d329a",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673805420749,
+      "modified": 1673886973775,
       "created": 1670265998591,
       "url": "{{ _.baseUrl }}/auth/refresh",
       "name": "Refresh",
@@ -954,7 +990,7 @@
     {
       "_id": "req_e456916a8fba4397aed0789b29470592",
       "parentId": "fld_24cca84d3b314b0b8fdb510f27fedc1e",
-      "modified": 1672951683755,
+      "modified": 1673890620740,
       "created": 1670260128040,
       "url": "{{ _.baseUrl }}/health/ping",
       "name": "Ping",
