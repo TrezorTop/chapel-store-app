@@ -6,6 +6,7 @@ import {
 	General_WrongRequestSyntax,
 	UndocumentedError
 } from "../../../shared/consts/error";
+import { logger } from "./utils";
 
 
 export class ApplicationError {
@@ -60,7 +61,7 @@ export const setErrorHandler = (instance: FastifyInstance) => {
 				})
 			} satisfies ErrorResponse);
 
-		console.error("Unhandled, undocumented error occured", {
+		logger.error("Unhandled, undocumented error occured", {
 			request: {
 				url: request.raw.url,
 				method: request.raw.method,
