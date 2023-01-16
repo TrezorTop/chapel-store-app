@@ -12,7 +12,7 @@ import { Yookassa_CreateInvoiceResponse } from "../payments";
 
 
 export const checkMyPayments = async (instance: FastifyInstance) => {
-	instance.post<{
+	instance.get<{
 		Reply: CheckMyPaymentsResponse
 	}>(CheckMyPaymentsBasePath, {
 		onRequest: [jwtOnRequestHook()],

@@ -27,6 +27,12 @@ enum Role {
   ADMIN
 }
 
+enum Currency {
+  RUB
+  EUR
+  USD
+}
+
 
 model RefreshToken {
     token String @id
@@ -50,6 +56,7 @@ model Bundle {
     name String @unique
     configs BundleConfigs[]
     price Decimal
+    curreny Currency @default(RUB)
     softDeleted Boolean @default(false)
     purchases Purchases[]
     uncomittedOrders UncomittedOrders[]
