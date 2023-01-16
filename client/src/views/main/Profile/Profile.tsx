@@ -3,8 +3,7 @@ import s from "./Profile.module.scss";
 
 const Profile = () => {
   return (
-    <div className={s.root}>
-      {/* <UserInfo /> */}
+    <div>
       <Bundles />
     </div>
   );
