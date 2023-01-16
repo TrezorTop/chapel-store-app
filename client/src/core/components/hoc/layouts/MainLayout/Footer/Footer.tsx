@@ -25,14 +25,16 @@ export const Footer = () => {
   return (
     <div className={s.root}>
       <div className={s.content}>
-        Toggle Theme{" "}
-        <Switch
-          checked={isDarkMode}
-          onChange={(event) => {
-            colorMode.toggleColorMode();
-            toggle();
-          }}
-        />
+        <div>
+          Theme{" "}
+          <Switch
+            checked={isDarkMode}
+            onChange={(event) => {
+              colorMode.toggleColorMode();
+              toggle();
+            }}
+          />
+        </div>
       </div>
     </div>
   );
