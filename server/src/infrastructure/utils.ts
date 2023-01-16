@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { onResponseAsyncHookHandler } from "fastify";
 import { isMultipart } from "fastify-multer/lib/lib/content-parser";
 import { File } from "fastify-multer/src/interfaces";
@@ -6,6 +7,7 @@ import { IOptions } from "glob";
 import glob from "glob-promise";
 import { StatusCodes } from "http-status-codes";
 import nodemailer from "nodemailer";
+import winston, { format } from "winston";
 import { ApplicationError } from "./applicationErrorHandler";
 
 
@@ -16,6 +18,22 @@ declare module "fastify" {
 		files: Required<File>[];
 	}
 }
+
+
+export const logger = winston.createLogger({
+	transports: [
+		new winston.transports.Console({
+			level: "info",
+			format: format.combine(
+				format.metadata(),
+				format.timestamp(),
+				format.printf(({ level, message, timestamp, metadata }) => {
+					return `${chalk.blueBright(timestamp)} [${chalk.yellowBright(level)}] — [${chalk.redBright(message)}]\n${JSON.stringify(metadata, null, 4)}`;
+				})
+			),
+		})
+	],
+});
 
 export const mailSender = nodemailer.createTransport(process.env.NODE_ENV === "development" ?
 	{

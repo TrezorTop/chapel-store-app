@@ -40,8 +40,8 @@ export function generateTokens(username: string, role: Role) {
 		role: role
 	};
 
-	const accessToken = deps.jwt.sign(payload, { expiresIn: "2m" });
-	const rawRefreshToken = deps.jwt.sign(payload, { expiresIn: "30 days" });
+	const accessToken = deps.jwt.sign(payload, { expiresIn: process.env.JWT_ACCESS_EXPIRE });
+	const rawRefreshToken = deps.jwt.sign(payload, { expiresIn: process.env.JWT_REFRESH_EXPIRE });
 
 	return { accessToken, refreshToken: rawRefreshToken };
 }

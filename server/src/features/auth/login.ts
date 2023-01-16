@@ -29,11 +29,11 @@ export const login = async (instance: FastifyInstance) => {
 			StatusCodes.FORBIDDEN, Login_WrongPasswordError
 		);
 
-		const tokens = generateTokens(body.username, user.role);
+		const tokens = generateTokens(user.username, user.role);
 		await prisma.refreshToken.create({
 			data: {
 				token: tokens.refreshToken,
-				ownerUsername: body.username
+				ownerUsername: user.username
 			}
 		});
 
