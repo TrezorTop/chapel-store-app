@@ -9,15 +9,15 @@
   --background: white;
   --text-primary: black;
   --text-secondary: royalblue;
-  --accent: #FF4C29;
+  --accent: #ff4c29;
   --overlay: #ffffffbf;
 }
 
 [data-theme="dark"] {
-  --background: #2C394B;
+  --background: #2c394b;
   --text-primary: white;
   --text-secondary: grey;
-  --accent: #FF4C29;
+  --accent: #ff4c29;
   --overlay: #474747bf;
 }
 
@@ -40,4 +40,8 @@ html {
     border-radius: 90px;
     border: 3px solid #ffffff;
   }
+}
+
+a {
+  color: inherit;
 }

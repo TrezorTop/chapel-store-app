@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import { GetByIdConfigsPath } from "../../../../../shared/endpoints/configs/getById";
-import { CreatePaymentPath } from "../../../../../shared/endpoints/purchases/createPurchases";
+import { CreatePaymentPath, PaymentMethod } from "../../../../../shared/endpoints/purchases/createPurchases";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Form } from "../../../core/components/kit/Form/Form";
 import { Input } from "../../../core/components/kit/Input/Input";
@@ -14,15 +14,13 @@ import { createPayment } from "../../../core/services/payment.service";
 import { formatCurrency } from "../../../core/utils/functions/number";
 import { useForm } from "../../../core/utils/hooks/useForm";
 
-type TPayment = "CRYPTO" | "CREDIT_CARD";
-
 type TForm = {
-  selectedPayment: TPayment;
+  selectedPayment: PaymentMethod;
   email: string;
 };
 
 export const Payment = () => {
-  const { form, updateForm } = useForm<TForm>({ selectedPayment: "CRYPTO" });
+  const { form, updateForm } = useForm<TForm>({ selectedPayment: PaymentMethod.YOOKASSA });
 
   const { bundleId } = useParams<{ bundleId: string }>();
 
@@ -36,7 +34,7 @@ export const Payment = () => {
 
   const { mutate: mutateCreatePayment, isLoading: isLoadingPayment } = useMutation(
     [CreatePaymentPath],
-    () => createPayment({ bundleId: bundleId!, email: form.email }),
+    () => createPayment({ bundleId: bundleId!, email: form.email, method: form.selectedPayment! }),
     {
       onSuccess: ({ data }) => {
         window.open(data.url, "_blank");
@@ -82,14 +80,15 @@ export const Payment = () => {
           fullWidth
           inputLabel="Send payment info to"
           variant="outlined"
-          onChange={(event) => updateForm({ selectedPayment: event.target.value as TPayment })}
+          onChange={(event) => updateForm({ selectedPayment: event.target.value as PaymentMethod })}
           value={form.selectedPayment}
           select
         >
-          <MenuItem disabled value={"CREDIT_CARD"}>
-            Credit Card
-          </MenuItem>
-          <MenuItem value={"CRYPTO"}>Crypto</MenuItem>
+          {Object.keys(PaymentMethod).map((key, index) => (
+            <MenuItem key={index} value={key}>
+              {key}
+            </MenuItem>
+          ))}
         </Input>
 
         <Button
