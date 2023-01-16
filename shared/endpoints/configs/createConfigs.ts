@@ -1,6 +1,7 @@
 import { BasePath, ConfigsRootPath } from "../../index";
 import { Validator } from "../../types";
 
+
 export const CreateConfigsBasePath = "";
 
 export const CreateConfigsPath = `${BasePath}${ConfigsRootPath}${CreateConfigsBasePath}`;
@@ -25,7 +26,7 @@ export const CreateConfigsRequestValidator: Validator<CreateConfigsRequest> = {
 
 export const CreateConfigsSettings = {
 	minFilesCount: 1,
-	maxFilesCount: 10,
+	maxFilesCount: 40,
 	maxFileSize: 104_857_600
 };
 
