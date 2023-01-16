@@ -136,11 +136,6 @@ async function yookassaHandler(request: FastifyRequest<{
 				value: bundle.price,
 				currency: "RUB"
 			},
-			receipt: {
-				customer: {
-					email: request.body.email
-				}
-			},
 			"confirmation": {
 				"type": "redirect",
 				"return_url": process.env.YOOKASSA_REDIRECT
