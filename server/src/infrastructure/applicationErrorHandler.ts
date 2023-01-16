@@ -65,9 +65,11 @@ export const setErrorHandler = (instance: FastifyInstance) => {
 			request: {
 				url: request.raw.url,
 				method: request.raw.method,
+				headers: request.headers,
 				body: request.body,
 				query: request.query,
 				params: request.params,
+				user: request.user,
 			},
 			error: error
 		});
