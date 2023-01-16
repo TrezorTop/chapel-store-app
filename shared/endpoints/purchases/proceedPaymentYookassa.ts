@@ -1,4 +1,4 @@
-import { Yookassa_CreateInvoiceResponse, YookassaMetadata } from "../../../server/src/features/purchases";
+import { Yookassa_CreateInvoiceResponse, YookassaMetadata } from "../../../server/src/features/payments";
 import { BasePath, PaymentsRootPath } from "../../index";
 
 
