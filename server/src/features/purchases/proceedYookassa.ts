@@ -1,27 +1,32 @@
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import { VeryBadThingsHappend } from "../../../../shared/consts/error";
-import { ProceedPaymentBasePath, ProceedPaymentRequest } from "../../../../shared/endpoints/purchases/proceedPayment";
+import {
+	ProceedPaymentYookassaBasePath,
+	ProceedPaymentYookassaRequest
+} from "../../../../shared/endpoints/purchases/proceedPaymentYookassa";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
 
 
-export const proceed = async (instance: FastifyInstance) => {
+export const proceedYookassa = async (instance: FastifyInstance) => {
 	instance.post<{
-		Body: ProceedPaymentRequest
-	}>(ProceedPaymentBasePath, async (request, reply) => {
+		Body: ProceedPaymentYookassaRequest
+	}>(ProceedPaymentYookassaBasePath, async (request, reply) => {
 		const body = request.body;
 
 		const order = await cancelIfFailed(() => prisma.uncomittedOrders.delete({
 				where: {
-					id: body.order_id
+					id: body.metadata.orderId
 				}
 			}), StatusCodes.NOT_FOUND, VeryBadThingsHappend
 		);
-		if (body.status === "fail")
+		if (body.status === "canceled")
 			return reply.status(StatusCodes.BAD_REQUEST).send();
-		if (body.status !== "success")
+
+		if (body.status !== "succeeded")
 			return reply.status(StatusCodes.BAD_REQUEST).send();
+
 
 		await prisma.purchases.create({
 			data: {
