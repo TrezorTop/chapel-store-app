@@ -14,10 +14,12 @@ export const paymentsModule: FastifyPluginAsync = async (instance) => {
 export type CryptoCloud_CreateInvoiceResponse = {
 	status: "success" | "error",
 	pay_url: string,
+	invoice_id: string
 }
 
 export type Yookassa_CreateInvoiceResponse = {
 	status: "succeeded" | "canceled",
+	id: string,
 	confirmation: {
 		confirmation_url: string
 	}

@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
-import { GetMyBundlesBasePath, GetMyBundlesResponse } from "../../../../shared/endpoints/me/getMyConfigs";
+import { GetMyBundlesBasePath, GetMyBundlesResponse } from "../../../../shared/endpoints/me/getMyBundles";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 
