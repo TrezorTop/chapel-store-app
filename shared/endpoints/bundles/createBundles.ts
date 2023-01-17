@@ -11,7 +11,7 @@ export const CreateBundlesRequestValidator: Validator<CreateBundlesRequest> = {
 	name: {
 		check: [
 			value => value.length >= 1 || "Минимальная длина 1 символ",
-			value => value.length <= 32 || "Максимальная длина 32 символа"
+			value => value.length <= 128 || "Максимальная длина 128 символа"
 		],
 		required: true
 	},
