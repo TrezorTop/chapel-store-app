@@ -27,12 +27,6 @@ enum Role {
   ADMIN
 }
 
-enum Currency {
-  RUB
-  EUR
-  USD
-}
-
 
 model RefreshToken {
     token String @id
