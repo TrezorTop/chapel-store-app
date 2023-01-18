@@ -14,7 +14,7 @@ export const VerifyEmailRequestValidator: Validator<VerifyEmailRequest> = {
 };
 
 export type VerifyEmailRequest = {
-	token: number;
+	token: string;
 };
 
 export type VerifyEmailResponse = {};

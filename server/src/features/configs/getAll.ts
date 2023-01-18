@@ -1,14 +1,43 @@
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
-import { GetAllConfigsBasePath, GetAllConfigsResponse } from "../../../../shared/endpoints/configs/getAllConfigs";
+import {
+	GetAllConfigsBasePath,
+	GetAllConfigsQuery,
+	GetAllConfigsResponse
+} from "../../../../shared/endpoints/configs/getAllConfigs";
+import { Validator } from "../../../../shared/types";
 import { prisma } from "../../infrastructure/prismaConnect";
+import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
+
+
+const queryValidator: Validator<GetAllConfigsQuery> = {
+	carName: {
+		check: [],
+		required: false
+	}
+};
 
 
 export const getAll = async (instance: FastifyInstance) => {
 	instance.get<{
-		Reply: GetAllConfigsResponse
-	}>(GetAllConfigsBasePath, async (request, reply) => {
+		Reply: GetAllConfigsResponse,
+		Querystring: GetAllConfigsQuery
+	}>(GetAllConfigsBasePath, {
+		preValidation: [validatePreValidationHook({ query: queryValidator })]
+	}, async (request, reply) => {
+		const query = request.query;
+		console.log(query);
+
 		const configs = await prisma.config.findMany({
+			where: {
+				car: {
+					...(query.carName && {
+						name: {
+							in: query.carName
+						}
+					})
+				}
+			},
 			select: {
 				id: true,
 				title: true,

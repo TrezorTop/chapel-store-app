@@ -37,8 +37,7 @@ export const register = async (instance: FastifyInstance) => {
 				passwordHash: hash,
 			},
 			where: {
-				username: body.username,
-				email: body.email,
+				username: body.username
 			}
 		});
 		await mailSender.sendMail({

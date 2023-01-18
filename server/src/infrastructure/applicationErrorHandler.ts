@@ -71,7 +71,10 @@ export const setErrorHandler = (instance: FastifyInstance) => {
 				params: request.params,
 				user: request.user,
 			},
-			error: error
+			error: {
+				...error,
+				message: error.message,
+			}
 		});
 		reply.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
 			message: UndocumentedError

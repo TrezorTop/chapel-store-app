@@ -10,7 +10,6 @@ import {
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
-import { generateTokens } from "./services";
 
 
 export const verifyEmail = async (instance: FastifyInstance) => {
@@ -24,26 +23,17 @@ export const verifyEmail = async (instance: FastifyInstance) => {
 
 		const registerToken = await cancelIfFailed(async () => await prisma.registerTokens.delete({
 				where: {
-					token: body.token
+					token: Number(body.token)
 				}
 			}),
 			StatusCodes.BAD_REQUEST, VerifyEmail_WrongToken
 		);
-		const tokens = generateTokens(registerToken.username, "USER");
 		await prisma.user.create({
 			data: {
 				username: registerToken.username,
 				email: registerToken.email,
-				passwordHash: registerToken.passwordHash,
-				tokens: {
-					create: {
-						token: tokens.refreshToken
-					}
-				}
+				passwordHash: registerToken.passwordHash
 			}
-		});
-		await prisma.registerTokens.delete({
-			where: registerToken
 		});
 
 		return reply.status(StatusCodes.OK).send();
