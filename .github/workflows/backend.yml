@@ -22,7 +22,6 @@ jobs:
             cd server
             npm i
             rm -r -f dist
-            npm run build
             npx prisma generate
+            npm run build
             pm2 restart app
-            pm2 restart studio
