@@ -29,7 +29,9 @@ export const Footer = () => {
   return (
     <div className={s.root}>
       <div className={s.content}>
-        <Button variant='text' onClick={() => navigate(`${MAIN_URL}/${ABOUT_URL}`)}>About Us</Button>
+        <Button variant="text" onClick={() => navigate(`${MAIN_URL}/${ABOUT_URL}`)}>
+          INFO
+        </Button>
         <div>
           Theme
           <Switch

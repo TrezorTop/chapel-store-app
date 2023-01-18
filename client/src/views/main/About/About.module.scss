@@ -1,4 +1,10 @@
 .root {
+  display: flex;
+
+  .divider {
+    margin: 16px;
+  }
+
   section {
     margin-bottom: 32px;
 
