@@ -16,6 +16,7 @@ export const MAIN_URL = "/main";
 export const GET_SETUP_URL = "get-config";
 export const PAYMENT_URL = "payment";
 export const PROFILE_URL = "profile";
+export const ABOUT_URL = "about";
 
 export const CREATOR_URL = "creator";
 export const EDIT_ENTITIES_URL = "edit-entities";
