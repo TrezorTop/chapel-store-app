@@ -17,7 +17,7 @@ export const Bundles = () => {
 
   const {
     data: profileData,
-    refetch,
+    refetch: refetchProfile,
     isSuccess,
     isError,
   } = useQuery([GetMyInfoPath], getMyProfileInfo, {
@@ -25,7 +25,11 @@ export const Bundles = () => {
     retry: false,
   });
 
-  const { isFetching, refetch: refetchCheck } = useQuery([CheckMyPaymentsPath], checkMyPayments);
+  const { isFetching, refetch: refetchCheck } = useQuery([CheckMyPaymentsPath], checkMyPayments, {
+    onSuccess: () => {
+      refetchProfile();
+    },
+  });
 
   useInterval(
     () => {
