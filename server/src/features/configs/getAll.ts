@@ -26,7 +26,6 @@ export const getAll = async (instance: FastifyInstance) => {
 		preValidation: [validatePreValidationHook({ query: queryValidator })]
 	}, async (request, reply) => {
 		const query = request.query;
-		console.log(query);
 
 		const configs = await prisma.config.findMany({
 			where: {
