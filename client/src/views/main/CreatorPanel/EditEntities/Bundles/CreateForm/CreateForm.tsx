@@ -1,4 +1,4 @@
-import { MenuItem } from "@mui/material";
+import { Autocomplete, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 
@@ -7,18 +7,20 @@ import {
   CreateBundlesRequestValidator,
 } from "../../../../../../../../shared/endpoints/bundles/createBundles";
 import { GetAllBundlesPath } from "../../../../../../../../shared/endpoints/bundles/getAllBundles";
+import { GetAllCarsPath } from "../../../../../../../../shared/endpoints/cars/getAllCars";
 import { GetAllConfigsPath } from "../../../../../../../../shared/endpoints/configs/getAllConfigs";
 import { Button } from "../../../../../../core/components/kit/Button/Button";
 import { Form } from "../../../../../../core/components/kit/Form/Form";
 import { FormActions } from "../../../../../../core/components/kit/Form/FormActions/FormActions";
 import { Input } from "../../../../../../core/components/kit/Input/Input";
-import { createBundle, getSetups } from "../../../../../../core/services/main.service";
+import { createBundle, getCars, getSetups } from "../../../../../../core/services/main.service";
 import { useForm } from "../../../../../../core/utils/hooks/useForm";
 import { queryClient } from "../../../../../../main";
 
 type TForm = {
   name: string;
   price: number;
+  carId: string;
   setups: string[];
 };
 
@@ -32,6 +34,8 @@ export const CreateForm = () => {
   });
 
   const { data: setupsData } = useQuery([GetAllConfigsPath], getSetups);
+
+  const { data: carsData } = useQuery([GetAllCarsPath], getCars);
 
   const isValid = useCallback(() => {
     return (
@@ -47,21 +51,30 @@ export const CreateForm = () => {
     <Form>
       <Input inputLabel={"Bundle Name"} onChange={(event) => updateForm({ name: event.target.value })} />
       <Input type="number" inputLabel={"Price"} onChange={(event) => updateForm({ price: +event.target.value })} />
-      <Input
-        select
-        inputLabel={"Setups"}
-        SelectProps={{
-          value: form.setups,
-          multiple: true,
-          onChange: (event) => updateForm({ setups: event.target.value as string[] }),
+
+      <Autocomplete
+        value={form.carId}
+        disabled={true}
+        onChange={(event, value) => {
+          updateForm({ carId: value ?? "" });
         }}
-      >
-        {setupsData?.data.configs.map((setup) => (
-          <MenuItem key={setup.id} value={setup.id}>
-            {setup.title}
-          </MenuItem>
-        ))}
-      </Input>
+        options={carsData?.data.cars.map((car) => car.id) ?? []}
+        getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}
+        renderInput={(params) => <Input {...params} fullWidth value={form.carId} inputLabel="Car" />}
+      />
+
+      <Autocomplete
+        value={form.setups}
+        multiple
+        disableCloseOnSelect
+        onChange={(event, value) => {
+          updateForm({ setups: value });
+        }}
+        options={setupsData?.data.configs.map((bundle) => bundle.id) ?? []}
+        getOptionLabel={(option) => setupsData?.data.configs.find((setup) => setup.id === option)?.title ?? ""}
+        renderInput={(params) => <Input {...params} fullWidth value={form.setups} inputLabel="Setups" />}
+      />
+
       <FormActions>
         <Button
           disabled={!isValid()}

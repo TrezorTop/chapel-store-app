@@ -8,11 +8,14 @@ import { CreatePaymentPath, PaymentMethod } from "../../../../../shared/endpoint
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Form } from "../../../core/components/kit/Form/Form";
 import { Input } from "../../../core/components/kit/Input/Input";
+import { Paper } from "../../../core/components/kit/Paper/Paper";
 import { Typography } from "../../../core/components/kit/Typography/Typography";
 import { getBundle } from "../../../core/services/main.service";
 import { createPayment } from "../../../core/services/payment.service";
 import { formatCurrency } from "../../../core/utils/functions/number";
 import { useForm } from "../../../core/utils/hooks/useForm";
+
+import s from "./Payment.module.scss";
 
 type TForm = {
   selectedPayment: PaymentMethod;
@@ -59,13 +62,23 @@ export const Payment = () => {
       <Typography variant="h4" marginBottom>
         Payment
       </Typography>
-      {configData && (
-        <>
-          <Typography variant="h5">{configData?.data.bundle?.name}</Typography>
-          <Typography variant="h5">{formatCurrency(+configData?.data.bundle?.price!)}</Typography>
-          <Typography variant="h5">{configData?.data.bundle?.configs.map((config) => config.config.title)}</Typography>
-        </>
-      )}
+
+      <Paper className={s.info} variant="elevation">
+        {configData && (
+          <>
+            <Typography variant="h5" marginBottom>{configData?.data.bundle?.name}</Typography>
+            <Typography variant="h5" marginBottom>{formatCurrency(+configData?.data.bundle?.price!)}</Typography>
+            <div className={s.items}>
+              {configData?.data.bundle?.configs.map((config) => (
+                <Paper key={config.config.id}>
+                  <Typography variant="body1">{config.config.title}</Typography>
+                </Paper>
+              ))}
+            </div>
+          </>
+        )}
+      </Paper>
+
       <Form>
         <Input
           placeholder="Email (Optional)"

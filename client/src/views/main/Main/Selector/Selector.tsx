@@ -1,4 +1,4 @@
-import { MenuItem } from "@mui/material";
+import { Autocomplete } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -70,41 +70,27 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
 
   return (
     <Form>
-      <Input
+      <Autocomplete
         value={form.carId}
-        onChange={(event) => {
-          updateForm({ carId: event.target.value, bundleId: "" });
-        }}
         disabled={!carsData}
-        inputLabel="Select Car"
-        variant="outlined"
-        fullWidth
-        select
-      >
-        {carsData?.data.cars.map((car) => (
-          <MenuItem key={car.id} value={car.id}>
-            {car.name}
-          </MenuItem>
-        )) ?? []}
-      </Input>
-
-      <Input
-        value={form.bundleId}
-        onChange={(event) => {
-          updateForm({ bundleId: event.target.value });
+        onChange={(event, value) => {
+          updateForm({ carId: value ?? "" });
         }}
+        options={carsData?.data.cars.map((car) => car.id) ?? []}
+        getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}
+        renderInput={(params) => <Input {...params} fullWidth value={form.carId} inputLabel="Select Car" />}
+      />
+
+      <Autocomplete
+        value={form.bundleId}
         disabled={!form.carId || !bundlesData}
-        inputLabel="Select Bundle"
-        variant="outlined"
-        fullWidth
-        select
-      >
-        {bundlesData?.data.bundles.map((bundle) => (
-          <MenuItem key={bundle.id} value={bundle.id}>
-            {bundle.name}
-          </MenuItem>
-        )) ?? []}
-      </Input>
+        onChange={(event, value) => {
+          updateForm({ bundleId: value ?? "" });
+        }}
+        options={bundlesData?.data.bundles.map((bundle) => bundle.id) ?? []}
+        getOptionLabel={(option) => bundlesData?.data.bundles.find((bundle) => bundle.id === option)?.name ?? ""}
+        renderInput={(params) => <Input {...params} fullWidth value={form.bundleId} inputLabel="Select Bundle" />}
+      />
 
       <Button
         disabled={!isValid()}

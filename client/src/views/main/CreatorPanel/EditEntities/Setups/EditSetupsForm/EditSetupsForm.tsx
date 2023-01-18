@@ -1,4 +1,4 @@
-import { CircularProgress, InputLabel, MenuItem } from "@mui/material";
+import { Autocomplete, CircularProgress, InputLabel, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -78,7 +78,7 @@ export const EditSetupsForm = () => {
   return (
     <Paper>
       <Form>
-        {setupData?.data.config?.files && (
+        {/* {setupData?.data.config?.files && (
           <>
             <InputLabel>Current Setup Files</InputLabel>
             {setupData?.data.config?.files.map((file, index) => (
@@ -87,7 +87,7 @@ export const EditSetupsForm = () => {
               </Paper>
             ))}
           </>
-        )}
+        )} */}
         <Input
           value={form.title}
           inputLabel={"Setup Title"}
@@ -97,7 +97,7 @@ export const EditSetupsForm = () => {
           onChange={(files) => {
             updateForm({ files });
           }}
-          label="Click or place json file here"
+          label="Click or drag files here"
         />
         {form.files?.length && (
           <>
@@ -109,18 +109,18 @@ export const EditSetupsForm = () => {
             ))}
           </>
         )}
-        <Input
+
+        <Autocomplete
           value={form.carId}
-          select
-          inputLabel={"Car"}
-          onChange={(event) => updateForm({ carId: event.target.value })}
-        >
-          {carsData?.data.cars.map((car) => (
-            <MenuItem key={car.id} value={car.id}>
-              {car.name}
-            </MenuItem>
-          ))}
-        </Input>
+          disabled={!carsData}
+          onChange={(event, value) => {
+            updateForm({ carId: value ?? "" });
+          }}
+          options={carsData?.data.cars.map((car) => car.id) ?? []}
+          getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}
+          renderInput={(params) => <Input {...params} fullWidth value={form.carId} inputLabel="Car" />}
+        />
+
         <FormActions>
           <Button
             disabled={!isValid()}

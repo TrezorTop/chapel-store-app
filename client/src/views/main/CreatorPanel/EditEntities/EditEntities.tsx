@@ -37,11 +37,17 @@ export const EditEntities = () => {
 
   return (
     <div className={s.root}>
-      <Tabs value={selectedTab} orientation="vertical" onChange={(_, value) => setSelectedTab(value)}>
-        <Tab value={TabValues.Cars} label={TabValues.Cars} onClick={() => navigate(EDIT_ENTITIES_CARS_URL)} />
-        <Tab value={TabValues.Setups} label={TabValues.Setups} onClick={() => navigate(EDIT_ENTITIES_SETUPS_URL)} />
-        <Tab value={TabValues.Bundles} label={TabValues.Bundles} onClick={() => navigate(EDIT_ENTITIES_BUNDLES_URL)} />
-      </Tabs>
+      <div>
+        <Tabs value={selectedTab} orientation="vertical" onChange={(_, value) => setSelectedTab(value)}>
+          <Tab value={TabValues.Cars} label={TabValues.Cars} onClick={() => navigate(EDIT_ENTITIES_CARS_URL)} />
+          <Tab value={TabValues.Setups} label={TabValues.Setups} onClick={() => navigate(EDIT_ENTITIES_SETUPS_URL)} />
+          <Tab
+            value={TabValues.Bundles}
+            label={TabValues.Bundles}
+            onClick={() => navigate(EDIT_ENTITIES_BUNDLES_URL)}
+          />
+        </Tabs>
+      </div>
 
       <div className={s.content}>
         <Routes>

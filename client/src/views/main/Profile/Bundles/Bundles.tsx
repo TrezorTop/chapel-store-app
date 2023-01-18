@@ -1,5 +1,6 @@
 import { CircularProgress, LinearProgress } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
+import { useInterval } from "usehooks-ts";
 import { CheckMyPaymentsPath } from "../../../../../../shared/endpoints/me/checkMyPayments";
 
 import { GetMyBundlesPath } from "../../../../../../shared/endpoints/me/getMyBundles";
@@ -16,7 +17,7 @@ export const Bundles = () => {
 
   const {
     data: profileData,
-    refetch,
+    refetch: refetchProfile,
     isSuccess,
     isError,
   } = useQuery([GetMyInfoPath], getMyProfileInfo, {
@@ -24,15 +25,28 @@ export const Bundles = () => {
     retry: false,
   });
 
-  const { isFetching, refetch: refetchCheck } = useQuery([CheckMyPaymentsPath], checkMyPayments);
+  const { isFetching, refetch: refetchCheck } = useQuery([CheckMyPaymentsPath], checkMyPayments, {
+    onSuccess: () => {
+      refetchProfile();
+    },
+  });
+
+  useInterval(
+    () => {
+      refetchCheck();
+    },
+    profileData?.data.me.isUnprocessedOrders ? 5000 : null,
+  );
 
   return (
     <div>
       <div className={s.header}>
-        <Typography variant="h4">
-          Purchased Bundles
-          {profileData?.data.me.isUnprocessedOrders && <LinearProgress />}
-        </Typography>
+        <div>
+          <Typography variant="h4">
+            Purchased Bundles
+            {profileData?.data.me.isUnprocessedOrders && <LinearProgress />}
+          </Typography>
+        </div>
         <div className={s.action}>
           {isFetching && <CircularProgress size={25} />}
           <Button onClick={() => refetchCheck()} disabled={isFetching}>
@@ -42,6 +56,7 @@ export const Bundles = () => {
       </div>
 
       <div className={s.container}>
+        {profileData?.data.me.isUnprocessedOrders && <Typography variant="h6">Payment in progress</Typography>}
         {bundlesData?.data.bundles.length ? (
           bundlesData?.data.bundles.map((bundle) => <Item key={bundle.id} bundle={bundle} />)
         ) : (

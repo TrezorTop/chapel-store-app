@@ -1,7 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import React, { Suspense, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useDarkMode } from "usehooks-ts";
 
 import s from "./App.module.scss";
 import { AuthLayout } from "./core/components/hoc/layouts/AuthLayout/AuthLayout";
@@ -9,6 +8,7 @@ import { MainLayout } from "./core/components/hoc/layouts/MainLayout/MainLayout"
 import { RequireAuth } from "./core/components/hoc/RequireAuth/RequireAuth";
 import { GlobalLoader } from "./core/components/kit/GlobalLoader/GlobalLoader";
 import {
+  ABOUT_URL,
   AUTH_URL,
   COLOR_THEME_KEY,
   CREATOR_URL,
@@ -23,6 +23,7 @@ import {
 import { Restore } from "./views/auth/Restore/Restore";
 import { SignIn } from "./views/auth/SignIn/SignIn";
 import { SignUp } from "./views/auth/SignUp/SignUp";
+import { About } from "./views/main/About/About";
 import { Main } from "./views/main/Main/Main";
 import { Payment } from "./views/main/Payment/Payment";
 
@@ -105,6 +106,7 @@ export const App = () => {
                   </Suspense>
                 }
               />
+              <Route path={ABOUT_URL} element={<About />} />
               <Route path={""} element={<Navigate to={GET_SETUP_URL} />} />
             </Route>
             <Route path={"*"} element={<Navigate to={MAIN_URL} />} />
