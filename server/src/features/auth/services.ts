@@ -40,8 +40,14 @@ export function generateTokens(username: string, role: Role) {
 		role: role
 	};
 
-	const accessToken = deps.jwt.sign(payload, { expiresIn: process.env.JWT_ACCESS_EXPIRE });
-	const rawRefreshToken = deps.jwt.sign(payload, { expiresIn: process.env.JWT_REFRESH_EXPIRE });
+	const accessToken = deps.jwt.sign(payload, {
+		expiresIn: process.env.JWT_ACCESS_EXPIRE,
+		jti: crypto.randomUUID().toString()
+	});
+	const rawRefreshToken = deps.jwt.sign(payload, {
+		expiresIn: process.env.JWT_REFRESH_EXPIRE,
+		jti: crypto.randomUUID().toString()
+	});
 
 	return { accessToken, refreshToken: rawRefreshToken };
 }

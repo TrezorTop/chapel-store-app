@@ -16,6 +16,10 @@ const queryValidator: Validator<GetAllBundlesQuery> = {
 	carId: {
 		check: [value => cuid.isCuid(value) || "Невалидный id"],
 		required: false
+	},
+	role: {
+		check: [],
+		required: false
 	}
 };
 
@@ -42,6 +46,13 @@ export const getAll = async (instance: FastifyInstance) => {
 						}
 					}
 				}),
+				...(query.role === "USER" && request?.user?.username && {
+					purchases: {
+						none: {
+							ownerUsername: request?.user?.username
+						}
+					}
+				}),
 				...(!isAdmin && { softDeleted: false }),
 			},
 			select: {
@@ -62,6 +73,11 @@ export const getAll = async (instance: FastifyInstance) => {
 					}
 				}
 			},
+			orderBy: {
+				configs: {
+					_count: "desc"
+				}
+			}
 		});
 
 		return reply.status(StatusCodes.OK).send({ bundles: bundles });

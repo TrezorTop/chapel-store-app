@@ -5,6 +5,10 @@ export const GetAllConfigsBasePath = "";
 
 export const GetAllConfigsPath = `${BasePath}${ConfigsRootPath}${GetAllConfigsBasePath}`;
 
+export type GetAllConfigsQuery = {
+	carName?: string[];
+};
+
 export type GetAllConfigsResponse = {
 	configs: {
 		id: string,

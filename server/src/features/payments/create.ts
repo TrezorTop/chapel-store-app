@@ -8,13 +8,12 @@ import { CreatePurchases_NotFound, VeryBadThingsHappend } from "../../../../shar
 import {
 	CreatePaymentBasePath,
 	CreatePaymentRequest,
-	CreatePaymentResponse,
-	PaymentMethod
+	CreatePaymentResponse
 } from "../../../../shared/endpoints/purchases/createPurchases";
 import { Validator } from "../../../../shared/types";
 import { ApplicationError } from "../../infrastructure/applicationErrorHandler";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
-import { prisma } from "../../infrastructure/prismaConnect";
+import { PaymentMethod, prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 import { CryptoCloud_CreateInvoiceResponse, Yookassa_CreateInvoiceResponse, YookassaMetadata } from "./index";
@@ -55,9 +54,14 @@ export const create = async (instance: FastifyInstance) => {
 	}, async (request, reply) => {
 		const body = request.body;
 
-		const bundle = await cancelIfFailed(() => prisma.bundle.findUnique({
+		const bundle = await cancelIfFailed(() => prisma.bundle.findFirst({
 				where: {
-					id: body.bundleId
+					id: body.bundleId,
+					purchases: {
+						none: {
+							ownerUsername: request.user.username
+						}
+					}
 				}
 			}), StatusCodes.NOT_FOUND, CreatePurchases_NotFound
 		);
@@ -90,6 +94,7 @@ async function cryptoCloudHandler(request: FastifyRequest<{
 		const order = await tx.uncomittedOrders.create({
 			data: {
 				id: id,
+				method: PaymentMethod.CRYPTOCLOUD,
 				ownerUsername: request.user.username,
 				bundleId: bundle.id,
 				paymentId: res.data.invoice_id
@@ -134,6 +139,7 @@ async function yookassaHandler(request: FastifyRequest<{
 		const order = await tx.uncomittedOrders.create({
 			data: {
 				ownerUsername: request.user.username,
+				method: PaymentMethod.YOOKASSA,
 				bundleId: bundle.id,
 				paymentId: res.data.id
 			}

@@ -30,6 +30,7 @@ export const CreateBundlesRequestValidator: Validator<CreateBundlesRequest> = {
 export type CreateBundlesRequest = {
 	name: string,
 	price: number,
+
 	configs: string[]
 }
 
