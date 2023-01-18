@@ -16,6 +16,10 @@ const queryValidator: Validator<GetAllBundlesQuery> = {
 	carId: {
 		check: [value => cuid.isCuid(value) || "Невалидный id"],
 		required: false
+	},
+	role: {
+		check: [],
+		required: false
 	}
 };
 
@@ -42,7 +46,7 @@ export const getAll = async (instance: FastifyInstance) => {
 						}
 					}
 				}),
-				...(request?.user?.username && {
+				...(query.role === "USER" && request?.user?.username && {
 					purchases: {
 						none: {
 							ownerUsername: request?.user?.username
