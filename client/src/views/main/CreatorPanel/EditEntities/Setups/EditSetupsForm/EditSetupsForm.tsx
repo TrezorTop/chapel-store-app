@@ -1,4 +1,4 @@
-import { Autocomplete, CircularProgress, InputLabel, MenuItem } from "@mui/material";
+import { Autocomplete, CircularProgress, InputLabel } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -128,7 +128,7 @@ export const EditSetupsForm = () => {
               mutate();
             }}
           >
-            {isLoading ? <CircularProgress size={25} /> : <>Update</>}
+            {isLoading ? <CircularProgress size={23} /> : <>Update</>}
           </Button>
         </FormActions>
       </Form>

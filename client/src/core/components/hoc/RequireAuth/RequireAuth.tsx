@@ -1,14 +1,14 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "framer-motion";
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDebounce } from "usehooks-ts";
 
 import {
   General_Unauthorized,
   Refresh_UsedTokenError,
   Refresh_WrongTokenError,
 } from "../../../../../../shared/consts/error";
-import { RefreshPath } from "../../../../../../shared/endpoints/auth/refresh";
 import { PingPath } from "../../../../../../shared/endpoints/health/ping";
 import { api } from "../../../config/api";
 import { ping, refreshToken } from "../../../services/user.service";
@@ -21,7 +21,6 @@ import {
   USER_REFRESH_TOKEN_KEY,
 } from "../../../utils/consts/urls";
 import { updateAuthTokens } from "../../../utils/functions/auth";
-import { GlobalLoader } from "../../kit/GlobalLoader/GlobalLoader";
 
 type RequireAuthProps = {
   children: ReactNode;
@@ -29,6 +28,8 @@ type RequireAuthProps = {
 
 export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
   const [isNetworkError, setIsNetworkError] = useState<boolean>(false);
+  const [authError, setAuthError] = useState<boolean>(false);
+  const debouncedValue = useDebounce<boolean>(authError, 500);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,7 +45,10 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
 
     broadcast.onmessage = (event) => {
       if (event.data === NETWORK_ERROR) setIsNetworkError(true);
-      if (event.data === General_Unauthorized) return mutateRefreshToken();
+
+      if (event.data === General_Unauthorized) {
+        setAuthError(true);
+      }
       if (event.data === Refresh_UsedTokenError || event.data === Refresh_WrongTokenError)
         return navigate(`${AUTH_URL}/${SIGN_IN_URL}`, { state: { referrer: location.pathname } });
     };
@@ -55,23 +59,20 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
     };
   }, []);
 
-  useQuery([PingPath], ping);
+  useEffect(() => {
+    authError &&
+      refreshToken({ refreshToken: localStorage.getItem(USER_REFRESH_TOKEN_KEY) ?? "" }).then((data) => {
+        updateAuthTokens(data.data.accessToken, data.data.refreshToken);
+        return data;
+      });
+  }, [debouncedValue]);
 
-  const { mutate: mutateRefreshToken, isLoading: refreshTokenIsLoading } = useMutation(
-    [RefreshPath],
-    () => refreshToken({ refreshToken: localStorage.getItem(USER_REFRESH_TOKEN_KEY) ?? "" }),
-    {
-      onSuccess: ({ data }) => {
-        updateAuthTokens(data.accessToken, data.refreshToken);
-        api.defaults.headers["authorization"] = `Bearer ${data.accessToken}`;
-      },
-    },
-  );
+  useQuery([PingPath], ping);
 
   return (
     <>
       <AnimatePresence>
-        {refreshTokenIsLoading && <GlobalLoader />}
+        {/* {refreshTokenIsLoading && <GlobalLoader />} */}
         {/* {isNetworkError && <GlobalLoader showLoader={false} />} */}
       </AnimatePresence>
       {api.defaults.headers["authorization"] && children}

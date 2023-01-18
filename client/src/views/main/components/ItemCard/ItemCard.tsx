@@ -1,4 +1,4 @@
-import { CircularProgress, LinearProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import React, { FC, ReactNode } from "react";
 
@@ -37,7 +37,7 @@ export const ItemCard: FC<TItemCard> = ({ children, actions, entityId, entityNam
             onClick={() => downloadBundleFiles({ id: entityId, name: entityName })}
             variant="text"
           >
-            {isDownloading ? <CircularProgress size={25} /> : <>Download</>}
+            {isDownloading ? <CircularProgress size={23} /> : <>Download</>}
           </Button>
         )}
         {actions}

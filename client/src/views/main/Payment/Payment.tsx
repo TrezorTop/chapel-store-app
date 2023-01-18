@@ -14,7 +14,6 @@ import { getBundle } from "../../../core/services/main.service";
 import { createPayment } from "../../../core/services/payment.service";
 import { formatCurrency } from "../../../core/utils/functions/number";
 import { useForm } from "../../../core/utils/hooks/useForm";
-
 import s from "./Payment.module.scss";
 
 type TForm = {
@@ -66,8 +65,12 @@ export const Payment = () => {
       <Paper className={s.info} variant="elevation">
         {configData && (
           <>
-            <Typography variant="h5" marginBottom>{configData?.data.bundle?.name}</Typography>
-            <Typography variant="h5" marginBottom>{formatCurrency(+configData?.data.bundle?.price!)}</Typography>
+            <Typography variant="h5" marginBottom>
+              {configData?.data.bundle?.name}
+            </Typography>
+            <Typography variant="h5" marginBottom>
+              {formatCurrency(+configData?.data.bundle?.price!)}
+            </Typography>
             <div className={s.items}>
               {configData?.data.bundle?.configs.map((config) => (
                 <Paper key={config.config.id}>
@@ -112,7 +115,7 @@ export const Payment = () => {
           fullWidth
           onClick={() => mutateCreatePayment()}
         >
-          {isLoadingConfig || isLoadingPayment ? <CircularProgress size={25} color="success" /> : <>Continue</>}
+          {isLoadingConfig || isLoadingPayment ? <CircularProgress size={23} color="success" /> : <>Continue</>}
         </Button>
       </Form>
     </>
