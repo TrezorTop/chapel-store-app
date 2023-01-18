@@ -42,6 +42,13 @@ export const getAll = async (instance: FastifyInstance) => {
 						}
 					}
 				}),
+				...(request?.user?.username && {
+					purchases: {
+						none: {
+							ownerUsername: request?.user?.username
+						}
+					}
+				}),
 				...(!isAdmin && { softDeleted: false }),
 			},
 			select: {
@@ -62,6 +69,11 @@ export const getAll = async (instance: FastifyInstance) => {
 					}
 				}
 			},
+			orderBy: {
+				configs: {
+					_count: "desc"
+				}
+			}
 		});
 
 		return reply.status(StatusCodes.OK).send({ bundles: bundles });

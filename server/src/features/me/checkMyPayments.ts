@@ -7,7 +7,7 @@ import {
 	ProceedPaymentYookassaRequest
 } from "../../../../shared/endpoints/purchases/proceedPaymentYookassa";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
-import { prisma } from "../../infrastructure/prismaConnect";
+import { PaymentMethod, prisma } from "../../infrastructure/prismaConnect";
 import { Yookassa_CreateInvoiceResponse } from "../payments";
 
 
@@ -19,7 +19,8 @@ export const checkMyPayments = async (instance: FastifyInstance) => {
 	}, async (request, reply) => {
 		const orders = await prisma.uncomittedOrders.findMany({
 			where: {
-				ownerUsername: request.user.username
+				ownerUsername: request.user.username,
+				method: PaymentMethod.YOOKASSA
 			}
 		});
 		const authKey = Buffer.from(`${process.env.YOOKASSA_SHOPID}:${process.env.YOOKASSA_KEY}`).toString("base64");

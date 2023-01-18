@@ -24,7 +24,7 @@ export const verifyEmail = async (instance: FastifyInstance) => {
 
 		const registerToken = await cancelIfFailed(async () => await prisma.registerTokens.delete({
 				where: {
-					id: Number(body.token)
+					token: body.token
 				}
 			}),
 			StatusCodes.BAD_REQUEST, VerifyEmail_WrongToken
@@ -42,10 +42,8 @@ export const verifyEmail = async (instance: FastifyInstance) => {
 				}
 			}
 		});
-		await prisma.registerTokens.deleteMany({
-			where: {
-				email: registerToken.email
-			}
+		await prisma.registerTokens.delete({
+			where: registerToken
 		});
 
 		return reply.status(StatusCodes.OK).send();

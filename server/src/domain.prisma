@@ -28,6 +28,12 @@ enum Role {
 }
 
 
+enum PaymentMethod {
+    CRYPTOCLOUD
+    YOOKASSA
+}
+
+
 model RefreshToken {
     token String @id
     owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
@@ -73,6 +79,7 @@ model Purchases {
 model UncomittedOrders {
     id String @id @default(cuid())
     paymentId String
+    method PaymentMethod
     owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
     ownerUsername String
     bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
@@ -87,9 +94,9 @@ model ChangerTokens {
 
 
 model RegisterTokens {
-    id Int @id
-    email String
-    username String
+    token Int @id
+    email String @unique
+    username String @unique
     passwordHash String
 }
 
