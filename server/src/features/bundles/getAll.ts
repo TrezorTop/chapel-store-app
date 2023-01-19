@@ -20,6 +20,10 @@ const queryValidator: Validator<GetAllBundlesQuery> = {
 	role: {
 		check: [],
 		required: false
+	},
+	type: {
+		check: [],
+		required: false
 	}
 };
 
