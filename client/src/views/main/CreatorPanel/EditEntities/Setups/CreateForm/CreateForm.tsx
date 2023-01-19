@@ -46,7 +46,7 @@ export const CreateForm = () => {
 
   return (
     <Form>
-      <Input inputLabel={"Setup Title"} onChange={(event) => updateForm({ title: event.target.value })} />
+      <Input inputLabel={"Title"} onChange={(event) => updateForm({ title: event.target.value })} />
       <FileDropzone
         onChange={(files) => {
           updateForm({ files });

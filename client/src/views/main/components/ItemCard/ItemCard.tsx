@@ -30,7 +30,7 @@ export const ItemCard: FC<TItemCard> = ({ children, actions, entityId, entityNam
   return (
     <Paper className={s.root}>
       <div>{children}</div>
-      <div className={s.actions}>
+      <div>
         {entityId && entityName && (
           <Button
             disabled={isDownloading}

@@ -30,7 +30,7 @@ export const Footer = () => {
     <div className={s.root}>
       <div className={s.content}>
         <Button variant="text" onClick={() => navigate(`${MAIN_URL}/${ABOUT_URL}`)}>
-          INFO
+          FAQ
         </Button>
         <div>
           Theme

@@ -1,8 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { General_Unauthorized } from "../../../../../../../../shared/consts/error";
+import { ErrorResponse, General_Unauthorized } from "../../../../../../../../shared/consts/error";
 import { GetMyInfoPath } from "../../../../../../../../shared/endpoints/me/myInfo";
 import { getMyProfileInfo } from "../../../../../services/profile.service";
 import {
@@ -22,10 +23,9 @@ import s from "./Header.module.scss";
 export const Header = () => {
   const navigate = useNavigate();
 
-  const { data, refetch, isSuccess, isError } = useQuery([GetMyInfoPath], getMyProfileInfo, {
-    enabled: !!localStorage.getItem(USER_ACCESS_TOKEN_KEY),
-    onError: (error: any) => {
-      if (error.response.data.message === General_Unauthorized) {
+  const { data, mutate, isSuccess, isError } = useMutation([GetMyInfoPath], getMyProfileInfo, {
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.message === General_Unauthorized) {
         const broadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);
 
         broadcast.postMessage(error.response?.data.message);
@@ -34,6 +34,10 @@ export const Header = () => {
       }
     },
   });
+
+  useEffect(() => {
+    !!localStorage.getItem(USER_ACCESS_TOKEN_KEY) && mutate();
+  }, []);
 
   return (
     <div className={s.root}>
@@ -48,6 +52,7 @@ export const Header = () => {
             MAIN
           </Button>
         </div>
+
         <div className={s.container}>
           {isSuccess && data?.data.me?.role === "ADMIN" && (
             <Button
@@ -76,7 +81,7 @@ export const Header = () => {
               variant="outlined"
               onClick={() => {
                 removeAuthTokens();
-                refetch();
+                mutate();
               }}
               color="error"
             >

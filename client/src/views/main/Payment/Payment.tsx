@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import { GetByIdConfigsPath } from "../../../../../shared/endpoints/configs/getById";
-import { CreatePaymentPath, PaymentMethod } from "../../../../../shared/endpoints/purchases/createPurchases";
+import { CreatePaymentPath, PaymentMethodEnum } from "../../../../../shared/endpoints/purchases/createPurchases";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Form } from "../../../core/components/kit/Form/Form";
 import { Input } from "../../../core/components/kit/Input/Input";
@@ -17,12 +17,12 @@ import { useForm } from "../../../core/utils/hooks/useForm";
 import s from "./Payment.module.scss";
 
 type TForm = {
-  selectedPayment: PaymentMethod;
+  selectedPayment: PaymentMethodEnum;
   email: string;
 };
 
 export const Payment = () => {
-  const { form, updateForm } = useForm<TForm>({ selectedPayment: PaymentMethod.YOOKASSA });
+  const { form, updateForm } = useForm<TForm>({ selectedPayment: PaymentMethodEnum.YOOKASSA });
 
   const { bundleId } = useParams<{ bundleId: string }>();
 
@@ -96,11 +96,11 @@ export const Payment = () => {
           fullWidth
           inputLabel="Send payment info to"
           variant="outlined"
-          onChange={(event) => updateForm({ selectedPayment: event.target.value as PaymentMethod })}
+          onChange={(event) => updateForm({ selectedPayment: event.target.value as PaymentMethodEnum })}
           value={form.selectedPayment}
           select
         >
-          {Object.keys(PaymentMethod).map((key, index) => (
+          {Object.keys(PaymentMethodEnum).map((key, index) => (
             <MenuItem key={index} value={key}>
               {key}
             </MenuItem>

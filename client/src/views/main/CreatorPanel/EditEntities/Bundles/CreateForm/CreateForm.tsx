@@ -1,6 +1,6 @@
 import { Autocomplete, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   CreateBundlesPath,
@@ -33,7 +33,9 @@ export const CreateForm = () => {
     },
   });
 
-  const { data: setupsData } = useQuery([GetAllConfigsPath], getSetups);
+  const { data: setupsData, refetch: refetchSetups } = useQuery([GetAllConfigsPath], () =>
+    getSetups({ carId: [form.carId!] }),
+  );
 
   const { data: carsData } = useQuery([GetAllCarsPath], getCars);
 
@@ -47,16 +49,19 @@ export const CreateForm = () => {
     );
   }, [form, isLoading]);
 
+  useEffect(() => {
+    refetchSetups();
+  }, [form.carId]);
+
   return (
     <Form>
-      <Input inputLabel={"Bundle Name"} onChange={(event) => updateForm({ name: event.target.value })} />
+      <Input inputLabel={"Name"} onChange={(event) => updateForm({ name: event.target.value })} />
       <Input type="number" inputLabel={"Price"} onChange={(event) => updateForm({ price: +event.target.value })} />
 
       <Autocomplete
         value={form.carId}
-        disabled={true}
         onChange={(event, value) => {
-          updateForm({ carId: value ?? "" });
+          updateForm({ carId: value ?? "", setups: [] });
         }}
         options={carsData?.data.cars.map((car) => car.id) ?? []}
         getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}
@@ -70,10 +75,15 @@ export const CreateForm = () => {
         onChange={(event, value) => {
           updateForm({ setups: value });
         }}
-        options={setupsData?.data.configs.map((bundle) => bundle.id) ?? []}
-        getOptionLabel={(option) => setupsData?.data.configs.find((setup) => setup.id === option)?.title ?? ""}
+        options={setupsData?.data.configs?.map((bundle) => bundle.id) ?? []}
+        getOptionLabel={(option) => setupsData?.data.configs?.find((setup) => setup.id === option)?.title ?? ""}
         renderInput={(params) => <Input {...params} fullWidth value={form.setups} inputLabel="Setups" />}
       />
+
+      {/* <Input inputLabel="Type" select>
+        <MenuItem value={'TEST'}>TEST</MenuItem>
+        <MenuItem value={'TEST 2'}>TEST 2</MenuItem>
+      </Input> */}
 
       <FormActions>
         <Button

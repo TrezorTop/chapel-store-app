@@ -90,7 +90,7 @@ export const EditSetupsForm = () => {
         )} */}
         <Input
           value={form.title}
-          inputLabel={"Setup Title"}
+          inputLabel={"Title"}
           onChange={(event) => updateForm({ title: event.target.value })}
         />
         <FileDropzone
