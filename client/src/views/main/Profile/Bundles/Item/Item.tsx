@@ -20,9 +20,6 @@ export const Item: FC<ItemProps> = ({ bundle }) => {
           variant="outlined"
           size="small"
           onClick={() => {
-            console.log(API_URL + GetBundleFilesPath.replace(":id", bundle?.id!));
-            
-
             window.open(API_URL + GetBundleFilesPath.replace(":id", bundle?.id!));
           }}
         >
