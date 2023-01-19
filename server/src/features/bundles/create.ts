@@ -37,6 +37,7 @@ export const create = async (instance: FastifyInstance) => {
 			data: {
 				name: body.name,
 				price: body.price,
+				type: body.type,
 				configs: {
 					createMany: {
 						data: body.configs.map(id => ({ configId: id }))

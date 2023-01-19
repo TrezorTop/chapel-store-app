@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-19T00:36:51.428Z",
+  "__export_date": "2023-01-19T14:48:23.368Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
@@ -81,7 +81,7 @@
     {
       "_id": "req_8a05dc9a106642ff8f0e7801a478bdbb",
       "parentId": "fld_592f8c4a2313405c8fbe7d042c6973c7",
-      "modified": 1674076901563,
+      "modified": 1674135340354,
       "created": 1671718413220,
       "url": "{{ _.baseUrl }}/payments",
       "name": "Create",
@@ -89,7 +89,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"bundleId\": \"cld0ix26x000e3sp54awbfeyk\",\n\t\"method\": \"YOOKASSA\"\n}"
+        "text": "{\n    \"bundleId\": \"cld0j033d00103sp5ebabd272\",\n    \"method\": \"YOOKASSA\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -508,7 +508,7 @@
     {
       "_id": "req_b837e427b36946a6a17d1468818b375c",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1674088598245,
+      "modified": 1674135262070,
       "created": 1673462046233,
       "url": "{{ _.baseUrl }}/bundles/clcxfx4oa00023sw0thiuiksk/files",
       "name": "GetFileEncoded",

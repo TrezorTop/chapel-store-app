@@ -59,6 +59,7 @@ export const getAll = async (instance: FastifyInstance) => {
 				id: true,
 				name: true,
 				softDeleted: isAdmin,
+				type: true,
 				price: true,
 				createdAt: true,
 				updatedAt: true,

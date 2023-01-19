@@ -1,5 +1,5 @@
 import { BasePath, BundlesRootPath } from "../..";
-import { Decimal } from "../../../server/src/infrastructure/prismaConnect";
+import { BundleType, Decimal } from "../../../server/src/infrastructure/prismaConnect";
 import { Validator } from "../../types";
 
 
@@ -13,6 +13,10 @@ export const CreateBundlesRequestValidator: Validator<CreateBundlesRequest> = {
 			value => value.length >= 1 || "Минимальная длина 1 символ",
 			value => value.length <= 128 || "Максимальная длина 128 символа"
 		],
+		required: true
+	},
+	type: {
+		check: [],
 		required: true
 	},
 	price: {
@@ -30,6 +34,7 @@ export const CreateBundlesRequestValidator: Validator<CreateBundlesRequest> = {
 export type CreateBundlesRequest = {
 	name: string,
 	price: number,
+	type: BundleType,
 
 	configs: string[]
 }
