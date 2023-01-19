@@ -6,14 +6,6 @@ export const updateAuthTokens = (accessToken?: string, refreshToken?: string) =>
 
   api.defaults.headers["authorization"] = `Bearer ${accessToken}`;
 
-  const now = new Date();
-  now.setSeconds(now.getSeconds() + 10)
-
-  console.log();
-  
-
-  document.cookie = `token=${accessToken};expires=${now.toUTCString()};path=/`;
-
   localStorage.setItem(USER_ACCESS_TOKEN_KEY, accessToken);
   localStorage.setItem(USER_REFRESH_TOKEN_KEY, refreshToken ?? localStorage.getItem(USER_REFRESH_TOKEN_KEY)!);
 };

@@ -2,6 +2,7 @@ import { Autocomplete, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { BundleTypeEnum } from "../../../../../../../../shared/endpoints/bundles/createBundles";
 
 import { GetAllBundlesPath } from "../../../../../../../../shared/endpoints/bundles/getAllBundles";
 import { GetByIdBundlesPath } from "../../../../../../../../shared/endpoints/bundles/getByIdBundles";
@@ -24,6 +25,7 @@ type TForm = {
   name: string;
   price: number;
   carId: string;
+  type: BundleTypeEnum;
   setups: string[];
 };
 
@@ -73,7 +75,8 @@ export const EditBundle = () => {
       UpdateBundlesRequestValidator?.name?.check &&
       isFieldValid(UpdateBundlesRequestValidator.name.check, form.name) &&
       UpdateBundlesRequestValidator?.price?.check &&
-      isFieldValid(UpdateBundlesRequestValidator.price.check, String(form.price))
+      isFieldValid(UpdateBundlesRequestValidator.price.check, String(form.price)) &&
+      form.type
     );
   }, [form, isLoading]);
 
@@ -107,6 +110,15 @@ export const EditBundle = () => {
           getOptionLabel={(option) => `${setupsData?.data.configs?.find((setup) => setup.id === option)?.title}` ?? ""}
           renderInput={(params) => <Input {...params} fullWidth value={form.setups} inputLabel="Setups" />}
         />
+
+        <Input inputLabel="Type" select>
+          {Object.entries(BundleTypeEnum).map(([key, value]) => (
+            <MenuItem key={key} value={key}>
+              {value}
+            </MenuItem>
+          ))}
+        </Input>
+
         <FormActions>
           <Button disabled={!isValid()} onClick={() => mutate()}>
             Update

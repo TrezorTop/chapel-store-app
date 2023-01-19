@@ -4,7 +4,7 @@ import { GetBundleFilesPath } from "../../../../../../../shared/endpoints/bundle
 import { GetMyBundlesResponse } from "../../../../../../../shared/endpoints/me/getMyBundles";
 import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Paper } from "../../../../../core/components/kit/Paper/Paper";
-import { API_URL } from "../../../../../core/utils/consts/urls";
+import { API_URL, USER_ACCESS_TOKEN_KEY } from "../../../../../core/utils/consts/urls";
 import s from "./Item.module.scss";
 
 type ItemProps = {
@@ -20,6 +20,9 @@ export const Item: FC<ItemProps> = ({ bundle }) => {
           variant="outlined"
           size="small"
           onClick={() => {
+            const now = new Date();
+            now.setSeconds(now.getSeconds() + 10);
+            document.cookie = `token=${localStorage.getItem(USER_ACCESS_TOKEN_KEY)};expires=${now.toUTCString()};path=/`;
             window.open(API_URL + GetBundleFilesPath.replace(":id", bundle?.id!), '_blank');
           }}
         >
