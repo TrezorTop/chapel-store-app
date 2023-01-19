@@ -46,6 +46,7 @@ export const DeleteByIdBundles_NotFound = "Такого бандла не сущ
 export const UpdatePromocodes_NotFound = "Такого промокода не существует";
 
 export const GetByIdBundles_NotFound = "Такого бандла не существует";
+export const GetByIdPromocodes_NotFound = "Такого промокода не существует";
 
 export const GetByIdCars_NotFound = "Такой машины не существует";
 

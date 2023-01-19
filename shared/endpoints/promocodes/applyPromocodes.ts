@@ -2,7 +2,7 @@ import { Decimal } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, PromocodesRootPath } from "../../index";
 
 
-export const AppllyPromocodesBasePath = "/:name";
+export const AppllyPromocodesBasePath = "/apply/:name";
 
 export const AppllyPromocodesPath = `${BasePath}${PromocodesRootPath}${AppllyPromocodesBasePath}`;
 
