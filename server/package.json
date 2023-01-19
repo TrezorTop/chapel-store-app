@@ -11,6 +11,7 @@
     "schema": "./src/domain.prisma"
   },
   "dependencies": {
+    "@fastify/cookie": "^8.3.0",
     "@fastify/cors": "^8.2.0",
     "@fastify/jwt": "^6.5.0",
     "@prisma/client": "^4.7.1",
