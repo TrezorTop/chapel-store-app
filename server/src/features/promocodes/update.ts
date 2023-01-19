@@ -25,7 +25,7 @@ const paramsValidator: Validator<UpdatePromocodesParams> = {
 
 
 export const update = async (instance: FastifyInstance) => {
-	instance.post<{
+	instance.put<{
 		Body: UpdatePromocodesRequest
 		Reply: UpdatePromocodesResponse
 		Params: UpdatePromocodesParams
