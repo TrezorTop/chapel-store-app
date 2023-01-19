@@ -5,7 +5,6 @@ import { API_URL, AUTH_ERRORS, HTTP_BROADCAST_KEY, NETWORK_ERROR } from "../util
 
 export const api = axios.create({
   baseURL: API_URL,
-  timeout: 60000,
   // headers: {
   //   ...(localStorage.getItem(USER_ACCESS_TOKEN_KEY) && {
   //     authorization: `Bearer ${localStorage.getItem(USER_ACCESS_TOKEN_KEY)}`,

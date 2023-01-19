@@ -22,7 +22,7 @@ export const ItemCard: FC<TItemCard> = ({ children, actions, entityId, entityNam
     ({ id }: GetBundleFilesParams & { name: string }) => getBundleFiles({ id: id }),
     {
       onSuccess: ({ data }, { name }) => {
-        decodeFile(name, data);
+        decodeFile(data, name);
       },
     },
   );
