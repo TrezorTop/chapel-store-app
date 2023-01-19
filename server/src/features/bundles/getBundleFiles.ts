@@ -64,7 +64,7 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 		}), StatusCodes.NOT_FOUND, GetBundleFiles_NotFound);
 
 		const archive = archiver("zip", {
-			zlib: { level: 9 }, encoding: "base64"
+			zlib: { level: 9 }, encoding: "binary"
 		});
 		const downloadTask = reply.status(StatusCodes.OK)
 		                          .type("application/octet-stream")
