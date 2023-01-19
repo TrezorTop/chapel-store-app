@@ -1,3 +1,4 @@
+import { Decimal } from "@prisma/client/runtime";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
@@ -55,10 +56,17 @@ export const apply = async (instance: FastifyInstance) => {
 			}), StatusCodes.NOT_FOUND, ApplyPromocodes_PromocodeNotFound
 		);
 
-		const coefficient = bundle.price.div(100);
-		const leftOver = coefficient.mul(promocode.discountToUser);
-		const newPrice = bundle.price.minus(leftOver);
+		const newPrice = applyDiscount(bundle.price, promocode.discountToUser);
 
 		return reply.status(StatusCodes.OK).send({ price: newPrice });
 	});
 };
+
+
+export function applyDiscount(origin: Decimal, discount: Decimal) {
+	const coefficient = origin.div(100);
+	const leftOver = coefficient.mul(discount);
+	const newPrice = origin.minus(leftOver);
+
+	return newPrice;
+}

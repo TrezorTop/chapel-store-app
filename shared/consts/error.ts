@@ -40,7 +40,8 @@ export const DeleteByIdCars_NotFound = "Такой машины не сущес�
 export const UpdateBundles_NotFound = "Такого бандла не существует";
 export const ApplyPromocodes_BundleNotFound = "Такого бандла не существует";
 export const ApplyPromocodes_PromocodeNotFound = "Такого промокода не существует";
-export const CreatePurchases_NotFound = "Такого бандла не существует";
+export const CreatePurchases_BundleNotFound = "Такого бандла не существует";
+export const CreatePurchases_PromocodeNotFound = "Такого промокода не существует";
 
 export const DeleteByIdBundles_NotFound = "Такого бандла не существует";
 export const UpdatePromocodes_NotFound = "Такого промокода не существует";
