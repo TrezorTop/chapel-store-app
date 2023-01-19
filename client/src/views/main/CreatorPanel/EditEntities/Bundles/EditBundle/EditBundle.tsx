@@ -73,9 +73,7 @@ export const EditBundle = () => {
       UpdateBundlesRequestValidator?.name?.check &&
       isFieldValid(UpdateBundlesRequestValidator.name.check, form.name) &&
       UpdateBundlesRequestValidator?.price?.check &&
-      isFieldValid(UpdateBundlesRequestValidator.price.check, String(form.price)) &&
-      form.setups &&
-      form.setups.length >= 1
+      isFieldValid(UpdateBundlesRequestValidator.price.check, String(form.price))
     );
   }, [form, isLoading]);
 

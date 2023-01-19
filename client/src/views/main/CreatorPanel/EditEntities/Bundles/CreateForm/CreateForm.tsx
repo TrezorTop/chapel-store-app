@@ -43,9 +43,7 @@ export const CreateForm = () => {
     return (
       !isLoading &&
       isFieldValid(CreateBundlesRequestValidator.name.check, form.name) &&
-      isFieldValid(CreateBundlesRequestValidator.price.check, String(form.price)) &&
-      form.setups &&
-      form.setups.length >= 1
+      isFieldValid(CreateBundlesRequestValidator.price.check, String(form.price))
     );
   }, [form, isLoading]);
 

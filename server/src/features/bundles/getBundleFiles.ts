@@ -91,6 +91,6 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 
 		return reply.status(StatusCodes.OK)
 		            .type("application/octet-stream")
-		            .send(createReadStream(zipPath, "base64") as unknown as string);
+		            .send(createReadStream(zipPath) as unknown as string);
 	});
 };
