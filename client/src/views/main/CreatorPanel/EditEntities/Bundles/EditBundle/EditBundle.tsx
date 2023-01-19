@@ -42,11 +42,9 @@ export const EditBundle = () => {
     },
   });
 
-  useEffect(() => {
-    refetch();
-  }, [id]);
-
-  const { data: setupsData } = useQuery([GetAllConfigsPath], getSetups);
+  const { data: setupsData, refetch: refetchSetups } = useQuery([GetAllConfigsPath], () =>
+    getSetups({ carId: [form.carId!] }),
+  );
 
   const { mutate, isLoading } = useMutation(
     [UpdateBundlesPath],
@@ -61,26 +59,28 @@ export const EditBundle = () => {
 
   const { data: carsData } = useQuery([GetAllCarsPath], getCars);
 
+  useEffect(() => {
+    refetch();
+  }, [id]);
+
+  useEffect(() => {
+    refetchSetups();
+  }, [form.carId]);
+
   const isValid = useCallback(() => {
     return (
       !isLoading &&
       UpdateBundlesRequestValidator?.name?.check &&
       isFieldValid(UpdateBundlesRequestValidator.name.check, form.name) &&
       UpdateBundlesRequestValidator?.price?.check &&
-      isFieldValid(UpdateBundlesRequestValidator.price.check, String(form.price)) &&
-      form.setups &&
-      form.setups.length >= 1
+      isFieldValid(UpdateBundlesRequestValidator.price.check, String(form.price))
     );
   }, [form, isLoading]);
 
   return (
     <Paper>
       <Form>
-        <Input
-          value={form.name}
-          inputLabel={"Bundle Name"}
-          onChange={(event) => updateForm({ name: event.target.value })}
-        />
+        <Input value={form.name} inputLabel={"Name"} onChange={(event) => updateForm({ name: event.target.value })} />
         <Input
           value={form.price}
           type="number"
@@ -89,9 +89,8 @@ export const EditBundle = () => {
         />
         <Autocomplete
           value={form.carId}
-          disabled={true}
           onChange={(event, value) => {
-            updateForm({ carId: value ?? "" });
+            updateForm({ carId: value ?? "", setups: [] });
           }}
           options={carsData?.data.cars.map((car) => car.id) ?? []}
           getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}
@@ -104,8 +103,8 @@ export const EditBundle = () => {
           onChange={(event, value) => {
             updateForm({ setups: value });
           }}
-          options={setupsData?.data.configs.map((bundle) => bundle.id) ?? []}
-          getOptionLabel={(option) => setupsData?.data.configs.find((setup) => setup.id === option)?.title ?? ""}
+          options={setupsData?.data.configs?.map((bundle) => bundle.id) ?? []}
+          getOptionLabel={(option) => `${setupsData?.data.configs?.find((setup) => setup.id === option)?.title}` ?? ""}
           renderInput={(params) => <Input {...params} fullWidth value={form.setups} inputLabel="Setups" />}
         />
         <FormActions>

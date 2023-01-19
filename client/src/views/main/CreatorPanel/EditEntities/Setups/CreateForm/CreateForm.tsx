@@ -1,4 +1,4 @@
-import { Autocomplete, CircularProgress, MenuItem } from "@mui/material";
+import { Autocomplete, CircularProgress } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 
@@ -46,7 +46,7 @@ export const CreateForm = () => {
 
   return (
     <Form>
-      <Input inputLabel={"Setup Title"} onChange={(event) => updateForm({ title: event.target.value })} />
+      <Input inputLabel={"Title"} onChange={(event) => updateForm({ title: event.target.value })} />
       <FileDropzone
         onChange={(files) => {
           updateForm({ files });
@@ -80,7 +80,7 @@ export const CreateForm = () => {
             mutate(formData);
           }}
         >
-          {isLoading ? <CircularProgress size={25} /> : <>Submit</>}
+          {isLoading ? <CircularProgress size={23} /> : <>Submit</>}
         </Button>
       </FormActions>
     </Form>

@@ -1,8 +1,8 @@
 import { CircularProgress, LinearProgress } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useInterval } from "usehooks-ts";
-import { CheckMyPaymentsPath } from "../../../../../../shared/endpoints/me/checkMyPayments";
 
+import { CheckMyPaymentsPath } from "../../../../../../shared/endpoints/me/checkMyPayments";
 import { GetMyBundlesPath } from "../../../../../../shared/endpoints/me/getMyBundles";
 import { GetMyInfoPath } from "../../../../../../shared/endpoints/me/myInfo";
 import { Button } from "../../../../core/components/kit/Button/Button";
@@ -13,21 +13,16 @@ import s from "./Bundles.module.scss";
 import { Item } from "./Item/Item";
 
 export const Bundles = () => {
-  const { data: bundlesData } = useQuery([GetMyBundlesPath], getProfileBundles);
+  const { data: bundlesData, refetch: refetchMyBundles } = useQuery([GetMyBundlesPath], getProfileBundles);
 
-  const {
-    data: profileData,
-    refetch: refetchProfile,
-    isSuccess,
-    isError,
-  } = useQuery([GetMyInfoPath], getMyProfileInfo, {
+  const { data: profileData } = useQuery([GetMyInfoPath], getMyProfileInfo, {
     enabled: !!localStorage.getItem(USER_ACCESS_TOKEN_KEY),
     retry: false,
   });
 
   const { isFetching, refetch: refetchCheck } = useQuery([CheckMyPaymentsPath], checkMyPayments, {
     onSuccess: () => {
-      refetchProfile();
+      refetchMyBundles();
     },
   });
 
@@ -48,7 +43,7 @@ export const Bundles = () => {
           </Typography>
         </div>
         <div className={s.action}>
-          {isFetching && <CircularProgress size={25} />}
+          {isFetching && <CircularProgress size={23} />}
           <Button onClick={() => refetchCheck()} disabled={isFetching}>
             Refresh
           </Button>

@@ -45,7 +45,11 @@ import {
   DeleteByIdConfigsPath,
   DeleteByIdConfigsResponse,
 } from "../../../../shared/endpoints/configs/deleteByIdConfigs";
-import { GetAllConfigsPath, GetAllConfigsResponse } from "../../../../shared/endpoints/configs/getAllConfigs";
+import {
+  GetAllConfigsPath,
+  GetAllConfigsQuery,
+  GetAllConfigsResponse,
+} from "../../../../shared/endpoints/configs/getAllConfigs";
 import {
   GetByIdConfigsParams,
   GetByIdConfigsPath,
@@ -59,7 +63,8 @@ import {
 import { api } from "../config/api";
 import { buildRequestUrl } from "../utils/functions/api";
 
-export const getSetups = () => api.get<GetAllConfigsResponse>(GetAllConfigsPath);
+export const getSetups = (data: Partial<GetAllConfigsQuery>) =>
+  api.get<GetAllConfigsResponse>(GetAllConfigsPath, { params: { carId: data.carId?.[0] } });
 export const getSetupById = ({ id }: GetByIdConfigsParams) =>
   api.get<GetByIdConfigsResponse>(GetByIdConfigsPath.replace(":id", id));
 export const createSetup = (formData: FormData) =>

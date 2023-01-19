@@ -23,7 +23,7 @@ export const Setups = () => {
   const [modal, setModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { data: configsData } = useQuery([GetAllConfigsPath], getSetups);
+  const { data: configsData } = useQuery([GetAllConfigsPath], () => getSetups({}));
 
   const { mutate: mutateDeleteConfig } = useMutation(
     [DeleteByIdConfigsPath],

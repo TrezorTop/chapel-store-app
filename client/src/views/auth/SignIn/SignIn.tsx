@@ -8,13 +8,7 @@ import { Form } from "../../../core/components/kit/Form/Form";
 import { FormActions } from "../../../core/components/kit/Form/FormActions/FormActions";
 import { Input } from "../../../core/components/kit/Input/Input";
 import { signIn } from "../../../core/services/user.service";
-import {
-  MAIN_URL,
-  RESTORE_URL,
-  SIGN_UP_URL,
-  USER_ACCESS_TOKEN_KEY,
-  USER_REFRESH_TOKEN_KEY,
-} from "../../../core/utils/consts/urls";
+import { MAIN_URL, RESTORE_URL, SIGN_UP_URL } from "../../../core/utils/consts/urls";
 import { updateAuthTokens } from "../../../core/utils/functions/auth";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import { Window } from "../components/Window/Window";
@@ -32,7 +26,7 @@ export const SignIn = () => {
 
   const referrer = (location.state as { referrer: string })?.referrer;
 
-  const { isLoading, mutate } = useMutation([LoginPath], signIn, {
+  const { isLoading, mutate, error, data } = useMutation([LoginPath], signIn, {
     onSuccess: ({ data }) => {
       updateAuthTokens(data.accessToken, data.refreshToken);
       navigate(referrer ?? MAIN_URL);
@@ -44,7 +38,7 @@ export const SignIn = () => {
   }, [form, isLoading]);
 
   return (
-    <Window header='Authorization'>
+    <Window header="Authorization">
       <Form>
         <Input
           placeholder="Login or Email"

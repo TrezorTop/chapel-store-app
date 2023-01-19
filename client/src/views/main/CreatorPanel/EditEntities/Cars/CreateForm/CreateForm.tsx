@@ -30,7 +30,7 @@ export const CreateForm = () => {
 
   return (
     <Form>
-      <Input inputLabel={"Car Name"} onChange={(event) => updateForm({ name: event.target.value })} />
+      <Input inputLabel={"Name"} onChange={(event) => updateForm({ name: event.target.value })} />
       <FormActions>
         <Button disabled={!isValid()} onClick={() => mutate({ name: form.name! })}>
           Submit

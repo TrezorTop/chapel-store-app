@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import { GetByIdConfigsPath } from "../../../../../shared/endpoints/configs/getById";
-import { CreatePaymentPath, PaymentMethod } from "../../../../../shared/endpoints/purchases/createPurchases";
+import { CreatePaymentPath, PaymentMethodEnum } from "../../../../../shared/endpoints/purchases/createPurchases";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Form } from "../../../core/components/kit/Form/Form";
 import { Input } from "../../../core/components/kit/Input/Input";
@@ -14,16 +14,15 @@ import { getBundle } from "../../../core/services/main.service";
 import { createPayment } from "../../../core/services/payment.service";
 import { formatCurrency } from "../../../core/utils/functions/number";
 import { useForm } from "../../../core/utils/hooks/useForm";
-
 import s from "./Payment.module.scss";
 
 type TForm = {
-  selectedPayment: PaymentMethod;
+  selectedPayment: PaymentMethodEnum;
   email: string;
 };
 
 export const Payment = () => {
-  const { form, updateForm } = useForm<TForm>({ selectedPayment: PaymentMethod.YOOKASSA });
+  const { form, updateForm } = useForm<TForm>({ selectedPayment: PaymentMethodEnum.YOOKASSA });
 
   const { bundleId } = useParams<{ bundleId: string }>();
 
@@ -66,8 +65,12 @@ export const Payment = () => {
       <Paper className={s.info} variant="elevation">
         {configData && (
           <>
-            <Typography variant="h5" marginBottom>{configData?.data.bundle?.name}</Typography>
-            <Typography variant="h5" marginBottom>{formatCurrency(+configData?.data.bundle?.price!)}</Typography>
+            <Typography variant="h5" marginBottom>
+              {configData?.data.bundle?.name}
+            </Typography>
+            <Typography variant="h5" marginBottom>
+              {formatCurrency(+configData?.data.bundle?.price!)}
+            </Typography>
             <div className={s.items}>
               {configData?.data.bundle?.configs.map((config) => (
                 <Paper key={config.config.id}>
@@ -93,11 +96,11 @@ export const Payment = () => {
           fullWidth
           inputLabel="Send payment info to"
           variant="outlined"
-          onChange={(event) => updateForm({ selectedPayment: event.target.value as PaymentMethod })}
+          onChange={(event) => updateForm({ selectedPayment: event.target.value as PaymentMethodEnum })}
           value={form.selectedPayment}
           select
         >
-          {Object.keys(PaymentMethod).map((key, index) => (
+          {Object.keys(PaymentMethodEnum).map((key, index) => (
             <MenuItem key={index} value={key}>
               {key}
             </MenuItem>
@@ -112,7 +115,7 @@ export const Payment = () => {
           fullWidth
           onClick={() => mutateCreatePayment()}
         >
-          {isLoadingConfig || isLoadingPayment ? <CircularProgress size={25} color="success" /> : <>Continue</>}
+          {isLoadingConfig || isLoadingPayment ? <CircularProgress size={23} color="success" /> : <>Continue</>}
         </Button>
       </Form>
     </>

@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+import { ErrorResponse } from "../../../../shared/consts/error";
 import {
   ConfirmResetPasswordPath,
   ConfirmResetPasswordRequest,
@@ -19,7 +21,9 @@ import {
 import { PingPath } from "../../../../shared/endpoints/health/ping";
 import { api } from "../config/api";
 
-export const signIn = (data: LoginRequest) => api.post<LoginResponse>(LoginPath, data);
+export const signIn = (data: LoginRequest) => {
+  return api.post<LoginResponse>(LoginPath, data).then((res) => res).catch(error => error);
+};
 
 export const signUp = (data: RegisterRequest) => api.post<RegisterResponse>(RegisterPath, data);
 export const verifyEmail = (data: VerifyEmailRequest) => api.post<VerifyEmailResponse>(VerifyEmailPath, data);
