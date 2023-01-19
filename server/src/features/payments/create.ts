@@ -120,7 +120,7 @@ async function yookassaHandler(request: FastifyRequest<{
 			capture: true,
 			amount: {
 				value: bundle.price,
-				currency: "USD"
+				currency: "RUB"
 			},
 			"confirmation": {
 				"type": "redirect",
