@@ -40,6 +40,7 @@ export const EditBundle = () => {
         name: data.bundle.name,
         price: Number(data.bundle.price),
         setups: data.bundle.configs.map((config) => config.config.id),
+        type: data.bundle.type,
       });
     },
   });
@@ -50,7 +51,7 @@ export const EditBundle = () => {
 
   const { mutate, isLoading } = useMutation(
     [UpdateBundlesPath],
-    () => updateBundle({ id: id ?? "", name: form.name, price: form.price, configs: form.setups }),
+    () => updateBundle({ id: id ?? "", name: form.name, price: form.price, configs: form.setups, type: form.type }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries([GetAllBundlesPath]);
@@ -111,7 +112,12 @@ export const EditBundle = () => {
           renderInput={(params) => <Input {...params} fullWidth value={form.setups} inputLabel="Setups" />}
         />
 
-        <Input inputLabel="Type" select>
+        <Input
+          value={form.type}
+          inputLabel="Type"
+          select
+          onChange={(event) => updateForm({ type: event.target.value as BundleTypeEnum })}
+        >
           {Object.entries(BundleTypeEnum).map(([key, value]) => (
             <MenuItem key={key} value={key}>
               {value}
