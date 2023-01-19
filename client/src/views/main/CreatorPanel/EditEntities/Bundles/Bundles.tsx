@@ -18,7 +18,7 @@ export const Bundles = () => {
   const [modal, setModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { data: bundlesData } = useQuery([GetAllBundlesPath], () => getBundles({}));
+  const { data: bundlesData } = useQuery([GetAllBundlesPath], () => getBundles({ role: "ADMIN" }));
 
   const { mutate: mutateDeleteBundle } = useMutation([DeleteByIdBundlesPath], deleteBundle, {
     onSuccess: () => {

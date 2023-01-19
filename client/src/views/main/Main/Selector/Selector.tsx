@@ -1,13 +1,15 @@
-import { Autocomplete } from "@mui/material";
+import { Autocomplete, Box, Switch } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { BundleTypeEnum } from "../../../../../../shared/endpoints/bundles/createBundles";
 
 import { GetAllBundlesPath } from "../../../../../../shared/endpoints/bundles/getAllBundles";
 import { GetAllCarsPath } from "../../../../../../shared/endpoints/cars/getAllCars";
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Form } from "../../../../core/components/kit/Form/Form";
 import { Input } from "../../../../core/components/kit/Input/Input";
+import { Typography } from "../../../../core/components/kit/Typography/Typography";
 import { getBundles, getCars } from "../../../../core/services/main.service";
 import { PAYMENT_URL } from "../../../../core/utils/consts/urls";
 import { useForm } from "../../../../core/utils/hooks/useForm";
@@ -15,11 +17,13 @@ import { useForm } from "../../../../core/utils/hooks/useForm";
 enum QueryParams {
   CarId = "carId",
   BundleId = "bundleId",
-  ConfigId = "ConfigId",
+  ConfigId = "configId",
+  Type = "type",
 }
 
 type TForm = {
   carId: string;
+  type: BundleTypeEnum;
   bundleId: string;
 };
 
@@ -33,6 +37,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
   const { form, updateForm, isFieldValid } = useForm<TForm>({
     carId: searchParams.get(QueryParams.CarId) ?? "",
     bundleId: searchParams.get(QueryParams.BundleId) ?? "",
+    type: (searchParams.get(QueryParams.Type) as BundleTypeEnum) ?? BundleTypeEnum.FULLSET,
   });
 
   const navigate = useNavigate();
@@ -41,7 +46,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
 
   const { data: bundlesData, refetch: refetchBundles } = useQuery(
     [GetAllBundlesPath],
-    () => getBundles({ carId: form.carId }),
+    () => getBundles({ carId: form.carId, type: form.type, role: "USER" }),
     {
       enabled: !!form.carId,
     },
@@ -51,13 +56,14 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
     setSearchParams({
       ...(form.carId && { [QueryParams.CarId]: form.carId }),
       ...(form.bundleId && { [QueryParams.BundleId]: form.bundleId }),
+      ...(form.type && { [QueryParams.Type]: form.type }),
     });
-  }, [form.carId, form.bundleId]);
+  }, [form]);
 
   useEffect(() => {
-    if (!form.carId) return;
+    if (!form.carId || !form.type) return;
     refetchBundles();
-  }, [form.carId]);
+  }, [form.carId, form.type]);
 
   useEffect(() => {
     if (!form.bundleId) return;
@@ -65,7 +71,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
   }, [form.bundleId]);
 
   const isValid = useCallback(() => {
-    return form.carId && form.bundleId;
+    return form.carId && form.bundleId && form.type;
   }, [form]);
 
   return (
@@ -80,6 +86,17 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
         getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}
         renderInput={(params) => <Input {...params} fullWidth value={form.carId} inputLabel="Select Car" />}
       />
+
+      <Box display="flex" alignItems="center">
+        <Typography color={form.type === BundleTypeEnum.SINGLE ? "primary" : undefined}>Single Track</Typography>{" "}
+        <Switch
+          onChange={(event) => {
+            updateForm({ type: event.target.checked ? BundleTypeEnum.FULLSET : BundleTypeEnum.SINGLE });
+          }}
+          defaultChecked={form.type === BundleTypeEnum.FULLSET}
+        />{" "}
+        <Typography color={form.type === BundleTypeEnum.FULLSET ? "primary" : undefined}>Full Set</Typography>
+      </Box>
 
       <Autocomplete
         value={form.bundleId}

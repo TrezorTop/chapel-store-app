@@ -49,5 +49,5 @@ export type CreateBundlesResponse = {
 
 export enum BundleTypeEnum {
   SINGLE = "SINGLE",
-  FULLSET = "FULL SET",
+  FULLSET = "FULLSET",
 }
