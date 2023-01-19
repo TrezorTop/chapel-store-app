@@ -31,7 +31,12 @@ type TForm = {
 };
 
 export const EditBundle = () => {
-  const { form, updateForm, isFieldValid } = useForm<TForm>({ name: "", price: 0, setups: [] });
+  const { form, updateForm, isFieldValid } = useForm<TForm>({
+    name: "",
+    price: 0,
+    setups: [],
+    type: BundleTypeEnum.SINGLE,
+  });
 
   const { id } = useParams<{ id: string }>();
 
