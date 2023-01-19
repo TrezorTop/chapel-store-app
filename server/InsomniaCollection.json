@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-18T22:20:43.537Z",
+  "__export_date": "2023-01-19T00:36:51.428Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
@@ -378,7 +378,7 @@
     {
       "_id": "req_65f1a3b0335f45108329b1f09c316519",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1674079100794,
+      "modified": 1674080452753,
       "created": 1671562037984,
       "url": "{{ _.baseUrl }}/configs",
       "name": "GetAll",
@@ -508,9 +508,9 @@
     {
       "_id": "req_b837e427b36946a6a17d1468818b375c",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1673904909554,
+      "modified": 1674088598245,
       "created": 1673462046233,
-      "url": "{{ _.baseUrl }}/bundles/clcw53bxb00023sx3c2kbce28/files",
+      "url": "{{ _.baseUrl }}/bundles/clcxfx4oa00023sw0thiuiksk/files",
       "name": "GetFileEncoded",
       "description": "",
       "method": "GET",
@@ -1071,11 +1071,11 @@
     {
       "_id": "env_a6f4812ef3654350ae02475a19367546",
       "parentId": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
-      "modified": 1673643770954,
+      "modified": 1674083428158,
       "created": 1671482613188,
       "name": "VPS",
       "data": {
-        "baseUrl": "http://194.226.121.113/api"
+        "baseUrl": "https://ms-setups.com/api"
       },
       "dataPropertyOrder": {
         "&": [
