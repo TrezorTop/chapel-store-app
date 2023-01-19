@@ -10,7 +10,7 @@ import {
 	GetBundleFilesResponse
 } from "../../../../shared/endpoints/bundles/getBundleFiles";
 import { Validator } from "../../../../shared/types";
-import { configsPath, tmpFolder } from "../../constants";
+import { configsPath } from "../../constants";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed, findSingleFile, removeTempFiles } from "../../infrastructure/utils";
@@ -63,27 +63,12 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 			}
 		}), StatusCodes.NOT_FOUND, GetBundleFiles_NotFound);
 
-		// const zip = new AdmZip();
-		// for (let configs of dbFiles.configs) {
-		// 	const configZipPath = `${configs.config.title}/`;
-		// 	zip.addFile(configZipPath, Buffer.from([0x00]));
-		//
-		// 	for (let file of configs.config.files) {
-		// 		const configFolder = path.join(configsPath, file.configId);
-		// 		const fileName = await cancelIfFailed(() => findSingleFile(
-		// 			file.name,
-		// 			{ cwd: configFolder }
-		// 		), StatusCodes.BAD_REQUEST, VeryBadThingsHappend);
-		//
-		// 		zip.addLocalFile(path.join(configFolder, fileName), configZipPath, file.originalName);
-		// 	}
-		// }
-		// const zipPath = path.join(tmpFolder, `${params.id}.zip`);
-		// await zip.writeZipPromise(zipPath);
-		const zipPath = path.join(tmpFolder, `${params.id}.zip`);
 		const archive = archiver("zip", {
 			zlib: { level: 9 }
 		});
+		const downloadTask = reply.status(StatusCodes.OK)
+		                          .type("application/octet-stream")
+		                          .send(archive as unknown as string);
 
 		for (let configs of dbFiles.configs) {
 			const configZipPath = `${configs.config.title}/`;
@@ -101,8 +86,6 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 		}
 		await archive.finalize();
 
-		return reply.status(StatusCodes.OK)
-		            .type("application/octet-stream")
-		            .send(archive);
+		return downloadTask;
 	});
 };
