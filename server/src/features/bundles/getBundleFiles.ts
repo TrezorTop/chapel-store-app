@@ -1,8 +1,6 @@
-import AdmZip from "adm-zip";
-import { Buffer } from "buffer";
+import archiver from "archiver";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
-import { createReadStream } from "fs";
 import { StatusCodes } from "http-status-codes";
 import path from "path";
 import { GetBundleFiles_NotFound, VeryBadThingsHappend } from "../../../../shared/consts/error";
@@ -12,10 +10,10 @@ import {
 	GetBundleFilesResponse
 } from "../../../../shared/endpoints/bundles/getBundleFiles";
 import { Validator } from "../../../../shared/types";
-import { configsPath, tmpFolder } from "../../constants";
+import { configsPath } from "../../constants";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
-import { cancelIfFailed, findSingleFile, removeTempFiles } from "../../infrastructure/utils";
+import { cancelIfFailed, findSingleFile } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
 
@@ -33,8 +31,7 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 		Reply: GetBundleFilesResponse
 	}>(GetBundleFilesBasePath, {
 		onRequest: [jwtOnRequestHook()],
-		preValidation: [validatePreValidationHook({ params: paramsValidator })],
-		onResponse: [removeTempFiles]
+		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
 		const params = request.params;
 
@@ -65,11 +62,19 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 			}
 		}), StatusCodes.NOT_FOUND, GetBundleFiles_NotFound);
 
-		const zip = new AdmZip();
+		const archive = archiver("zip", {
+			zlib: { level: 9 }
+		});
+		const downloadTask = reply.status(StatusCodes.OK)
+		                          .headers({
+			                          "Content-Disposition": `attachment; filename="${dbFiles.name}.zip"`,
+		                          })
+		                          .type("application/octet-stream")
+		                          .send(archive as unknown as string);
 
 		for (let configs of dbFiles.configs) {
 			const configZipPath = `${configs.config.title}/`;
-			zip.addFile(configZipPath, Buffer.from([0x00]));
+			archive.directory(configZipPath, configs.config.title);
 
 			for (let file of configs.config.files) {
 				const configFolder = path.join(configsPath, file.configId);
@@ -78,19 +83,11 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 					{ cwd: configFolder }
 				), StatusCodes.BAD_REQUEST, VeryBadThingsHappend);
 
-				zip.addLocalFile(path.join(configFolder, fileName), configZipPath, file.originalName);
+				archive.file(path.join(configFolder, fileName), { name: path.join(configZipPath, file.originalName) });
 			}
 		}
-		const zipPath = path.join(tmpFolder, `${params.id}.zip`);
-		await zip.writeZipPromise(zipPath);
+		await archive.finalize();
 
-		// @ts-ignore
-		request.files = [{
-			path: zipPath
-		}];
-
-		return reply.status(StatusCodes.OK)
-		            .type("application/octet-stream")
-		            .send(createReadStream(zipPath) as unknown as string);
+		return downloadTask;
 	});
 };

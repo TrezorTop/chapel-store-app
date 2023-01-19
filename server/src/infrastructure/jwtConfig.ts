@@ -18,7 +18,11 @@ export const jwtConfig = async (instance: FastifyInstance) => {
 		throw new Error(`process.env.JWT_SECRET is required`);
 
 	instance.register(fastifyJwt, {
-		secret: process.env.JWT_SECRET
+		secret: process.env.JWT_SECRET,
+		cookie: {
+			cookieName: "token",
+			signed: false
+		}
 	});
 };
 

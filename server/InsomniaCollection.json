@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-16T18:52:41.862Z",
+  "__export_date": "2023-01-19T14:48:23.368Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
@@ -55,7 +55,7 @@
     {
       "_id": "req_06798a31e1b342b5b61bad78a0f08d30",
       "parentId": "fld_1e622a22079d43b491e03b8e232fdb5e",
-      "modified": 1673886672260,
+      "modified": 1673903755115,
       "created": 1673809211113,
       "url": "{{ _.baseUrl }}/me",
       "name": "Info",
@@ -81,7 +81,7 @@
     {
       "_id": "req_8a05dc9a106642ff8f0e7801a478bdbb",
       "parentId": "fld_592f8c4a2313405c8fbe7d042c6973c7",
-      "modified": 1673712744093,
+      "modified": 1674135340354,
       "created": 1671718413220,
       "url": "{{ _.baseUrl }}/payments",
       "name": "Create",
@@ -89,7 +89,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"configId\": \"clcppnmc90001pkvv0cjl23vl\"\n}"
+        "text": "{\n    \"bundleId\": \"cld0j033d00103sp5ebabd272\",\n    \"method\": \"YOOKASSA\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -165,7 +165,7 @@
     {
       "_id": "req_ba28181f3afa4a51888c19b1ff177843",
       "parentId": "fld_592f8c4a2313405c8fbe7d042c6973c7",
-      "modified": 1673895116294,
+      "modified": 1673903747437,
       "created": 1673895111230,
       "url": "{{ _.baseUrl }}/payments/proceed/yookassa",
       "name": "ProceedYookassa",
@@ -378,7 +378,7 @@
     {
       "_id": "req_65f1a3b0335f45108329b1f09c316519",
       "parentId": "fld_eb28fbdc9216482fadfb2055474e668f",
-      "modified": 1673642405183,
+      "modified": 1674080452753,
       "created": 1671562037984,
       "url": "{{ _.baseUrl }}/configs",
       "name": "GetAll",
@@ -388,15 +388,15 @@
       "parameters": [
         {
           "id": "pair_e1bbabcae3594040b1270d1f1cfdcc17",
-          "name": "carId",
-          "value": "clcutekih00003soa161hkiyj",
+          "name": "carName",
+          "value": "Honda NSX GT3 Evo",
           "description": "",
-          "disabled": true
+          "disabled": false
         },
         {
           "id": "pair_c2b559d0a28446bda172a6145b05952e",
-          "name": "bundleId",
-          "value": "clcutfvjg00023soakg1tag2w",
+          "name": "carName",
+          "value": "test2",
           "description": "",
           "disabled": true
         }
@@ -447,7 +447,7 @@
     {
       "_id": "req_edcba59e690c49d2aeffe5eb368ddf3d",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1673708576009,
+      "modified": 1674078833984,
       "created": 1671560210823,
       "url": "{{ _.baseUrl }}/bundles",
       "name": "GetAll",
@@ -508,9 +508,9 @@
     {
       "_id": "req_b837e427b36946a6a17d1468818b375c",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1673796690757,
+      "modified": 1674135262070,
       "created": 1673462046233,
-      "url": "{{ _.baseUrl }}/bundles/clcw53bxb00023sx3c2kbce28/files",
+      "url": "{{ _.baseUrl }}/bundles/clcxfx4oa00023sw0thiuiksk/files",
       "name": "GetFileEncoded",
       "description": "",
       "method": "GET",
@@ -786,7 +786,7 @@
     {
       "_id": "req_7bb8b6554d0b49098560eb3e0146a684",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673805441163,
+      "modified": 1674077981592,
       "created": 1670023167894,
       "url": "{{ _.baseUrl }}/auth/register",
       "name": "Register",
@@ -794,7 +794,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"username\": \"12345678\",\n\t\"email\": \"12345678@gmail.com\",\n\t\"password\": \"12345678\"\n}"
+        "text": "{\n\t\"username\": \"12345678\",\n\t\"email\": \"catalan.1ap@gmail.com\",\n\t\"password\": \"12345678\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -830,7 +830,7 @@
     {
       "_id": "req_05d05c9651ef463f97e5e348a9f2ee00",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673805457697,
+      "modified": 1674078005590,
       "created": 1673805362319,
       "url": "{{ _.baseUrl }}/auth/verifyEmail",
       "name": "VerifyEmail",
@@ -838,7 +838,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"token\": \"486105\"\n}"
+        "text": "{\n\t\"token\": \"586485\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -926,7 +926,7 @@
     {
       "_id": "req_3281754849da475da04cd4db1efb6f90",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1673890617639,
+      "modified": 1674072999817,
       "created": 1670263199596,
       "url": "{{ _.baseUrl }}/auth/login",
       "name": "Login",
@@ -1071,11 +1071,11 @@
     {
       "_id": "env_a6f4812ef3654350ae02475a19367546",
       "parentId": "env_35a0a2c127dca832d14d1d20bf528e2dc1009e73",
-      "modified": 1673643770954,
+      "modified": 1674083428158,
       "created": 1671482613188,
       "name": "VPS",
       "data": {
-        "baseUrl": "http://194.226.121.113/api"
+        "baseUrl": "https://ms-setups.com/api"
       },
       "dataPropertyOrder": {
         "&": [

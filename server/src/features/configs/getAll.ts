@@ -11,7 +11,7 @@ import { validatePreValidationHook } from "../../infrastructure/validatePreValid
 
 
 const queryValidator: Validator<GetAllConfigsQuery> = {
-	carName: {
+	carId: {
 		check: [],
 		required: false
 	}
@@ -30,9 +30,9 @@ export const getAll = async (instance: FastifyInstance) => {
 		const configs = await prisma.config.findMany({
 			where: {
 				car: {
-					...(query.carName && {
-						name: {
-							in: query.carName
+					...(query.carId && {
+						id: {
+							in: query.carId
 						}
 					})
 				}

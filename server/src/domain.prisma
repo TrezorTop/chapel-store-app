@@ -28,6 +28,12 @@ enum Role {
 }
 
 
+enum BundleType {
+  SINGLE
+  FULLSET
+}
+
+
 enum PaymentMethod {
     CRYPTOCLOUD
     YOOKASSA
@@ -54,6 +60,7 @@ model Car {
 model Bundle {
     id String @id @default(cuid())
     name String @unique
+    type BundleType
     configs BundleConfigs[]
     price Decimal
     softDeleted Boolean @default(false)

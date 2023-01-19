@@ -1,4 +1,4 @@
-import { Decimal } from "../../../server/src/infrastructure/prismaConnect";
+import { BundleType, Decimal } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, BundlesRootPath } from "../../index";
 
 
@@ -15,6 +15,7 @@ export type GetByIdBundlesResponse = {
 		id: string,
 		name: string,
 		price: Decimal,
+		type: BundleType,
 		softDeleted: boolean,
 		createdAt: Date,
 		updatedAt: Date,
