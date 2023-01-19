@@ -2,6 +2,7 @@ import { Autocomplete, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { BundleType } from "../../../../../../../../server/src/infrastructure/prismaConnect";
 import { BundleTypeEnum } from "../../../../../../../../shared/endpoints/bundles/createBundles";
 
 import { GetAllBundlesPath } from "../../../../../../../../shared/endpoints/bundles/getAllBundles";
@@ -40,7 +41,7 @@ export const EditBundle = () => {
         name: data.bundle.name,
         price: Number(data.bundle.price),
         setups: data.bundle.configs.map((config) => config.config.id),
-        type: data.bundle.type,
+        type: data.bundle.type as BundleTypeEnum,
       });
     },
   });
@@ -51,7 +52,14 @@ export const EditBundle = () => {
 
   const { mutate, isLoading } = useMutation(
     [UpdateBundlesPath],
-    () => updateBundle({ id: id ?? "", name: form.name, price: form.price, configs: form.setups, type: form.type }),
+    () =>
+      updateBundle({
+        id: id ?? "",
+        name: form.name,
+        price: form.price,
+        configs: form.setups,
+        type: form.type! as BundleType,
+      }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries([GetAllBundlesPath]);

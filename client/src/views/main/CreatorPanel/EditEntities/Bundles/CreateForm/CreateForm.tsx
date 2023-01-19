@@ -1,6 +1,7 @@
 import { Autocomplete, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
+import { BundleType } from "../../../../../../../../server/src/infrastructure/prismaConnect";
 
 import {
   BundleTypeEnum,
@@ -92,7 +93,7 @@ export const CreateForm = () => {
       <FormActions>
         <Button
           disabled={!isValid()}
-          onClick={() => mutate({ name: form.name!, price: form.price!, configs: form.setups!, type: form.type })}
+          onClick={() => mutate({ name: form.name!, price: form.price!, configs: form.setups!, type: form.type! as BundleType })}
         >
           Submit
         </Button>
