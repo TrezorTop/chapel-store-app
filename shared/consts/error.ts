@@ -41,6 +41,7 @@ export const UpdateBundles_NotFound = "Такого бандла не сущес
 export const CreatePurchases_NotFound = "Такого бандла не существует";
 
 export const DeleteByIdBundles_NotFound = "Такого бандла не существует";
+export const UpdatePromocodes_NotFound = "Такого промокода не существует";
 
 export const GetByIdBundles_NotFound = "Такого бандла не существует";
 
