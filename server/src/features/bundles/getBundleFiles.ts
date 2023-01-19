@@ -11,7 +11,6 @@ import {
 } from "../../../../shared/endpoints/bundles/getBundleFiles";
 import { Validator } from "../../../../shared/types";
 import { configsPath } from "../../constants";
-import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed, findSingleFile, removeTempFiles } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
@@ -30,7 +29,7 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 		Params: GetBundleFilesParams,
 		Reply: GetBundleFilesResponse
 	}>(GetBundleFilesBasePath, {
-		onRequest: [jwtOnRequestHook()],
+		//onRequest: [jwtOnRequestHook()],
 		preValidation: [validatePreValidationHook({ params: paramsValidator })],
 		onResponse: [removeTempFiles]
 	}, async (request, reply) => {
@@ -67,6 +66,9 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 			zlib: { level: 9 }
 		});
 		const downloadTask = reply.status(StatusCodes.OK)
+		                          .headers({
+			                          "Content-Disposition": `attachment; filename="${dbFiles.name}.zip"`,
+		                          })
 		                          .type("application/octet-stream")
 		                          .send(archive as unknown as string);
 
