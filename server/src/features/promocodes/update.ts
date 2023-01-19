@@ -37,6 +37,7 @@ export const update = async (instance: FastifyInstance) => {
 		})]
 	}, async (request, reply) => {
 		const params = request.params;
+		const body = request.body;
 
 		await cancelIfFailed(() => prisma.promocode.findUnique({
 			where: {
@@ -49,7 +50,7 @@ export const update = async (instance: FastifyInstance) => {
 				name: params.name
 			},
 			data: {
-				softDeleted: true
+				softDeleted: body.softDeleted
 			},
 			select: {
 				name: true,
