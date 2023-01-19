@@ -72,6 +72,23 @@ model Bundle {
 }
 
 
+model Promocode {
+    name String @id
+    discountToUser Decimal
+    earnedStreamer Decimal // applied first
+    softDeleted Boolean @default(false)
+    promocodeStatistics PromocodeStatistic[]
+}
+
+
+model PromocodeStatistic {
+    promocode Promocode @relation(fields: [promocodeName], references: [name], onDelete: Restrict)
+    promocodeName String @id
+    payToStreamer Decimal
+    savedToUser Decimal
+}
+
+
 model Purchases {
     owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
     ownerUsername String
