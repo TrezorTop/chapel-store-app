@@ -84,7 +84,7 @@ async function cryptoCloudHandler(request: FastifyRequest<{
 			shop_id: process.env.CRYPTOCLOUD_SHOPID,
 			amount: bundle.price,
 			order_id: id,
-			currency: "USD",
+			currency: "RUB",
 			...(request.body.email && { email: request.body.email })
 		}, {
 			headers: {
