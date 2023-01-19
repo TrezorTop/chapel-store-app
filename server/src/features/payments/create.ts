@@ -84,7 +84,7 @@ async function cryptoCloudHandler(request: FastifyRequest<{
 			shop_id: process.env.CRYPTOCLOUD_SHOPID,
 			amount: bundle.price,
 			order_id: id,
-			currency: "RUB",
+			currency: "USD",
 			...(request.body.email && { email: request.body.email })
 		}, {
 			headers: {
@@ -120,7 +120,7 @@ async function yookassaHandler(request: FastifyRequest<{
 			capture: true,
 			amount: {
 				value: bundle.price,
-				currency: "RUB"
+				currency: "USD"
 			},
 			"confirmation": {
 				"type": "redirect",

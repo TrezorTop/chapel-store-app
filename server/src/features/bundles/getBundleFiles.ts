@@ -1,8 +1,6 @@
-import AdmZip from "adm-zip";
-import { Buffer } from "buffer";
+import archiver from "archiver";
 import cuid from "cuid";
 import { FastifyInstance } from "fastify";
-import { createReadStream } from "fs";
 import { StatusCodes } from "http-status-codes";
 import path from "path";
 import { GetBundleFiles_NotFound, VeryBadThingsHappend } from "../../../../shared/consts/error";
@@ -65,11 +63,31 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 			}
 		}), StatusCodes.NOT_FOUND, GetBundleFiles_NotFound);
 
-		const zip = new AdmZip();
+		// const zip = new AdmZip();
+		// for (let configs of dbFiles.configs) {
+		// 	const configZipPath = `${configs.config.title}/`;
+		// 	zip.addFile(configZipPath, Buffer.from([0x00]));
+		//
+		// 	for (let file of configs.config.files) {
+		// 		const configFolder = path.join(configsPath, file.configId);
+		// 		const fileName = await cancelIfFailed(() => findSingleFile(
+		// 			file.name,
+		// 			{ cwd: configFolder }
+		// 		), StatusCodes.BAD_REQUEST, VeryBadThingsHappend);
+		//
+		// 		zip.addLocalFile(path.join(configFolder, fileName), configZipPath, file.originalName);
+		// 	}
+		// }
+		// const zipPath = path.join(tmpFolder, `${params.id}.zip`);
+		// await zip.writeZipPromise(zipPath);
+		const zipPath = path.join(tmpFolder, `${params.id}.zip`);
+		const archive = archiver("zip", {
+			zlib: { level: 9 }
+		});
 
 		for (let configs of dbFiles.configs) {
 			const configZipPath = `${configs.config.title}/`;
-			zip.addFile(configZipPath, Buffer.from([0x00]));
+			archive.directory(configZipPath, configs.config.title);
 
 			for (let file of configs.config.files) {
 				const configFolder = path.join(configsPath, file.configId);
@@ -78,19 +96,13 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 					{ cwd: configFolder }
 				), StatusCodes.BAD_REQUEST, VeryBadThingsHappend);
 
-				zip.addLocalFile(path.join(configFolder, fileName), configZipPath, file.originalName);
+				archive.file(path.join(configFolder, fileName), { name: path.join(configZipPath, file.originalName) });
 			}
 		}
-		const zipPath = path.join(tmpFolder, `${params.id}.zip`);
-		await zip.writeZipPromise(zipPath);
-
-		// @ts-ignore
-		request.files = [{
-			path: zipPath
-		}];
+		await archive.finalize();
 
 		return reply.status(StatusCodes.OK)
 		            .type("application/octet-stream")
-		            .send(createReadStream(zipPath, "base64") as unknown as string);
+		            .send(archive);
 	});
 };
