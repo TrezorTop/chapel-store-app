@@ -8,6 +8,7 @@ export const GetAllBundlesPath = `${BasePath}${BundlesRootPath}${GetAllBundlesBa
 
 export type GetAllBundlesQuery = {
   carId?: string;
+  type?: BundleType,
   role?: Role
 };
 

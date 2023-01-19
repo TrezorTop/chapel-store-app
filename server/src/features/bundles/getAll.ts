@@ -37,6 +37,9 @@ export const getAll = async (instance: FastifyInstance) => {
 
 		const bundles = await prisma.bundle.findMany({
 			where: {
+				...(query.type && {
+					type: query.type
+				}),
 				...(query.carId && {
 					configs: {
 						some: {
