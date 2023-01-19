@@ -38,12 +38,15 @@ export const UpdateConfigs_NotFound = "Такого конфига не суще
 export const DeleteByIdCars_NotFound = "Такой машины не существует";
 
 export const UpdateBundles_NotFound = "Такого бандла не существует";
+export const ApplyPromocodes_BundleNotFound = "Такого бандла не существует";
+export const ApplyPromocodes_PromocodeNotFound = "Такого промокода не существует";
 export const CreatePurchases_NotFound = "Такого бандла не существует";
 
 export const DeleteByIdBundles_NotFound = "Такого бандла не существует";
 export const UpdatePromocodes_NotFound = "Такого промокода не существует";
 
 export const GetByIdBundles_NotFound = "Такого бандла не существует";
+export const GetByIdPromocodes_NotFound = "Такого промокода не существует";
 
 export const GetByIdCars_NotFound = "Такой машины не существует";
 
