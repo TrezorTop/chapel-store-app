@@ -12,7 +12,7 @@ import {
 import { Validator } from "../../../../shared/types";
 import { configsPath } from "../../constants";
 import { prisma } from "../../infrastructure/prismaConnect";
-import { cancelIfFailed, findSingleFile, removeTempFiles } from "../../infrastructure/utils";
+import { cancelIfFailed, findSingleFile } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
 
@@ -30,8 +30,7 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 		Reply: GetBundleFilesResponse
 	}>(GetBundleFilesBasePath, {
 		//onRequest: [jwtOnRequestHook()],
-		preValidation: [validatePreValidationHook({ params: paramsValidator })],
-		onResponse: [removeTempFiles]
+		preValidation: [validatePreValidationHook({ params: paramsValidator })]
 	}, async (request, reply) => {
 		const params = request.params;
 
@@ -40,13 +39,13 @@ export const getBundleFiles = async (instance: FastifyInstance) => {
 		const dbFiles = await cancelIfFailed(() => prisma.bundle.findFirst({
 			where: {
 				id: params.id,
-				...(!isAdmin && {
-					purchases: {
-						some: {
-							ownerUsername: request.user.username
-						}
-					}
-				})
+				// ...(!isAdmin && {
+				// 	purchases: {
+				// 		some: {
+				// 			ownerUsername: request.user.username
+				// 		}
+				// 	}
+				// })
 			},
 			include: {
 				configs: {
