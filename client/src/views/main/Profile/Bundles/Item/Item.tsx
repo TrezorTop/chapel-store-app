@@ -20,7 +20,7 @@ export const Item: FC<ItemProps> = ({ bundle }) => {
           variant="outlined"
           size="small"
           onClick={() => {
-            window.open(API_URL + GetBundleFilesPath.replace(":id", bundle?.id!));
+            window.open(API_URL + GetBundleFilesPath.replace(":id", bundle?.id!), '_blank');
           }}
         >
           Download
