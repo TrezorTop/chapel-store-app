@@ -2,18 +2,18 @@ import { Decimal } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, PromocodesRootPath } from "../../index";
 
 
-export const AppllyPromocodesBasePath = "/apply/:name";
+export const ApplyPromocodesBasePath = "/apply/:name";
 
-export const AppllyPromocodesPath = `${BasePath}${PromocodesRootPath}${AppllyPromocodesBasePath}`;
+export const ApplyPromocodesPath = `${BasePath}${PromocodesRootPath}${ApplyPromocodesBasePath}`;
 
-export type AppllyPromocodesParams = {
+export type ApplyPromocodesParams = {
 	name: string
 }
 
-export type AppllyPromocodesQuery = {
+export type ApplyPromocodesQuery = {
 	bundleId: string;
 };
 
-export type AppllyPromocodesResponse = {
+export type ApplyPromocodesResponse = {
 	price: Decimal
 };
