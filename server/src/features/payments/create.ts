@@ -103,7 +103,7 @@ const yookassaHandler: Handler = async (request: FastifyRequest<{
 				"type": "redirect",
 				"return_url": process.env.YOOKASSA_REDIRECT
 			},
-			"description": `Заказ на бандл "${bundle.name}"`,
+			"description": `ORDER FOR "${bundle.name}"`,
 			metadata: {
 				orderId: id
 			} satisfies YookassaMetadata

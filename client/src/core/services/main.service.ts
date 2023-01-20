@@ -60,7 +60,12 @@ import {
   UpdateConfigsPath,
   UpdateConfigsResponse,
 } from "../../../../shared/endpoints/configs/updateConfigs";
-import { AppllyPromocodesParams, AppllyPromocodesPath, AppllyPromocodesQuery, AppllyPromocodesResponse } from "../../../../shared/endpoints/promocodes/applyPromocodes";
+import {
+  ApplyPromocodesParams,
+  ApplyPromocodesPath,
+  ApplyPromocodesQuery,
+  ApplyPromocodesResponse,
+} from "../../../../shared/endpoints/promocodes/applyPromocodes";
 import {
   CreatePromocodesRequest,
   CreatePromocodesResponse,
@@ -81,6 +86,7 @@ import {
   UpdatePromocodesResponse,
 } from "../../../../shared/endpoints/promocodes/updatePromocodes";
 import { api } from "../config/api";
+import { USER_ACCESS_TOKEN_KEY } from "../utils/consts/urls";
 
 export const getSetups = (data: Partial<GetAllConfigsQuery>) =>
   api.get<GetAllConfigsResponse>(GetAllConfigsPath, { params: { carId: data.carId?.[0] } });
@@ -98,7 +104,15 @@ export const deleteSetup = ({ id }: DeleteByIdConfigsParams) =>
   api.delete<DeleteByIdConfigsResponse>(DeleteByIdConfigsPath.replace(":id", id));
 
 export const getBundles = (data: GetAllBundlesQuery) =>
-  api.get<GetAllBundlesResponse>(GetAllBundlesPath, { params: data });
+  api.get<GetAllBundlesResponse>(GetAllBundlesPath, {
+    params: data,
+    ...(data.role === "USER" &&
+      localStorage.getItem(USER_ACCESS_TOKEN_KEY) && {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem(USER_ACCESS_TOKEN_KEY)}`,
+        },
+      }),
+  });
 export const getBundle = ({ id }: GetByIdBundlesParams) =>
   api.get<GetByIdBundlesResponse>(GetByIdBundlesPath.replace(":id", id));
 export const createBundle = (data: CreateBundlesRequest) => api.post<CreateBundlesResponse>(CreateBundlesPath, data);
@@ -123,5 +137,5 @@ export const createPromocode = (data: CreatePromocodesRequest) =>
   api.post<CreatePromocodesResponse>(GetAllPromocodesPath, data);
 export const updatePromocode = ({ name, ...data }: UpdatePromocodesParams & UpdatePromocodesRequest) =>
   api.put<UpdatePromocodesResponse>(UpdatePromocodesPath.replace(":name", name), data);
-export const applyPromocode = ({ name, ...data }: AppllyPromocodesParams & AppllyPromocodesQuery) =>
-  api.put<AppllyPromocodesResponse>(AppllyPromocodesPath.replace(":name", name), data);
+export const applyPromocode = ({ name, ...data }: ApplyPromocodesParams & ApplyPromocodesQuery) =>
+  api.get<ApplyPromocodesResponse>(ApplyPromocodesPath.replace(":name", name), { params: data });
