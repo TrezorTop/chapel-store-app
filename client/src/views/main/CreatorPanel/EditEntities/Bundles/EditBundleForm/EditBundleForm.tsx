@@ -107,7 +107,7 @@ export const EditBundleForm = () => {
         <Autocomplete
           value={form.carId}
           onChange={(event, value) => {
-            updateForm({ carId: value ?? "", setups: [] });
+            value && updateForm({ carId: value ?? "", setups: [] });
           }}
           options={carsData?.data.cars.map((car) => car.id) ?? []}
           getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}

@@ -39,8 +39,6 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
   useEffect(() => {
     // if (requireAuth === false) return;
 
-    api.defaults.headers["authorization"] = `Bearer ${localStorage.getItem(USER_ACCESS_TOKEN_KEY)}`;
-
     const broadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);
 
     broadcast.onmessage = (event) => {
@@ -54,7 +52,6 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
     };
 
     return () => {
-      delete api.defaults.headers["authorization"];
       broadcast.close();
     };
   }, []);
@@ -65,7 +62,7 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
         updateAuthTokens(data.data.accessToken, data.data.refreshToken);
         return data;
       });
-  }, [debouncedValue]);
+  }, [debouncedValue, authError]);
 
   useQuery([PingPath], ping);
 

@@ -22,9 +22,9 @@ export const UpdatePromocodesRequestValidator: Validator<UpdatePromocodesRequest
 };
 
 export type UpdatePromocodesRequest = {
-	discountToUser: number,
-	earnedStreamer: number,
-	softDeleted: boolean
+	discountToUser?: number,
+	earnedStreamer?: number,
+	softDeleted?: boolean
 };
 
 export type UpdatePromocodesResponse = {
