@@ -5,13 +5,13 @@ import { GetMyBundlesResponse } from "../../../../../../../shared/endpoints/me/g
 import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Paper } from "../../../../../core/components/kit/Paper/Paper";
 import { API_URL, USER_ACCESS_TOKEN_KEY } from "../../../../../core/utils/consts/urls";
-import s from "./Item.module.scss";
+import s from "./Bundle.module.scss";
 
 type ItemProps = {
   bundle?: GetMyBundlesResponse["bundles"][0];
 };
 
-export const Item: FC<ItemProps> = ({ bundle }) => {
+export const Bundle: FC<ItemProps> = ({ bundle }) => {
   return (
     <Paper className={s.root}>
       <div className={s.header}>
