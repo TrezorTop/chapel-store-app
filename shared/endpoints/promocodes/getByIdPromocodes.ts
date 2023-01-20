@@ -17,6 +17,7 @@ export type GetByIdPromocodesResponse = {
 		discountToUser: Decimal,
 		earnedStreamer: Decimal,
 		promocodeStatistics?: {
+			id: string,
 			payToStreamer: Decimal
 			savedToUser: Decimal
 		}[]

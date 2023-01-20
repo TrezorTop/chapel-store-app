@@ -31,8 +31,17 @@ export const optionalJwtOnRequestHook = (options?: { requiredRole?: Role }): onR
 		if (!request.headers["authorization"])
 			return;
 
-		// @ts-ignore
-		await jwtOnRequestHook(options)(request);
+		let err: Error | undefined;
+		try {
+			await request.jwtVerify();
+		} catch (e) {
+			// @ts-ignore
+			err = e;
+		}
+
+		if (!err)
+			// @ts-ignore
+			await jwtOnRequestHook(options)(request);
 	};
 };
 

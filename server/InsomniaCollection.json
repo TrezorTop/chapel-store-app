@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-19T22:12:05.840Z",
+  "__export_date": "2023-01-20T22:26:53.282Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
     {
@@ -65,15 +65,15 @@
     {
       "_id": "req_1b665143d6704407905293302402d8e5",
       "parentId": "fld_b1e51d4ad2c9432995b6896b373fa456",
-      "modified": 1674163931792,
+      "modified": 1674251853059,
       "created": 1674163434209,
-      "url": "{{ _.baseUrl }}/promocodes/test",
+      "url": "{{ _.baseUrl }}/promocodes/TEST",
       "name": "Update",
       "description": "",
-      "method": "POST",
+      "method": "PUT",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"softDeleted\": false\n}"
+        "text": "{\n\t\"discountToUser\":25,\n \t\"earnedStreamer\":5\n}"
       },
       "parameters": [],
       "headers": [
@@ -101,7 +101,7 @@
     {
       "_id": "req_1824fa41a66f4dbdb1cce86a097fc048",
       "parentId": "fld_b1e51d4ad2c9432995b6896b373fa456",
-      "modified": 1674164041599,
+      "modified": 1674242329760,
       "created": 1674163597019,
       "url": "{{ _.baseUrl }}/promocodes/test",
       "name": "Apply",
@@ -135,7 +135,7 @@
     {
       "_id": "req_22b5284eda16440e94d95a48750d825c",
       "parentId": "fld_b1e51d4ad2c9432995b6896b373fa456",
-      "modified": 1674163566855,
+      "modified": 1674248526148,
       "created": 1674163560492,
       "url": "{{ _.baseUrl }}/promocodes",
       "name": "GetAll",
@@ -592,18 +592,39 @@
     {
       "_id": "req_edcba59e690c49d2aeffe5eb368ddf3d",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1674078833984,
+      "modified": 1674253110979,
       "created": 1671560210823,
       "url": "{{ _.baseUrl }}/bundles",
       "name": "GetAll",
       "description": "",
       "method": "GET",
       "body": {},
-      "parameters": [],
+      "parameters": [
+        {
+          "id": "pair_236f61cf1cec45fab589d5f63a172a2b",
+          "name": "type",
+          "value": "FULLSET",
+          "description": "",
+          "disabled": true
+        },
+        {
+          "id": "pair_d957651eca3d4caa8ed26a9bdec3edca",
+          "name": "role",
+          "value": "USER",
+          "description": ""
+        },
+        {
+          "id": "pair_f3cb8a0bb4594b0eb3c1d472ebb3fe0a",
+          "name": "carId",
+          "value": "clcxfwfie00003sw063iz0sqh",
+          "description": ""
+        }
+      ],
       "headers": [],
       "authentication": {
         "type": "bearer",
-        "token": "{{ _.accessToken }}"
+        "token": "{{ _.accessToken }}",
+        "disabled": false
       },
       "metaSortKey": -1671349405404.5,
       "isPrivate": false,

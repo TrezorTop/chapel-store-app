@@ -37,7 +37,7 @@ export const UpdateConfigs_NotFound = "Такого конфига не суще
 
 export const DeleteByIdCars_NotFound = "Такой машины не существует";
 
-export const UpdateBundles_NotFound = "Такого бандла не существует";
+export const DeleteUncommittedOrder_NotFound = "Такого заказа не существует";
 export const ApplyPromocodes_BundleNotFound = "Такого бандла не существует";
 export const ApplyPromocodes_PromocodeNotFound = "Такого промокода не существует";
 export const CreatePurchases_BundleNotFound = "Такого бандла не существует";

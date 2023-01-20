@@ -28,6 +28,7 @@ export const getAll = async (instance: FastifyInstance) => {
 				...(!isAdmin && {
 					promocodeStatistics: {
 						select: {
+							id: true,
 							payToStreamer: true,
 							savedToUser: true
 						}

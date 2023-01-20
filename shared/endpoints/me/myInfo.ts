@@ -10,6 +10,13 @@ export type GetMyInfoResponse = {
 	me: {
 		username: string,
 		role: Role,
-		isUnprocessedOrders: boolean
+		uncommittedOrders: {
+			id: string,
+			payUrl: string,
+			method: string,
+			bundle: {
+				name: string
+			}
+		}
 	}
 };

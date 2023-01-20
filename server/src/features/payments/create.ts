@@ -70,6 +70,7 @@ const cryptoCloudHandler: Handler = async (request: FastifyRequest<{
 		const order = await tx.uncommittedOrders.create({
 			data: {
 				id: id,
+				payUrl: data.pay_url,
 				promocodeName: promocode?.name,
 				method: PaymentMethod.CRYPTOCLOUD,
 				ownerUsername: request.user.username,
@@ -116,6 +117,7 @@ const yookassaHandler: Handler = async (request: FastifyRequest<{
 		const order = await tx.uncommittedOrders.create({
 			data: {
 				id: id,
+				payUrl: data.confirmation.confirmation_url,
 				promocodeName: promocode?.name,
 				ownerUsername: request.user.username,
 				method: PaymentMethod.YOOKASSA,
@@ -159,11 +161,14 @@ export const create = async (instance: FastifyInstance) => {
 				}
 			}), StatusCodes.NOT_FOUND, CreatePurchases_BundleNotFound
 		);
-		const promocode = await cancelIfFailed(() => prisma.promocode.findFirst({
-			where: {
-				name: body.promocodeName,
-			}
-		}), StatusCodes.NOT_FOUND, CreatePurchases_PromocodeNotFound);
+		let promocode: Promocode | undefined;
+
+		if (body.promocodeName)
+			promocode = await cancelIfFailed(() => prisma.promocode.findFirst({
+				where: {
+					name: body.promocodeName,
+				}
+			}), StatusCodes.NOT_FOUND, CreatePurchases_PromocodeNotFound);
 
 		const handler = handlers[body.method];
 		const res = await handler(request, bundle, { promocode: promocode });

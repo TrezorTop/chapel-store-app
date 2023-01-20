@@ -16,6 +16,9 @@ export const proceedYookassa = async (instance: FastifyInstance) => {
 	}>(ProceedPaymentYookassaBasePath, async (request, reply) => {
 		const body = request.body;
 
+		if (body.status === "pending")
+			return reply.status(StatusCodes.OK).send();
+
 		const order = await cancelIfFailed(() => prisma.uncommittedOrders.delete({
 				where: {
 					id: body.metadata.orderId
@@ -27,7 +30,7 @@ export const proceedYookassa = async (instance: FastifyInstance) => {
 			}), StatusCodes.NOT_FOUND, VeryBadThingsHappend
 		);
 		if (body.status === "canceled")
-			return reply.status(StatusCodes.BAD_REQUEST).send();
+			return reply.status(StatusCodes.OK).send();
 
 		if (body.status !== "succeeded")
 			return reply.status(StatusCodes.BAD_REQUEST).send();
