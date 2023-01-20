@@ -4,10 +4,10 @@ import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
 import { ApplyPromocodes_BundleNotFound, ApplyPromocodes_PromocodeNotFound } from "../../../../shared/consts/error";
 import {
-	AppllyPromocodesBasePath,
-	AppllyPromocodesParams,
-	AppllyPromocodesQuery,
-	AppllyPromocodesResponse
+	ApplyPromocodesBasePath,
+	ApplyPromocodesParams,
+	ApplyPromocodesQuery,
+	ApplyPromocodesResponse
 } from "../../../../shared/endpoints/promocodes/applyPromocodes";
 import { Validator } from "../../../../shared/types";
 import { prisma } from "../../infrastructure/prismaConnect";
@@ -15,14 +15,14 @@ import { cancelIfFailed } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 
 
-const paramsValidator: Validator<AppllyPromocodesParams> = {
+const paramsValidator: Validator<ApplyPromocodesParams> = {
 	name: {
 		check: [],
 		required: true
 	}
 };
 
-const queryValidator: Validator<AppllyPromocodesQuery> = {
+const queryValidator: Validator<ApplyPromocodesQuery> = {
 	bundleId: {
 		check: [value => cuid.isCuid(value) || "Невалидный id"],
 		required: true
@@ -31,10 +31,10 @@ const queryValidator: Validator<AppllyPromocodesQuery> = {
 
 export const apply = async (instance: FastifyInstance) => {
 	instance.get<{
-		Reply: AppllyPromocodesResponse,
-		Querystring: AppllyPromocodesQuery,
-		Params: AppllyPromocodesParams
-	}>(AppllyPromocodesBasePath, {
+		Reply: ApplyPromocodesResponse,
+		Querystring: ApplyPromocodesQuery,
+		Params: ApplyPromocodesParams
+	}>(ApplyPromocodesBasePath, {
 		preValidation: [validatePreValidationHook({
 			query: queryValidator,
 			params: paramsValidator
@@ -44,7 +44,7 @@ export const apply = async (instance: FastifyInstance) => {
 		const query = request.query;
 
 		const bundle = await cancelIfFailed(() => prisma.bundle.findUnique({
-				where: {
+			where: {
 					id: query.bundleId
 				}
 			}), StatusCodes.NOT_FOUND, ApplyPromocodes_BundleNotFound
