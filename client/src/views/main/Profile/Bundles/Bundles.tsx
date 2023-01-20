@@ -8,17 +8,13 @@ import { GetMyInfoPath } from "../../../../../../shared/endpoints/me/myInfo";
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Typography } from "../../../../core/components/kit/Typography/Typography";
 import { checkMyPayments, getMyProfileInfo, getProfileBundles } from "../../../../core/services/profile.service";
-import { USER_ACCESS_TOKEN_KEY } from "../../../../core/utils/consts/urls";
 import s from "./Bundles.module.scss";
 import { Item } from "./Item/Item";
 
 export const Bundles = () => {
   const { data: bundlesData, refetch: refetchMyBundles } = useQuery([GetMyBundlesPath], getProfileBundles);
 
-  const { data: profileData } = useQuery([GetMyInfoPath], getMyProfileInfo, {
-    enabled: !!localStorage.getItem(USER_ACCESS_TOKEN_KEY),
-    retry: false,
-  });
+  const { data: profileData, refetch: refetchProfileData } = useQuery([GetMyInfoPath], getMyProfileInfo);
 
   const { isFetching, refetch: refetchCheck } = useQuery([CheckMyPaymentsPath], checkMyPayments, {
     onSuccess: () => {
@@ -29,6 +25,7 @@ export const Bundles = () => {
   useInterval(
     () => {
       refetchCheck();
+      refetchProfileData();
     },
     profileData?.data.me.isUnprocessedOrders ? 5000 : null,
   );

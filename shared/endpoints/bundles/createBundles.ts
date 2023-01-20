@@ -1,7 +1,7 @@
+import exp from "constants";
 import { BasePath, BundlesRootPath } from "../..";
 import { BundleType, Decimal } from "../../../server/src/infrastructure/prismaConnect";
 import { Validator } from "../../types";
-
 
 export const CreateBundlesBasePath = "";
 
@@ -40,9 +40,14 @@ export type CreateBundlesRequest = {
 }
 
 export type CreateBundlesResponse = {
-	bundle: {
-		id: string,
-		name: string,
-		price: Decimal
-	}
+  bundle: {
+    id: string;
+    name: string;
+    price: Decimal;
+  };
 };
+
+export enum BundleTypeEnum {
+  SINGLE = "SINGLE",
+  FULLSET = "FULLSET",
+}

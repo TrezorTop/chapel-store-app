@@ -2,6 +2,7 @@ import { CircularProgress, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { CreatePurchases_NotFound } from "../../../../../shared/consts/error";
 
 import { GetByIdConfigsPath } from "../../../../../shared/endpoints/configs/getById";
 import { CreatePaymentPath, PaymentMethodEnum } from "../../../../../shared/endpoints/purchases/createPurchases";
@@ -22,7 +23,7 @@ type TForm = {
 };
 
 export const Payment = () => {
-  const { form, updateForm } = useForm<TForm>({ selectedPayment: PaymentMethodEnum.YOOKASSA });
+  const { form, updateForm, error, setError } = useForm<TForm>({ selectedPayment: PaymentMethodEnum.YOOKASSA });
 
   const { bundleId } = useParams<{ bundleId: string }>();
 
@@ -40,6 +41,11 @@ export const Payment = () => {
     {
       onSuccess: ({ data }) => {
         window.open(data.url, "_blank");
+      },
+      onError: (error: any) => {
+        if (error.response?.data.message === CreatePurchases_NotFound) {
+          setError("You have already purchased this bundle");
+        }
       },
     },
   );
@@ -107,16 +113,20 @@ export const Payment = () => {
           ))}
         </Input>
 
-        <Button
-          disabled={!isValid()}
-          variant="outlined"
-          color="success"
-          size="large"
-          fullWidth
-          onClick={() => mutateCreatePayment()}
-        >
-          {isLoadingConfig || isLoadingPayment ? <CircularProgress size={23} color="success" /> : <>Continue</>}
-        </Button>
+        {error ? (
+          <Typography textAlign="center">You have already purchased this bundle</Typography>
+        ) : (
+          <Button
+            disabled={!isValid()}
+            variant="outlined"
+            color="success"
+            size="large"
+            fullWidth
+            onClick={() => mutateCreatePayment()}
+          >
+            {isLoadingConfig || isLoadingPayment ? <CircularProgress size={23} color="success" /> : <>Continue</>}
+          </Button>
+        )}
       </Form>
     </>
   );

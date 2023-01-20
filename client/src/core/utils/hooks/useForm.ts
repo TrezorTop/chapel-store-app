@@ -3,9 +3,11 @@ import { isBoolean } from "../functions/boolean";
 
 export const useForm = <T>(defaultValues?: Partial<T>) => {
   const [form, setForm] = useState<Partial<T>>(defaultValues ?? {});
+  const [error, setError] = useState<string>("");
 
   const updateForm = (values: { [key in keyof T]?: T[key] }) => {
     setForm({ ...form, ...values });
+    setError("");
   };
 
   const isFieldValid = (validators: ((value: any) => boolean | string)[], value: string | undefined) => {
@@ -18,5 +20,7 @@ export const useForm = <T>(defaultValues?: Partial<T>) => {
     form,
     updateForm,
     isFieldValid,
+    error,
+    setError,
   };
 };

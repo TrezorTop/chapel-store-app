@@ -1,8 +1,10 @@
 import { Autocomplete, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
+import { BundleType } from "../../../../../../../../server/src/infrastructure/prismaConnect";
 
 import {
+  BundleTypeEnum,
   CreateBundlesPath,
   CreateBundlesRequestValidator,
 } from "../../../../../../../../shared/endpoints/bundles/createBundles";
@@ -21,6 +23,7 @@ type TForm = {
   name: string;
   price: number;
   carId: string;
+  type: BundleTypeEnum;
   setups: string[];
 };
 
@@ -43,7 +46,8 @@ export const CreateForm = () => {
     return (
       !isLoading &&
       isFieldValid(CreateBundlesRequestValidator.name.check, form.name) &&
-      isFieldValid(CreateBundlesRequestValidator.price.check, String(form.price))
+      isFieldValid(CreateBundlesRequestValidator.price.check, String(form.price)) &&
+      form.type
     );
   }, [form, isLoading]);
 
@@ -78,15 +82,18 @@ export const CreateForm = () => {
         renderInput={(params) => <Input {...params} fullWidth value={form.setups} inputLabel="Setups" />}
       />
 
-      {/* <Input inputLabel="Type" select>
-        <MenuItem value={'TEST'}>TEST</MenuItem>
-        <MenuItem value={'TEST 2'}>TEST 2</MenuItem>
-      </Input> */}
+      <Input value={form.type} inputLabel="Type" select>
+        {Object.entries(BundleTypeEnum).map(([key, value]) => (
+          <MenuItem key={key} value={key}>
+            {value}
+          </MenuItem>
+        ))}
+      </Input>
 
       <FormActions>
         <Button
           disabled={!isValid()}
-          onClick={() => mutate({ name: form.name!, price: form.price!, configs: form.setups! })}
+          onClick={() => mutate({ name: form.name!, price: form.price!, configs: form.setups!, type: form.type! as BundleType })}
         >
           Submit
         </Button>
