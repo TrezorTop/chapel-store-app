@@ -32,7 +32,11 @@ export const optionalJwtOnRequestHook = (options?: { requiredRole?: Role }): onR
 			return;
 
 		// @ts-ignore
-		await jwtOnRequestHook(options)(request);
+		try {
+			await request.jwtVerify();
+		} catch (err) {
+			// ignored
+		}
 	};
 };
 
