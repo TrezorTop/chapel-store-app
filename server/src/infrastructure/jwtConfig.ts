@@ -31,12 +31,18 @@ export const optionalJwtOnRequestHook = (options?: { requiredRole?: Role }): onR
 		if (!request.headers["authorization"])
 			return;
 
-		// @ts-ignore
+		let err: Error | undefined;
 		try {
-			await request.jwtVerify();
-		} catch (err) {
-			// ignored
+			const t = await request.jwtVerify();
+			console.log(t);
+		} catch (e) {
+			// @ts-ignore
+			err = e;
 		}
+
+		if (!err)
+			// @ts-ignore
+			await jwtOnRequestHook(options)(request);
 	};
 };
 
