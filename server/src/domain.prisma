@@ -83,8 +83,9 @@ model Promocode {
 
 
 model PromocodeStatistic {
+    id String @id @default(cuid())
     promocode Promocode @relation(fields: [promocodeName], references: [name], onDelete: Restrict)
-    promocodeName String @id
+    promocodeName String
     payToStreamer Decimal
     savedToUser Decimal
 }
