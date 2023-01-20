@@ -62,7 +62,7 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
         updateAuthTokens(data.data.accessToken, data.data.refreshToken);
         return data;
       });
-  }, [debouncedValue, authError]);
+  }, [debouncedValue]);
 
   useQuery([PingPath], ping);
 
