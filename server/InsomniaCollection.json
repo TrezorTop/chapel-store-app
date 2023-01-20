@@ -1,9 +1,164 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-19T14:48:23.368Z",
+  "__export_date": "2023-01-19T22:12:05.840Z",
   "__export_source": "insomnia.desktop.app:v2022.4.2",
   "resources": [
+    {
+      "_id": "req_3505856e1f684773a1112ac76a429ca4",
+      "parentId": "fld_b1e51d4ad2c9432995b6896b373fa456",
+      "modified": 1674163409175,
+      "created": 1674163364881,
+      "url": "{{ _.baseUrl }}/promocodes",
+      "name": "Create",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"test\",\n\t\"discountToUser\": 15,\n\t\"earnedStreamer\": 15\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_ecf350fd0dfe48798f373e611f6a609c"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}",
+        "disabled": false
+      },
+      "metaSortKey": -1671178376475.4062,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_b1e51d4ad2c9432995b6896b373fa456",
+      "parentId": "wrk_342923f919d04c4994d679961620182b",
+      "modified": 1674163358717,
+      "created": 1674163358717,
+      "name": "Promocodes",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1674163358717,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_342923f919d04c4994d679961620182b",
+      "parentId": null,
+      "modified": 1670023099235,
+      "created": 1670023099235,
+      "name": "Chapel",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_1b665143d6704407905293302402d8e5",
+      "parentId": "fld_b1e51d4ad2c9432995b6896b373fa456",
+      "modified": 1674163931792,
+      "created": 1674163434209,
+      "url": "{{ _.baseUrl }}/promocodes/test",
+      "name": "Update",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"softDeleted\": false\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_ecf350fd0dfe48798f373e611f6a609c"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}",
+        "disabled": false
+      },
+      "metaSortKey": -1671171798439.6719,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_1824fa41a66f4dbdb1cce86a097fc048",
+      "parentId": "fld_b1e51d4ad2c9432995b6896b373fa456",
+      "modified": 1674164041599,
+      "created": 1674163597019,
+      "url": "{{ _.baseUrl }}/promocodes/test",
+      "name": "Apply",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_baa23fd994d2433ba8fce8430515e95e",
+          "name": "bundleId",
+          "value": "clcxfx4oa00023sw0thiuiksk",
+          "description": ""
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}",
+        "disabled": false
+      },
+      "metaSortKey": -1671170153930.7383,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_22b5284eda16440e94d95a48750d825c",
+      "parentId": "fld_b1e51d4ad2c9432995b6896b373fa456",
+      "modified": 1674163566855,
+      "created": 1674163560492,
+      "url": "{{ _.baseUrl }}/promocodes",
+      "name": "GetAll",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}",
+        "disabled": false
+      },
+      "metaSortKey": -1671168509421.8047,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
     {
       "_id": "req_5468db98f34b45bda77ae760b3a252d3",
       "parentId": "fld_1e622a22079d43b491e03b8e232fdb5e",
@@ -43,16 +198,6 @@
       "_type": "request_group"
     },
     {
-      "_id": "wrk_342923f919d04c4994d679961620182b",
-      "parentId": null,
-      "modified": 1670023099235,
-      "created": 1670023099235,
-      "name": "Chapel",
-      "description": "",
-      "scope": "collection",
-      "_type": "workspace"
-    },
-    {
       "_id": "req_06798a31e1b342b5b61bad78a0f08d30",
       "parentId": "fld_1e622a22079d43b491e03b8e232fdb5e",
       "modified": 1673903755115,
@@ -81,7 +226,7 @@
     {
       "_id": "req_8a05dc9a106642ff8f0e7801a478bdbb",
       "parentId": "fld_592f8c4a2313405c8fbe7d042c6973c7",
-      "modified": 1674135340354,
+      "modified": 1674163341553,
       "created": 1671718413220,
       "url": "{{ _.baseUrl }}/payments",
       "name": "Create",

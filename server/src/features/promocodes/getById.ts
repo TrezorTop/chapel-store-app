@@ -39,7 +39,15 @@ export const getById = async (instance: FastifyInstance) => {
 				name: true,
 				softDeleted: true,
 				discountToUser: true,
-				earnedStreamer: true
+				earnedStreamer: true,
+				...(!isAdmin && {
+					promocodeStatistics: {
+						select: {
+							payToStreamer: true,
+							savedToUser: true
+						}
+					}
+				})
 			},
 		}), StatusCodes.NOT_FOUND, GetByIdPromocodes_NotFound);
 

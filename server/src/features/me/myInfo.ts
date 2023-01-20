@@ -20,7 +20,7 @@ export const myInfo = async (instance: FastifyInstance) => {
 				role: true,
 				_count: {
 					select: {
-						uncomittedOrders: true
+						uncommittedOrders: true
 					}
 				}
 			}
@@ -30,7 +30,7 @@ export const myInfo = async (instance: FastifyInstance) => {
 			me: {
 				username: res!.username,
 				role: res!.role,
-				isUnprocessedOrders: !!res!._count.uncomittedOrders
+				isUnprocessedOrders: !!res!._count.uncommittedOrders
 			}
 		});
 	});

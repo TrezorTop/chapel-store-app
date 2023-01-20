@@ -7,6 +7,7 @@ import {
 } from "../../../../shared/endpoints/purchases/proceedPaymentCryptocloud";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { cancelIfFailed } from "../../infrastructure/utils";
+import { savePromocodeStatistic } from "./index";
 
 
 export const proceedCryptoCloud = async (instance: FastifyInstance) => {
@@ -15,9 +16,13 @@ export const proceedCryptoCloud = async (instance: FastifyInstance) => {
 	}>(ProceedPaymentCryptoCloudBasePath, async (request, reply) => {
 		const body = request.body;
 
-		const order = await cancelIfFailed(() => prisma.uncomittedOrders.delete({
+		const order = await cancelIfFailed(() => prisma.uncommittedOrders.delete({
 				where: {
 					id: body.order_id
+				},
+				include: {
+					bundle: true,
+					promocode: true
 				}
 			}), StatusCodes.NOT_FOUND, VeryBadThingsHappend
 		);
@@ -26,11 +31,18 @@ export const proceedCryptoCloud = async (instance: FastifyInstance) => {
 		if (body.status !== "success")
 			return reply.status(StatusCodes.BAD_REQUEST).send();
 
-		await prisma.purchases.create({
-			data: {
-				ownerUsername: order.ownerUsername,
-				bundleId: order.bundleId
-			}
+
+		await prisma.$transaction(async (tx) => {
+			if (order.promocode)
+				// @ts-ignore
+				await savePromocodeStatistic(order, tx);
+
+			await tx.purchases.create({
+				data: {
+					ownerUsername: order.ownerUsername,
+					bundleId: order.bundleId
+				}
+			});
 		});
 
 		return reply.status(StatusCodes.OK).send();

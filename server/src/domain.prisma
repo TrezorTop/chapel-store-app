@@ -16,7 +16,7 @@ model User {
     role Role @default(USER)
     tokens RefreshToken[]
     purchases Purchases[]
-    uncomittedOrders UncomittedOrders[]
+    uncommittedOrders UncommittedOrders[]
 
     createdAt DateTime @default(now())
 }
@@ -65,7 +65,7 @@ model Bundle {
     price Decimal
     softDeleted Boolean @default(false)
     purchases Purchases[]
-    uncomittedOrders UncomittedOrders[]
+    uncommittedOrders UncommittedOrders[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt @default(now())
@@ -78,6 +78,7 @@ model Promocode {
     earnedStreamer Decimal // applied first
     softDeleted Boolean @default(false)
     promocodeStatistics PromocodeStatistic[]
+    uncommittedOrders UncommittedOrders[]
 }
 
 
@@ -100,10 +101,12 @@ model Purchases {
 }
 
 
-model UncomittedOrders {
+model UncommittedOrders {
     id String @id @default(cuid())
     paymentId String
     method PaymentMethod
+    promocode Promocode? @relation(fields: [promocodeName], references: [name], onDelete: Restrict)
+    promocodeName String?
     owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
     ownerUsername String
     bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
