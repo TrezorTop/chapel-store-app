@@ -40,7 +40,7 @@ export type CryptoCloud_CreateInvoiceResponse = {
 }
 
 export type Yookassa_CreateInvoiceResponse = {
-	status: "succeeded" | "canceled",
+	status: "succeeded" | "canceled" | "pending",
 	id: string,
 	confirmation: {
 		confirmation_url: string
