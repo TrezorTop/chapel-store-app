@@ -12,7 +12,7 @@ export const api = axios.create({
   // },
 });
 
-const httpBroadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);
+export const httpBroadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);
 
 api.interceptors.request.use(
   (config) => {

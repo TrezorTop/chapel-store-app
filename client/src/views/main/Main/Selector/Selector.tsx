@@ -1,7 +1,9 @@
 import { Autocomplete, Box, Switch } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { ErrorResponse } from "../../../../../../shared/consts/error";
 import { BundleTypeEnum } from "../../../../../../shared/endpoints/bundles/createBundles";
 
 import { GetAllBundlesPath } from "../../../../../../shared/endpoints/bundles/getAllBundles";

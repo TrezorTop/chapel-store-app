@@ -7,6 +7,7 @@ import { AuthLayout } from "./core/components/hoc/layouts/AuthLayout/AuthLayout"
 import { MainLayout } from "./core/components/hoc/layouts/MainLayout/MainLayout";
 import { RequireAuth } from "./core/components/hoc/RequireAuth/RequireAuth";
 import { GlobalLoader } from "./core/components/kit/GlobalLoader/GlobalLoader";
+import { httpBroadcast } from "./core/config/api";
 import {
   ABOUT_URL,
   AUTH_URL,
@@ -14,6 +15,7 @@ import {
   CREATOR_URL,
   GET_SETUP_URL,
   MAIN_URL,
+  NETWORK_ERROR,
   PAYMENT_URL,
   PROFILE_URL,
   RESTORE_URL,

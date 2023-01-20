@@ -5,13 +5,14 @@ import { useParams } from "react-router";
 
 import { CreatePurchases_BundleNotFound } from "../../../../../shared/consts/error";
 import { GetByIdConfigsPath } from "../../../../../shared/endpoints/configs/getById";
+import { ApplyPromocodesPath } from "../../../../../shared/endpoints/promocodes/applyPromocodes";
 import { CreatePaymentPath, PaymentMethodEnum } from "../../../../../shared/endpoints/purchases/createPurchases";
 import { Button } from "../../../core/components/kit/Button/Button";
 import { Form } from "../../../core/components/kit/Form/Form";
 import { Input } from "../../../core/components/kit/Input/Input";
 import { Paper } from "../../../core/components/kit/Paper/Paper";
 import { Typography } from "../../../core/components/kit/Typography/Typography";
-import { getBundle } from "../../../core/services/main.service";
+import { applyPromocode, getBundle } from "../../../core/services/main.service";
 import { createPayment } from "../../../core/services/payment.service";
 import { formatCurrency } from "../../../core/utils/functions/number";
 import { useForm } from "../../../core/utils/hooks/useForm";
@@ -19,10 +20,13 @@ import s from "./Payment.module.scss";
 
 type TForm = {
   selectedPayment: PaymentMethodEnum;
+  promocode: string;
   email: string;
 };
 
 export const Payment = () => {
+  const [savedPromocode, setSavedPromocode] = useState<string>("");
+
   const { form, updateForm, error, setError } = useForm<TForm>({ selectedPayment: PaymentMethodEnum.YOOKASSA });
 
   const { bundleId } = useParams<{ bundleId: string }>();
@@ -37,7 +41,13 @@ export const Payment = () => {
 
   const { mutate: mutateCreatePayment, isLoading: isLoadingPayment } = useMutation(
     [CreatePaymentPath],
-    () => createPayment({ bundleId: bundleId!, email: form.email, method: form.selectedPayment! }),
+    () =>
+      createPayment({
+        bundleId: bundleId!,
+        email: form.email,
+        method: form.selectedPayment!,
+        promocodeName: savedPromocode,
+      }),
     {
       onSuccess: ({ data }) => {
         window.open(data.url, "_blank");
@@ -50,6 +60,16 @@ export const Payment = () => {
     },
   );
 
+  const {
+    mutate: mutateApplyPromocode,
+    isLoading: isLoadingApplyPromocode,
+    data: applyPromocodeData,
+  } = useMutation([ApplyPromocodesPath], applyPromocode, {
+    onSuccess: ({ data }) => {
+      setSavedPromocode(form.promocode ?? "");
+    },
+  });
+
   useEffect(() => {
     if (!bundleId) return;
 
@@ -60,7 +80,13 @@ export const Payment = () => {
     if (isLoadingConfig || isLoadingPayment) return false;
 
     return form.selectedPayment;
-  }, [form, isLoadingConfig, isLoadingPayment]);
+  }, [form.email, form.selectedPayment, isLoadingConfig, isLoadingPayment]);
+
+  const isValidPromocode = useCallback(() => {
+    if (isLoadingApplyPromocode) return false;
+
+    return form.promocode;
+  }, [form.promocode, isLoadingApplyPromocode]);
 
   return (
     <>
@@ -75,7 +101,12 @@ export const Payment = () => {
               {configData?.data.bundle?.name}
             </Typography>
             <Typography variant="h5" marginBottom>
-              {formatCurrency(+configData?.data.bundle?.price!)}
+              {formatCurrency(
+                (applyPromocodeData?.data?.price as unknown as number) ?? +configData?.data.bundle?.price!,
+              )}
+            </Typography>
+            <Typography variant="h6" marginBottom>
+              {savedPromocode && <>Applied Promocode {savedPromocode}</>}
             </Typography>
             <div className={s.items}>
               {configData?.data.bundle?.configs.map((config) => (
@@ -93,15 +124,30 @@ export const Payment = () => {
           placeholder="Email (Optional)"
           fullWidth
           inputLabel="Send payment info to"
-          variant="outlined"
           onChange={(event) => updateForm({ email: event.target.value })}
         />
+
+        <Input
+          placeholder="Promocode (Optional)"
+          fullWidth
+          inputLabel="Enter the promo code if you have one"
+          onChange={(event) => updateForm({ promocode: event.target.value })}
+        />
+
+        <Button
+          disabled={!isValidPromocode()}
+          variant="outlined"
+          size="large"
+          fullWidth
+          onClick={() => mutateApplyPromocode({ bundleId: bundleId!, name: form.promocode! })}
+        >
+          Apply Promocode
+        </Button>
 
         <Input
           placeholder="Payment Method"
           fullWidth
           inputLabel="Send payment info to"
-          variant="outlined"
           onChange={(event) => updateForm({ selectedPayment: event.target.value as PaymentMethodEnum })}
           value={form.selectedPayment}
           select
@@ -116,14 +162,7 @@ export const Payment = () => {
         {error ? (
           <Typography textAlign="center">You have already purchased this bundle</Typography>
         ) : (
-          <Button
-            disabled={!isValid()}
-            variant="outlined"
-            color="success"
-            size="large"
-            fullWidth
-            onClick={() => mutateCreatePayment()}
-          >
+          <Button disabled={!isValid()} color="success" size="large" fullWidth onClick={() => mutateCreatePayment()}>
             {isLoadingConfig || isLoadingPayment ? <CircularProgress size={23} color="success" /> : <>Continue</>}
           </Button>
         )}
