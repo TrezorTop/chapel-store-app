@@ -17,6 +17,6 @@ export type GetMyInfoResponse = {
 			bundle: {
 				name: string
 			}
-		}
+		}[]
 	}
 };
