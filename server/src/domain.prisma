@@ -105,6 +105,7 @@ model Purchases {
 model UncommittedOrders {
     id String @id @default(cuid())
     paymentId String
+    payUrl String
     method PaymentMethod
     promocode Promocode? @relation(fields: [promocodeName], references: [name], onDelete: Restrict)
     promocodeName String?

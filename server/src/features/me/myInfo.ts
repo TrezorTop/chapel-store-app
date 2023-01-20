@@ -18,6 +18,18 @@ export const myInfo = async (instance: FastifyInstance) => {
 			select: {
 				username: true,
 				role: true,
+				uncommittedOrders: {
+					select: {
+						id: true,
+						payUrl: true,
+						method: true,
+						bundle: {
+							select: {
+								name: true
+							}
+						}
+					}
+				},
 				_count: {
 					select: {
 						uncommittedOrders: true
@@ -30,7 +42,7 @@ export const myInfo = async (instance: FastifyInstance) => {
 			me: {
 				username: res!.username,
 				role: res!.role,
-				isUnprocessedOrders: !!res!._count.uncommittedOrders
+				uncommittedOrders: res!.uncommittedOrders
 			}
 		});
 	});

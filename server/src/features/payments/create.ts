@@ -70,6 +70,7 @@ const cryptoCloudHandler: Handler = async (request: FastifyRequest<{
 		const order = await tx.uncommittedOrders.create({
 			data: {
 				id: id,
+				payUrl: data.pay_url,
 				promocodeName: promocode?.name,
 				method: PaymentMethod.CRYPTOCLOUD,
 				ownerUsername: request.user.username,
@@ -116,6 +117,7 @@ const yookassaHandler: Handler = async (request: FastifyRequest<{
 		const order = await tx.uncommittedOrders.create({
 			data: {
 				id: id,
+				payUrl: data.confirmation.confirmation_url,
 				promocodeName: promocode?.name,
 				ownerUsername: request.user.username,
 				method: PaymentMethod.YOOKASSA,
