@@ -1,7 +1,7 @@
-import exp from "constants";
 import { BasePath, BundlesRootPath } from "../..";
 import { BundleType, Decimal } from "../../../server/src/infrastructure/prismaConnect";
 import { Validator } from "../../types";
+
 
 export const CreateBundlesBasePath = "";
 
@@ -35,7 +35,6 @@ export type CreateBundlesRequest = {
 	name: string,
 	price: number,
 	type: BundleType,
-
 	configs: string[]
 }
 
