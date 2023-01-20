@@ -1,3 +1,4 @@
+import { Bundle, Prisma, Promocode, UncommittedOrders } from "@prisma/client";
 import { FastifyPluginAsync } from "fastify/types/plugin";
 import { create } from "./create";
 import { proceedCryptoCloud } from "./proceedCryptoCloud";
@@ -9,6 +10,27 @@ export const paymentsModule: FastifyPluginAsync = async (instance) => {
 	instance.register(proceedCryptoCloud);
 	instance.register(proceedYookassa);
 };
+
+
+export async function savePromocodeStatistic(
+	uncommittedOrder: UncommittedOrders & { bundle: Bundle } & { promocode: Promocode },
+	tx: Prisma.TransactionClient
+) {
+	const price = uncommittedOrder.bundle.price;
+	const earnStreamer = uncommittedOrder.promocode.earnedStreamer;
+	const discountToUser = uncommittedOrder.promocode.discountToUser;
+
+	const payToStreamer = price.div(100).mul(earnStreamer);
+	const savedToUser = price.minus(price.div(100).mul(discountToUser));
+
+	return tx.promocodeStatistic.create({
+		data: {
+			promocodeName: uncommittedOrder.promocodeName!,
+			payToStreamer: payToStreamer,
+			savedToUser: savedToUser
+		}
+	});
+}
 
 
 export type CryptoCloud_CreateInvoiceResponse = {

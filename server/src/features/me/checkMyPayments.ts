@@ -17,7 +17,7 @@ export const checkMyPayments = async (instance: FastifyInstance) => {
 	}>(CheckMyPaymentsBasePath, {
 		onRequest: [jwtOnRequestHook()],
 	}, async (request, reply) => {
-		const orders = await prisma.uncomittedOrders.findMany({
+		const orders = await prisma.uncommittedOrders.findMany({
 			where: {
 				ownerUsername: request.user.username,
 				method: PaymentMethod.YOOKASSA

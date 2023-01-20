@@ -67,9 +67,10 @@ const cryptoCloudHandler: Handler = async (request: FastifyRequest<{
 				"Authorization": `Token ${process.env.CRYPTOCLOUD_TOKEN}`
 			}
 		});
-		const order = await tx.uncomittedOrders.create({
+		const order = await tx.uncommittedOrders.create({
 			data: {
 				id: id,
+				promocodeName: promocode?.name,
 				method: PaymentMethod.CRYPTOCLOUD,
 				ownerUsername: request.user.username,
 				bundleId: bundle.id,
@@ -112,8 +113,10 @@ const yookassaHandler: Handler = async (request: FastifyRequest<{
 				"Idempotence-Key": crypto.randomUUID()
 			}
 		});
-		const order = await tx.uncomittedOrders.create({
+		const order = await tx.uncommittedOrders.create({
 			data: {
+				id: id,
+				promocodeName: promocode?.name,
 				ownerUsername: request.user.username,
 				method: PaymentMethod.YOOKASSA,
 				bundleId: bundle.id,
