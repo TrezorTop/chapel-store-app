@@ -73,20 +73,17 @@ model Bundle {
 
 
 model Promocode {
-    id String @id @default(cuid())
-    name String
+    name String @id
     discountToUser Decimal
     earnedStreamer Decimal // applied first
     softDeleted Boolean @default(false)
-
     promocodeStatistics PromocodeStatistic[]
-    uncomittedOrders UncomittedOrders[]
 }
 
 
 model PromocodeStatistic {
-    promocode Promocode @relation(fields: [promocodeId], references: [id], onDelete: Restrict)
-    promocodeId String @id
+    promocode Promocode @relation(fields: [promocodeName], references: [name], onDelete: Restrict)
+    promocodeName String @id
     payToStreamer Decimal
     savedToUser Decimal
 }
@@ -107,8 +104,6 @@ model UncomittedOrders {
     id String @id @default(cuid())
     paymentId String
     method PaymentMethod
-    promocode Promocode @relation(fields: [promocodeId], references: [id], onDelete: Restrict)
-    promocodeId String
     owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
     ownerUsername String
     bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
