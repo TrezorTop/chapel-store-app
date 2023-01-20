@@ -12,5 +12,9 @@ export type GetAllPromocodesResponse = {
 		softDeleted: boolean,
 		discountToUser: Decimal,
 		earnedStreamer: Decimal,
+		promocodeStatistics?: {
+			payToStreamer: Decimal
+			savedToUser: Decimal
+		}[]
 	}[]
 };

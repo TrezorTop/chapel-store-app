@@ -24,7 +24,15 @@ export const getAll = async (instance: FastifyInstance) => {
 				name: true,
 				softDeleted: true,
 				discountToUser: true,
-				earnedStreamer: true
+				earnedStreamer: true,
+				...(!isAdmin && {
+					promocodeStatistics: {
+						select: {
+							payToStreamer: true,
+							savedToUser: true
+						}
+					}
+				})
 			}
 		});
 

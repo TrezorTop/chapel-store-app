@@ -16,5 +16,9 @@ export type GetByIdPromocodesResponse = {
 		softDeleted: boolean,
 		discountToUser: Decimal,
 		earnedStreamer: Decimal,
+		promocodeStatistics?: {
+			payToStreamer: Decimal
+			savedToUser: Decimal
+		}[]
 	}
 };
