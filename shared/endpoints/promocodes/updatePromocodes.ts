@@ -20,6 +20,8 @@ export type UpdatePromocodesParams = {
 }
 
 export type UpdatePromocodesRequest = {
+	discountToUser: Decimal,
+	earnedStreamer: Decimal,
 	softDeleted: boolean
 };
 

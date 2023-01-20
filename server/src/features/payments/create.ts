@@ -114,7 +114,6 @@ const yookassaHandler: Handler = async (request: FastifyRequest<{
 		});
 		const order = await tx.uncomittedOrders.create({
 			data: {
-
 				ownerUsername: request.user.username,
 				method: PaymentMethod.YOOKASSA,
 				bundleId: bundle.id,

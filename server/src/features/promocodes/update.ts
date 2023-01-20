@@ -50,6 +50,8 @@ export const update = async (instance: FastifyInstance) => {
 				name: params.name
 			},
 			data: {
+				discountToUser: body.discountToUser,
+				earnedStreamer: body.earnedStreamer,
 				softDeleted: body.softDeleted
 			},
 			select: {
