@@ -159,11 +159,14 @@ export const create = async (instance: FastifyInstance) => {
 				}
 			}), StatusCodes.NOT_FOUND, CreatePurchases_BundleNotFound
 		);
-		const promocode = await cancelIfFailed(() => prisma.promocode.findFirst({
-			where: {
-				name: body.promocodeName,
-			}
-		}), StatusCodes.NOT_FOUND, CreatePurchases_PromocodeNotFound);
+		let promocode: Promocode | undefined;
+
+		if (body.promocodeName)
+			promocode = await cancelIfFailed(() => prisma.promocode.findFirst({
+				where: {
+					name: body.promocodeName,
+				}
+			}), StatusCodes.NOT_FOUND, CreatePurchases_PromocodeNotFound);
 
 		const handler = handlers[body.method];
 		const res = await handler(request, bundle, { promocode: promocode });
