@@ -2,8 +2,8 @@ import { CircularProgress, MenuItem } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { CreatePurchases_NotFound } from "../../../../../shared/consts/error";
 
+import { CreatePurchases_BundleNotFound } from "../../../../../shared/consts/error";
 import { GetByIdConfigsPath } from "../../../../../shared/endpoints/configs/getById";
 import { CreatePaymentPath, PaymentMethodEnum } from "../../../../../shared/endpoints/purchases/createPurchases";
 import { Button } from "../../../core/components/kit/Button/Button";
@@ -43,7 +43,7 @@ export const Payment = () => {
         window.open(data.url, "_blank");
       },
       onError: (error: any) => {
-        if (error.response?.data.message === CreatePurchases_NotFound) {
+        if (error.response?.data.message === CreatePurchases_BundleNotFound) {
           setError("You have already purchased this bundle");
         }
       },

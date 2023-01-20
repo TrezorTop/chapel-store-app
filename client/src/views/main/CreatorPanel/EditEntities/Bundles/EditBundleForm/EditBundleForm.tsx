@@ -30,7 +30,7 @@ type TForm = {
   setups: string[];
 };
 
-export const EditBundle = () => {
+export const EditBundleForm = () => {
   const { form, updateForm, isFieldValid } = useForm<TForm>({
     name: "",
     price: 0,
