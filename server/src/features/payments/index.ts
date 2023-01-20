@@ -21,7 +21,7 @@ export async function savePromocodeStatistic(
 	const discountToUser = uncommittedOrder.promocode.discountToUser;
 
 	const payToStreamer = price.div(100).mul(earnStreamer);
-	const savedToUser = price.minus(price.div(100).mul(discountToUser));
+	const savedToUser = price.div(100).mul(discountToUser);
 
 	return tx.promocodeStatistic.create({
 		data: {
