@@ -6,6 +6,10 @@ export const GetMyBundlesBasePath = "/bundles";
 
 export const GetMyBundlesPath = `${BasePath}${MeRootPath}${GetMyBundlesBasePath}`;
 
+export type GetMyBundlesQuery = {
+	carId?: string
+};
+
 export type GetMyBundlesResponse = {
 	bundles: {
 		id: string;

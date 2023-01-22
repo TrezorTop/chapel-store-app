@@ -19,7 +19,7 @@ export const RequestResetPassword_UserDoesNotExists = "Пользователь 
 export const ConfirmResetPassword_WrongToken = "Плохой токен";
 export const VerifyEmail_WrongToken = "Плохой токен";
 
-export const Refresh_WrongTokenError = "Неправильный токен";
+export const Refresh_WrongTokenError = "Плохой токен";
 export const Refresh_UsedTokenError = "Токен уже был использован";
 
 export const CreateConfigs_WrongCarId = "Неверный carId";
