@@ -79,7 +79,7 @@ export const Bundles = () => {
       <div className={s.container}>
         {!!profileData?.data.me.uncommittedOrders.length && (
           <>
-            <Typography variant="h6">Payment in progress</Typography>
+            <Typography variant="h6" marginTop>Payment in progress</Typography>
             {profileData?.data.me.uncommittedOrders.map((order) => (
               <Order key={order.id} id={order.id} bundleName={order?.bundle?.name} orderUrl={order.payUrl} />
             ))}
