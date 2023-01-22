@@ -40,6 +40,10 @@ const debouncedRefresh = debounce(() => {
   });
 }, 300);
 
+setInterval(() => {
+  debouncedRefresh();
+}, 120000);
+
 api.interceptors.response.use(
   (response) => {
     return response;
