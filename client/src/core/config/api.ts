@@ -47,8 +47,8 @@ api.interceptors.response.use(
   (error: AxiosError<ErrorResponse>) => {
     if (localStorage.getItem(USER_REFRESH_TOKEN_KEY) && AUTH_ERRORS.includes(error.response?.data.message))
       debouncedRefresh();
-
-    if (REFRESH_ERRORS.includes(error.response?.data.message)) broadcast.postMessage(error.response?.data.message);
+    else if (REFRESH_ERRORS.includes(error.response?.data.message) || !localStorage.getItem(USER_REFRESH_TOKEN_KEY))
+      broadcast.postMessage(REFRESH_ERRORS[0]);
 
     return Promise.reject(error);
   },

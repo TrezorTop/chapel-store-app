@@ -22,7 +22,7 @@ export const Header = () => {
 
   const navigate = useNavigate();
 
-  const { data } = useQuery([GetMyInfoPath], getMyProfileInfo, {
+  const { data, refetch } = useQuery([GetMyInfoPath], getMyProfileInfo, {
     enabled: !!localStorage.getItem(USER_REFRESH_TOKEN_KEY),
     retry: !!localStorage.getItem(USER_REFRESH_TOKEN_KEY),
     onSuccess: () => {
@@ -76,6 +76,7 @@ export const Header = () => {
               onClick={() => {
                 removeAuthTokens();
                 setAuthenticated(false);
+                refetch();
               }}
               color="error"
             >

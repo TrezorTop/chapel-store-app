@@ -24,6 +24,8 @@ export const RequireAuth: FC<RequireAuthProps> = ({ children }) => {
     const broadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);
 
     broadcast.onmessage = (event) => {
+      console.log(event.data);
+
       if (event.data === General_Unauthorized) {
         // setAuthError(true);
       }
