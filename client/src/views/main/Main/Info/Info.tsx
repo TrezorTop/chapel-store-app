@@ -25,7 +25,7 @@ export const Info: FC<InfoProps> = ({ bundleId }) => {
 
   return (
     <div>
-      {configData && (
+      {configData?.data.bundle && (
         <>
           <Typography variant="h4" marginBottom>
             {configData?.data.bundle?.name}

@@ -76,7 +76,7 @@ export const Setups = () => {
                   Restore
                 </Button>
               ) : (
-                <Button color="error" onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
+                <Button disabled={!!config.bundles.length} color="error" onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
                   Delete
                 </Button>
               )}

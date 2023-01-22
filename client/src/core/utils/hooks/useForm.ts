@@ -3,7 +3,7 @@ import { isBoolean } from "../functions/boolean";
 
 export const useForm = <T>(defaultValues?: Partial<T>) => {
   const [form, setForm] = useState<Partial<T>>(defaultValues ?? {});
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string | undefined>("");
 
   const updateForm = (values: { [key in keyof T]?: T[key] }) => {
     setForm({ ...form, ...values });

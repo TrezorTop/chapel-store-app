@@ -1,9 +1,7 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import React, { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ErrorResponse, General_Unauthorized } from "../../../../../../../../shared/consts/error";
 import { GetMyInfoPath } from "../../../../../../../../shared/endpoints/me/myInfo";
 import { getMyProfileInfo } from "../../../../../services/profile.service";
 import {
@@ -11,33 +9,29 @@ import {
   CREATOR_URL,
   EDIT_ENTITIES_CARS_URL,
   EDIT_ENTITIES_URL,
-  HTTP_BROADCAST_KEY,
   MAIN_URL,
   PROFILE_URL,
-  USER_ACCESS_TOKEN_KEY,
+  USER_REFRESH_TOKEN_KEY,
 } from "../../../../../utils/consts/urls";
 import { removeAuthTokens } from "../../../../../utils/functions/auth";
 import { Button } from "../../../../kit/Button/Button";
 import s from "./Header.module.scss";
 
 export const Header = () => {
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
-  const { data, mutate, isSuccess, isError } = useMutation([GetMyInfoPath], getMyProfileInfo, {
-    onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response?.data.message === General_Unauthorized) {
-        const broadcast = new BroadcastChannel(HTTP_BROADCAST_KEY);
-
-        broadcast.postMessage(error.response?.data.message);
-
-        broadcast.close();
-      }
+  const { data, refetch } = useQuery([GetMyInfoPath], getMyProfileInfo, {
+    enabled: !!localStorage.getItem(USER_REFRESH_TOKEN_KEY),
+    retry: !!localStorage.getItem(USER_REFRESH_TOKEN_KEY),
+    onSuccess: () => {
+      setAuthenticated(true);
+    },
+    onError: () => {
+      setAuthenticated(false);
     },
   });
-
-  useEffect(() => {
-    !!localStorage.getItem(USER_ACCESS_TOKEN_KEY) && mutate();
-  }, []);
 
   return (
     <div className={s.root}>
@@ -54,7 +48,7 @@ export const Header = () => {
         </div>
 
         <div className={s.container}>
-          {isSuccess && data?.data.me?.role === "ADMIN" && (
+          {authenticated && data?.data.me?.role === "ADMIN" && (
             <Button
               variant="text"
               onClick={() => {
@@ -65,7 +59,7 @@ export const Header = () => {
             </Button>
           )}
 
-          {isSuccess && (
+          {authenticated && (
             <Button
               variant="text"
               onClick={() => {
@@ -76,12 +70,13 @@ export const Header = () => {
             </Button>
           )}
 
-          {isSuccess ? (
+          {authenticated ? (
             <Button
               variant="outlined"
               onClick={() => {
                 removeAuthTokens();
-                mutate();
+                setAuthenticated(false);
+                refetch();
               }}
               color="error"
             >

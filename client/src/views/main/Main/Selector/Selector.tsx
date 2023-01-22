@@ -1,11 +1,9 @@
 import { Autocomplete, Box, Switch } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ErrorResponse } from "../../../../../../shared/consts/error";
-import { BundleTypeEnum } from "../../../../../../shared/endpoints/bundles/createBundles";
 
+import { BundleTypeEnum } from "../../../../../../shared/endpoints/bundles/createBundles";
 import { GetAllBundlesPath } from "../../../../../../shared/endpoints/bundles/getAllBundles";
 import { GetAllCarsPath } from "../../../../../../shared/endpoints/cars/getAllCars";
 import { Button } from "../../../../core/components/kit/Button/Button";
@@ -93,7 +91,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
         <Typography color={form.type === BundleTypeEnum.SINGLE ? "primary" : undefined}>Single Track</Typography>{" "}
         <Switch
           onChange={(event) => {
-            updateForm({ type: event.target.checked ? BundleTypeEnum.FULLSET : BundleTypeEnum.SINGLE });
+            updateForm({ type: event.target.checked ? BundleTypeEnum.FULLSET : BundleTypeEnum.SINGLE, bundleId: "" });
           }}
           defaultChecked={form.type === BundleTypeEnum.FULLSET}
         />{" "}
