@@ -53,6 +53,9 @@ export const getAll = async (instance: FastifyInstance) => {
 				carId: true,
 				createdAt: true,
 				updatedAt: true
+			},
+			orderBy: {
+				title: "asc"
 			}
 		});
 

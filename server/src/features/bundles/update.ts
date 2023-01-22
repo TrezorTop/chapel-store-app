@@ -66,8 +66,8 @@ export const update = async (instance: FastifyInstance) => {
 				type: body.type,
 				softDeleted: body.softDeleted,
 				configs: {
-					deleteMany: { bundleId: params.id },
 					...(body?.configs?.length && {
+						deleteMany: { bundleId: params.id },
 						createMany: {
 							data: body.configs.map(id => ({ configId: id }))
 						}

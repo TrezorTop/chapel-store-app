@@ -53,7 +53,8 @@ export const getMyBundles = async (instance: FastifyInstance) => {
 			orderBy: {
 				configs: {
 					_count: "desc"
-				}
+				},
+				name: "asc"
 			}
 		});
 

@@ -31,6 +31,8 @@ export const DeleteConfigs_NotFound = "Такого конфига не суще
 
 export const DeleteConfigs_BundlesRelationNotEmpty = "У конфига есть связи с бандлами";
 
+export const UpdateBundles_NotFound = "Такого бандла не существует";
+
 export const UpdateCars_NotFound = "Такой машины не существует";
 
 export const UpdateConfigs_NotFound = "Такого конфига не существует";

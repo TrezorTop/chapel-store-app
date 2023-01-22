@@ -34,6 +34,9 @@ export const getAll = async (instance: FastifyInstance) => {
 						}
 					}
 				})
+			},
+			orderBy: {
+				name: "asc"
 			}
 		});
 
