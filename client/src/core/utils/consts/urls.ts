@@ -44,4 +44,9 @@ export const HTTP_BROADCAST_KEY = "httpInterceptor";
 
 // NETWORK ERRORS
 export const NETWORK_ERROR = "ERR_NETWORK";
-export const AUTH_ERRORS: any[] = [Refresh_WrongTokenError, Refresh_UsedTokenError, General_Unauthorized];
+export const AUTH_ERRORS: Array<string | undefined> = [General_Unauthorized];
+export const REFRESH_ERRORS: Array<string | undefined> = [
+  Refresh_UsedTokenError,
+  Refresh_WrongTokenError,
+  General_Unauthorized,
+];

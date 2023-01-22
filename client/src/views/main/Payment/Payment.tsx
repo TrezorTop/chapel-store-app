@@ -160,7 +160,7 @@ export const Payment = () => {
         </Input>
 
         {error ? (
-          <Typography textAlign="center">You have already purchased this bundle</Typography>
+          <Typography textAlign="center">{error}</Typography>
         ) : (
           <Button disabled={!isValid()} color="success" size="large" fullWidth onClick={() => mutateCreatePayment()}>
             {isLoadingConfig || isLoadingPayment ? <CircularProgress size={23} color="success" /> : <>Continue</>}
