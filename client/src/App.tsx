@@ -52,6 +52,9 @@ export const App = () => {
       createTheme({
         palette: {
           mode,
+          background: {
+            paper: "#f5f5f5",
+          },
           secondary: {
             main: "#FF4C29",
           },

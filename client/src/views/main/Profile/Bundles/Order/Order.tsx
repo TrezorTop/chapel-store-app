@@ -34,6 +34,7 @@ export const Order: FC<ItemProps> = ({ orderUrl, bundleName, id }) => {
     <Paper className={s.root}>
       <Modal
         open={modal}
+        onClose={() => setModal(false)}
         modalTitle={<Typography variant="h4">Warning</Typography>}
         modalActons={
           <Button
