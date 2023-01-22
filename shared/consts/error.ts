@@ -31,6 +31,8 @@ export const DeleteConfigs_NotFound = "This setup does not exist";
 
 export const DeleteConfigs_BundlesRelationNotEmpty = "The setup has links with bundles";
 
+export const UpdateBundles_NotFound = "This bundle does not exist";
+
 export const UpdateCars_NotFound = "This car does not exist";
 
 export const UpdateConfigs_NotFound = "This setup does not exist";
