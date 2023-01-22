@@ -81,13 +81,15 @@ export const getAll = async (instance: FastifyInstance) => {
 					}
 				}
 			},
-			orderBy: {
-				configs: {
-					_count: "desc"
+			orderBy: [
+				{
+					configs: {
+						_count: "desc"
+					}
 				},
-				name: "asc"
-			}
-		});
+				{ name: "asc" }
+			]
+		})
 
 		return reply.status(StatusCodes.OK).send({ bundles: bundles });
 	});
