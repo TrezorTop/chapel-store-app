@@ -1,13 +1,17 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
-import { DeleteByIdCarsParams, DeleteByIdCarsPath } from "../../../../../../../shared/endpoints/cars/deleteByIdCars";
+import {
+  DeleteByIdCarsParams,
+  DeleteByIdCarsPath,
+  DeleteByIdCarsResponse,
+} from "../../../../../../../shared/endpoints/cars/deleteByIdCars";
 import { GetAllCarsPath } from "../../../../../../../shared/endpoints/cars/getAllCars";
 import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Modal } from "../../../../../core/components/kit/Modal/Modal";
-import { Paper } from "../../../../../core/components/kit/Paper/Paper";
 import { Typography } from "../../../../../core/components/kit/Typography/Typography";
 import { deleteCar, getCars } from "../../../../../core/services/main.service";
 import { EDIT_ENTITIES_SETUPS_URL } from "../../../../../core/utils/consts/urls";
@@ -29,7 +33,7 @@ export const Cars = () => {
       onSuccess: () => {
         queryClient.invalidateQueries([GetAllCarsPath]);
       },
-      onError: ({ response }) => {
+      onError: ({ response }: AxiosError<DeleteByIdCarsResponse>) => {
         if (response?.data.configs) {
           // setErrorModal(true);
         }

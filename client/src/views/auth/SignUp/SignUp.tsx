@@ -9,6 +9,7 @@ import { Button } from "../../../core/components/kit/Button/Button";
 import { Form } from "../../../core/components/kit/Form/Form";
 import { FormActions } from "../../../core/components/kit/Form/FormActions/FormActions";
 import { Input } from "../../../core/components/kit/Input/Input";
+import { Typography } from "../../../core/components/kit/Typography/Typography";
 import { signIn, signUp, verifyEmail } from "../../../core/services/user.service";
 import { MAIN_URL, SIGN_IN_URL } from "../../../core/utils/consts/urls";
 import { updateAuthTokens } from "../../../core/utils/functions/auth";
@@ -30,7 +31,7 @@ type TForm = {
 
 export const SignUp = () => {
   const [step, setStep] = useState<Step>(Step.Initial);
-  const { form, updateForm, isFieldValid } = useForm<TForm>();
+  const { form, updateForm, isFieldValid, error, setError } = useForm<TForm>();
 
   const navigate = useNavigate();
 
@@ -106,6 +107,11 @@ export const SignUp = () => {
         )}
 
         <FormActions variant="vertical">
+          {error && (
+            <Typography color="error" textAlign="center">
+              {error}
+            </Typography>
+          )}
           <Button
             disabled={!isValid()}
             variant="contained"

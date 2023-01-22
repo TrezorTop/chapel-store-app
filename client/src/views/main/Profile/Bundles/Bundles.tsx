@@ -1,4 +1,4 @@
-import { CircularProgress, Divider, LinearProgress } from "@mui/material";
+import { Autocomplete, CircularProgress, Divider, LinearProgress } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useInterval } from "usehooks-ts";
 
@@ -11,9 +11,22 @@ import { checkMyPayments, getMyProfileInfo, getProfileBundles } from "../../../.
 import s from "./Bundles.module.scss";
 import { Bundle } from "./Bundle/Bundle";
 import { Order } from "./Order/Order";
+import { Input } from "../../../../core/components/kit/Input/Input";
+import { getCars } from "../../../../core/services/main.service";
+import { GetAllCarsPath } from "../../../../../../shared/endpoints/cars/getAllCars";
+import { useForm } from "../../../../core/utils/hooks/useForm";
+import { useEffect } from "react";
+
+type TForm = {
+  carId: string;
+};
 
 export const Bundles = () => {
-  const { data: bundlesData, refetch: refetchMyBundles } = useQuery([GetMyBundlesPath], getProfileBundles);
+  const { form, updateForm, isFieldValid } = useForm<TForm>();
+
+  const { data: bundlesData, refetch: refetchMyBundles } = useQuery([GetMyBundlesPath], () =>
+    getProfileBundles({ carId: form.carId }),
+  );
 
   const { data: profileData, refetch: refetchProfileData } = useQuery([GetMyInfoPath], getMyProfileInfo);
 
@@ -22,6 +35,12 @@ export const Bundles = () => {
       refetchMyBundles();
     },
   });
+
+  const { data: carsData } = useQuery([GetAllCarsPath], getCars);
+
+  useEffect(() => {
+    refetchMyBundles();
+  }, [form.carId]);
 
   useInterval(
     () => {
@@ -47,6 +66,15 @@ export const Bundles = () => {
           </Button>
         </div>
       </div>
+
+      <Autocomplete
+        onChange={(event, value) => {
+          updateForm({ carId: value ?? "" });
+        }}
+        options={carsData?.data.cars.map((car) => car.id) ?? []}
+        getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}
+        renderInput={(params) => <Input {...params} fullWidth inputLabel="Select Car" />}
+      />
 
       <div className={s.container}>
         {!!profileData?.data.me.uncommittedOrders.length && (
