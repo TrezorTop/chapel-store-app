@@ -31,7 +31,7 @@ export const Bundles = () => {
   const { data: carsData } = useQuery([GetAllCarsPath], getCars);
 
   const { data: bundlesData, refetch: refetchMyBundles } = useQuery([GetAllBundlesPath], () =>
-    getBundles({ role: "ADMIN", carId: form.carId }),
+    getBundles({ role: "ADMIN", ...(form.carId && { carId: form.carId }) }),
   );
 
   const { mutate: mutateDeleteBundle } = useMutation([DeleteByIdBundlesPath], deleteBundle, {

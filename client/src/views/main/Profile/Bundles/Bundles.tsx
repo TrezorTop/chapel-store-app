@@ -25,7 +25,7 @@ export const Bundles = () => {
   const { form, updateForm, isFieldValid } = useForm<TForm>();
 
   const { data: bundlesData, refetch: refetchMyBundles } = useQuery([GetMyBundlesPath], () =>
-    getProfileBundles({ carId: form.carId }),
+    getProfileBundles({ ...(form.carId && { carId: form.carId }) }),
   );
 
   const { data: profileData, refetch: refetchProfileData } = useQuery([GetMyInfoPath], getMyProfileInfo);

@@ -61,7 +61,7 @@ export const Cars = () => {
               <Button variant="text" onClick={() => navigate(`${car.id}/edit`)}>
                 Update
               </Button>
-              <Button color="error" onClick={() => mutateDeleteCar({ id: car.id })} variant="text">
+              <Button disabled={!!car.configs.length} color="error" onClick={() => mutateDeleteCar({ id: car.id })} variant="text">
                 Delete
               </Button>
             </>
