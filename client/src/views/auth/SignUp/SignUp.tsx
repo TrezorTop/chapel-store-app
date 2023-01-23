@@ -98,12 +98,17 @@ export const SignUp = () => {
         />
 
         {step === Step.Confirm && (
-          <Input
-            type="password"
-            placeholder="Confirm Code"
-            onChange={(event) => updateForm({ code: event.target.value })}
-            disabled={isLoading}
-          />
+          <>
+            <Input
+              type="password"
+              placeholder="Confirm Code"
+              onChange={(event) => updateForm({ code: event.target.value })}
+              disabled={isLoading}
+            />
+            <Typography align="center" color="">
+              A confirmation code has been sent to the email.
+            </Typography>
+          </>
         )}
 
         <FormActions variant="vertical">
@@ -116,6 +121,7 @@ export const SignUp = () => {
             disabled={!isValid()}
             variant="contained"
             type="submit"
+            color="success"
             onClick={() => {
               if (step === Step.Initial)
                 mutateSignUp({
@@ -129,6 +135,20 @@ export const SignUp = () => {
             {step === Step.Initial && "Sign Up"}
             {step === Step.Confirm && "Confirm"}
           </Button>
+          {step === Step.Confirm && (
+            <Button
+              disabled={isLoading}
+              onClick={() => {
+                mutateSignUp({
+                  username: form.username ?? "",
+                  email: form.email ?? "",
+                  password: form.password ?? "",
+                });
+              }}
+            >
+              Resend Code
+            </Button>
+          )}
           <Button variant="text" onClick={() => navigate(`../${SIGN_IN_URL}`)}>
             Sign In
           </Button>
