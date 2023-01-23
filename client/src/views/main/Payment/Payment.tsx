@@ -148,13 +148,13 @@ export const Payment = () => {
         <Input
           placeholder="Payment Method"
           fullWidth
-          inputLabel="Send payment info to"
+          inputLabel="Select payment method"
           onChange={(event) => updateForm({ selectedPayment: event.target.value as PaymentMethodEnum })}
           value={form.selectedPayment}
           select
         >
           {Object.keys(PaymentMethodEnum).map((key, index) => (
-            <MenuItem key={index} value={key}>
+            <MenuItem disabled={key===YOOKASSA} key={index} value={key}>
               {key}
             </MenuItem>
           ))}
