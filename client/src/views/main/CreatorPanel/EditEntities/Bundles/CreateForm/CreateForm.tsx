@@ -82,7 +82,12 @@ export const CreateForm = () => {
         renderInput={(params) => <Input {...params} fullWidth value={form.setups} inputLabel="Setups" />}
       />
 
-      <Input value={form.type} inputLabel="Type" select>
+      <Input
+        value={form.type}
+        inputLabel="Type"
+        onChange={(event) => updateForm({ type: event.target.value as BundleTypeEnum })}
+        select
+      >
         {Object.entries(BundleTypeEnum).map(([key, value]) => (
           <MenuItem key={key} value={key}>
             {value}
@@ -93,7 +98,9 @@ export const CreateForm = () => {
       <FormActions>
         <Button
           disabled={!isValid()}
-          onClick={() => mutate({ name: form.name!, price: form.price!, configs: form.setups!, type: form.type! as BundleType })}
+          onClick={() =>
+            mutate({ name: form.name!, price: form.price!, configs: form.setups!, type: form.type! as BundleType })
+          }
         >
           Submit
         </Button>
