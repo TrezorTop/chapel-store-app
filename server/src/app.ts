@@ -2,6 +2,9 @@ require("dotenv").config();
 
 import fastifyCookie from "@fastify/cookie";
 import cors from "@fastify/cors";
+
+
+import formBody from "@fastify/formbody";
 import fastify from "fastify";
 import multer from "fastify-multer";
 import { FastifyPluginAsync } from "fastify/types/plugin";
@@ -34,6 +37,7 @@ const routes: FastifyPluginAsync = async (instance) => {
 	server.register(cors);
 	server.register(fastifyCookie);
 	await jwtConfig(server);
+	server.register(formBody);
 	server.register(multer.contentParser);
 	instance.register(authModule, { prefix: AuthRootPath });
 	instance.register(carsModule, { prefix: CarsRootPath });
