@@ -150,15 +150,24 @@ export const create = async (instance: FastifyInstance) => {
 	}, async (request, reply) => {
 		const body = request.body;
 
+		const existedOrder = await prisma.uncommittedOrders.findFirst({
+			where: {
+				bundleId: body.bundleId,
+				ownerUsername: request.user.username
+			}
+		});
+		if (existedOrder)
+			return reply.status(StatusCodes.OK).send({ url: existedOrder.payUrl });
+
 		const bundle = await cancelIfFailed(() => prisma.bundle.findFirst({
-				where: {
-					id: body.bundleId,
-					purchases: {
-						none: {
-							ownerUsername: request.user.username
-						}
+			where: {
+				id: body.bundleId,
+				purchases: {
+					none: {
+						ownerUsername: request.user.username
 					}
 				}
+			}
 			}), StatusCodes.NOT_FOUND, CreatePurchases_BundleNotFound
 		);
 		let promocode: Promocode | undefined;
