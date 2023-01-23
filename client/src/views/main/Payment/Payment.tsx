@@ -28,7 +28,7 @@ type TForm = {
 export const Payment = () => {
   const [savedPromocode, setSavedPromocode] = useState<string>("");
 
-  const { form, updateForm, error, setError } = useForm<TForm>({ selectedPayment: PaymentMethodEnum.YOOKASSA });
+  const { form, updateForm, error, setError } = useForm<TForm>({ selectedPayment: PaymentMethodEnum.CRYPTOCLOUD });
 
   const { bundleId } = useParams<{ bundleId: string }>();
 
@@ -154,7 +154,7 @@ export const Payment = () => {
           select
         >
           {Object.keys(PaymentMethodEnum).map((key, index) => (
-            <MenuItem disabled={key===YOOKASSA} key={index} value={key}>
+            <MenuItem disabled={key===PaymentMethodEnum.YOOKASSA} key={index} value={key}>
               {key}
             </MenuItem>
           ))}
