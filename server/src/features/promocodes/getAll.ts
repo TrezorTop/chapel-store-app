@@ -25,7 +25,7 @@ export const getAll = async (instance: FastifyInstance) => {
 				softDeleted: true,
 				discountToUser: true,
 				earnedStreamer: true,
-				...(!isAdmin && {
+				...(isAdmin && {
 					promocodeStatistics: {
 						select: {
 							id: true,
