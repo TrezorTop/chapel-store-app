@@ -24,8 +24,10 @@ export const EDIT_ENTITIES_CARS_URL = "cars";
 export const EDIT_ENTITIES_BUNDLES_URL = "bundles";
 export const EDIT_ENTITIES_SETUPS_URL = "setups";
 export const EDIT_ENTITIES_PROMOCODES_URL = "promocodes";
-export const STATISTICS_URL = "edit-entities";
 export const UPDATE_ENTITY_URL = ":id/edit";
+
+export const STATISTICS_URL = "statistics";
+export const STATISTICS_PROMOCODES_URL = "promocodes";
 
 // export const FALLBACK_URL = "*";
 

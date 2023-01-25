@@ -30,6 +30,7 @@ export const EditEntities = () => {
   const [selectedTab, setSelectedTab] = useState<TabValues>(TabValues.Cars);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.pathname.includes(EDIT_ENTITIES_CARS_URL)) return setSelectedTab(TabValues.Cars);
@@ -37,8 +38,6 @@ export const EditEntities = () => {
     if (location.pathname.includes(EDIT_ENTITIES_SETUPS_URL)) return setSelectedTab(TabValues.Setups);
     if (location.pathname.includes(EDIT_ENTITIES_PROMOCODES_URL)) return setSelectedTab(TabValues.Promocodes);
   }, [location.pathname]);
-
-  const navigate = useNavigate();
 
   return (
     <div className={s.root}>

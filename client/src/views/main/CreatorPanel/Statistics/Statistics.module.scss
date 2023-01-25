@@ -1,0 +1,13 @@
+.root {
+  display: grid;
+  grid-template-columns: min-content minmax(0, 1fr);
+  gap: 16px;
+}
+
+.content {
+  max-width: 100%;
+
+  & > *:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
