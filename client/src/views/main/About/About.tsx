@@ -21,10 +21,10 @@ export const About = () => {
               Project information
             </Typography>
             <Typography variant="body1">
-              MS-Setups is a settings store for virtual cars in the car simulation game Assetto Corsa Competizione.
+              MS-Setups is a setups store for virtual cars in the car simulation game Assetto Corsa Competizione.
             </Typography>
             <Typography variant="body1">
-              Each Bundle includes a set of settings for several tracks, the list of which is visible when you select
+              Each Bundle includes a set of setups for several tracks, the list of which is visible when you select
               it. Additional information about the products is available in the store's{" "}
               <a className={s.link} href={"https://discord.gg/AzvqMC9tgq"} target="_blank">
                 Discord server.
