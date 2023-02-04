@@ -30,7 +30,7 @@ export const Info: FC<InfoProps> = ({ bundleId }) => {
           <Typography variant="h4" marginBottom>
             {configData?.data.bundle?.name}
           </Typography>
-          <Typography variant="h4" marginBottom>
+          <Typography variant="h5" marginBottom>
             {formatCurrency(+configData?.data.bundle?.price!)}
           </Typography>
           <div className={s.items}>

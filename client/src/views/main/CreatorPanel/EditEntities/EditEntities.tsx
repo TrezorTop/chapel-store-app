@@ -8,7 +8,7 @@ import {
   EDIT_ENTITIES_PROMOCODES_URL,
   EDIT_ENTITIES_SETUPS_URL,
   UPDATE_ENTITY_URL,
-} from "../../../../core/utils/consts/urls";
+} from "../../../../core/utils/consts/consts";
 import { Bundles } from "./Bundles/Bundles";
 import { EditBundleForm } from "./Bundles/EditBundleForm/EditBundleForm";
 import { Cars } from "./Cars/Cars";

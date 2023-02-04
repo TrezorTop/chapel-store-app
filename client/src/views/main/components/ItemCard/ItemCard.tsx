@@ -6,7 +6,7 @@ import { GetBundleFilesParams, GetBundleFilesPath } from "../../../../../../shar
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Paper } from "../../../../core/components/kit/Paper/Paper";
 import { getBundleFiles } from "../../../../core/services/main.service";
-import { API_URL, USER_ACCESS_TOKEN_KEY } from "../../../../core/utils/consts/urls";
+import { API_URL, USER_ACCESS_TOKEN_KEY } from "../../../../core/utils/consts/consts";
 import { decodeFile } from "../../../../core/utils/functions/file";
 import s from "./ItemCard.module.scss";
 

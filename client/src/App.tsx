@@ -19,7 +19,7 @@ import {
   RESTORE_URL,
   SIGN_IN_URL,
   SIGN_UP_URL,
-} from "./core/utils/consts/urls";
+} from "./core/utils/consts/consts";
 import { Restore } from "./views/auth/Restore/Restore";
 import { SignIn } from "./views/auth/SignIn/SignIn";
 import { SignUp } from "./views/auth/SignUp/SignUp";
@@ -30,7 +30,7 @@ import { Payment } from "./views/main/Payment/Payment";
 const CreatorPanel = React.lazy(() => import("./views/main/CreatorPanel/CreatorPanel"));
 const Profile = React.lazy(() => import("./views/main/Profile/Profile"));
 
-export const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
 
 export const App = () => {
   const [mode, setMode] = React.useState<"light" | "dark">(

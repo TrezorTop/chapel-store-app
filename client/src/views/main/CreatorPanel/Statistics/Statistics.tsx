@@ -1,7 +1,7 @@
 import { Tab, Tabs } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router";
-import { STATISTICS_PROMOCODES_URL } from "../../../../core/utils/consts/urls";
+import { STATISTICS_PROMOCODES_URL } from "../../../../core/utils/consts/consts";
 import { Promocodes } from "./Promocodes/Promocodes";
 
 import s from "./Statistics.module.scss";

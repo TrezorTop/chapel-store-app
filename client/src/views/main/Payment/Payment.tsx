@@ -154,11 +154,19 @@ export const Payment = () => {
           select
         >
           {Object.keys(PaymentMethodEnum).map((key, index) => (
-            <MenuItem disabled={key===PaymentMethodEnum.YOOKASSA} key={index} value={key}>
+            <MenuItem disabled={key === PaymentMethodEnum.YOOKASSA} key={index} value={key}>
               {key}
             </MenuItem>
           ))}
         </Input>
+
+        {form.selectedPayment === PaymentMethodEnum.CRYPTOCLOUD && (
+          <Paper>
+            <Typography align="center" color="error">
+              ATTENTION! CRYPTO NETWORK FEE NOT INCLUDED IN THE PRICE
+            </Typography>
+          </Paper>
+        )}
 
         {error ? (
           <Typography textAlign="center">{error}</Typography>

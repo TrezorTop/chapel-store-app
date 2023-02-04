@@ -31,12 +31,11 @@ export const STATISTICS_PROMOCODES_URL = "promocodes";
 
 // export const FALLBACK_URL = "*";
 
-// TOKEN KEYS
-export const USER_ACCESS_TOKEN_KEY = "user_token";
-export const USER_REFRESH_TOKEN_KEY = "refresh_token";
-
-// THEME
+// LOCAL STORAGE KEYS
+export const USER_ACCESS_TOKEN_KEY = "user-token";
+export const USER_REFRESH_TOKEN_KEY = "refresh-token";
 export const COLOR_THEME_KEY = "usehooks-ts-dark-mode";
+export const FAQ_POPUP_KEY = "faq-popup";
 
 // ENV VARS
 export const API_URL = import.meta.env.VITE_REACT_APP_REST_ENDPOINT;

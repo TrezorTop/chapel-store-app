@@ -15,7 +15,7 @@ import {
   EDIT_ENTITIES_PROMOCODES_URL,
   EDIT_ENTITIES_URL,
   MAIN_URL,
-} from "../../../../../core/utils/consts/urls";
+} from "../../../../../core/utils/consts/consts";
 
 type TRow = GetAllPromocodesResponse["promocodes"][0];
 

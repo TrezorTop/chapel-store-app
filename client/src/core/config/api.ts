@@ -9,7 +9,7 @@ import {
   REFRESH_ERRORS,
   USER_ACCESS_TOKEN_KEY,
   USER_REFRESH_TOKEN_KEY,
-} from "../utils/consts/urls";
+} from "../utils/consts/consts";
 import { removeAuthTokens, updateAuthTokens } from "../utils/functions/auth";
 import { debounce } from "../utils/functions/debounce";
 

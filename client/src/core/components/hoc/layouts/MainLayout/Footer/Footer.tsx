@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useDarkMode } from "usehooks-ts";
 import { ColorModeContext } from "../../../../../../App";
-import { ABOUT_URL, API_URL, COLOR_THEME_KEY, MAIN_URL } from "../../../../../utils/consts/urls";
+import { ABOUT_URL, API_URL, COLOR_THEME_KEY, MAIN_URL } from "../../../../../utils/consts/consts";
 import { Button } from "../../../../kit/Button/Button";
 
 import s from "./Footer.module.scss";

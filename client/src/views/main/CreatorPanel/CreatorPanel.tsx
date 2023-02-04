@@ -4,7 +4,7 @@ import { Navigate, Route, Routes, useNavigate } from "react-router";
 
 import { Paper } from "../../../core/components/kit/Paper/Paper";
 import { Typography } from "../../../core/components/kit/Typography/Typography";
-import { EDIT_ENTITIES_CARS_URL, EDIT_ENTITIES_URL, STATISTICS_PROMOCODES_URL, STATISTICS_URL } from "../../../core/utils/consts/urls";
+import { EDIT_ENTITIES_CARS_URL, EDIT_ENTITIES_URL, STATISTICS_PROMOCODES_URL, STATISTICS_URL } from "../../../core/utils/consts/consts";
 import s from "./CreatorPanel.module.scss";
 import { EditEntities } from "./EditEntities/EditEntities";
 import { Statistics } from "./Statistics/Statistics";

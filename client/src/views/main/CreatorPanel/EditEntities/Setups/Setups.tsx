@@ -13,7 +13,7 @@ import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Modal } from "../../../../../core/components/kit/Modal/Modal";
 import { Typography } from "../../../../../core/components/kit/Typography/Typography";
 import { deleteSetup, getSetups, updateSetup } from "../../../../../core/services/main.service";
-import { EDIT_ENTITIES_BUNDLES_URL } from "../../../../../core/utils/consts/urls";
+import { EDIT_ENTITIES_BUNDLES_URL } from "../../../../../core/utils/consts/consts";
 import { queryClient } from "../../../../../main";
 import { Header } from "../../../components/EditHeader/EditHeader";
 import { ItemCard } from "../../../components/ItemCard/ItemCard";
