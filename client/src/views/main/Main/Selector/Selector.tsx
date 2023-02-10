@@ -98,7 +98,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
             }}
             defaultChecked={form.type === BundleTypeEnum.FULLSET}
           />{" "}
-          <Typography color={form.type === BundleTypeEnum.FULLSET ? "primary" : undefined}>Full Set</Typography>
+          <Typography color={form.type === BundleTypeEnum.FULLSET ? "primary" : undefined}>Multiple track</Typography>
         </Box>
 
         <Autocomplete
