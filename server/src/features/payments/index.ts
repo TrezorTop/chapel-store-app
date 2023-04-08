@@ -1,12 +1,14 @@
 import { Bundle, Prisma, Promocode, UncommittedOrders } from "@prisma/client";
 import { FastifyPluginAsync } from "fastify/types/plugin";
 import { create } from "./create";
+import { createManual } from "./manualCreate";
 import { proceedCryptoCloud } from "./proceedCryptoCloud";
 import { proceedYookassa } from "./proceedYookassa";
 
 
 export const paymentsModule: FastifyPluginAsync = async (instance) => {
 	instance.register(create);
+	instance.register(createManual);
 	instance.register(proceedCryptoCloud);
 	instance.register(proceedYookassa);
 };

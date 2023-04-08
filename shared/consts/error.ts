@@ -45,6 +45,9 @@ export const ApplyPromocodes_PromocodeNotFound = "This promocode does not exist"
 export const CreatePurchases_BundleNotFound = "This bundle does not exist";
 export const CreatePurchases_PromocodeNotFound = "This promocode does not exist";
 
+export const CreateManualPurchases_BundleNotFound = "This bundle does not exist";
+export const CreateManualPurchases_UserNotFound = "This user does not exist";
+
 export const DeleteByIdBundles_NotFound = "This bundle does not exist";
 export const UpdatePromocodes_NotFound = "This promocode does not exist";
 

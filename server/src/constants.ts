@@ -14,7 +14,6 @@ if (!fs.existsSync(configsPath)) {
 	fs.mkdirSync(configsPath, { recursive: true });
 }
 
-
 export const configMulterHandler = multer({
 	dest: tmpFolder,
 	limits: {
