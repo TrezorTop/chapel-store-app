@@ -6,8 +6,8 @@ import {
 	CreateManualPurchases_BundleNotFound,
 	CreateManualPurchases_UserNotFound
 } from "../../../../shared/consts/error";
-import { CreateConfigsBasePath } from "../../../../shared/endpoints/configs/createConfigs";
 import {
+	CreateManualPaymentBasePath,
 	CreateManualPaymentRequest,
 	CreateManualPaymentResponse
 } from "../../../../shared/endpoints/purchases/createManualPurchases";
@@ -34,17 +34,17 @@ export const createManual = async (instance: FastifyInstance) => {
 	instance.post<{
 		Reply: CreateManualPaymentResponse,
 		Body: CreateManualPaymentRequest
-	}>(CreateConfigsBasePath, {
+	}>(CreateManualPaymentBasePath, {
 		onRequest: [jwtOnRequestHook({ requiredRole: Role.ADMIN })],
 		preValidation: [validatePreValidationHook({ body: bodyValidator })]
 	}, async (request, reply) => {
 		const body = request.body;
 
 		await cancelIfFailed(() => prisma.bundle.findFirst({
-				where: {
-					id: body.bundleId,
-					purchases: {
-						none: {
+			where: {
+				id: body.bundleId,
+				purchases: {
+					none: {
 							ownerUsername: request.user.username
 						}
 					}
