@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc --project tsconfig.production.json && vite build",
     "preview": "vite preview",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",
     "lint:fix": "eslint --fix src/**/*.{js,jsx,ts,tsx,json}",
@@ -28,7 +28,6 @@
     "usehooks-ts": "^2.9.1"
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.2",
     "@types/node": "^18.11.10",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",

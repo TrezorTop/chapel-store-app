@@ -1,4 +1,4 @@
-import { CircularProgress, MenuItem } from "@mui/material";
+import { Autocomplete, CircularProgress } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 
@@ -46,26 +46,26 @@ export const CreateForm = () => {
 
   return (
     <Form>
-      <Input inputLabel={"Setup Title"} onChange={(event) => updateForm({ title: event.target.value })} />
+      <Input inputLabel={"Title"} onChange={(event) => updateForm({ title: event.target.value })} />
       <FileDropzone
         onChange={(files) => {
           updateForm({ files });
         }}
-        label="Click or place json file here"
+        label="Click or drag files here"
       />
       {form.files?.length && form.files.map((file, index) => <Paper key={index}>{file.name}</Paper>)}
-      <Input
-        select
-        inputLabel={"Car"}
-        onChange={(event) => updateForm({ carId: event.target.value })}
+
+      <Autocomplete
         value={form.carId}
-      >
-        {carsData?.data.cars.map((car) => (
-          <MenuItem key={car.id} value={car.id}>
-            {car.name}
-          </MenuItem>
-        ))}
-      </Input>
+        disabled={!carsData}
+        onChange={(event, value) => {
+          updateForm({ carId: value ?? "" });
+        }}
+        options={carsData?.data.cars.map((car) => car.id) ?? []}
+        getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}
+        renderInput={(params) => <Input {...params} fullWidth value={form.carId} inputLabel="Car" />}
+      />
+
       <FormActions>
         <Button
           disabled={!isValid()}
@@ -80,7 +80,7 @@ export const CreateForm = () => {
             mutate(formData);
           }}
         >
-          {isLoading ? <CircularProgress size={25} /> : <>Submit</>}
+          {isLoading ? <CircularProgress size={23} /> : <>Submit</>}
         </Button>
       </FormActions>
     </Form>

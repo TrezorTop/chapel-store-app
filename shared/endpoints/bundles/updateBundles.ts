@@ -1,4 +1,4 @@
-import { Decimal } from "../../../server/src/infrastructure/prismaConnect";
+import { BundleType, Decimal } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, BundlesRootPath } from "../../index";
 import { Validator } from "../../types";
 import { makeOptionalValidator } from "../../utils";
@@ -24,6 +24,7 @@ export type UpdateBundlesParams = {
 export type UpdateBundlesRequest = {
 	name?: string
 	price?: number,
+	type?: BundleType,
 	softDeleted?: boolean,
 	configs?: string[]
 }

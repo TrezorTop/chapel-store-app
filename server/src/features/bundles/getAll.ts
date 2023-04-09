@@ -16,6 +16,14 @@ const queryValidator: Validator<GetAllBundlesQuery> = {
 	carId: {
 		check: [value => cuid.isCuid(value) || "Невалидный id"],
 		required: false
+	},
+	role: {
+		check: [],
+		required: false
+	},
+	type: {
+		check: [],
+		required: false
 	}
 };
 
@@ -33,6 +41,9 @@ export const getAll = async (instance: FastifyInstance) => {
 
 		const bundles = await prisma.bundle.findMany({
 			where: {
+				...(query.type && {
+					type: query.type
+				}),
 				...(query.carId && {
 					configs: {
 						some: {
@@ -42,12 +53,20 @@ export const getAll = async (instance: FastifyInstance) => {
 						}
 					}
 				}),
+				...(query.role === "USER" && request?.user?.username && {
+					purchases: {
+						none: {
+							ownerUsername: request?.user?.username
+						}
+					}
+				}),
 				...(!isAdmin && { softDeleted: false }),
 			},
 			select: {
 				id: true,
 				name: true,
 				softDeleted: isAdmin,
+				type: true,
 				price: true,
 				createdAt: true,
 				updatedAt: true,
@@ -62,7 +81,15 @@ export const getAll = async (instance: FastifyInstance) => {
 					}
 				}
 			},
-		});
+			orderBy: [
+				{
+					configs: {
+						_count: "desc"
+					}
+				},
+				{ name: "asc" }
+			]
+		})
 
 		return reply.status(StatusCodes.OK).send({ bundles: bundles });
 	});

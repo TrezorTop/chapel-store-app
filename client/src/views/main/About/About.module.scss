@@ -1,0 +1,15 @@
+.root {
+  display: flex;
+
+  .divider {
+    margin: 16px;
+  }
+
+  section {
+    margin-bottom: 32px;
+
+    & > *:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  }
+}

@@ -16,12 +16,14 @@ export const MAIN_URL = "/main";
 export const GET_SETUP_URL = "get-config";
 export const PAYMENT_URL = "payment";
 export const PROFILE_URL = "profile";
+export const ABOUT_URL = "about";
 
 export const CREATOR_URL = "creator";
 export const EDIT_ENTITIES_URL = "edit-entities";
 export const EDIT_ENTITIES_CARS_URL = "cars";
 export const EDIT_ENTITIES_BUNDLES_URL = "bundles";
 export const EDIT_ENTITIES_SETUPS_URL = "setups";
+export const EDIT_ENTITIES_PROMOCODES_URL = "promocodes";
 export const STATISTICS_URL = "edit-entities";
 export const UPDATE_ENTITY_URL = ":id/edit";
 
@@ -42,4 +44,5 @@ export const HTTP_BROADCAST_KEY = "httpInterceptor";
 
 // NETWORK ERRORS
 export const NETWORK_ERROR = "ERR_NETWORK";
-export const AUTH_ERRORS: any[] = [Refresh_WrongTokenError, Refresh_UsedTokenError, General_Unauthorized];
+export const AUTH_ERRORS: Array<string | undefined> = [General_Unauthorized];
+export const REFRESH_ERRORS: Array<string | undefined> = [Refresh_UsedTokenError, Refresh_WrongTokenError];

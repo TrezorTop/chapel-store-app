@@ -1,6 +1,10 @@
 require("dotenv").config();
 
+import fastifyCookie from "@fastify/cookie";
 import cors from "@fastify/cors";
+
+
+import formBody from "@fastify/formbody";
 import fastify from "fastify";
 import multer from "fastify-multer";
 import { FastifyPluginAsync } from "fastify/types/plugin";
@@ -12,7 +16,8 @@ import {
 	ConfigsRootPath,
 	HealthRootPath,
 	MeRootPath,
-	PaymentsRootPath
+	PaymentsRootPath,
+	PromocodesRootPath
 } from "../../shared";
 import { authModule } from "./features/auth";
 import { bundlesModule } from "./features/bundles";
@@ -20,7 +25,8 @@ import { carsModule } from "./features/cars";
 import { configsModule } from "./features/configs";
 import { healthModule } from "./features/health";
 import { meModule } from "./features/me";
-import { paymentsModule } from "./features/purchases";
+import { paymentsModule } from "./features/payments";
+import { promocodesModule } from "./features/promocodes";
 import { setErrorHandler } from "./infrastructure/applicationErrorHandler";
 import { jwtConfig } from "./infrastructure/jwtConfig";
 
@@ -28,11 +34,14 @@ import { jwtConfig } from "./infrastructure/jwtConfig";
 const server = fastify();
 
 const routes: FastifyPluginAsync = async (instance) => {
-	await jwtConfig(server);
 	server.register(cors);
+	server.register(fastifyCookie);
+	await jwtConfig(server);
+	server.register(formBody);
 	server.register(multer.contentParser);
 	instance.register(authModule, { prefix: AuthRootPath });
 	instance.register(carsModule, { prefix: CarsRootPath });
+	instance.register(promocodesModule, { prefix: PromocodesRootPath });
 	instance.register(bundlesModule, { prefix: BundlesRootPath });
 	instance.register(configsModule, { prefix: ConfigsRootPath });
 	instance.register(meModule, { prefix: MeRootPath });

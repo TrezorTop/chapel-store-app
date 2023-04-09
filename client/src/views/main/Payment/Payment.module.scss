@@ -1,0 +1,16 @@
+.items {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  max-height: 200px;
+  overflow: auto;
+
+  & > * {
+    flex-grow: 1;
+  }
+}
+
+.info {
+  margin-bottom: 32px;
+}

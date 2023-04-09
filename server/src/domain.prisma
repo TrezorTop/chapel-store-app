@@ -16,7 +16,7 @@ model User {
     role Role @default(USER)
     tokens RefreshToken[]
     purchases Purchases[]
-    uncomittedOrders UncomittedOrders[]
+    uncommittedOrders UncommittedOrders[]
 
     createdAt DateTime @default(now())
 }
@@ -25,6 +25,18 @@ model User {
 enum Role {
   USER
   ADMIN
+}
+
+
+enum BundleType {
+  SINGLE
+  FULLSET
+}
+
+
+enum PaymentMethod {
+    CRYPTOCLOUD
+    YOOKASSA
 }
 
 
@@ -48,14 +60,34 @@ model Car {
 model Bundle {
     id String @id @default(cuid())
     name String @unique
+    type BundleType
     configs BundleConfigs[]
     price Decimal
     softDeleted Boolean @default(false)
     purchases Purchases[]
-    uncomittedOrders UncomittedOrders[]
+    uncommittedOrders UncommittedOrders[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt @default(now())
+}
+
+
+model Promocode {
+    name String @id
+    discountToUser Decimal
+    earnedStreamer Decimal // applied first
+    softDeleted Boolean @default(false)
+    promocodeStatistics PromocodeStatistic[]
+    uncommittedOrders UncommittedOrders[]
+}
+
+
+model PromocodeStatistic {
+    id String @id @default(cuid())
+    promocode Promocode @relation(fields: [promocodeName], references: [name], onDelete: Restrict)
+    promocodeName String
+    payToStreamer Decimal
+    savedToUser Decimal
 }
 
 
@@ -70,8 +102,13 @@ model Purchases {
 }
 
 
-model UncomittedOrders {
+model UncommittedOrders {
     id String @id @default(cuid())
+    paymentId String
+    payUrl String
+    method PaymentMethod
+    promocode Promocode? @relation(fields: [promocodeName], references: [name], onDelete: Restrict)
+    promocodeName String?
     owner User @relation(fields: [ownerUsername], references: [username], onDelete: Restrict)
     ownerUsername String
     bundle Bundle @relation(fields: [bundleId], references: [id], onDelete: Restrict)
@@ -86,9 +123,9 @@ model ChangerTokens {
 
 
 model RegisterTokens {
-    id Int @id
-    email String
-    username String
+    token Int @id
+    email String @unique
+    username String @unique
     passwordHash String
 }
 

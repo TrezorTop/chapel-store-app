@@ -23,7 +23,7 @@ export const Setups = () => {
   const [modal, setModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { data: configsData } = useQuery([GetAllConfigsPath], getSetups);
+  const { data: configsData } = useQuery([GetAllConfigsPath], () => getSetups({}));
 
   const { mutate: mutateDeleteConfig } = useMutation(
     [DeleteByIdConfigsPath],
@@ -76,7 +76,7 @@ export const Setups = () => {
                   Restore
                 </Button>
               ) : (
-                <Button color="error" onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
+                <Button disabled={!!config.bundles.length} color="error" onClick={() => mutateDeleteConfig({ id: config.id })} variant="text">
                   Delete
                 </Button>
               )}
