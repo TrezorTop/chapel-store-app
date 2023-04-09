@@ -38,6 +38,11 @@ export const confirmResetPassword = async (instance: FastifyInstance) => {
 				passwordHash: hash
 			}
 		});
+		await prisma.changerTokens.deleteMany({
+			where: {
+				email: changerToken.email
+			}
+		});
 
 		reply.status(StatusCodes.OK).send();
 	});

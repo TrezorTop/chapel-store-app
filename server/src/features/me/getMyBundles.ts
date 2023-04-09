@@ -1,6 +1,10 @@
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
-import { GetMyBundlesBasePath, GetMyBundlesResponse } from "../../../../shared/endpoints/me/getMyConfigs";
+import {
+	GetMyBundlesBasePath,
+	GetMyBundlesQuery,
+	GetMyBundlesResponse
+} from "../../../../shared/endpoints/me/getMyBundles";
 import { jwtOnRequestHook } from "../../infrastructure/jwtConfig";
 import { prisma } from "../../infrastructure/prismaConnect";
 
@@ -8,11 +12,23 @@ import { prisma } from "../../infrastructure/prismaConnect";
 export const getMyBundles = async (instance: FastifyInstance) => {
 	instance.get<{
 		Reply: GetMyBundlesResponse
+		Querystring: GetMyBundlesQuery
 	}>(GetMyBundlesBasePath, {
 		onRequest: [jwtOnRequestHook()]
 	}, async (request, reply) => {
+		const query = request.query;
+
 		const bundles = await prisma.bundle.findMany({
 			where: {
+				...(query.carId && {
+					configs: {
+						some: {
+							config: {
+								carId: query.carId,
+							}
+						}
+					}
+				}),
 				purchases: {
 					some: {
 						ownerUsername: request.user.username
@@ -34,6 +50,14 @@ export const getMyBundles = async (instance: FastifyInstance) => {
 					}
 				}
 			},
+			orderBy: [
+				{
+					configs: {
+						_count: "desc"
+					}
+				},
+				{ name: "asc" }
+			]
 		});
 
 		return reply.status(StatusCodes.OK).send({ bundles: bundles });

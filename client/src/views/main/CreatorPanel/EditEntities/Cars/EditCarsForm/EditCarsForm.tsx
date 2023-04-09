@@ -50,7 +50,7 @@ export const EditCarsForm = () => {
       <Form>
         <Input
           value={form.name}
-          inputLabel={"Car Name"}
+          inputLabel={"Name"}
           onChange={(event) => updateForm({ name: event.target.value })}
         />
         <FormActions>

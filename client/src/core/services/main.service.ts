@@ -45,7 +45,11 @@ import {
   DeleteByIdConfigsPath,
   DeleteByIdConfigsResponse,
 } from "../../../../shared/endpoints/configs/deleteByIdConfigs";
-import { GetAllConfigsPath, GetAllConfigsResponse } from "../../../../shared/endpoints/configs/getAllConfigs";
+import {
+  GetAllConfigsPath,
+  GetAllConfigsQuery,
+  GetAllConfigsResponse,
+} from "../../../../shared/endpoints/configs/getAllConfigs";
 import {
   GetByIdConfigsParams,
   GetByIdConfigsPath,
@@ -56,10 +60,36 @@ import {
   UpdateConfigsPath,
   UpdateConfigsResponse,
 } from "../../../../shared/endpoints/configs/updateConfigs";
+import {
+  ApplyPromocodesParams,
+  ApplyPromocodesPath,
+  ApplyPromocodesQuery,
+  ApplyPromocodesResponse,
+} from "../../../../shared/endpoints/promocodes/applyPromocodes";
+import {
+  CreatePromocodesRequest,
+  CreatePromocodesResponse,
+} from "../../../../shared/endpoints/promocodes/createPromocodes";
+import {
+  GetAllPromocodesPath,
+  GetAllPromocodesResponse,
+} from "../../../../shared/endpoints/promocodes/getAllPromocodes";
+import {
+  GetByIdPromocodesParams,
+  GetByIdPromocodesPath,
+  GetByIdPromocodesResponse,
+} from "../../../../shared/endpoints/promocodes/getByIdPromocodes";
+import {
+  UpdatePromocodesParams,
+  UpdatePromocodesPath,
+  UpdatePromocodesRequest,
+  UpdatePromocodesResponse,
+} from "../../../../shared/endpoints/promocodes/updatePromocodes";
 import { api } from "../config/api";
-import { buildRequestUrl } from "../utils/functions/api";
+import { USER_ACCESS_TOKEN_KEY } from "../utils/consts/urls";
 
-export const getSetups = () => api.get<GetAllConfigsResponse>(GetAllConfigsPath);
+export const getSetups = (data: Partial<GetAllConfigsQuery>) =>
+  api.get<GetAllConfigsResponse>(GetAllConfigsPath, { params: { carId: data.carId?.[0] } });
 export const getSetupById = ({ id }: GetByIdConfigsParams) =>
   api.get<GetByIdConfigsResponse>(GetByIdConfigsPath.replace(":id", id));
 export const createSetup = (formData: FormData) =>
@@ -74,7 +104,15 @@ export const deleteSetup = ({ id }: DeleteByIdConfigsParams) =>
   api.delete<DeleteByIdConfigsResponse>(DeleteByIdConfigsPath.replace(":id", id));
 
 export const getBundles = (data: GetAllBundlesQuery) =>
-  api.get<GetAllBundlesResponse>(buildRequestUrl(GetAllBundlesPath, data));
+  api.get<GetAllBundlesResponse>(GetAllBundlesPath, {
+    params: data,
+    ...(data.role === "USER" &&
+      localStorage.getItem(USER_ACCESS_TOKEN_KEY) && {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem(USER_ACCESS_TOKEN_KEY)}`,
+        },
+      }),
+  });
 export const getBundle = ({ id }: GetByIdBundlesParams) =>
   api.get<GetByIdBundlesResponse>(GetByIdBundlesPath.replace(":id", id));
 export const createBundle = (data: CreateBundlesRequest) => api.post<CreateBundlesResponse>(CreateBundlesPath, data);
@@ -91,3 +129,13 @@ export const updateCar = ({ id, ...data }: UpdateCarsParams & UpdateCarsRequest)
   api.put<UpdateCarsResponse>(UpdateCarsPath.replace(":id", id), data);
 export const deleteCar = ({ id }: DeleteByIdCarsParams) =>
   api.delete<DeleteByIdCarsResponse>(DeleteByIdCarsPath.replace(":id", id));
+
+export const getPromocodes = () => api.get<GetAllPromocodesResponse>(GetAllPromocodesPath);
+export const getPromocode = ({ name }: GetByIdPromocodesParams) =>
+  api.get<GetByIdPromocodesResponse>(GetByIdPromocodesPath.replace(":name", name));
+export const createPromocode = (data: CreatePromocodesRequest) =>
+  api.post<CreatePromocodesResponse>(GetAllPromocodesPath, data);
+export const updatePromocode = ({ name, ...data }: UpdatePromocodesParams & UpdatePromocodesRequest) =>
+  api.put<UpdatePromocodesResponse>(UpdatePromocodesPath.replace(":name", name), data);
+export const applyPromocode = ({ name, ...data }: ApplyPromocodesParams & ApplyPromocodesQuery) =>
+  api.get<ApplyPromocodesResponse>(ApplyPromocodesPath.replace(":name", name), { params: data });

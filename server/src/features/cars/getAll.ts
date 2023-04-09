@@ -18,6 +18,9 @@ export const getAll = async (instance: FastifyInstance) => {
 						title: true
 					}
 				}
+			},
+			orderBy: {
+				name: "asc"
 			}
 		});
 

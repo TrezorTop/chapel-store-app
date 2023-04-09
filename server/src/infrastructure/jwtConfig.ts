@@ -18,7 +18,11 @@ export const jwtConfig = async (instance: FastifyInstance) => {
 		throw new Error(`process.env.JWT_SECRET is required`);
 
 	instance.register(fastifyJwt, {
-		secret: process.env.JWT_SECRET
+		secret: process.env.JWT_SECRET,
+		cookie: {
+			cookieName: "token",
+			signed: false
+		}
 	});
 };
 
@@ -27,8 +31,17 @@ export const optionalJwtOnRequestHook = (options?: { requiredRole?: Role }): onR
 		if (!request.headers["authorization"])
 			return;
 
-		// @ts-ignore
-		await jwtOnRequestHook(options)(request);
+		let err: Error | undefined;
+		try {
+			await request.jwtVerify();
+		} catch (e) {
+			// @ts-ignore
+			err = e;
+		}
+
+		if (!err)
+			// @ts-ignore
+			await jwtOnRequestHook(options)(request);
 	};
 };
 

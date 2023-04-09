@@ -4,48 +4,58 @@ export type ErrorResponse = {
 }
 
 
-export const UndocumentedError = "Что-то пошло не так...";
-export const VeryBadThingsHappend = "Опять за работу :(";
+export const UndocumentedError = "Internal Server Error";
+export const VeryBadThingsHappend = "Critical Server Error";
 
-export const General_Unauthorized = "Не авторизован";
-export const General_WrongRequestSyntax = "Ошибка синтаксиса в запросе";
-export const General_NotEnoughtPermissions = "Недостаточно прав";
-export const General_FileIsTooLarge = "Файл слишком велик";
+export const General_Unauthorized = "Not Authorized";
+export const General_WrongRequestSyntax = "Syntax Error In Request";
+export const General_NotEnoughtPermissions = "Not Enough Rights";
+export const General_FileIsTooLarge = "The file is too large";
 
-export const Login_WrongUsernameError = "Неправильное имя пользователя";
-export const Login_WrongPasswordError = "Неверный пароль";
+export const Login_WrongUsernameError = "Invalid username";
+export const Login_WrongPasswordError = "Wrong password";
 
-export const RequestResetPassword_UserDoesNotExists = "Пользователь не существует";
-export const ConfirmResetPassword_WrongToken = "Плохой токен";
-export const VerifyEmail_WrongToken = "Плохой токен";
+export const RequestResetPassword_UserDoesNotExists = "User does not exist";
+export const ConfirmResetPassword_WrongToken = "Invalid Code";
+export const VerifyEmail_WrongToken = "Invalid Code";
 
-export const Refresh_WrongTokenError = "Неправильный токен";
-export const Refresh_UsedTokenError = "Токен уже был использован";
+export const Refresh_WrongTokenError = "Invalid Code";
+export const Refresh_UsedTokenError = "This token has already been used";
 
-export const CreateConfigs_WrongCarId = "Неверный carId";
-export const CreateConfigs_NotEnoughFiles = "Недостаточно файлов";
+export const CreateConfigs_WrongCarId = "Invalid car";
+export const CreateConfigs_NotEnoughFiles = "Not enough files";
 
-export const CreateBundles_WrongConfigId = "Такого конфига не существует";
+export const CreateBundles_WrongConfigId = "This setup does not exist";
 
-export const DeleteConfigs_NotFound = "Такого конфига не существует";
+export const DeleteConfigs_NotFound = "This setup does not exist";
 
-export const DeleteConfigs_BundlesRelationNotEmpty = "У конфига есть связи с бандлами";
+export const DeleteConfigs_BundlesRelationNotEmpty = "The setup has links with bundles";
 
-export const UpdateCars_NotFound = "Такой машины не существует";
+export const UpdateBundles_NotFound = "This bundle does not exist";
 
-export const UpdateConfigs_NotFound = "Такого конфига не существует";
+export const UpdateCars_NotFound = "This car does not exist";
 
-export const DeleteByIdCars_NotFound = "Такой машины не существует";
+export const UpdateConfigs_NotFound = "This setup does not exist";
 
-export const UpdateBundles_NotFound = "Такого бандла не существует";
-export const CreatePurchases_NotFound = "Такого бандла не существует";
+export const DeleteByIdCars_NotFound = "This car does not exist";
 
-export const DeleteByIdBundles_NotFound = "Такого бандла не существует";
+export const DeleteUncommittedOrder_NotFound = "This order does not exist";
+export const ApplyPromocodes_BundleNotFound = "This bundle does not exist";
+export const ApplyPromocodes_PromocodeNotFound = "This promocode does not exist";
+export const CreatePurchases_BundleNotFound = "This bundle does not exist";
+export const CreatePurchases_PromocodeNotFound = "This promocode does not exist";
 
-export const GetByIdBundles_NotFound = "Такого бандла не существует";
+export const CreateManualPurchases_BundleNotFound = "This bundle does not exist";
+export const CreateManualPurchases_UserNotFound = "This user does not exist";
 
-export const GetByIdCars_NotFound = "Такой машины не существует";
+export const DeleteByIdBundles_NotFound = "This bundle does not exist";
+export const UpdatePromocodes_NotFound = "This promocode does not exist";
 
-export const GetByIdConfigs_NotFound = "Такого конфига не существует";
+export const GetByIdBundles_NotFound = "This promocode does not exist";
+export const GetByIdPromocodes_NotFound = "Такого промокода не существует";
 
-export const GetBundleFiles_NotFound = "Такого бандла не существует";
+export const GetByIdCars_NotFound = "This car does not exist";
+
+export const GetByIdConfigs_NotFound = "This setup does not exist";
+
+export const GetBundleFiles_NotFound = "This bundle does not exist";

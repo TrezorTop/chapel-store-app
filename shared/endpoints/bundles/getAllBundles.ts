@@ -1,5 +1,6 @@
-import { Decimal } from "../../../server/src/infrastructure/prismaConnect";
+import { BundleType, Decimal, Role } from "../../../server/src/infrastructure/prismaConnect";
 import { BasePath, BundlesRootPath } from "../../index";
+
 
 export const GetAllBundlesBasePath = "";
 
@@ -7,6 +8,8 @@ export const GetAllBundlesPath = `${BasePath}${BundlesRootPath}${GetAllBundlesBa
 
 export type GetAllBundlesQuery = {
   carId?: string;
+  type?: BundleType,
+  role?: Role
 };
 
 export type GetAllBundlesResponse = {
@@ -14,6 +17,7 @@ export type GetAllBundlesResponse = {
     id: string;
     name: string;
     price: Decimal;
+    type: BundleType,
     softDeleted: boolean;
     createdAt: Date;
     updatedAt: Date;

@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
+import { ErrorResponse } from "../../../../../shared/consts/error";
 
 import {
   ConfirmResetPasswordPath,
@@ -14,6 +16,7 @@ import { Button } from "../../../core/components/kit/Button/Button";
 import { Form } from "../../../core/components/kit/Form/Form";
 import { FormActions } from "../../../core/components/kit/Form/FormActions/FormActions";
 import { Input } from "../../../core/components/kit/Input/Input";
+import { Typography } from "../../../core/components/kit/Typography/Typography";
 import { confirmResetPassword, requestResetPassword } from "../../../core/services/user.service";
 import { SIGN_IN_URL } from "../../../core/utils/consts/urls";
 import { useForm } from "../../../core/utils/hooks/useForm";
@@ -31,7 +34,7 @@ enum Step {
 }
 
 export const Restore = () => {
-  const { form, updateForm, isFieldValid } = useForm<TForm>();
+  const { form, updateForm, isFieldValid, error, setError } = useForm<TForm>();
   const [step, setStep] = useState<Step>(Step.Initial);
   const navigate = useNavigate();
 
@@ -41,6 +44,9 @@ export const Restore = () => {
     {
       onSuccess: () => {
         setStep(Step.Confirm);
+      },
+      onError: ({ response }: AxiosError<ErrorResponse>) => {
+        setError(response?.data.message);
       },
     },
   );
@@ -55,6 +61,9 @@ export const Restore = () => {
     {
       onSuccess: () => {
         navigate(`../${SIGN_IN_URL}`);
+      },
+      onError: ({ response }: AxiosError<ErrorResponse>) => {
+        setError(response?.data.message);
       },
     },
   );
@@ -89,6 +98,11 @@ export const Restore = () => {
           onChange={(event) => updateForm({ code: event.target.value })}
         />
         <FormActions variant="vertical">
+          {error && (
+            <Typography color="error" textAlign="center">
+              {error}
+            </Typography>
+          )}
           <Button
             disabled={!isValid()}
             onClick={() => {

@@ -9,16 +9,20 @@
   --background: white;
   --text-primary: black;
   --text-secondary: royalblue;
-  --accent: #FF4C29;
+  --accent: #ff4c29;
   --overlay: #ffffffbf;
 }
 
 [data-theme="dark"] {
-  --background: #2C394B;
+  --background: #2c394b;
   --text-primary: white;
   --text-secondary: grey;
-  --accent: #FF4C29;
+  --accent: #ff4c29;
   --overlay: #474747bf;
+}
+
+body {
+  overflow: overlay;
 }
 
 html {
@@ -28,16 +32,20 @@ html {
   }
 
   *::-webkit-scrollbar {
-    width: 12px;
+    width: 5px;
+    height: 5px;
   }
 
   *::-webkit-scrollbar-track {
-    background: #ffffff;
+    background: transparent;
   }
 
   *::-webkit-scrollbar-thumb {
     background-color: #b0b0b0;
     border-radius: 90px;
-    border: 3px solid #ffffff;
   }
+}
+
+a {
+  color: inherit;
 }

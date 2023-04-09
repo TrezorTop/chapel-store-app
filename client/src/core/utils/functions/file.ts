@@ -1,24 +1,7 @@
-export const decodeFile = (fileName?: string, fileData?: string) => {
+export const decodeFile = (fileData: string, fileName?: string) => {
   const contentType = "application/zip";
-  const sliceSize = 512;
 
-  const byteCharacters = atob(fileData!);
-  const byteArrays = [];
-
-  for (let offset = 0, length = byteCharacters.length; offset < length; offset += sliceSize) {
-    const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-    const byteNumbers = new Array(slice.length);
-    for (let i = 0, length = slice.length; i < length; i += 1) {
-      byteNumbers[i] = slice.charCodeAt(i);
-    }
-
-    const byteArray = new Uint8Array(byteNumbers);
-
-    byteArrays.push(byteArray);
-  }
-
-  const blob = new Blob(byteArrays, { type: contentType });
+  const blob = new Blob([fileData], { type: contentType });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.download = fileName ?? "archive.zip";

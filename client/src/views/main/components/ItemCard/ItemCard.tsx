@@ -1,4 +1,4 @@
-import { CircularProgress, LinearProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import React, { FC, ReactNode } from "react";
 
@@ -6,6 +6,7 @@ import { GetBundleFilesParams, GetBundleFilesPath } from "../../../../../../shar
 import { Button } from "../../../../core/components/kit/Button/Button";
 import { Paper } from "../../../../core/components/kit/Paper/Paper";
 import { getBundleFiles } from "../../../../core/services/main.service";
+import { API_URL, USER_ACCESS_TOKEN_KEY } from "../../../../core/utils/consts/urls";
 import { decodeFile } from "../../../../core/utils/functions/file";
 import s from "./ItemCard.module.scss";
 
@@ -17,27 +18,21 @@ type TItemCard = {
 };
 
 export const ItemCard: FC<TItemCard> = ({ children, actions, entityId, entityName }) => {
-  const { mutate: downloadBundleFiles, isLoading: isDownloading } = useMutation(
-    [GetBundleFilesPath],
-    ({ id }: GetBundleFilesParams & { name: string }) => getBundleFiles({ id: id }),
-    {
-      onSuccess: ({ data }, { name }) => {
-        decodeFile(name, data);
-      },
-    },
-  );
-
   return (
     <Paper className={s.root}>
       <div>{children}</div>
-      <div className={s.actions}>
+      <div>
         {entityId && entityName && (
           <Button
-            disabled={isDownloading}
-            onClick={() => downloadBundleFiles({ id: entityId, name: entityName })}
+            onClick={() => {
+              const now = new Date();
+              now.setSeconds(now.getSeconds() + 10);
+              document.cookie = `token=${localStorage.getItem(USER_ACCESS_TOKEN_KEY)};expires=${now.toUTCString()};path=/`;
+              window.open(API_URL + GetBundleFilesPath.replace(":id", entityId), '_blank');
+            }}
             variant="text"
           >
-            {isDownloading ? <CircularProgress size={25} /> : <>Download</>}
+            Download
           </Button>
         )}
         {actions}

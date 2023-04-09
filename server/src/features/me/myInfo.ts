@@ -11,18 +11,39 @@ export const myInfo = async (instance: FastifyInstance) => {
 	}>(GetMyInfoBasePath, {
 		onRequest: [jwtOnRequestHook()],
 	}, async (request, reply) => {
-		const me = await prisma.user.findUnique({
+		const res = await prisma.user.findUnique({
 			where: {
 				username: request.user.username
 			},
 			select: {
 				username: true,
-				role: true
+				role: true,
+				uncommittedOrders: {
+					select: {
+						id: true,
+						payUrl: true,
+						method: true,
+						bundle: {
+							select: {
+								name: true
+							}
+						}
+					}
+				},
+				_count: {
+					select: {
+						uncommittedOrders: true
+					}
+				}
 			}
 		});
 
 		return reply.status(StatusCodes.OK).send({
-			me: me!
+			me: {
+				username: res!.username,
+				role: res!.role,
+				uncommittedOrders: res!.uncommittedOrders
+			}
 		});
 	});
 };

@@ -9,7 +9,7 @@ export const RegisterPath = `${BasePath}${AuthRootPath}${RegisterBasePath}`;
 export const RegisterRequestValidator: Validator<RegisterRequest> = {
   username: {
     check: [
-      (value) => value.length >= 8 || "Минимальная длина 8 символов",
+      (value) => value.length >= 4 || "Минимальная длина 4 символов",
       (value) => value.length <= 32 || "Максимальная длина 32 символа",
       (value) => !/[^a-zA-Z\d_.]/gu.test(value) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "Разрешенные символы: a-Z, A-Z, цифры, _ и .",
     ],
@@ -17,7 +17,7 @@ export const RegisterRequestValidator: Validator<RegisterRequest> = {
   },
   password: {
     check: [
-      (value) => value.length >= 8 || "Минимальная длина 8 символов",
+      (value) => value.length >= 4 || "Минимальная длина 4 символов",
       (value) => value.length <= 32 || "Максимальная длина 32 символа",
       (value) => !/[^a-zA-Z\d_.!@#$%^&*']/gu.test(value) || "Разрешенные символы: a-Z, A-Z, цифры и '_.!@#$%^&*'",
     ],

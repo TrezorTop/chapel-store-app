@@ -1,6 +1,7 @@
 import { BasePath, ConfigsRootPath } from "../../index";
 import { Validator } from "../../types";
 
+
 export const CreateConfigsBasePath = "";
 
 export const CreateConfigsPath = `${BasePath}${ConfigsRootPath}${CreateConfigsBasePath}`;
@@ -9,7 +10,7 @@ export const CreateConfigsRequestValidator: Validator<CreateConfigsRequest> = {
 	title: {
 		check: [
 			value => value.length >= 1 || "Минимальная длина 1 символ",
-			value => value.length <= 32 || "Максимальная длина 32 символа"
+			value => value.length <= 128 || "Максимальная длина 128 символа"
 		],
 		required: true
 	},
@@ -25,7 +26,7 @@ export const CreateConfigsRequestValidator: Validator<CreateConfigsRequest> = {
 
 export const CreateConfigsSettings = {
 	minFilesCount: 1,
-	maxFilesCount: 10,
+	maxFilesCount: 40,
 	maxFileSize: 104_857_600
 };
 

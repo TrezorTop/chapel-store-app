@@ -22,24 +22,34 @@ export const register = async (instance: FastifyInstance) => {
 		const body = request.body;
 
 		const hash = await hashPassword(body.password);
-		const id = generateNumberToken();
-		await prisma.registerTokens.create({
-			data: {
-				id: id,
+		const token = generateNumberToken();
+		await prisma.registerTokens.upsert({
+			create: {
+				token: token,
 				username: body.username,
 				email: body.email,
 				passwordHash: hash,
+			},
+			update: {
+				token: token,
+				username: body.username,
+				email: body.email,
+				passwordHash: hash,
+			},
+			where: {
+				username: body.username
 			}
 		});
 		await mailSender.sendMail({
 			from: process.env.GMAIL_MAIL,
+			subject: "Email Confirmation",
 			to: body.email,
 			text: `
 Hello, ${body.username}!
 
 To verify your e-mail address, please use this key
 				
-${id}
+${token}
 			`
 		});
 
