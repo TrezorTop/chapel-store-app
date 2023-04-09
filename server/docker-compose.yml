@@ -13,6 +13,11 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 15s
+      retries: 10
   pgadmin:
     image: dpage/pgadmin4
     depends_on:
@@ -33,4 +38,6 @@ networks:
     driver: bridge
 volumes:
   db-data:
+    driver: local
+  pgadmin:
     driver: local
