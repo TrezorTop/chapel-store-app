@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { General_Unauthorized } from "../../../../../../shared/consts/error";
 import { PingPath } from "../../../../../../shared/endpoints/health/ping";
 import { ping } from "../../../services/user.service";
-import { AUTH_URL, HTTP_BROADCAST_KEY, REFRESH_ERRORS, SIGN_IN_URL } from "../../../utils/consts/urls";
+import { AUTH_URL, HTTP_BROADCAST_KEY, REFRESH_ERRORS, SIGN_IN_URL } from "../../../utils/consts/consts";
 
 type RequireAuthProps = {
   children: ReactNode;

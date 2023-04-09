@@ -86,7 +86,7 @@ import {
   UpdatePromocodesResponse,
 } from "../../../../shared/endpoints/promocodes/updatePromocodes";
 import { api } from "../config/api";
-import { USER_ACCESS_TOKEN_KEY } from "../utils/consts/urls";
+import { USER_ACCESS_TOKEN_KEY } from "../utils/consts/consts";
 
 export const getSetups = (data: Partial<GetAllConfigsQuery>) =>
   api.get<GetAllConfigsResponse>(GetAllConfigsPath, { params: { carId: data.carId?.[0] } });

@@ -18,7 +18,7 @@ import {
 } from "../../../../shared/endpoints/auth/verifyEmail";
 import { PingPath } from "../../../../shared/endpoints/health/ping";
 import { api } from "../config/api";
-import { USER_REFRESH_TOKEN_KEY } from "../utils/consts/urls";
+import { USER_REFRESH_TOKEN_KEY } from "../utils/consts/consts";
 
 export const signIn = (data: LoginRequest) => api.post<LoginResponse>(LoginPath, data);
 

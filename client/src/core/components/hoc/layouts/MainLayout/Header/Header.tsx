@@ -12,7 +12,7 @@ import {
   MAIN_URL,
   PROFILE_URL,
   USER_REFRESH_TOKEN_KEY,
-} from "../../../../../utils/consts/urls";
+} from "../../../../../utils/consts/consts";
 import { removeAuthTokens } from "../../../../../utils/functions/auth";
 import { Button } from "../../../../kit/Button/Button";
 import s from "./Header.module.scss";

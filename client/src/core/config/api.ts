@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-import { ErrorResponse } from "../../../../shared/consts/error";
+import { ErrorResponse, Refresh_UsedTokenError } from "../../../../shared/consts/error";
 import { refreshToken } from "../services/user.service";
 import {
   API_URL,
@@ -9,8 +9,8 @@ import {
   REFRESH_ERRORS,
   USER_ACCESS_TOKEN_KEY,
   USER_REFRESH_TOKEN_KEY,
-} from "../utils/consts/urls";
-import { updateAuthTokens } from "../utils/functions/auth";
+} from "../utils/consts/consts";
+import { removeAuthTokens, updateAuthTokens } from "../utils/functions/auth";
 import { debounce } from "../utils/functions/debounce";
 
 export const api = axios.create({
@@ -51,6 +51,7 @@ api.interceptors.response.use(
   (error: AxiosError<ErrorResponse>) => {
     if (localStorage.getItem(USER_REFRESH_TOKEN_KEY) && AUTH_ERRORS.includes(error.response?.data.message))
       debouncedRefresh();
+    else if (error.response?.data.message === Refresh_UsedTokenError) removeAuthTokens();
     else if (REFRESH_ERRORS.includes(error.response?.data.message) || !localStorage.getItem(USER_REFRESH_TOKEN_KEY))
       broadcast.postMessage(REFRESH_ERRORS[0]);
 

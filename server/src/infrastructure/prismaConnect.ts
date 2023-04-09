@@ -7,7 +7,7 @@ import {
 } from "@prisma/client";
 
 
-export type Decimal = Prisma.Decimal
+export class Decimal extends Prisma.Decimal {}
 
 export type Role = PrismaRole
 export type BundleType = PrismaBundleType

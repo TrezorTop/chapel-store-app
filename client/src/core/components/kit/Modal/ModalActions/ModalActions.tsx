@@ -1,10 +1,11 @@
 import React, { FC, ReactNode } from "react";
-import { Paper } from "../../Paper/Paper";
+
+import s from "./ModalActions.module.scss";
 
 type TModalActions = {
   children?: ReactNode;
 };
 
 export const ModalActions: FC<TModalActions> = ({ children }) => {
-  return <div>{children}</div>;
+  return <div className={s.root}>{children}</div>;
 };
