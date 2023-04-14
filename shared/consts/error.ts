@@ -15,7 +15,8 @@ export const General_FileIsTooLarge = "The file is too large";
 export const Login_WrongUsernameError = "Invalid username";
 export const Login_WrongPasswordError = "Wrong password";
 
-export const Register_ValidationError = "Wrong password";
+export const Register_EmailInUseError = "Email already in use";
+export const Register_UsernameInUseError = "Username already in use";
 
 export const RequestResetPassword_UserDoesNotExists = "User does not exist";
 export const ConfirmResetPassword_WrongToken = "Invalid Code";

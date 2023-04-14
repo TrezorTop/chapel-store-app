@@ -1,14 +1,16 @@
+import { User } from "@prisma/client";
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
-import { Register_ValidationError } from "../../../../shared/consts/error";
+import { Register_EmailInUseError, Register_UsernameInUseError } from "../../../../shared/consts/error";
 import {
 	RegisterBasePath,
 	RegisterRequest,
 	RegisterRequestValidator,
 	RegisterResponse
 } from "../../../../shared/endpoints/auth/register";
+import { ApplicationError } from "../../infrastructure/applicationErrorHandler";
 import { prisma } from "../../infrastructure/prismaConnect";
-import { cancelIfFailed, mailSender } from "../../infrastructure/utils";
+import { mailSender } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 import { generateNumberToken, hashPassword } from "./services";
 
@@ -22,12 +24,28 @@ export const register = async (instance: FastifyInstance) => {
 	}, async (request, reply) => {
 		const body = request.body;
 
-		await cancelIfFailed(async () => prisma.user.findUnique({
+		const existed = await prisma.user.findFirst({
 			where: {
-				username: body.username,
-				email: body.email
+				OR: {
+					username: body.username,
+					email: body.email,
+				}
 			}
-		}), StatusCodes.BAD_REQUEST, Register_ValidationError);
+		});
+		if (existed) {
+			const fieldsToCheck = [
+				{ name: "username", message: Register_UsernameInUseError },
+				{ name: "email", message: Register_EmailInUseError }
+			] satisfies {
+				name: keyof User,
+				message: string
+			}[];
+
+			for (let field of fieldsToCheck) {
+				if (existed[field.name])
+					throw new ApplicationError(StatusCodes.BAD_REQUEST, field.message);
+			}
+		}
 
 		const hash = await hashPassword(body.password);
 		const token = generateNumberToken();
