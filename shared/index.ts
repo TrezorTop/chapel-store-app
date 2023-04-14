@@ -1,6 +1,7 @@
 export const BasePath = "/api";
 
 export const AuthRootPath = "/auth";
+export const UsersRootPath = "/users";
 export const CarsRootPath = "/cars";
 export const PromocodesRootPath = "/promocodes";
 export const ConfigsRootPath = "/configs";

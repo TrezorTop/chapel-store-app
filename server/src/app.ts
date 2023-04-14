@@ -17,7 +17,8 @@ import {
 	HealthRootPath,
 	MeRootPath,
 	PaymentsRootPath,
-	PromocodesRootPath
+	PromocodesRootPath,
+	UsersRootPath
 } from "../../shared";
 import { authModule } from "./features/auth";
 import { bundlesModule } from "./features/bundles";
@@ -27,6 +28,7 @@ import { healthModule } from "./features/health";
 import { meModule } from "./features/me";
 import { paymentsModule } from "./features/payments";
 import { promocodesModule } from "./features/promocodes";
+import { usersModule } from "./features/users";
 import { setErrorHandler } from "./infrastructure/applicationErrorHandler";
 import { jwtConfig } from "./infrastructure/jwtConfig";
 
@@ -40,6 +42,7 @@ const routes: FastifyPluginAsync = async (instance) => {
 	server.register(formBody);
 	server.register(multer.contentParser);
 	instance.register(authModule, { prefix: AuthRootPath });
+	instance.register(usersModule, { prefix: UsersRootPath });
 	instance.register(carsModule, { prefix: CarsRootPath });
 	instance.register(promocodesModule, { prefix: PromocodesRootPath });
 	instance.register(bundlesModule, { prefix: BundlesRootPath });
