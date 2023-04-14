@@ -3,6 +3,7 @@ name: Node Github CI
 on:
   push:
     branches:
+      - main
       - frontend
 jobs:
   deploy:
