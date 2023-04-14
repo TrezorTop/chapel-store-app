@@ -26,10 +26,8 @@ export const register = async (instance: FastifyInstance) => {
 
 		const existed = await prisma.user.findFirst({
 			where: {
-				OR: {
-					username: body.username,
-					email: body.email,
-				}
+				username: body.username,
+				email: body.email,
 			}
 		});
 		if (existed) {
