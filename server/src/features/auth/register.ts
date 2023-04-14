@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { StatusCodes } from "http-status-codes";
+import { Register_ValidationError } from "../../../../shared/consts/error";
 import {
 	RegisterBasePath,
 	RegisterRequest,
@@ -7,7 +8,7 @@ import {
 	RegisterResponse
 } from "../../../../shared/endpoints/auth/register";
 import { prisma } from "../../infrastructure/prismaConnect";
-import { mailSender } from "../../infrastructure/utils";
+import { cancelIfFailed, mailSender } from "../../infrastructure/utils";
 import { validatePreValidationHook } from "../../infrastructure/validatePreValidationHook";
 import { generateNumberToken, hashPassword } from "./services";
 
@@ -20,6 +21,13 @@ export const register = async (instance: FastifyInstance) => {
 		preValidation: [validatePreValidationHook({ body: RegisterRequestValidator })]
 	}, async (request, reply) => {
 		const body = request.body;
+
+		await cancelIfFailed(async () => prisma.user.findUnique({
+			where: {
+				username: body.username,
+				email: body.email
+			}
+		}), StatusCodes.BAD_REQUEST, Register_ValidationError);
 
 		const hash = await hashPassword(body.password);
 		const token = generateNumberToken();
