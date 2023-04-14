@@ -45,7 +45,7 @@ export const createManual = async (instance: FastifyInstance) => {
 				id: body.bundleId,
 				purchases: {
 					none: {
-							ownerUsername: request.user.username
+							ownerUsername: body.ownerUsername
 						}
 					}
 				}
