@@ -100,7 +100,6 @@ export const SignUp = () => {
         {step === Step.Confirm && (
           <>
             <Input
-              type="password"
               placeholder="Confirm Code"
               onChange={(event) => updateForm({ code: event.target.value })}
               disabled={isLoading}
