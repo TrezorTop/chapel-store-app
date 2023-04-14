@@ -1,8 +1,10 @@
 .root {
-  display: flex;
-
   .divider {
     margin: 16px;
+  }
+
+  .link {
+    color: var(--accent);
   }
 
   section {

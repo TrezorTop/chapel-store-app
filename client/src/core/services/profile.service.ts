@@ -6,7 +6,7 @@ import {
 } from "../../../../shared/endpoints/me/getMyBundles";
 import { GetMyInfoPath, GetMyInfoResponse } from "../../../../shared/endpoints/me/myInfo";
 import { api } from "../config/api";
-import { USER_ACCESS_TOKEN_KEY } from "../utils/consts/urls";
+import { USER_ACCESS_TOKEN_KEY } from "../utils/consts/consts";
 
 export const getProfileBundles = (data: GetMyBundlesQuery) =>
   api.get<GetMyBundlesResponse>(GetMyBundlesPath, { params: data });

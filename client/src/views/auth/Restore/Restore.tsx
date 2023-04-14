@@ -18,7 +18,7 @@ import { FormActions } from "../../../core/components/kit/Form/FormActions/FormA
 import { Input } from "../../../core/components/kit/Input/Input";
 import { Typography } from "../../../core/components/kit/Typography/Typography";
 import { confirmResetPassword, requestResetPassword } from "../../../core/services/user.service";
-import { SIGN_IN_URL } from "../../../core/utils/consts/urls";
+import { SIGN_IN_URL } from "../../../core/utils/consts/consts";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import { Window } from "../components/Window/Window";
 

@@ -11,8 +11,10 @@ import { Form } from "../../../../core/components/kit/Form/Form";
 import { Input } from "../../../../core/components/kit/Input/Input";
 import { Typography } from "../../../../core/components/kit/Typography/Typography";
 import { getBundles, getCars } from "../../../../core/services/main.service";
-import { PAYMENT_URL } from "../../../../core/utils/consts/urls";
+import { PAYMENT_URL } from "../../../../core/utils/consts/consts";
 import { useForm } from "../../../../core/utils/hooks/useForm";
+
+import s from "./Selector.module.scss";
 
 enum QueryParams {
   CarId = "carId",
@@ -75,50 +77,62 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
   }, [form]);
 
   return (
-    <Form>
-      <Autocomplete
-        value={form.carId}
-        disabled={!carsData}
-        onChange={(event, value) => {
-          updateForm({ carId: value ?? "" });
-        }}
-        options={carsData?.data.cars.map((car) => car.id) ?? []}
-        getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}
-        renderInput={(params) => <Input {...params} fullWidth value={form.carId} inputLabel="Select Car" />}
-      />
-
-      <Box display="flex" alignItems="center">
-        <Typography color={form.type === BundleTypeEnum.SINGLE ? "primary" : undefined}>Single Track</Typography>{" "}
-        <Switch
-          onChange={(event) => {
-            updateForm({ type: event.target.checked ? BundleTypeEnum.FULLSET : BundleTypeEnum.SINGLE, bundleId: "" });
+    <div>
+      <Form>
+        <Autocomplete
+          value={form.carId}
+          disabled={!carsData}
+          onChange={(event, value) => {
+            updateForm({ carId: value ?? "" });
           }}
-          defaultChecked={form.type === BundleTypeEnum.FULLSET}
-        />{" "}
-        <Typography color={form.type === BundleTypeEnum.FULLSET ? "primary" : undefined}>Full Set</Typography>
-      </Box>
+          options={carsData?.data.cars.map((car) => car.id) ?? []}
+          getOptionLabel={(option) => carsData?.data.cars.find((car) => car.id === option)?.name ?? ""}
+          renderInput={(params) => <Input {...params} fullWidth value={form.carId} inputLabel="Select Car" />}
+        />
 
-      <Autocomplete
-        value={form.bundleId}
-        disabled={!form.carId || !bundlesData}
-        onChange={(event, value) => {
-          updateForm({ bundleId: value ?? "" });
-        }}
-        options={bundlesData?.data.bundles.map((bundle) => bundle.id) ?? []}
-        getOptionLabel={(option) => bundlesData?.data.bundles.find((bundle) => bundle.id === option)?.name ?? ""}
-        renderInput={(params) => <Input {...params} fullWidth value={form.bundleId} inputLabel="Select Bundle" />}
-      />
+        <Box display="flex" alignItems="center">
+          <Typography color={form.type === BundleTypeEnum.SINGLE ? "primary" : undefined}>Single Track</Typography>{" "}
+          <Switch
+            onChange={(event) => {
+              updateForm({ type: event.target.checked ? BundleTypeEnum.FULLSET : BundleTypeEnum.SINGLE, bundleId: "" });
+            }}
+            defaultChecked={form.type === BundleTypeEnum.FULLSET}
+          />{" "}
+          <Typography color={form.type === BundleTypeEnum.FULLSET ? "primary" : undefined}>Multiple track</Typography>
+        </Box>
 
-      <Button
-        disabled={!isValid()}
-        variant="outlined"
-        color="success"
-        size="large"
-        fullWidth
-        onClick={() => navigate(`../${PAYMENT_URL}/${form.bundleId}`)}
-      >
-        Proceed Payment
-      </Button>
-    </Form>
+        <Autocomplete
+          value={form.bundleId}
+          disabled={!form.carId || !bundlesData}
+          onChange={(event, value) => {
+            updateForm({ bundleId: value ?? "" });
+          }}
+          options={bundlesData?.data.bundles.map((bundle) => bundle.id) ?? []}
+          getOptionLabel={(option) => bundlesData?.data.bundles.find((bundle) => bundle.id === option)?.name ?? ""}
+          renderInput={(params) => <Input {...params} fullWidth value={form.bundleId} inputLabel="Select Bundle" />}
+        />
+
+        <Button
+          disabled={!isValid()}
+          variant="outlined"
+          color="success"
+          size="large"
+          fullWidth
+          onClick={() => navigate(`../${PAYMENT_URL}/${form.bundleId}`)}
+        >
+          Proceed Payment
+        </Button>
+      </Form>
+
+      <Typography variant="h6" marginTop>
+        Need advice or have questions?
+      </Typography>
+      <Typography variant="h6">
+        Get help on the{" "}
+        <a className={s.link} href="https://discord.gg/AzvqMC9tgq">
+          Discord server
+        </a>
+      </Typography>
+    </div>
   );
 };

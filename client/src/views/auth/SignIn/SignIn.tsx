@@ -11,7 +11,7 @@ import { FormActions } from "../../../core/components/kit/Form/FormActions/FormA
 import { Input } from "../../../core/components/kit/Input/Input";
 import { Typography } from "../../../core/components/kit/Typography/Typography";
 import { signIn } from "../../../core/services/user.service";
-import { MAIN_URL, RESTORE_URL, SIGN_UP_URL, USER_REFRESH_TOKEN_KEY } from "../../../core/utils/consts/urls";
+import { MAIN_URL, RESTORE_URL, SIGN_UP_URL, USER_REFRESH_TOKEN_KEY } from "../../../core/utils/consts/consts";
 import { updateAuthTokens } from "../../../core/utils/functions/auth";
 import { useForm } from "../../../core/utils/hooks/useForm";
 import { Window } from "../components/Window/Window";

@@ -1,4 +1,4 @@
-import { Autocomplete, CircularProgress } from "@mui/material";
+import { Autocomplete, CircularProgress, InputLabel } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 
@@ -15,6 +15,7 @@ import { FormActions } from "../../../../../../core/components/kit/Form/FormActi
 import { Input } from "../../../../../../core/components/kit/Input/Input";
 import { Paper } from "../../../../../../core/components/kit/Paper/Paper";
 import { createSetup, getCars } from "../../../../../../core/services/main.service";
+import { formatBytes } from "../../../../../../core/utils/functions/file";
 import { useForm } from "../../../../../../core/utils/hooks/useForm";
 import { queryClient } from "../../../../../../main";
 
@@ -53,7 +54,16 @@ export const CreateForm = () => {
         }}
         label="Click or drag files here"
       />
-      {form.files?.length && form.files.map((file, index) => <Paper key={index}>{file.name}</Paper>)}
+      {form.files?.length && (
+        <>
+          <InputLabel>Uploaded Setup Files</InputLabel>
+          {form.files.map((file, index) => (
+            <Paper key={index}>
+              {file.name} {formatBytes(file.size)}
+            </Paper>
+          ))}
+        </>
+      )}
 
       <Autocomplete
         value={form.carId}

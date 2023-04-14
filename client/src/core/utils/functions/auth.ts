@@ -1,5 +1,5 @@
 import { api } from "../../config/api";
-import { USER_ACCESS_TOKEN_KEY, USER_REFRESH_TOKEN_KEY } from "../consts/urls";
+import { USER_ACCESS_TOKEN_KEY, USER_REFRESH_TOKEN_KEY } from "../consts/consts";
 
 export const updateAuthTokens = (accessToken?: string, refreshToken?: string) => {
   if (!accessToken) return;

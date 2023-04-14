@@ -5,7 +5,7 @@ import { GetMyBundlesResponse } from "../../../../../../../shared/endpoints/me/g
 import { Button } from "../../../../../core/components/kit/Button/Button";
 import { Paper } from "../../../../../core/components/kit/Paper/Paper";
 import { Typography } from "../../../../../core/components/kit/Typography/Typography";
-import { API_URL, USER_ACCESS_TOKEN_KEY } from "../../../../../core/utils/consts/urls";
+import { API_URL, USER_ACCESS_TOKEN_KEY } from "../../../../../core/utils/consts/consts";
 import s from "./Bundle.module.scss";
 
 type ItemProps = {

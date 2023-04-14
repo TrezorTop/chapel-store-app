@@ -3,6 +3,7 @@ name: Node Github CI
 on:
   push:
     branches:
+      - main
       - frontend
 jobs:
   deploy:
@@ -16,7 +17,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd ~/chapel
+            cd ~/chapel/chapel-store-app
             git checkout frontend
             git pull
             cd client

@@ -1,6 +1,7 @@
 import { JWT } from "@fastify/jwt";
 import { Role } from "@prisma/client";
 import bcrypt from "bcrypt";
+import * as crypto from "crypto";
 import { prisma } from "../../infrastructure/prismaConnect";
 import { UserJwt } from "./index";
 

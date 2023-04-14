@@ -28,7 +28,7 @@ type TForm = {
 export const Payment = () => {
   const [savedPromocode, setSavedPromocode] = useState<string>("");
 
-  const { form, updateForm, error, setError } = useForm<TForm>({ selectedPayment: PaymentMethodEnum.YOOKASSA });
+  const { form, updateForm, error, setError } = useForm<TForm>({ selectedPayment: PaymentMethodEnum.CRYPTOCLOUD });
 
   const { bundleId } = useParams<{ bundleId: string }>();
 
@@ -148,17 +148,25 @@ export const Payment = () => {
         <Input
           placeholder="Payment Method"
           fullWidth
-          inputLabel="Send payment info to"
+          inputLabel="Select payment method"
           onChange={(event) => updateForm({ selectedPayment: event.target.value as PaymentMethodEnum })}
           value={form.selectedPayment}
           select
         >
           {Object.keys(PaymentMethodEnum).map((key, index) => (
-            <MenuItem key={index} value={key}>
+            <MenuItem disabled={key === PaymentMethodEnum.YOOKASSA} key={index} value={key}>
               {key}
             </MenuItem>
           ))}
         </Input>
+
+        {form.selectedPayment === PaymentMethodEnum.CRYPTOCLOUD && (
+          <Paper>
+            <Typography align="center" color="error">
+              ATTENTION! CRYPTO NETWORK FEE NOT INCLUDED IN THE PRICE
+            </Typography>
+          </Paper>
+        )}
 
         {error ? (
           <Typography textAlign="center">{error}</Typography>

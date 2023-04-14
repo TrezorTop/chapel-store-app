@@ -78,16 +78,6 @@ export const EditSetupsForm = () => {
   return (
     <Paper>
       <Form>
-        {/* {setupData?.data.config?.files && (
-          <>
-            <InputLabel>Current Setup Files</InputLabel>
-            {setupData?.data.config?.files.map((file, index) => (
-              <Paper key={index}>
-                {file.originalName} {formatBytes(+file.size)}
-              </Paper>
-            ))}
-          </>
-        )} */}
         <Input
           value={form.title}
           inputLabel={"Title"}
@@ -105,6 +95,16 @@ export const EditSetupsForm = () => {
             {form.files.map((file, index) => (
               <Paper key={index}>
                 {file.name} {formatBytes(+file.size)}
+              </Paper>
+            ))}
+          </>
+        )}
+        {setupData?.data.config?.files && (
+          <>
+            <InputLabel>Current Setup Files</InputLabel>
+            {setupData?.data.config?.files.map((file, index) => (
+              <Paper key={index}>
+                {file.originalName} {formatBytes(+file.size)}
               </Paper>
             ))}
           </>
