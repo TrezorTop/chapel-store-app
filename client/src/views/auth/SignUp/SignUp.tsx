@@ -1,8 +1,10 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { useCallback, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginPath } from "../../../../../shared/endpoints/auth/login";
 
+import { ErrorResponse } from "../../../../../shared/consts/error";
+import { LoginPath } from "../../../../../shared/endpoints/auth/login";
 import { RegisterPath, RegisterRequestValidator } from "../../../../../shared/endpoints/auth/register";
 import { VerifyEmailPath } from "../../../../../shared/endpoints/auth/verifyEmail";
 import { Button } from "../../../core/components/kit/Button/Button";
@@ -38,6 +40,10 @@ export const SignUp = () => {
   const { isLoading, mutate: mutateSignUp } = useMutation([RegisterPath], signUp, {
     onSuccess: () => {
       setStep(Step.Confirm);
+    },
+    onError: ({ response }: AxiosError<ErrorResponse>) => {
+      setError(response?.data.message);
+      setStep(Step.Initial);
     },
   });
 
