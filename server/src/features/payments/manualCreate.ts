@@ -24,7 +24,7 @@ const bodyValidator: Validator<CreateManualPaymentRequest> = {
 		required: true
 	},
 	ownerUsername: {
-		check: [value => cuid.isCuid(value) || "Невалидный ownerUsername"],
+		check: [],
 		required: true
 	},
 };
