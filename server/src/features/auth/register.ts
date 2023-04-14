@@ -26,8 +26,10 @@ export const register = async (instance: FastifyInstance) => {
 
 		const existed = await prisma.user.findFirst({
 			where: {
-				username: body.username,
-				email: body.email,
+				OR: [
+					{ username: body.username },
+					{ email: body.email }
+				]
 			}
 		});
 		if (existed) {
@@ -40,7 +42,9 @@ export const register = async (instance: FastifyInstance) => {
 			}[];
 
 			for (let field of fieldsToCheck) {
-				if (existed[field.name])
+				const origin = existed[field.name];
+
+				if (!origin || origin === body[field.name])
 					throw new ApplicationError(StatusCodes.BAD_REQUEST, field.message);
 			}
 		}
