@@ -1,8 +1,8 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-01-20T22:26:53.282Z",
-  "__export_source": "insomnia.desktop.app:v2022.4.2",
+  "__export_date": "2023-04-14T18:09:35.164Z",
+  "__export_source": "insomnia.desktop.app:v2022.7.5",
   "resources": [
     {
       "_id": "req_3505856e1f684773a1112ac76a429ca4",
@@ -270,6 +270,42 @@
       "environmentPropertyOrder": null,
       "metaSortKey": -1671718401598,
       "_type": "request_group"
+    },
+    {
+      "_id": "req_ebf50360bf914be9bc81e40a3b4e584f",
+      "parentId": "fld_592f8c4a2313405c8fbe7d042c6973c7",
+      "modified": 1681494933332,
+      "created": 1681494905383,
+      "url": "{{ _.baseUrl }}/payments/manual",
+      "name": "ManualCreate",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"bundleId\":\"clggugh3100024we6vnlbnd8y\",\n\t\"ownerUsername\":\"TrezorTop92\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_ecf350fd0dfe48798f373e611f6a609c"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.accessToken }}",
+        "disabled": false
+      },
+      "metaSortKey": -1671184954511.1406,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
     },
     {
       "_id": "req_75722a498560430fa8f7c7ec85ade14d",
@@ -592,7 +628,7 @@
     {
       "_id": "req_edcba59e690c49d2aeffe5eb368ddf3d",
       "parentId": "fld_a41de902d58c4cc9ac81013be03bbafe",
-      "modified": 1674253110979,
+      "modified": 1674782496018,
       "created": 1671560210823,
       "url": "{{ _.baseUrl }}/bundles",
       "name": "GetAll",
@@ -952,7 +988,7 @@
     {
       "_id": "req_7bb8b6554d0b49098560eb3e0146a684",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1674077981592,
+      "modified": 1681493946370,
       "created": 1670023167894,
       "url": "{{ _.baseUrl }}/auth/register",
       "name": "Register",
@@ -960,7 +996,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"username\": \"12345678\",\n\t\"email\": \"catalan.1ap@gmail.com\",\n\t\"password\": \"12345678\"\n}"
+        "text": "{\n\t\"username\": \"trezortop92\",\n\t\"email\": \"trezortop92@gmail.com\",\n\t\"password\": \"BorisTop92\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -1092,7 +1128,7 @@
     {
       "_id": "req_3281754849da475da04cd4db1efb6f90",
       "parentId": "fld_e9baedac8c014f3f99fc287e9f77f23f",
-      "modified": 1674072999817,
+      "modified": 1681494972467,
       "created": 1670263199596,
       "url": "{{ _.baseUrl }}/auth/login",
       "name": "Login",
