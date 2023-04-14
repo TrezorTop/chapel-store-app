@@ -16,7 +16,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd ~/chapel
+            cd ~/chapel/chapel-store-app
             git checkout backend
             git pull
             cd server
@@ -24,4 +24,4 @@ jobs:
             rm -r -f dist
             npx prisma generate
             npm run build
-            pm2 restart app
+            pm2 restart server
