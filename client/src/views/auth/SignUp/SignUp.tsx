@@ -102,6 +102,7 @@ export const SignUp = () => {
           onChange={(event) => updateForm({ email: event.target.value })}
           disabled={isLoading || step !== Step.Initial}
         />
+
         {step === Step.Confirm && (
           <>
             <Input
@@ -114,6 +115,7 @@ export const SignUp = () => {
             </Typography>
           </>
         )}
+        
         <FormActions variant="vertical">
           {error && (
             <Typography color="error" textAlign="center">
