@@ -29,6 +29,8 @@ export const UPDATE_ENTITY_URL = ":id/edit";
 export const STATISTICS_URL = "statistics";
 export const STATISTICS_PROMOCODES_URL = "promocodes";
 
+export const ADMIN_URL = "admin";
+
 // export const FALLBACK_URL = "*";
 
 // LOCAL STORAGE KEYS
