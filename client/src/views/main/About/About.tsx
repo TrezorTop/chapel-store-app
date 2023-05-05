@@ -82,7 +82,7 @@ export const About = () => {
               Contact Email
             </Typography>
             <Typography variant="body1">
-              <a href="mailto:trechofficial@gmail.com">trechofficial@gmail.com</a>
+              <a href="mailto:trechofficial@gmail.com" target='_blank'>trechofficial@gmail.com</a>
             </Typography>
           </div>
         </section>

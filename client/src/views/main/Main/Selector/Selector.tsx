@@ -129,7 +129,7 @@ export const Selector: FC<SelectorProps> = ({ setSelectedBundle }) => {
       </Typography>
       <Typography variant="h6">
         Get help on the{" "}
-        <a className={s.link} href="https://discord.gg/AzvqMC9tgq">
+        <a className={s.link} href="https://discord.gg/AzvqMC9tgq" target='_blank'>
           Discord server
         </a>
       </Typography>
